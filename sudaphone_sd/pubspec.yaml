@@ -54,6 +54,7 @@ dependencies:
   lottie: ^1.2.1
   # Dart Path
   path: ^1.8.0
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
