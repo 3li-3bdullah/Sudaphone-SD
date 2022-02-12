@@ -6,8 +6,10 @@ import 'package:sudaphone_sd/view/bottom_navigation.dart';
 import 'package:sudaphone_sd/view/categories.dart';
 import 'package:sudaphone_sd/view/screen_widgets/build_listtile.dart';
 import 'package:sudaphone_sd/view/settings.dart';
+import 'package:sudaphone_sd/view/posts.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text.dart';
 import 'package:sudaphone_sd/view_model/screen_view_model.dart';
+
 class MyDrawer extends GetWidget<ScreenViewModel> {
   const MyDrawer({Key? key}) : super(key: key);
 
@@ -21,9 +23,9 @@ class MyDrawer extends GetWidget<ScreenViewModel> {
             height: double.infinity,
             decoration: BoxDecoration(
                 gradient: LinearGradient(
-              colors: [Colors.blue.shade400, Colors.blue.shade900],
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
+              colors: [Colors.pink.shade400, Colors.purple.shade900],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
             )),
           ),
           SafeArea(
@@ -32,13 +34,15 @@ class MyDrawer extends GetWidget<ScreenViewModel> {
               padding: const EdgeInsets.all(8.0),
               child: Column(children: [
                 DrawerHeader(
+                  curve : Curves.linearToEaseOut,
+                  duration : const Duration(milliseconds: 200),
                     child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
                     CircleAvatar(
                       radius: 50,
                       backgroundImage:
-                          AssetImage("assets/images/slider/ali.jpg"),
+                          AssetImage("assets/images/slider/ali1.jpg"),
                     ),
                     SizedBox(height: 10),
                     CustomText(
@@ -71,19 +75,18 @@ class MyDrawer extends GetWidget<ScreenViewModel> {
                         text: "Categories",
                         onTap: () {
                           Get.to(() => const Categories(),
-                              transition: Transition.zoom,
-                              duration: const Duration(milliseconds: 100));
+                              transition: Transition.zoom);
                         },
                         icon: Icons.category,
                       ),
-                      // BuildListTile(
-                      //   text: "Posts",
-                      //   onTap: () {
-                      //     Get.to(() => const Post(),
-                      //         transition: Transition.leftToRightWithFade);
-                      //   },
-                      //   icon: Icons.post_add,
-                      // ),
+                      BuildListTile(
+                        text: "Posts",
+                        onTap: () {
+                          Get.to(() => Posts(),
+                              transition: Transition.leftToRightWithFade);
+                        },
+                        icon: Icons.post_add,
+                      ),
                       const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 30),
                         child: Divider(
