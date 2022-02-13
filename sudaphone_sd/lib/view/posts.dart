@@ -1,42 +1,64 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sudaphone_sd/model/posts_model.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sudaphone_sd/view/posts_pages/write_post.dart';
 import 'package:sudaphone_sd/view/posts_widgets/card_view.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 
-// ignore: must_be_immutable
 class Posts extends GetWidget<PostsViewModel> {
-   Posts({Key? key}) : super(key: key);
-  PostsViewModel x = Get.put(PostsViewModel());
+  const Posts({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.ltr,
-      child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.white,
-            title: const Text("Posts"),
-            centerTitle: true,
-          ),
-          floatingActionButton: FloatingActionButton.extended(
-            onPressed: () {
-              Get.to(() => const WritePost(), transition: Transition.upToDown);
-            },
-            label: const Text("add"),
-            icon: const Icon(Icons.add),
-          ),
-          body: GetBuilder<PostsViewModel>(
-            builder: (controller) => ListView.builder(
-              itemCount: controller.dataList.length,
-              itemBuilder: (context, i) {
-                return CardView(
-                    controller: controller,
-                    postsModel: controller.dataList[i] as PostsModel);
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "Posts",
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        elevation: 0,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Get.to(() => const WritePost(),
+              curve: Curves.bounceInOut, transition: Transition.zoom);
+        },
+        child: const Icon(Icons.add),
+      ),
+      body: StreamBuilder<QuerySnapshot<Object?>>(
+        stream: controller.addNewData.snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Container(
+              color: Colors.white,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [Lottie.asset("assets/images/no_data.json")],
+              ),
+            );
+          }
+          if (snapshot.hasData) {
+            return ListView.builder(
+              itemCount: snapshot.data!.docs.length,
+              itemBuilder: (context, index) {
+                return CardView(data: snapshot.data!.docs[index]);
               },
-            ),
-          )),
+            );
+          } else if (snapshot.hasError) {
+            return Center(child: Text("${snapshot.error}"));
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: Lottie.asset("assets/images/create_post.json"),
+            );
+          } else {
+            return Center(child: Lottie.asset("assets/images/bf_search.json"));
+          }
+        },
+      ),
     );
   }
 }
