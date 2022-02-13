@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 class DataSearch extends SearchDelegate<String> {
   @override
@@ -34,7 +35,45 @@ class DataSearch extends SearchDelegate<String> {
   @override
   Widget buildSuggestions(BuildContext context) {
     // Show when someone searchers for something
-    return const Text("Body Search");
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Text(
+              "What kind of phone",
+              style: TextStyle(
+                  fontSize: 25,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+        Lottie.asset("assets/images/bf_search.json"),
+        const SizedBox(height:40),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: const [
+            Text(
+              "are you",
+              style: TextStyle(
+                  fontSize: 25,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.bold),
+            ),
+            Text(
+              "looking for ?",
+              style: TextStyle(
+                  fontSize: 25,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+      ],
+    );
     //  ListView.builder(
     //     itemCount: searchlist.length,
     //     itemBuilder: (context, i) {
