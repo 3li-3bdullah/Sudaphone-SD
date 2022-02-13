@@ -10,6 +10,7 @@ Future<void> main() async {
   runApp(MyApp());
 }
 
+// ignore: use_key_in_widget_constructors
 class MyApp extends StatelessWidget {
   final Future<FirebaseApp> _fbApp = Firebase.initializeApp();
   @override
