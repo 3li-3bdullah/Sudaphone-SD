@@ -2,7 +2,7 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudaphone_sd/view/categories.dart';
-import 'package:sudaphone_sd/view/post.dart';
+import 'package:sudaphone_sd/view/posts.dart';
 import 'package:sudaphone_sd/view/screen.dart';
 import 'package:sudaphone_sd/view/settings.dart';
 import 'package:sudaphone_sd/view_model/screen_view_model.dart';
@@ -13,7 +13,7 @@ class BottomNavigation extends GetWidget<ScreenViewModel> {
   final List<Widget> screens = [
     Screen(),
     const Categories(),
-    const Post(),
+    const Posts(),
     const Settings(),
   ];
   @override
