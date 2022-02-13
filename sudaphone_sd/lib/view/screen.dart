@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:elastic_drawer/elastic_drawer.dart';
 import 'package:sudaphone_sd/view/categories.dart';
@@ -115,23 +116,13 @@ class Screen extends GetWidget<ScreenViewModel> {
               elevation: 0,
               actions: [
                 Padding(
-                  padding: const EdgeInsets.only(right: 15.0),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.search, color: Colors.green),
-                          onPressed: () {
-                            showSearch(
-                                context: context, delegate: DataSearch());
-                          },
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.shopping_cart_outlined,
-                              color: Colors.yellow.shade800),
-                          onPressed: () {},
-                        ),
-                      ]),
+                  padding: const EdgeInsets.only(right: 18.0),
+                  child: IconButton(
+                    icon: const Icon(Icons.search, color: Colors.black),
+                    onPressed: () {
+                      showSearch(context: context, delegate: DataSearch());
+                    },
+                  ),
                 )
               ],
               leading: IconButton(
@@ -179,7 +170,8 @@ class Screen extends GetWidget<ScreenViewModel> {
                   text: "Categories",
                   text2: "more",
                   press: () {
-                    Get.to(() => const Categories(), transition:Transition.zoom);
+                    Get.to(() => const Categories(),
+                        transition: Transition.zoom);
                   }),
               SizedBox(
                   height: 120,
@@ -341,9 +333,12 @@ class Screen extends GetWidget<ScreenViewModel> {
             ]),
           )),
       drawerChild: Scaffold(
-        appBar: AppBar(backgroundColor: Colors.white,
-          title: const Text("Under Testing" , style:TextStyle(color:Colors.black)),
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          title: const Text("Lastest Phones",
+              style: TextStyle(color: Colors.black)),
           centerTitle: true,
+          elevation: 0,
           actions: [
             IconButton(
               onPressed: () {},
@@ -351,8 +346,12 @@ class Screen extends GetWidget<ScreenViewModel> {
             ),
           ],
         ),
-        body: const Center(
-          child: Text("Don't wait do it right now."),
+        body: Container(
+          color: Colors.white,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [Lottie.asset("assets/images/no_data.json"),],),
         ),
       ),
     );
