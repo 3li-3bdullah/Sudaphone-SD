@@ -9,8 +9,10 @@ class Settings extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: const Text(
-               'Settings',),
+               'Settings',style:TextStyle(color: Colors.black)),
           centerTitle: true,
+          elevation: 0,
+          backgroundColor:Colors.white
         ),
         body: Container(
             padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 20),
