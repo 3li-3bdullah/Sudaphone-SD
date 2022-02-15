@@ -11,6 +11,8 @@ class AboutApp extends StatelessWidget {
         textDirection: TextDirection.rtl,
         child: Scaffold(
             appBar: AppBar(
+              elevation: 0,
+              backgroundColor: Colors.white,
               title: const Text(
                 "حول التطبيق",
                   ),
