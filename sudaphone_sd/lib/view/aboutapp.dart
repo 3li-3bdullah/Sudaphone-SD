@@ -17,6 +17,8 @@ class AboutApp extends StatelessWidget {
                 "حول التطبيق",
                   ),
               centerTitle: true,
+              elevation:0,
+              backgroundColor:Colors.white,
             ),
 
             ///drawer: MyDrawer(),
