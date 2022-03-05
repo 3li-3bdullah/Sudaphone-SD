@@ -9,6 +9,11 @@ class CustomSnakbar {
       required String message,
       required Color backgroundColor}) {
     Get.snackbar(title, message,
+        backgroundGradient: const LinearGradient(
+          colors: [Colors.pinkAccent, Colors.purpleAccent],
+          begin: Alignment.bottomCenter,
+          end: Alignment.topCenter,
+        ),
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: backgroundColor,
         titleText: Text(
@@ -21,6 +26,6 @@ class CustomSnakbar {
         ),
         colorText: Colors.black,
         borderRadius: 10,
-        margin: const EdgeInsets.all(16));
+        margin: const EdgeInsets.all(16),);
   }
 }
