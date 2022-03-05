@@ -6,28 +6,30 @@ import 'package:get/get.dart';
 import 'package:sudaphone_sd/my_binding/my_binding.dart';
 import 'package:sudaphone_sd/view/mydrawer.dart';
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+ main() async {
+   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(SudaphoneSD());
 }
 
-// ignore: use_key_in_widget_constructors
+// ignore: use_key_in_widget_constructors, must_be_immutable
 class SudaphoneSD extends StatelessWidget {
-  final Future<FirebaseApp> _fbApp = Firebase.initializeApp();
+   Future<FirebaseApp>? fbApp = Firebase.initializeApp();
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      // key: Get.key,
       debugShowCheckedModeBanner: false,
       title: "SudaPhone SD",
       theme: ThemeData(primaryColor: Colors.white),
       initialBinding: MyBinding(),
       home: FutureBuilder(
-        future: _fbApp,
+        future: fbApp!,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Text("You have an error! : ${snapshot.error.toString()}");
           } else if (snapshot.hasData) {
-            return const MyDrawer();
+            return  const MyDrawer();
           } else {
             return Container(
               color: Colors.white,
@@ -41,4 +43,3 @@ class SudaphoneSD extends StatelessWidget {
     );
   }
 }
-//"1.6.10"
