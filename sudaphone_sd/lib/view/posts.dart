@@ -17,6 +17,15 @@ class Posts extends GetWidget<PostsViewModel> {
           "Posts",
           style: TextStyle(color: Colors.black),
         ),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            Get.back();
+          },
+        ),
         backgroundColor: Colors.white,
         centerTitle: true,
         elevation: 0,
@@ -26,10 +35,10 @@ class Posts extends GetWidget<PostsViewModel> {
           Get.to(() => const WritePost(),
               curve: Curves.bounceInOut, transition: Transition.zoom);
         },
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add , size:20),
       ),
       body: StreamBuilder<QuerySnapshot<Object?>>(
-        stream: controller.addNewData.snapshots(),
+        stream: controller.getData!.orderBy("dateTime" , descending: true).snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Container(
