@@ -1,142 +1,127 @@
 import 'dart:io';
 import 'dart:math';
-import 'package:intl/intl.dart';
-import 'package:lottie/lottie.dart';
-import 'package:path/path.dart';
 
-import 'package:get/get.dart';
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-// import 'package:sudaphone_sd/model/posts_model.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:sudaphone_sd/view/posts.dart';
+import 'package:sudaphone_sd/view/posts_widgets/custom_snakbar.dart';
 
 class PostsViewModel extends GetxController {
   /// Declaring Variables
-  GlobalKey<FormState>? postKey = GlobalKey<FormState>();
-  CollectionReference addNewData =
-      FirebaseFirestore.instance.collection("users");
-  // final _db = FirebaseFirestore.instance;
-  String? text;
-  String? imageUrl;
+  final GlobalKey<FormState>? postKey = GlobalKey<FormState>();
+  FirebaseFirestore? addNewData = FirebaseFirestore.instance;
+  CollectionReference? getData = FirebaseFirestore.instance.collection("users");
+  late CollectionReference _collectionReference;
+
+  String? _fileName;
+  // String? imageUrl;
   bool like = false;
-  File? file;
-  Reference? uploadToStorage;
-  late TextEditingController textEditing;
+  File? _imageFile;
+  XFile? pickedImage;
+  TextEditingController? textController;
+  RxBool isThereImageUrl = false.obs;
+  TextEditingController? imageController ;
 
   /// All Methods
-
-  // Future getData() async {
-  //   var _data = FirebaseFirestore.instance.collection("users");
-  //   await _data.get().then((value) => value.docs.forEach((items) {
-  //         dataList.add(items.data());
-  //       }));
-  //   update();
-  // }
-  //Get Data By Stream ..
-  // Stream<List<PostsModel>> dataStream() {
-  //   try {
-  //     return _db.collection("users").snapshots().map((data) {
-  //       final List<PostsModel> dataFromFirestore = <PostsModel>[];
-  //       for (final DocumentSnapshot<Map<String, dynamic>> doc in data.docs) {
-  //         dataFromFirestore.add(PostsModel.fromDocumentSnapshot(doc: doc));
-  //       }
-  //       return dataFromFirestore;
-  //     });
-  //   } catch (e) {
-  //     rethrow;
-  //   }
-  // }
-
-  // Stream<List<PostsModel>> streamData() {
-  //   try {
-  //     return _db.collection("users").snapshots().map((event) {
-  //       final List<PostsModel> items = <PostsModel>[];
-  //       for (var element in event.docs) {
-  //         items.add(PostsModel.fromSnapshot(element));
-  //       }
-  //       return items;
-  //     });
-  //   } catch (e) {
-  //     rethrow;
-  //   }
-  // }
-
-  //Get Date
-  // String formattedDate(String dateTime) {
-  //   var dateFromTimeStamp = DateTime.fromMillisecondsSinceEpoch(
-  //     dateTime.isSHA1
-  //   );
-  // }
-  String formattedDate =
-      DateFormat('EEE, M/d/y - kk:mm').format(DateTime.now());
-
-  // Add Post ...
-  Future addPost() async {
-    FormState? formState = postKey!.currentState;
-    if (formState!.validate()) {
-      // Get.defaultDialog(
-      //   barrierDismissible: false,
-      //   title: "Posting",
-      //   content: Row(
-      //     children: const [
-      //       ListTile(
-      //         title: Text("Please wait a second..",
-      //             style: TextStyle(fontSize: 16)),
-      //         leading: Center(child: CircularProgressIndicator()),
-      //       ),
-      //     ],
-      //   ),
-      // );
-      Center(child: Lottie.asset("assets/images/create_post.json"));
-      formState.save();
-      await uploadToStorage!.putFile(file!);
-      imageUrl = await uploadToStorage!.getDownloadURL();
-      await addNewData
-          .add({"text": text, "imageUrl": imageUrl, "dateTime": formattedDate});
-      Get.off(() => const Posts());
-      Get.back();
-    }
-  }
-
-  // Upload Image From Camera ...
-  Future uploadFromCamera() async {
-    XFile? picked = await ImagePicker().pickImage(source: ImageSource.camera);
-    if (picked != null) {
-      file = File(picked.path);
-      int rand = Random().nextInt(100000);
-      var imageName = "$rand" + basename(picked.path);
-      uploadToStorage = FirebaseStorage.instance.ref("images/$imageName");
-    }
-  }
-
-  //Upload Image From Gallery ...
-  Future uploadFromGallery() async {
-    XFile? picked = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (picked != null) {
-      file = File(picked.path);
-      int rand = Random().nextInt(100000);
-      var imageName = "$rand" + basename(picked.path);
-      uploadToStorage = FirebaseStorage.instance.ref("images/$imageName");
-    }
-  }
-
-  // Added To Post Like Or Not ...
-  void isLiked() {
-    like != like;
-    update();
-  }
+  String? formattedDate;
 
   @override
   void onInit() {
-    textEditing = TextEditingController();
     super.onInit();
+    _collectionReference = addNewData!.collection("users");
+    textController = TextEditingController();
+    imageController = TextEditingController();
   }
 
+  // Upload Image From Camera or Gallery ...
+  Future<void> uploadImage(String source) async {
+    final picker = ImagePicker();
+    pickedImage = await picker.pickImage(
+        source: source == "camera" ? ImageSource.camera : ImageSource.gallery);
+    int rand = Random().nextInt(1000000);
+    _fileName = rand.toString() + pickedImage!.name;
+    _imageFile = File(pickedImage!.path);
+    // update();
+  }
+
+  //Add Post
+  Future addPost(String? text,String? imageUrl , GlobalKey<FormState>? textFieldkey) async {
+    final formState = textFieldkey!.currentState;
+    if (formState!.validate()) {
+      formState.save();
+      try {
+        if (_fileName != null) {
+         
+          TaskSnapshot uploadToStorage = await FirebaseStorage.instance
+              .ref("images")
+              .child(_fileName!)
+              .putFile(_imageFile!);
+          imageUrl = await uploadToStorage.ref.getDownloadURL();
+          isHasAnImageUrl(imageUrl);
+        }
+      final formattedDate = DateFormat('M/d/y - kk:mm').format(DateTime.now());
+        _collectionReference.add({
+          "text": text!,
+          "imageUrl": imageUrl.toString(),
+          "dateTime": formattedDate.toString(),
+          "isThereImageUrl": isThereImageUrl.value
+        }).whenComplete(() =>
+          // return imageUrl = null;
+          Get.off(() => const Posts()),
+         
+        ).then(
+          (value) =>  CustomSnakbar.showSnakBar(
+              backgroundColor: const Color.fromARGB(255, 188, 204, 189),
+              context: Get.context,
+              message: "Uploaded Post Successfully",
+              title: "Done"),);
+        
+      } catch (e) {
+        return Get.snackbar("Error", "The error : ${e.toString()}");
+      }
+      clearEditingControllers();
+    }
+  }
+
+  isHasAnImageUrl(String? url) {
+    if (url != null) {
+      return isThereImageUrl.value = true;
+    } else {
+      return isThereImageUrl.value = false;
+    }
+  }
+  // whenPostAdded(){
+  //   imageUrl = "null";
+  //   isThereImageUrl.value = false;
+  // }
+
+  // Added To Post Like Or Not ...
+  void isLiked() {
+    like = !like;
+    update();
+  }
+
+  String? isValid(String? valid) {
+    if (valid!.isEmpty) {
+      return "Please write something ...";
+    }
+    return null;
+  }
+  void clearEditingControllers() {
+    textController!.clear();
+    imageController!.clear();
+   
+  }
+  
   @override
   void onClose() {
-    textEditing = TextEditingController();
     super.onClose();
+    // imageUrl!.dispose();
+    textController!.dispose();
+    imageController!.dispose();
   }
 }
