@@ -54,7 +54,12 @@ class Posts extends GetWidget<PostsViewModel> {
             return ListView.builder(
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) {
-                return CardView(data: snapshot.data!.docs[index]);
+                print(snapshot.data!.docs[index]['imageUrl']);
+                print("======================================================");
+                print(snapshot.data!.docs[index]['text']);
+                print("======================================================");
+                print(snapshot.data!.docs[index]['dateTime']);
+                return  CardView(data: snapshot.data!.docs[index]);
               },
             );
           } else if (snapshot.hasError) {
