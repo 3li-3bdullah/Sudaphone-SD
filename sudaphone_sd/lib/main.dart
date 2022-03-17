@@ -6,8 +6,6 @@ import 'package:get/get.dart';
 import 'package:sudaphone_sd/my_binding/my_binding.dart';
 import 'package:sudaphone_sd/view/login.dart';
 import 'package:sudaphone_sd/view/mydrawer.dart';
-import 'package:sudaphone_sd/view/posts.dart';
-import 'package:sudaphone_sd/view/screen.dart';
 import 'package:sudaphone_sd/view_model/main_view_model.dart';
 
 Future<void> main() async {
@@ -43,8 +41,7 @@ class Home extends GetWidget<MainViewModel> {
         if (snapshot.hasError) {
           return Text("You have an error! : ${snapshot.error.toString()}");
         } else if (snapshot.hasData) {
-          return const LogIn();
-          // controller.userUid == null ?  const LogIn() : const MyDrawer();
+          return controller.isLogin.value?  const MyDrawer() : const LogIn();
         } else {
           return Container(
             color: Colors.white,
