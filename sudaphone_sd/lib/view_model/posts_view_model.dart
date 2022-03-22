@@ -15,7 +15,7 @@ class PostsViewModel extends GetxController {
   /// Declaring Variables
   final GlobalKey<FormState>? postKey = GlobalKey<FormState>();
   FirebaseFirestore? addNewData = FirebaseFirestore.instance;
-  CollectionReference? getData = FirebaseFirestore.instance.collection("users");
+  CollectionReference? getData = FirebaseFirestore.instance.collection("posts");
   late CollectionReference _collectionReference;
 
   CollectionReference postsCollections = FirebaseFirestore.instance.collection("posts");
@@ -171,7 +171,17 @@ class PostsViewModel extends GetxController {
       isLiked.value = false;
     }
   }
-
+  // To get the text of users posts
+  getPostsText(postsData) async {
+        DocumentReference<Map<String, dynamic>> _postsData = await FirebaseFirestore
+        .instance
+        .collection("posts")
+        .doc("${postsData.data()['ownerUid']}")
+        .collection("userPosts")
+        .doc(postsData).get().then((value) => value.data()?['text']);
+        return _postsData;
+  }
+  
   isHasAnImageUrl(String? url) {
     if (url != null) {
       return isThereImageUrl.value = true;
