@@ -37,10 +37,25 @@ class Posts extends GetWidget<PostsViewModel> {
         },
         child: const Icon(Icons.add , size:20),
       ),
-      body: StreamBuilder<QuerySnapshot<Object?>>(
-        stream: controller.getData!.orderBy("dateTime" , descending: true).snapshots(),
+      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        //controller.getData!.orderBy("dateTime" , descending: true).snapshots(),
+        stream: FirebaseFirestore.instance.collection("posts").snapshots(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
+         
+          if (snapshot.hasData) {
+            return ListView.builder(
+              itemCount: snapshot.data!.docs.length,
+              itemBuilder: (context, index) {
+                return  CardView(data: snapshot.data!.docs[index] , index: index);
+              },
+            );
+          } else if (snapshot.hasError) {
+            return Center(child: Text("${snapshot.error}"));
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: Lottie.asset("assets/images/create_post.json"),
+            );
+          } else if (!snapshot.hasData) {
             return Container(
               color: Colors.white,
               child: Column(
@@ -50,26 +65,8 @@ class Posts extends GetWidget<PostsViewModel> {
               ),
             );
           }
-          if (snapshot.hasData) {
-            return ListView.builder(
-              itemCount: snapshot.data!.docs.length,
-              itemBuilder: (context, index) {
-                print(snapshot.data!.docs[index]['imageUrl']);
-                print("======================================================");
-                print(snapshot.data!.docs[index]['text']);
-                print("======================================================");
-                print(snapshot.data!.docs[index]['dateTime']);
-                return  CardView(data: snapshot.data!.docs[index]);
-              },
-            );
-          } else if (snapshot.hasError) {
-            return Center(child: Text("${snapshot.error}"));
-          } else if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: Lottie.asset("assets/images/create_post.json"),
-            );
-          } else {
-            return Center(child: Lottie.asset("assets/images/bf_search.json"));
+          else {
+            return const Center(child: CircularProgressIndicator());
           }
         },
       ),
