@@ -35,18 +35,19 @@ class Posts extends GetWidget<PostsViewModel> {
           Get.to(() => const WritePost(),
               curve: Curves.bounceInOut, transition: Transition.zoom);
         },
-        child: const Icon(Icons.add , size:20),
+        child: const Icon(Icons.add, size: 20),
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         //controller.getData!.orderBy("dateTime" , descending: true).snapshots(),
         stream: FirebaseFirestore.instance.collection("posts").snapshots(),
         builder: (context, snapshot) {
-         
           if (snapshot.hasData) {
             return ListView.builder(
+              shrinkWrap: true,
+              reverse: true,
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) {
-                return  CardView(data: snapshot.data!.docs[index] , index: index);
+                return CardView(data: snapshot.data!.docs[index], index: index);
               },
             );
           } else if (snapshot.hasError) {
@@ -64,8 +65,7 @@ class Posts extends GetWidget<PostsViewModel> {
                 children: [Lottie.asset("assets/images/no_data.json")],
               ),
             );
-          }
-          else {
+          } else {
             return const Center(child: CircularProgressIndicator());
           }
         },
