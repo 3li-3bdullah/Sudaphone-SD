@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudaphone_sd/view/aboutapp.dart';
@@ -7,7 +8,6 @@ import 'package:sudaphone_sd/view/bottom_navigation.dart';
 import 'package:sudaphone_sd/view/categories.dart';
 import 'package:sudaphone_sd/view/posts.dart';
 import 'package:sudaphone_sd/view/screen_widgets/build_listtile.dart';
-import 'package:sudaphone_sd/view/settings.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text.dart';
 import 'package:sudaphone_sd/view_model/mydrawer_view_model.dart';
 
@@ -41,125 +41,144 @@ class MyDrawer extends GetWidget<MyDrawerViewModel> {
           ),
           SafeArea(
             child: SingleChildScrollView(
-                child: Container(
-                  width: 220,
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // DrawerHeader(
-                      //   curve: Curves.linearToEaseOut,
-                      //   child: 
-                      //       CircleAvatar(
-                      //         radius: 50,
-                      //         backgroundImage:
-                      //             AssetImage("assets/images/slider/ali1.jpg"),
-                      //       ),
-                          
+              child: Container(
+                width: 220,
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // DrawerHeader(
+                    //   curve: Curves.linearToEaseOut,
+                    //   child:
+                    //       CircleAvatar(
+                    //         radius: 50,
+                    //         backgroundImage:
+                    //             AssetImage("assets/images/slider/ali1.jpg"),
+                    //       ),
+
+                    // ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const SizedBox(
+                      height: 120,
+                      width: 120,
+                      // decoration: const BoxDecoration(
+                      //   borderRadius: BorderRadius.all(Radius.circular(150))
                       // ),
-                      const SizedBox(height: 10,),
-                      const SizedBox(
-                        height: 120,
-                        width: 120,
-                        // decoration: const BoxDecoration(
-                        //   borderRadius: BorderRadius.all(Radius.circular(150))
-                        // ),
-                        child:  CircleAvatar(radius: 50,backgroundImage: AssetImage("assets/images/slider/ali1.jpg" ),),
+                      child: CircleAvatar(
+                        radius: 50,
+                        backgroundImage:
+                            AssetImage("assets/images/slider/ali1.jpg"),
                       ),
-                      const SizedBox(height: 10),
-                      GetBuilder<MyDrawerViewModel>(
-                        builder:((controller) => CustomText(
-                            text: "${controller.userName}",
-                            textAlign: TextAlign.center,
-                            color: Colors.white,
-                            fontSize: 19,
-                            fontWeight: FontWeight.normal)
-                      ),),
-                       const SizedBox(height: 8),
-                     const CustomText(
-                          text: "SudaphoneSD@gamil.com",
-                          textAlign: TextAlign.center,
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.normal),
-
-                      const SizedBox(height: 15),
-                      BuildListTile(
-                          text: "Home",
-                          onTap: () {
-                            Get.offAll(() => const MyDrawer(),
-                                transition: Transition.rightToLeftWithFade);
-                          },
-                          icon: "assets/images/icons/home.png"),
-                      BuildListTile(
-                        text: "Categories",
-                        onTap: () {
-                          Get.to(() => const Categories(),
-                              transition: Transition.zoom);
-                        },
-                        icon: "assets/images/icons/category.png",
-                      ),
-                      BuildListTile(
-                        text: "Posts",
-                        onTap: () {
-                          Get.to(() => const Posts(),
-                              transition: Transition.leftToRightWithFade);
-                        },
-                        icon: "assets/images/icons/add.png",
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 30),
-                        child: Divider(
-                          color: Colors.white,
-                        ),
-                      ),
-                      BuildListTile(
-                        text: "About",
-                        onTap: () {
-                          Get.to(() =>  AboutApp(),
-                              transition: Transition.upToDown);
-                        },
-                        icon: "assets/images/icons/info.png",
-                      ),
-                      BuildListTile(
-                        text: "Settings",
-                        onTap: () {
-                          Get.to(() => Settings(), transition: Transition.downToUp);
-                        },
-                        icon: "assets/images/icons/settings.png",
-                      ),
-
-                      /// i will Start this when i will try use firebase-------
-                      BuildListTile(
-                        text: "Logout",
-                        onTap: () {
-                          Get.defaultDialog(
-                            title: "Why :( ,Are you sure dear ?!",
-                            middleText:
-                                "If you logout, =( you will stop receiving our services.",
-                            titleStyle: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold),
-                            middleTextStyle: TextStyle(
-                                color: Colors.grey.shade800, fontSize: 18),
-                            textConfirm: "Yes",
-                            textCancel: "No",
-                            buttonColor: Colors.purple,
-                            confirmTextColor: Colors.white,
-                            cancelTextColor: Colors.green,
-                            onConfirm: () {},
-                            onCancel: () {
-                              Get.back();
+                    ),
+                    const SizedBox(height: 10),
+                    GetBuilder<MyDrawerViewModel>(
+                      builder: ((controller) =>
+                          FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                            future: controller.userName.get(),
+                            builder: (context, snapshot) {
+                              return Column(
+                                children: [
+                                  CustomText(
+                                    text:
+                                        "${snapshot.data?.data()?['userName']}",
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.normal,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const SizedBox(height: 8),
+                                   CustomText(
+                                      text: "${snapshot.data?.data()?['email']}",
+                                      textAlign: TextAlign.center,
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.normal),
+                                ],
+                              );
                             },
-                          );
+                          )),
+                    ),
+
+                    const SizedBox(height: 15),
+                    BuildListTile(
+                        text: "Home",
+                        onTap: () {
+                          Get.offAll(() => const MyDrawer(),
+                              transition: Transition.rightToLeftWithFade);
                         },
-                        icon: "assets/images/icons/logout.png",
+                        icon: "assets/images/icons/home.png"),
+                    BuildListTile(
+                      text: "Categories",
+                      onTap: () {
+                        Get.to(() => const Categories(),
+                            transition: Transition.zoom);
+                      },
+                      icon: "assets/images/icons/category.png",
+                    ),
+                    BuildListTile(
+                      text: "Posts",
+                      onTap: () {
+                        Get.to(() => const Posts(),
+                            transition: Transition.leftToRightWithFade);
+                      },
+                      icon: "assets/images/icons/add.png",
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 30),
+                      child: Divider(
+                        color: Colors.white,
                       ),
-                    ],
-                  ),
+                    ),
+                    BuildListTile(
+                      text: "About",
+                      onTap: () {
+                        Get.to(() => AboutApp(),
+                            transition: Transition.upToDown);
+                      },
+                      icon: "assets/images/icons/info.png",
+                    ),
+                    BuildListTile(
+                      text: "Settings",
+                      onTap: () {
+                        Get.to(() => const Settings(),
+                            transition: Transition.downToUp);
+                      },
+                      icon: "assets/images/icons/settings.png",
+                    ),
+
+                    /// i will Start this when i will try use firebase-------
+                    BuildListTile(
+                      text: "Logout",
+                      onTap: () {
+                        Get.defaultDialog(
+                          title: "Why :( ,Are you sure dear ?!",
+                          middleText:
+                              "If you logout, =( you will stop receiving our services.",
+                          titleStyle: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold),
+                          middleTextStyle: TextStyle(
+                              color: Colors.grey.shade800, fontSize: 18),
+                          textConfirm: "Yes",
+                          textCancel: "No",
+                          buttonColor: Colors.purple,
+                          confirmTextColor: Colors.white,
+                          cancelTextColor: Colors.green,
+                          onConfirm: () {},
+                          onCancel: () {
+                            Get.back();
+                          },
+                        );
+                      },
+                      icon: "assets/images/icons/logout.png",
+                    ),
+                  ],
                 ),
               ),
+            ),
           ),
           GetX<MyDrawerViewModel>(
             builder: (controller) => TweenAnimationBuilder(
