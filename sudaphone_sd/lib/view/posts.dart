@@ -38,7 +38,6 @@ class Posts extends GetWidget<PostsViewModel> {
         child: const Icon(Icons.add, size: 20),
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        //controller.getData!.orderBy("dateTime" , descending: true).snapshots(),
         stream: FirebaseFirestore.instance.collection("posts").snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -53,9 +52,7 @@ class Posts extends GetWidget<PostsViewModel> {
           } else if (snapshot.hasError) {
             return Center(child: Text("${snapshot.error}"));
           } else if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: Lottie.asset("assets/images/create_post.json"),
-            );
+            return Center(child: Lottie.asset("assets/images/create_post.json"));
           } else if (!snapshot.hasData) {
             return Container(
               color: Colors.white,
