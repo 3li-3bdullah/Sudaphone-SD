@@ -11,86 +11,116 @@ class LogIn extends GetWidget<LoginViewModel> {
 
   @override
   Widget build(BuildContext context) {
-    var mdw = MediaQuery.of(context).size.width;
+    double mdw = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: Stack(
-        alignment: Alignment.center,
-        children: [
-          // const SizedBox(
-          //   height: double.infinity,
-          //   width: double.infinity,
-          // ),
-          // Container(
-          //   width: double.infinity,
-          //   height: double.infinity,
-          //   decoration: BoxDecoration(
-          //     gradient: LinearGradient(
-          //         colors: [Colors.pink.shade300, Colors.purple.shade300],
-          //         begin: Alignment.topLeft,
-          //         end: Alignment.topLeft),
-          //   ),
-          // ),
-          Container(
-            height: double.infinity,
-            width: double.infinity,
-            color: Colors.black38,
-          ),
-           SingleChildScrollView(
-            child:  Obx(
-              () =>  Column(
-                  // mainAxisAlignment: MainAxisAlignment.center,
-                  // crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    // Center(
-                    //     child: Container(
-                    //         margin: const EdgeInsets.only(top: 30),
-                    //         child: Text(
-                    //             controller.showsignin.value
-                    //                 ? "تسجيل الدخول"
-                    //                 : "إنشاء حساب",
-                    //             style: const TextStyle(
-                    //                 color: Colors.white, fontSize: 20,),),),),
-                    // const Padding(padding: EdgeInsets.only(top: 20),),
-                    controller.showsignin.value
-                        ? const BuildAvatar()
-                        : const SizedBox(),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    controller.showsignin.value
-                        ? const CustomSignUp()
-                        : const CustomSignIn(),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    controller.showsignin.value
-                        ? const SignUpButton()
-                        : const SignInButton(),
-                    const SizedBox(
-                      height: 20,
-                    ), InkWell(
-                        onTap: () {
-                          controller.changVal();
-                        },
-                        child: controller.showsignin.value
-                            ? const CustomText(
-                                text: "Sign in",
-                                color: Colors.black,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                textAlign: TextAlign.center)
-                            : const CustomText(
-                                text: "Create a ccount",
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                                fontSize: 18,
-                                textAlign: TextAlign.center),
-                      ),
-                  ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Obx(
+            () => Column(
+              // mainAxisAlignment: MainAxisAlignment.center,
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(
+                  height: 40,
                 ),
+                // controller.showsignin.value
+                //     ?
+                Row(
+                  mainAxisAlignment : MainAxisAlignment.spaceAround,
+                  children: const [
+                   CustomText(
+                    text: "Sudaphone SD",
+                    color: Colors.blue,
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    textAlign: TextAlign.center),
+                 BuildAvatar(),
+                ]),
+                const SizedBox(
+                  height: 30,
+                ),
+                controller.showsignin.value
+                    ? const CustomSignUp()
+                    : const CustomSignIn(),
+                const SizedBox(
+                  height: 30,
+                ),
+                controller.showsignin.value
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          const SignUpButton(),
+                          InkWell(
+                            onTap: () {
+                              controller.signinOrSignup();
+                            },
+                            child: const CustomText(
+                                text: "Sign in",
+                                color: Colors.blue,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                textAlign: TextAlign.center),
+                          ),
+                        ],
+                      )
+                    : Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              const SignInButton(),
+                              InkWell(
+                                onTap: () {
+                                  controller.signinOrSignup();
+                                },
+                                child: const CustomText(
+                                    text: "Sign up",
+                                    color: Colors.blue,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    textAlign: TextAlign.center),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Divider(height: 2 , color: Colors.grey,),
+                              Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: CustomText(
+                                  text: "Or",
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              Divider(height: 2 , color: Colors.grey),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          MaterialButton(
+                            color: Colors.blue,
+                            onPressed: () {},
+                            child: const CustomText(
+                                text: "Sign in with Google",
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.normal,
+                                textAlign: TextAlign.center),
+                          ),
+                        ],
+                      ),
+              ],
             ),
-            ),
-        ],
+          ),
+        ),
       ),
     );
   }
