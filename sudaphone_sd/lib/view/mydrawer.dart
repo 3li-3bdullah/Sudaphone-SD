@@ -57,21 +57,10 @@ class MyDrawer extends GetWidget<MyDrawerViewModel> {
                     //       ),
 
                     // ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const SizedBox(
-                      height: 120,
-                      width: 120,
-                      // decoration: const BoxDecoration(
-                      //   borderRadius: BorderRadius.all(Radius.circular(150))
-                      // ),
-                      child: CircleAvatar(
-                        radius: 50,
-                        backgroundImage:
-                            AssetImage("assets/images/slider/ali1.jpg"),
-                      ),
-                    ),
+                    // const SizedBox(
+                    //   height: 10,
+                    // ),
+
                     const SizedBox(height: 10),
                     GetBuilder<MyDrawerViewModel>(
                       builder: ((controller) =>
@@ -80,6 +69,13 @@ class MyDrawer extends GetWidget<MyDrawerViewModel> {
                             builder: (context, snapshot) {
                               return Column(
                                 children: [
+                                  const SizedBox(height: 20,),
+                                   CircleAvatar(
+                                     radius: 65,
+                                     backgroundImage: NetworkImage(
+                                          snapshot.data?.data()!['profileUrl']),
+                                   ),
+                                   const SizedBox(height: 10,),
                                   CustomText(
                                     text:
                                         "${snapshot.data?.data()?['userName']}",
@@ -89,8 +85,9 @@ class MyDrawer extends GetWidget<MyDrawerViewModel> {
                                     textAlign: TextAlign.center,
                                   ),
                                   const SizedBox(height: 8),
-                                   CustomText(
-                                      text: "${snapshot.data?.data()?['email']}",
+                                  CustomText(
+                                      text:
+                                          "${snapshot.data?.data()?['email']}",
                                       textAlign: TextAlign.center,
                                       color: Colors.white,
                                       fontSize: 16,
