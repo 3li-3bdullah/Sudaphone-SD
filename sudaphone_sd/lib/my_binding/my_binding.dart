@@ -5,6 +5,7 @@ import 'package:sudaphone_sd/view_model/main_view_model.dart';
 import 'package:sudaphone_sd/view_model/mydrawer_view_model.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 import 'package:sudaphone_sd/view_model/screen_view_model.dart';
+import 'package:sudaphone_sd/view_model/settings_view_model.dart';
 
 class MyBinding implements Bindings {
   @override
@@ -15,5 +16,6 @@ class MyBinding implements Bindings {
     Get.lazyPut(() => PostsViewModel(), fenix: true);
     Get.put<MainViewModel>(MainViewModel());
     Get.lazyPut(() => DownloadImagesViewModel(), fenix: true);
+    Get.lazyPut(() => SettingsViewModel(),fenix: true);
   }
 }
