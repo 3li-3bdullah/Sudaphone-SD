@@ -25,6 +25,7 @@ class Screen extends GetWidget<ScreenViewModel> {
       mainColor: Colors.transparent,
       drawerColor: Colors.transparent,
       mainChild: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: "Sudaphone",
         home: Scaffold(
           body: NestedScrollView(
@@ -166,7 +167,10 @@ class Screen extends GetWidget<ScreenViewModel> {
                   CategoriesTitle(
                       text: "Most Used", text2: "more", press: () {}),
                       const SizedBox(height: 10,),
-                  // const CarouselMostUsed(),
+                  // SizedBox(
+                  //   height: MediaQuery.of(context).size.height / 3,
+                  //   width: MediaQuery.of(context).size.height / 3,
+                  //   child: const CarouselMostUsed()),
                  const SizedBox(height: 5,),
                   CategoriesTitle(
                     text: "Lastest Phones",
