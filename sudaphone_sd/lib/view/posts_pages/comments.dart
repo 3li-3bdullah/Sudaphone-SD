@@ -107,47 +107,9 @@ class Comments extends GetWidget<PostsViewModel> {
                             height: 5,
                           ),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 40),
-                                child: Text(
-                                  "${snapshot.data?.docs[index]['dateTime'].toString()}",
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              InkWell(
-                                child: snapshot.data?.docs[index]['usersLiked']
-                                            ['${controller.uid}'] !=
-                                        true
-                                    ? const CustomText(
-                                        text: "Like",
-                                        color: Colors.grey,
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold,
-                                        textAlign: TextAlign.center)
-                                    : const CustomText(
-                                        text: "Like",
-                                        color: Colors.pink,
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold,
-                                        textAlign: TextAlign.center),
-                                onTap: () {
-                                  controller.handleCommentLikes(
-                                      firstCollectionDocs: firstCollection,
-                                      secondCollectionDocs: secondCollection,
-                                      docSnapshot: snapshot.data?.docs[index]);
-                                },
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
+                              
                               InkWell(
                                 child: snapshot.data?.docs[index]['usersLiked']
                                             ['${controller.uid}'] !=
@@ -172,7 +134,44 @@ class Comments extends GetWidget<PostsViewModel> {
                                           .data?.docs[index]['usersLiked'].keys
                                           .toList()));
                                 },
-                              )
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              InkWell(
+                                child: snapshot.data?.docs[index]['usersLiked']
+                                            ['${controller.uid}'] !=
+                                        true
+                                    ? const CustomText(
+                                        text: "Like",
+                                        color: Colors.grey,
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold,
+                                        textAlign: TextAlign.center)
+                                    : const CustomText(
+                                        text: "Like",
+                                        color: Colors.pink,
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold,
+                                        textAlign: TextAlign.center),
+                                onTap: () {
+                                  controller.handleCommentLikes(
+                                      firstCollectionDocs: firstCollection,
+                                      secondCollectionDocs: secondCollection,
+                                      docSnapshot: snapshot.data?.docs[index]);
+                                },
+                              ),
+                              const SizedBox(width: 10,),
+                              Text(
+                                "${snapshot.data?.docs[index]['dateTime'].toString()}",
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                              
+                             
                             ],
                           ),
                           // Padding(

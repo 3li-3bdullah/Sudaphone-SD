@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,7 +14,7 @@ class ShowCommentLikes extends GetWidget<PostsViewModel> {
       appBar: AppBar(
         title: const CustomText(
           text: "People who liked",
-          fontSize: 25,
+          fontSize: 22,
           fontWeight: FontWeight.bold,
           color: Colors.black,
           textAlign: TextAlign.center,
@@ -27,36 +25,43 @@ class ShowCommentLikes extends GetWidget<PostsViewModel> {
           onPressed: () {
             Get.back();
           },
-          icon: const Icon(Icons.arrow_back_ios),
+          icon: const Icon(Icons.arrow_back_ios , color: Colors.black,),
         ),
+        elevation: 0,
       ),
-      body: ListView.builder(
-        itemCount: peopleWhoLiked.length,
-        itemBuilder: (context, index) {
-          return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-            future: controller.peopleWhoLikedReference
-                .doc(peopleWhoLiked[index])
-                .get(),
-            builder: ((context, snapshot) {
-              return Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: ListTile(
-                  title: CustomText(
-                      text: "${snapshot.data?.data()!['userName']}",
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      textAlign: TextAlign.right),
-                  trailing: CircleAvatar(
-                    radius: 30,
-                    backgroundImage:
-                        NetworkImage(snapshot.data?.data()!['profileUrl']),
+      body: SafeArea(
+        
+        child: ListView.builder(
+          itemCount: peopleWhoLiked.length,
+          itemBuilder: (context, index) {
+            print(peopleWhoLiked[index].toString());
+            return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+              future: FirebaseFirestore.instance.collection("posts")
+                  .doc("${peopleWhoLiked[index]}")
+                  .get(),
+              builder: ((context, snapshot) {
+            print("===============================uuuuu====================================");
+            print("${snapshot.data?.data()!['userName']}");
+                return Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: ListTile(
+                    title: CustomText(
+                        text: "${snapshot.data?.data()!['userName']}",
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        textAlign: TextAlign.left),
+                   leading: CircleAvatar(
+                      radius: 30,
+                      backgroundImage:
+                          NetworkImage(snapshot.data?.data()!['profileUrl']),
+                    ),
                   ),
-                ),
-              );
-            }),
-          );
-        },
+                );
+              }),
+            );
+          },
+        ),
       ),
     );
   }
