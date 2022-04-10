@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudaphone_sd/view/download_images.dart';
+import 'package:sudaphone_sd/view/posts_pages/show_comment_likes.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text.dart';
 import 'package:sudaphone_sd/view/widgets/snack_to_upload_images.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
@@ -165,6 +166,12 @@ class Comments extends GetWidget<PostsViewModel> {
                                         fontSize: 17,
                                         fontWeight: FontWeight.bold,
                                         textAlign: TextAlign.center),
+                                onTap: () {
+                                  Get.to(() => ShowCommentLikes(
+                                      peopleWhoLiked: snapshot
+                                          .data?.docs[index]['usersLiked'].keys
+                                          .toList()));
+                                },
                               )
                             ],
                           ),
