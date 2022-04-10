@@ -36,17 +36,17 @@ class CardView extends GetWidget<PostsViewModel> {
                       child: Column(
                         children: [
                           ListTile(
-                            leading: const CircleAvatar(
-                              backgroundImage:
-                                  AssetImage("assets/images/slider/ali1.jpg"),
+                            leading:  CircleAvatar(
+                              radius: 30,
+                              backgroundImage: NetworkImage(snapshot.data!.docs[index]['profileUrl'])
                             ),
                             title: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
                                   margin: const EdgeInsets.only(top: 10),
-                                  child: const CustomText(
-                                    text: "Ali Abdullah",
+                                  child: CustomText(
+                                    text: "${snapshot.data!.docs[index]['userName']}",
                                     color: Colors.black,
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold,
