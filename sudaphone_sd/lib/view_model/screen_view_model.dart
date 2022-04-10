@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sudaphone_sd/view/categories_pages/huawei.dart';
-import 'package:sudaphone_sd/view/categories_pages/iphone.dart';
-import 'package:sudaphone_sd/view/categories_pages/lenovo.dart';
-import 'package:sudaphone_sd/view/categories_pages/oppo.dart';
-import 'package:sudaphone_sd/view/categories_pages/realme.dart';
-import 'package:sudaphone_sd/view/categories_pages/samsung.dart';
 
 class ScreenViewModel extends GetxController {
   //Declare Variables
@@ -29,33 +23,7 @@ class ScreenViewModel extends GetxController {
     "assets/images/slider/5.jpg",
     "assets/images/slider/6.jpg",
   ];
-  final List<String> imagesCateLogo = [
-    "assets/images/logo/huawei.png",
-    "assets/images/logo/iphone.jpg",
-    "assets/images/logo/lenovo.png",
-    "assets/images/logo/samsung.jpg",
-    "assets/images/logo/oppo.jpg",
-    "assets/images/logo/realme.png",
-    "assets/images/logo/tecno.png",
-  ];
-  final List<String> text = [
-   "Huawei",
-   "Iphone",
-   "Lenovo",
-   "Samsung",
-   "Oppo",
-   "Realme",
-   "Tecno",
-  ];
-  final List<dynamic> ontap = [
-    Get.to(() => Huawei()),
-    Get.to(() => Iphone()),
-    Get.to(() => Lenovo()),
-    Get.to(() => Samsung()),
-    Get.to(() => Oppo()),
-    Get.to(() => Realme()),
-    Get.to(() => Tecno()),
-  ];
+  
 
   final List<String> images = [
     'assets/images/carousel/1.jpg',
