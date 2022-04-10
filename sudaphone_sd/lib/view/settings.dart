@@ -52,7 +52,7 @@ class Settings extends GetWidget<SettingsViewModel> {
                       ),
                       InkWell(
                         child: CustomText(
-                          text: snapshot.data!.data()?['userName'],
+                          text: "${snapshot.data?.data()?['userName']}",
                           color: Colors.black,
                           fontSize: 25,
                           fontWeight: FontWeight.bold,
@@ -64,7 +64,7 @@ class Settings extends GetWidget<SettingsViewModel> {
                         height: 10,
                       ),
                       CustomText(
-                        text: "${snapshot.data!.data()?['email']}",
+                        text: "${snapshot.data?.data()!['email']}",
                         fontSize: 20,
                         fontWeight: FontWeight.normal,
                         color: Colors.black,
