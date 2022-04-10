@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class CustomText extends StatelessWidget {
   const CustomText({
     ///context,
-    this.text,
+   required this.text,
     this.textAlign,
     this.color,
     this.fontSize,
     this.fontWeight,
   });
-  final String? text;
+  final String text;
   final TextAlign? textAlign;
   final Color? color;
   final double? fontSize;
@@ -18,7 +18,7 @@ class CustomText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      text!,
+      text,
       textAlign: textAlign!,
       style:
           TextStyle(color: color!, fontSize: fontSize!, fontWeight: fontWeight),
