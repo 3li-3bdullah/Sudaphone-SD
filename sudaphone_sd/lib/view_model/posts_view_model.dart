@@ -19,7 +19,9 @@ class PostsViewModel extends GetxController {
       FirebaseFirestore.instance.collection("posts");
   CollectionReference postsCollections =
       FirebaseFirestore.instance.collection("posts");
-  RxInt? commentsCount;
+  CollectionReference<Map<String, dynamic>> peopleWhoLikedReference =
+      FirebaseFirestore.instance.collection("posts");
+  // RxInt? commentsCount;
   TextEditingController commentController = TextEditingController();
 
   String? _fileName;
