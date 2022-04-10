@@ -47,12 +47,12 @@ class CustomSignIn extends GetWidget<LoginViewModel> {
 
                 const SizedBox(height: 10),
                 CustomTextFormField(
-                  labelText: "Username",
+                  labelText: "E-mail",
                     textEditingController: controller.emailController!,
                     obscure: false,
                     validator: (String value) {
                       if (value.isEmpty) {
-                       return "Please write your name";
+                       return "Please write your e-mail";
                       }
                     },
                     icon: Icons.email_outlined,
@@ -108,16 +108,20 @@ class SignInButton extends GetWidget<LoginViewModel> {
 
   @override
   Widget build(BuildContext context) {
-    return CircleAvatar(
-      backgroundColor: Colors.blue,
-      radius: 58,
-      child: MaterialButton(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-        onPressed: () => controller.signInWithEmailAndPassword(controller.emailController!.text,
-            controller.passwordController!.text,
-            controller.signInKey!
-            ),
-        child: Row(
+    return InkWell(
+      child: const CircleAvatar(
+        backgroundColor: Colors.blue,
+        radius: 50,
+        child:  Icon(Icons.arrow_forward,color:Colors.white,size: 30,)
+      ),
+      onTap: () => controller.signInWithEmailAndPassword(controller.emailController!.text,
+              controller.passwordController!.text,
+              controller.signInKey!
+    ));
+  }
+}
+/*
+ Row(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -139,8 +143,5 @@ class SignInButton extends GetWidget<LoginViewModel> {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
+        ), 
+*/
