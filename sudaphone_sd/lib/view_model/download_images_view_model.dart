@@ -3,25 +3,6 @@ import 'package:gallery_saver/gallery_saver.dart';
 import 'package:get/get.dart';
 
 class DownloadImagesViewModel extends GetxController {
-  ///Declaring variables
-
-  // final _random = Random().nextInt(1000000000000000000);
-
-  /// Declaring methods
-
-  // Future<void> saveImage(String? url) async {
-  //   final status = await Permission.storage.request();
-  //   if (status.isGranted) {
-  //     var response = await Dio().get(
-  //       url!,
-  //       options: Options(responseType: ResponseType.bytes),
-  //     );
-  //     final result = await ImageGallerySaver.saveImage(
-  //         Uint8List.fromList(response.data),
-  //         quality: 60,
-  //         name: "SPHSD_IMG_$_random");
-  //   }
-  // }
 
   void saveNetworkImage(String path) async {
     GallerySaver.saveImage(path, albumName: "Sudaphone SD")

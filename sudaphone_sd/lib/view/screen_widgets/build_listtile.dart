@@ -9,14 +9,21 @@ class BuildListTile extends StatelessWidget {
   });
   final String text;
   final Function onTap;
-  final IconData icon;
+  final String icon;
   @override
   Widget build(BuildContext context) {
     return InkWell(
       child: ListTile(
-        title: Text(text,
-            style: const TextStyle(color: Colors.white, fontSize: 18)),
-        leading: Icon(icon, color: Colors.white, size: 25),
+        title: Text(
+          text,
+          style: const TextStyle(color: Colors.white, fontSize: 18),
+        ),
+        leading: Image(
+          image: AssetImage(icon),
+          color: Colors.white,
+          height: 25,
+          width: 25,
+        ),
       ),
       onTap: () {
         onTap();

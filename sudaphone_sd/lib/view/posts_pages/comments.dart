@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sudaphone_sd/view/download_images.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text.dart';
 import 'package:sudaphone_sd/view/widgets/snack_to_upload_images.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
@@ -22,10 +23,9 @@ class Comments extends GetWidget<PostsViewModel> {
               .collection("userPosts")
               .doc(secondCollection.id)
               .collection("comments")
+              .orderBy('dateTime', descending: true)
               .snapshots(),
           builder: (context, snapshot) {
-            controller.commentsCountOfPost(
-                data: snapshot.data?.docs.length.toInt());
             return Column(
               children: [
                 Expanded(
@@ -33,73 +33,60 @@ class Comments extends GetWidget<PostsViewModel> {
                     shrinkWrap: true,
                     itemCount: snapshot.data?.docs.length,
                     itemBuilder: (context, index) {
-                      return Card(
-                        child: Column(
-                          children: [
-                            // ListTile(
-                            //   title: Text(
-                            //     "${firstCollection.data()['userName']}",
-                            //     style: const TextStyle(
-                            //         fontSize: 18,
-                            //         fontWeight: FontWeight.bold,
-                            //         color: Colors.black),
-                            //   ),
-                            //   leading: firstCollection.data()['profileUrl'] != null ? const CircleAvatar(
-                            //       backgroundImage: AssetImage(
-                            //           "assets/images/slider/ali1.jpg"),
-                            //       radius: 20,
-                            //     ) : const CircleAvatar(
-                            //       child: Icon(Icons.person ,color: Colors.white,),
-                            //       radius: 20,
-                            //       backgroundColor: Colors.grey,
-                            //     ),
-
-                            // ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                  const SizedBox(
-                                  width: 5,
-                                ),
-                                const CircleAvatar(
-                                  backgroundImage: AssetImage(
-                                      "assets/images/slider/ali1.jpg"),
-                                  radius: 20,
-                                ),
-                                Container(
-                                  // Try to remove this after testing
-                                  height: 50,
-                                  // width: MediaQuery.of(context).size.width / 2,
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(20),
-                                    ),
-                                    color: Colors.grey.shade200,
+                      return Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.all(10),
+                                width: MediaQuery.of(context).size.width / 2,
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(20),
                                   ),
-                                  child: ListTile(
-                                    title: Text(
+                                  color: Colors.grey.shade200,
+                                ),
+                                child: ListTile(
+                                  title: Align(
+                                    alignment: Alignment.topRight,
+                                    child: Text(
                                       "${firstCollection.data()['userName']}",
                                       style: const TextStyle(
-                                          fontSize: 18,
+                                          fontSize: 17,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.black),
                                     ),
-                                    subtitle: Text(
-                                      "${snapshot.data?.docs[index]['text']}",
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.grey.shade700),
-                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    "${snapshot.data?.docs[index]['text']}",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.grey.shade800),
                                   ),
                                 ),
-                              
-                              ],
-                            ),
-                            snapshot.data?.docs[index]['isThereImageUrl'] ==
-                                    true
-                                ? Container(
-                                    height:
-                                        MediaQuery.of(context).size.height / 3,
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                    "${firstCollection.data()['profileUrl']}"),
+                                radius: 20,
+                              ),
+                            ],
+                          ),
+                          snapshot.data?.docs[index]['isThereImageUrl'] == true
+                              ? InkWell(
+                                  onTap: () {
+                                    Get.to(
+                                        () => DownloadImages(
+                                            image: snapshot.data!.docs[index]
+                                                ['imageUrl']),
+                                        transition: Transition.zoom,
+                                        curve: Curves.easeInExpo);
+                                  },
+                                  child: Container(
                                     width:
                                         MediaQuery.of(context).size.width / 3,
                                     decoration: const BoxDecoration(
@@ -107,30 +94,92 @@ class Comments extends GetWidget<PostsViewModel> {
                                         Radius.circular(30),
                                       ),
                                     ),
-                                    child: Column(
-                                      children: [
-                                       snapshot
-                                            .data!.docs[index]['imageUrl'] != null ? Image.network(snapshot
-                                            .data!.docs[index]['imageUrl']
-                                            .toString()) : const SizedBox(),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        CustomText(
-                                          text: snapshot
-                                              .data!.docs[index]['dateTime']
-                                              .toString(),
-                                          color: Colors.black,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.normal,
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ],
+                                    child: Image.network(
+                                      snapshot.data!.docs[index]['imageUrl']
+                                          .toString(),
+                                      fit: BoxFit.fill,
                                     ),
-                                  )
-                                : const SizedBox(),
-                          ],
-                        ),
+                                  ),
+                                )
+                              : const SizedBox(),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 40),
+                                child: Text(
+                                  "${snapshot.data?.docs[index]['dateTime'].toString()}",
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              InkWell(
+                                child: snapshot.data?.docs[index]['usersLiked']
+                                            ['${controller.uid}'] !=
+                                        true
+                                    ? const CustomText(
+                                        text: "Like",
+                                        color: Colors.grey,
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold,
+                                        textAlign: TextAlign.center)
+                                    : const CustomText(
+                                        text: "Like",
+                                        color: Colors.pink,
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold,
+                                        textAlign: TextAlign.center),
+                                onTap: () {
+                                  controller.handleCommentLikes(
+                                      firstCollectionDocs: firstCollection,
+                                      secondCollectionDocs: secondCollection,
+                                      docSnapshot: snapshot.data?.docs[index]);
+                                },
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              InkWell(
+                                child: snapshot.data?.docs[index]['usersLiked']
+                                            ['${controller.uid}'] !=
+                                        true
+                                    ? CustomText(
+                                        text:
+                                            "${snapshot.data?.docs[index]['likesCount']}",
+                                        color: Colors.grey,
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold,
+                                        textAlign: TextAlign.center)
+                                    : CustomText(
+                                        text:
+                                            "${snapshot.data?.docs[index]['likesCount']}",
+                                        color: Colors.pink,
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold,
+                                        textAlign: TextAlign.center),
+                              )
+                            ],
+                          ),
+                          // Padding(
+                          //   padding: const EdgeInsets.only(left: 40),
+                          //   child: Text(
+                          //     "${snapshot.data?.docs[index]['dateTime'].toString()}",
+                          //     style: const TextStyle(
+                          //       color: Colors.black,
+                          //       fontSize: 14,
+                          //       fontWeight: FontWeight.normal,
+                          //     ),
+                          //   ),
+                          // ),
+                        ],
                       );
                     },
                   ),
@@ -152,11 +201,26 @@ class Comments extends GetWidget<PostsViewModel> {
                               icon: const Icon(Icons.camera_alt_outlined,
                                   color: Colors.purple),
                               onPressed: () {
-                                SanckToUploadImages.showTheSnack(
-                                    gallery: controller.uploadImageToComment(
-                                        source: "gallery"),
-                                    camera: controller.uploadImageToComment(
-                                        source: "camera"));
+                                Get.defaultDialog(
+                                  content: const CustomText(
+                                    text: "Choose an image from : ",
+                                    textAlign: TextAlign.center,
+                                    color: Colors.grey,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                  title: "Upload",
+                                  textCancel: "Gallery",
+                                  textConfirm: "Camera",
+                                  onCancel: () {
+                                    controller.uploadImageToComment(
+                                        source: "gallery");
+                                  },
+                                  onConfirm: () {
+                                    controller.uploadImageToComment(
+                                        source: "camera");
+                                  },
+                                );
                               },
                             ),
                             Container(

@@ -12,18 +12,17 @@ class CustomSignUp extends GetWidget<LoginViewModel> {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.easeInOutBack,
+    return Container(
+      // duration: const Duration(milliseconds: 500),
+      // curve: Curves.easeInOutBack,
       alignment: Alignment.center,
-      // margin: EdgeInsets.only(top: controller.showsignin.value ? 40 : 20),
-      height: 380,
+      padding: const EdgeInsets.only(top: 15 , left:10,bottom:10,right:10),
       width: MediaQuery.of(context).size.width / 1.2,
-      decoration: const BoxDecoration(
-       color:Colors.black12,
-       borderRadius: BorderRadius.all(Radius.circular(20),),
+      // decoration: const BoxDecoration(
+      //  color:Colors.black12,
+      //  borderRadius: BorderRadius.all(Radius.circular(20),),
         
-      ),
+      // ),
         // boxShadow: [
         //   BoxShadow(
         //       color: Colors.black,
@@ -47,20 +46,21 @@ class CustomSignUp extends GetWidget<LoginViewModel> {
             ),
             const SizedBox(height: 10),
             CustomTextFormField(
+              labelText: "Username",
               textEditingController: controller.usernameController!,
               obscure: false,
-              validator: (value) {
-                if (value == null) {
+              validator: (String value) {
+                if (value.isEmpty) {
                   return "Please write your name";
                 }
               },
               icon: Icons.person_outline_rounded,
-              myhinttext: "username",
-              fillColor: Colors.grey.shade200,
-              enabledColor: Colors.grey,
-              focusedColor: Colors.green,
-              borderSideColor: Colors.grey,
-              prefixColor: Colors.pink.shade300,
+              myhinttext: "Username",
+              // fillColor: Colors.grey.shade200,
+              // enabledColor: Colors.grey,
+              // focusedColor: Colors.green,
+              // borderSideColor: Colors.grey,
+              prefixColor: Colors.blue,
             ),
             //End User Name----------
             //Start User E-mail ----------
@@ -74,20 +74,21 @@ class CustomSignUp extends GetWidget<LoginViewModel> {
             ),
             const SizedBox(height: 10),
             CustomTextFormField(
+              labelText: "E-mail",
               textEditingController: controller.emailController!,
               obscure: false,
-              validator: (value) {
-                if (value == null) {
+              validator: (String value) {
+                if (value.isEmpty) {
                   return "Write your e-mail address";
                 }
               },
               icon: Icons.email_outlined,
               myhinttext: "example@gmail.com",
-              fillColor: Colors.grey.shade200,
-              enabledColor: Colors.grey,
-              focusedColor: Colors.green,
-              borderSideColor: Colors.grey,
-              prefixColor: Colors.pink.shade300,
+              // fillColor: Colors.grey.shade200,
+              // enabledColor: Colors.grey,
+              // focusedColor: Colors.green,
+              // borderSideColor: Colors.grey,
+              prefixColor: Colors.blue,
             ),
             const SizedBox(height: 10),
             //End User E-mail ----------
@@ -101,20 +102,21 @@ class CustomSignUp extends GetWidget<LoginViewModel> {
             ),
             const SizedBox(height: 10),
             CustomTextFormField(
+              labelText: "Password",
               textEditingController: controller.passwordController!,
               obscure: true,
-              validator: (value) {
-                if (value == null) {
+              validator: (String value) {
+                if (value.isEmpty) {
                   return "Write your password";
                 }
               },
               icon: Icons.lock_outlined,
               myhinttext: "***********",
-              fillColor: Colors.grey.shade200,
-              enabledColor: Colors.grey,
-              focusedColor: Colors.green,
-              borderSideColor: Colors.grey,
-              prefixColor: Colors.pink.shade300,
+              // fillColor: Colors.grey.shade200,
+              // enabledColor: Colors.grey,
+              // focusedColor: Colors.green,
+              // borderSideColor: Colors.grey,
+              prefixColor: Colors.blue,
             ), const SizedBox(height: 10,),
             //Start User Password Confirm----------
             const CustomText(
@@ -126,21 +128,23 @@ class CustomSignUp extends GetWidget<LoginViewModel> {
             ),
             const SizedBox(height: 10),
             CustomTextFormField(
+              labelText: "Rewrite the password",
               textEditingController: controller.confirmPasswordController!,
               obscure: true,
-              validator: (value) {
-                if (value != controller.confirmPasswordController!) {
-                  return "Password not confirmed";
+              validator: (String value) {
+                if (value != controller.passwordController!.text) {
+                  return "Password incorrect";
                 }
               },
               icon: Icons.lock_outlined,
               myhinttext: "***********",
-              fillColor: Colors.grey.shade200,
-              enabledColor: Colors.grey,
-              focusedColor: Colors.green,
-              borderSideColor: Colors.grey,
-              prefixColor: Colors.pink.shade300,
+              // fillColor: Colors.grey.shade200,
+              // enabledColor: Colors.grey,
+              // focusedColor: Colors.green,
+              // borderSideColor: Colors.grey,
+              prefixColor: Colors.blue,
             ),
+            const SizedBox(height: 10,),
             //End User Password Confirm----------
           ],
         ),
@@ -154,9 +158,9 @@ class SignUpButton extends GetWidget<LoginViewModel> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: 10,
-      color: Colors.pink.shade300,
+    return CircleAvatar(
+      radius: 58,
+      backgroundColor: Colors.blue,
       child: MaterialButton(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         onPressed: () => controller.signUpWithEmailAndPassword(
@@ -166,19 +170,23 @@ class SignUpButton extends GetWidget<LoginViewModel> {
             controller.signUpKey!),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
           children: [
-            const CustomText(
-              text: "Sign Up",
-              color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.normal,
-              textAlign: TextAlign.center,
+            const Expanded(
+              flex: 3,
+              child: CustomText(
+                text: "Sign up",
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                textAlign: TextAlign.center,
+              ),
             ),
-            Container(
-              margin: const EdgeInsets.only(top: 4),
-              padding: const EdgeInsets.only(right: 10),
-              child: const Icon(Icons.arrow_forward, color: Colors.white),
+            Expanded(
+              flex: 1,
+              child: Container(
+                margin: const EdgeInsets.only(top: 4),
+                child: const Icon(Icons.arrow_forward_ios_outlined, color: Colors.white),
+              ),
             ),
           ],
         ),

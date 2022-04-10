@@ -19,7 +19,7 @@ class ScreenLists{
     Colors.blue,
     Colors.amber,
   ];
-  static const List<String> imagesCarousel = [
+   static const List<String> imagesCarousel = [
     "assets/images/slider/1.png",
     "assets/images/slider/2.png",
     "assets/images/slider/3.jpg",

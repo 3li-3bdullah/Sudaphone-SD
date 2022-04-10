@@ -15,14 +15,10 @@ class BuildAvatar extends GetWidget<LoginViewModel> {
               height: 100,
               width: 100,
               child: InkWell(
-                onTap: () {
-                  SanckToUploadImages.showTheSnack(
-                      gallery: controller.uploadProfilePic(source: "gallery"),
-                      camera: controller.uploadProfilePic(source: "camera"));
-                },
+                onTap: () {},
                 child: CircleAvatar(
                   radius: 100,
-                  backgroundColor: Colors.grey,
+                  backgroundColor: Colors.blue,
                   backgroundImage: FileImage(controller.imageFile!),
                 ),
               ),
@@ -42,7 +38,7 @@ class BuildAvatar extends GetWidget<LoginViewModel> {
                     ),
                     title: "Upload",
                     cancel: MaterialButton(
-                      color: Colors.indigo,
+                      color: Colors.blue,
                       elevation: 0,
                       onPressed: () {
                         controller.uploadProfilePic(source: "gallery");
@@ -67,7 +63,7 @@ class BuildAvatar extends GetWidget<LoginViewModel> {
                       ),
                     ),
                     confirm: MaterialButton(
-                      color: Colors.indigo,
+                      color: Colors.blue,
                       elevation: 0,
                       onPressed: () {
                         controller.uploadProfilePic(source: "camera");

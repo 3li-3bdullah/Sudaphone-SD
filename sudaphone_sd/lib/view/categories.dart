@@ -54,63 +54,63 @@ class Categories extends StatelessWidget {
                   imageCat: "assets/images/category/huawei.png",
                   text: "Huawei",
                   onTap: () {
-                    Get.to(Huawei());
+                    Get.to(() => Huawei());
                   },
                 ),
                 CategoriesCard(
                   imageCat: "assets/images/category/apple.jpg",
                   text: "Iphone",
                   onTap: () {
-                    Get.to(Iphone());
+                    Get.to(() => Iphone());
                   },
                 ),
                 CategoriesCard(
                   imageCat: "assets/images/category/oppo.png",
                   text: "Oppo",
                   onTap: () {
-                    Get.to(Oppo());
+                    Get.to(() => Oppo());
                   },
                 ),
                 CategoriesCard(
                   imageCat: "assets/images/category/xiaomi.png",
                   text: "Xiaomi",
                   onTap: () {
-                    Get.to(Xiaomi());
+                    Get.to(() => Xiaomi());
                   },
                 ),
                 CategoriesCard(
                   imageCat: "assets/images/category/lenovo.png",
                   text: "Lenovo",
                   onTap: () {
-                    Get.to(Lenovo());
+                    Get.to(() => Lenovo());
                   },
                 ),
                 CategoriesCard(
                   imageCat: "assets/images/category/realme.png",
                   text: "Realme",
                   onTap: () {
-                    Get.to(Realme());
+                    Get.to(() => Realme());
                   },
                 ),
                 CategoriesCard(
                   imageCat: "assets/images/category/tecno.png",
                   text: "Tecno",
                   onTap: () {
-                    Get.to(Tecno());
+                    Get.to(() => Tecno());
                   },
                 ),
                 CategoriesCard(
                   imageCat: "assets/images/category/vivo.jpg",
                   text: "Vivo",
                   onTap: () {
-                    Get.to(Vivo());
+                    Get.to(() => Vivo());
                   },
                 ),
                 CategoriesCard(
                   imageCat: "assets/images/category/nokia.png",
                   text: "Nokia",
                   onTap: () {
-                    Get.to(Nokia());
+                    Get.to(() => Nokia());
                   },
                 ),
               ],
