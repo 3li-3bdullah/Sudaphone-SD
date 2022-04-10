@@ -1,11 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sudaphone_sd/view/widgets/custom_text.dart';
+import 'package:sudaphone_sd/view_model/settings_view_model.dart';
 
-// ignore: must_be_immutable
-class Settings extends StatelessWidget {
-  Settings({Key? key}) : super(key: key);
-
-  //  Settings({Key? key}) : super(key: key);
+class Settings extends GetWidget<SettingsViewModel> {
+  const Settings({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,67 +31,75 @@ class Settings extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
         child: Column(
           children: [
-            ListTile(
-              title: const Text("The Mode"),
-              trailing: const Icon(Icons.wb_sunny),
-              onTap: () {
-                Get.bottomSheet(Column(
-                  children: [
-                    ListTile(
-                      title: const Text("Light Mode"),
-                      leading: const Icon(Icons.wb_sunny_outlined),
-                      onTap: () {
-                        Get.changeTheme(ThemeData.light());
-                      },
-                    ),
-                    ListTile(
-                      title: const Text("Dark Mode"),
-                      leading: const Icon(Icons.wb_sunny),
-                      onTap: () {
-                        Get.changeTheme(ThemeData.dark());
-                      },
-                    ),
-                  ],
-                ));
-              },
-            ),
-            // ElevatedButton(onPressed: () => getImage() , child: const Text("Check an image")),
-            // const SizedBox(height: 20,),
-            // ElevatedButton(onPressed: () => uploadImage() , child: const Text("Upload Image")),
-            // Container(
-            //   height: 300,
-            //   width: 300,
-            //   child: filePicked == null? const SizedBox() : Image.asset(pickedImage!.path),
-            // )
+            FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                future: controller.getUserData.doc("${controller.uid}").get(),
+                builder: (context, snapshot) {
+                  return Column(
+                    children: [
+                      InkWell(
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: CircleAvatar(
+                            radius: 70,
+                            backgroundImage: NetworkImage(
+                                "${snapshot.data?.data()?['profileUrl']}"),
+                          ),
+                        ),
+                        onTap: () {},
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      InkWell(
+                        child: CustomText(
+                          text: snapshot.data!.data()?['userName'],
+                          color: Colors.black,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          textAlign: TextAlign.center,
+                        ),
+                        onTap: () {},
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      CustomText(
+                        text: "${snapshot.data!.data()?['email']}",
+                        fontSize: 20,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black,
+                        textAlign: TextAlign.center,
+                      )
+                    ],
+                  );
+                }),
+            // ListTile(
+            //   title: const Text("The Mode"),
+            //   trailing: const Icon(Icons.wb_sunny),
+            //   onTap: () {
+            //     Get.bottomSheet(Column(
+            //       children: [
+            //         ListTile(
+            //           title: const Text("Light Mode"),
+            //           leading: const Icon(Icons.wb_sunny_outlined),
+            //           onTap: () {
+            //             Get.changeTheme(ThemeData.light());
+            //           },
+            //         ),
+            //         ListTile(
+            //           title: const Text("Dark Mode"),
+            //           leading: const Icon(Icons.wb_sunny),
+            //           onTap: () {
+            //             Get.changeTheme(ThemeData.dark());
+            //           },
+            //         ),
+            //       ],
+            //     ));
+            //   },
+            // ),
           ],
         ),
-        
       ),
     );
   }
-//   String? imageName;
-//   File? filePicked;
-//    XFile? pickedImage;
-//   String dateTime =
-//       DateFormat('M/d/y - kk:mm').format(DateTime.now());
-//       //===================
-//  Future getImage() async {
-//     ImagePicker _picker = ImagePicker();
-//      pickedImage = await _picker.pickImage(source: ImageSource.gallery);
-//     if(pickedImage == null){
-//       return null;
-//     }
-//      imageName = basename(pickedImage!.path); 
-//      filePicked = File(pickedImage!.path);
-//   }
-//   Future uploadImage() async {
-//   var reference = FirebaseStorage.instance.ref("images").child(imageName!);
-//     reference.putFile(filePicked!);
-//     String imageUrl = await reference.getDownloadURL();
-//     FirebaseFirestore.instance.collection("users").add({
-//       "imageUrl" : imageUrl,
-//       "dateTime" : dateTime.toString()
-//     });
-//     Get.off(() => const Posts() , transition: Transition.zoom);
-//   }
 }

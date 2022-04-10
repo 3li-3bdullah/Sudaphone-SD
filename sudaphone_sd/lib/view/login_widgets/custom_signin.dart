@@ -9,24 +9,25 @@ class CustomSignIn extends GetWidget<LoginViewModel> {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(alignment: Alignment.center,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.easeOutBack,
+    return Container(
+      alignment: Alignment.center,
+      // duration: const Duration(milliseconds: 500),
+      // curve: Curves.easeOutBack,
       // margin: const EdgeInsets.only(top: 40),
-      height: 209,
+      // height: 209,
       width: MediaQuery.of(context).size.width / 1.2,
-      decoration: const BoxDecoration(
-       color:Colors.black12,
-       borderRadius: BorderRadius.all(Radius.circular(20),),
-        // boxShadow: [
-        //   BoxShadow(
-        //     color: Colors.black,
-        //     blurRadius: 0.1,
-        //     spreadRadius: 1,
-        //     offset: Offset(1, 1),
-        //   ),
-        // ],
-      ),
+      // decoration: const BoxDecoration(
+      //  color:Colors.black12,
+      //  borderRadius: BorderRadius.all(Radius.circular(20),),
+      //   // boxShadow: [
+      //   //   BoxShadow(
+      //   //     color: Colors.black,
+      //   //     blurRadius: 0.1,
+      //   //     spreadRadius: 1,
+      //   //     offset: Offset(1, 1),
+      //   //   ),
+      //   // ],
+      // ),
       child: Form(
         key: controller.signInKey,
         child: Container(
@@ -46,20 +47,22 @@ class CustomSignIn extends GetWidget<LoginViewModel> {
 
                 const SizedBox(height: 10),
                 CustomTextFormField(
+                  labelText: "Username",
                     textEditingController: controller.emailController!,
                     obscure: false,
-                    validator: (value) {
-                      if (value == null) {
+                    validator: (String value) {
+                      if (value.isEmpty) {
                        return "Please write your name";
                       }
                     },
                     icon: Icons.email_outlined,
                     myhinttext: "example@gmail.com",
-                    prefixColor: Colors.purple.shade300,
-                    fillColor: Colors.grey.shade200,
-                    enabledColor: Colors.grey,
-                    focusedColor: Colors.green,
-                    borderSideColor: Colors.grey),
+                    prefixColor: Colors.blue,
+                    // fillColor: Colors.grey.shade200,
+                    // enabledColor: Colors.grey,
+                    // focusedColor: Colors.green,
+                    // borderSideColor: Colors.grey
+                    ),
                 //End Email ----------
                 //Start User Password----------
                 const SizedBox(height:10),
@@ -72,20 +75,23 @@ class CustomSignIn extends GetWidget<LoginViewModel> {
                 ),
                 const SizedBox(height: 10),
                 CustomTextFormField(
+                  labelText: "Password",
                     textEditingController: controller.passwordController!,
                     obscure: true,
-                    validator: (value) {
-                      if (value == null) {
+                    validator: (String value) {
+                      if (value.isEmpty) {
                        return "Please write your password ";
                       }
                     },
                     icon: Icons.lock_outline,
                     myhinttext: "***********",
-                    prefixColor: Colors.purple.shade300,
-                    fillColor: Colors.grey.shade200,
-                    enabledColor: Colors.grey,
-                    focusedColor: Colors.green,
-                    borderSideColor: Colors.grey),
+                    prefixColor: Colors.blue,
+                    // fillColor: Colors.grey.shade200,
+                    // enabledColor: Colors.grey,
+                    // focusedColor: Colors.green,
+                    // borderSideColor: Colors.grey
+                ),
+                    const SizedBox(height:10),
                 //End User Password----------
                 
               ],
@@ -102,34 +108,39 @@ class SignInButton extends GetWidget<LoginViewModel> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-            elevation: 10,
-            color: Colors.purple.shade300,
-            child: MaterialButton(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              onPressed: () => controller.signInWithEmailAndPassword(controller.emailController!.text,
-                  controller.passwordController!.text,
-                  controller.signInKey!
-                  ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const CustomText(
-                    text: "Sign In",
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.normal,
-                    textAlign: TextAlign.center,
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 4),
-                    padding: const EdgeInsets.only(right: 10),
-                    child: const Icon(Icons.arrow_forward, color: Colors.white),
-                  ),
-                ],
+    return CircleAvatar(
+      backgroundColor: Colors.blue,
+      radius: 58,
+      child: MaterialButton(
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        onPressed: () => controller.signInWithEmailAndPassword(controller.emailController!.text,
+            controller.passwordController!.text,
+            controller.signInKey!
+            ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+           const Expanded(
+              flex: 3,
+              child: CustomText(
+                text: "Sign in",
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                textAlign: TextAlign.center,
               ),
             ),
-          );
+            Expanded(
+              flex: 1,
+              child: Container(
+                margin: const EdgeInsets.only(top: 4),
+                child: const Icon(Icons.arrow_forward_ios_outlined, color: Colors.white),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -1,22 +1,34 @@
+import 'dart:io';
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:sudaphone_sd/view/mydrawer.dart';
 import 'package:sudaphone_sd/view/posts_widgets/custom_snakbar.dart';
 
 class LoginViewModel extends GetxController {
   ///Declare and inital variables
+  // for user authentications
   FirebaseAuth auth = FirebaseAuth.instance;
   UserCredential? userCredential;
   FirebaseFirestore? firebaseFirestore = FirebaseFirestore.instance;
   GlobalKey<FormState>? signInKey = GlobalKey<FormState>();
   GlobalKey<FormState>? signUpKey = GlobalKey<FormState>();
-
+  // TextEditingController for login fields 
   TextEditingController? emailController = TextEditingController();
   TextEditingController? passwordController = TextEditingController();
   TextEditingController? confirmPasswordController = TextEditingController();
   TextEditingController? usernameController = TextEditingController();
+ // Variables for upload image to FirebasaeStorage
+  RxBool isThereProfileUrl = false.obs;
+  String? _fileName;
+  File? imageFile;
+  XFile? pickImage;
 
   // final Rxn<User> _user = Rxn<User>();
   // String? get user => _user.value?.email;
@@ -24,8 +36,7 @@ class LoginViewModel extends GetxController {
 
   /// Methods
 
-
-  changVal() {
+  signinOrSignup() {
     return showsignin.value = !showsignin.value;
   }
 
@@ -48,12 +59,12 @@ class LoginViewModel extends GetxController {
       try {
         userCredential = await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: password);
-             CustomSnakbar.showSnakBar(
-        context: Get.context,
-        title: "Done",
-        message: "Successfully signin",
-        backgroundColor: Colors.lightGreenAccent);
-    Get.off(const MyDrawer());
+        CustomSnakbar.showSnakBar(
+            context: Get.context,
+            title: "Done",
+            message: "Successfully signin",
+            backgroundColor: Colors.lightGreenAccent);
+        Get.off(() => const MyDrawer());
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           Get.snackbar("Error", "No user found for that email.");
@@ -63,25 +74,51 @@ class LoginViewModel extends GetxController {
       }
     }
   }
+  // Upload A Picture That User Was choose
+  uploadProfilePic({String? source}) async {
+    final _picker = ImagePicker();
+     pickImage = await _picker.pickImage(
+        source: source == "camera" ? ImageSource.camera : ImageSource.gallery);
+    int rand = Random().nextInt(1000000);
+    _fileName = rand.toString() + pickImage!.name;
+    imageFile = File(pickImage!.path);
+    update();
+    if (source != null) {
+      return isThereProfileUrl.value = true;
+    } else {
+      return isThereProfileUrl.value = false;
+    }
+  }
 
   /// SignUp With Username & Email & Password
   void signUpWithEmailAndPassword(String username, String email,
       String password, GlobalKey<FormState> _signUpKey) async {
     try {
       if (_signUpKey.currentState!.validate()) {
+        final _formattedDate =
+            DateFormat('M/d/y - kk:mm').format(DateTime.now());
         _signUpKey.currentState!.save();
         userCredential = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email, password: password);
-        await firebaseFirestore!
-            .collection("username")
-            .doc(auth.currentUser!.uid)
-            .set({"username": username});
+            TaskSnapshot _uploadToStorage = await FirebaseStorage.instance
+              .ref("comments")
+              .child(_fileName!)
+              .putFile(imageFile!);
+          String _imageUrl = await _uploadToStorage.ref.getDownloadURL();
+        firebaseFirestore!.collection("posts").doc(auth.currentUser!.uid).set({
+          "userName": username.toString(),
+          "email": email.toString(),
+          "password": password.toString(),
+          "ownerUid": auth.currentUser!.uid.toString(),
+          "registerTime": _formattedDate.toString(),
+          "profileUrl" : _imageUrl.toString()
+        });
         CustomSnakbar.showSnakBar(
             context: Get.context,
             title: "Done",
             message: "Created account successfully",
             backgroundColor: Colors.lightGreenAccent);
-        Get.off(const MyDrawer());
+        Get.off(() => const MyDrawer());
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {

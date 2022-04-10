@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:sudaphone_sd/view/screen_widgets/screen_lists.dart';
 import 'package:sudaphone_sd/view_model/screen_view_model.dart';
 
 class BuildIndicatorCarousel extends GetWidget<ScreenViewModel> {
@@ -44,7 +45,7 @@ class BuildIndicatorCarousel extends GetWidget<ScreenViewModel> {
           ),
           spacing: 6.0,
           // activeColorOverride: (i) => colors[i],
-          inActiveColorOverride: (i) => controller.colors[i],
+          inActiveColorOverride: (i) => ScreenLists.colors[i],
         ),
       );
   }

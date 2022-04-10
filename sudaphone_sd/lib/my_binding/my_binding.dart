@@ -10,11 +10,11 @@ import 'package:sudaphone_sd/view_model/settings_view_model.dart';
 class MyBinding implements Bindings {
   @override
   void dependencies() {
-    Get.put(ScreenViewModel());
-    Get.put(MyDrawerViewModel());
+    Get.lazyPut( () => ScreenViewModel() , fenix: true);
+    Get.lazyPut( () => MyDrawerViewModel() , fenix: true);
     Get.put(LoginViewModel());
     Get.lazyPut(() => PostsViewModel(), fenix: true);
-    Get.put<MainViewModel>(MainViewModel());
+    Get.put(MainViewModel());
     Get.lazyPut(() => DownloadImagesViewModel(), fenix: true);
     Get.lazyPut(() => SettingsViewModel(),fenix: true);
   }

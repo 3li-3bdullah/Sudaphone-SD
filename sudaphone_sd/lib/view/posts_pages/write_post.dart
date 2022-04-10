@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text.dart';
 import 'package:get/get.dart';
@@ -31,14 +32,17 @@ class WritePost extends GetWidget<PostsViewModel> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Row(
+              FutureBuilder<DocumentSnapshot<Map<String,dynamic>>>(
+                future: controller.writePostsData.doc(controller.uid.toString()).get(),
+                builder: (context,snapshot){
+                  return Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Container(
                     margin: const EdgeInsets.only(left: 8, top: 20),
-                    child: const CircleAvatar(
+                    child:  CircleAvatar(
                       backgroundImage:
-                          AssetImage("assets/images/slider/ali1.jpg"),
+                          NetworkImage("${snapshot.data!.data()?['profileUrl']}"),
                     ),
                   ),
                   const SizedBox(
@@ -46,16 +50,18 @@ class WritePost extends GetWidget<PostsViewModel> {
                   ),
                   Container(
                     margin: const EdgeInsets.only(top: 15),
-                    child: const Text(
-                      "Ali Abdullah",
-                      style: TextStyle(
+                    child:  Text(
+                      "${snapshot.data!.data()?['userName']}",
+                      style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: Colors.black),
                     ),
                   ),
                 ],
-              ),
+              );
+                }
+                ),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                 child: Form(
@@ -91,6 +97,7 @@ class WritePost extends GetWidget<PostsViewModel> {
                           children: const [
                             Icon(Icons.camera_alt_outlined,
                                 color: Colors.pink, size: 25),
+                                SizedBox(width: 10,),
                             Text(
                               "From Camera",
                               style: TextStyle(fontSize: 15, color: Colors.grey),
@@ -107,6 +114,7 @@ class WritePost extends GetWidget<PostsViewModel> {
                           children: const [
                             Icon(Icons.photo_outlined,
                                 color: Colors.green, size: 25),
+                                SizedBox(width: 10,),
                             Text(
                               "From Gallery",
                               style: TextStyle(fontSize: 15, color: Colors.grey),
@@ -122,7 +130,7 @@ class WritePost extends GetWidget<PostsViewModel> {
                         borderRadius: BorderRadius.circular(20),
                         child: ElevatedButton(
                           onPressed: () {
-                            controller.addPost(controller.textController!.text , controller.postKey);
+                            controller.addPost(controller.textController!.text , controller.postKey,);
                           },
                           child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 8),
