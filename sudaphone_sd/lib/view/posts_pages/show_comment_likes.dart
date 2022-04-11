@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,26 +6,28 @@ import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 
 // ignore: must_be_immutable
 class ShowCommentLikes extends GetWidget<PostsViewModel> {
-  ShowCommentLikes({required this.peopleWhoLiked, Key? key}) : super(key: key);
+  ShowCommentLikes({required this.peopleWhoLiked,required this.currentDoc , Key? key}) : super(key: key);
   var peopleWhoLiked;
+  var currentDoc;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const CustomText(
           text: "People who liked",
-          fontSize: 25,
+          fontSize: 20,
           fontWeight: FontWeight.bold,
           color: Colors.black,
           textAlign: TextAlign.center,
         ),
         centerTitle: true,
+        elevation: 0,
         backgroundColor: Colors.white,
         leading: IconButton(
           onPressed: () {
             Get.back();
           },
-          icon: const Icon(Icons.arrow_back_ios),
+          icon: const Icon(Icons.arrow_back_ios , color: Colors.black,),
         ),
       ),
       body: ListView.builder(
@@ -38,22 +38,29 @@ class ShowCommentLikes extends GetWidget<PostsViewModel> {
                 .doc(peopleWhoLiked[index])
                 .get(),
             builder: ((context, snapshot) {
-              return Padding(
+              if(currentDoc['${peopleWhoLiked[index]}']){
+                return Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: ListTile(
-                  title: CustomText(
-                      text: "${snapshot.data?.data()!['userName']}",
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                      textAlign: TextAlign.right),
-                  trailing: CircleAvatar(
-                    radius: 30,
-                    backgroundImage:
-                        NetworkImage(snapshot.data?.data()!['profileUrl']),
+                  title: Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: CustomText(
+                        text: "${snapshot.data?.data()!['userName']}",
+                        fontSize: 17,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black,
+                        textAlign: TextAlign.left),
                   ),
+                  // leading : CircleAvatar(
+                  //   radius: 30,
+                  //   backgroundImage:
+                  //       NetworkImage(snapshot.data?.data()!['profileUrl']),
+                  // ),
                 ),
               );
+              } else {
+                return const SizedBox();
+              }
             }),
           );
         },
