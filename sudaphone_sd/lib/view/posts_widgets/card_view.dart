@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sudaphone_sd/view/posts_pages/comments.dart';
 import 'package:sudaphone_sd/view/download_images.dart';
+import 'package:sudaphone_sd/view/posts_pages/post_people_liked.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 
@@ -115,8 +116,9 @@ class CardView extends GetWidget<PostsViewModel> {
                                   IconButton(
                                     onPressed: () {
                                       controller.handlePostLikes(
-                                          firstDocsSnapshot : data,
-                                          docSnapshot: snapshot.data!.docs[index]);
+                                          firstDocsSnapshot: data,
+                                          docSnapshot:
+                                              snapshot.data!.docs[index]);
                                     }, //'usersLiked.${controller.auth!.currentUser!.uid}'
                                     icon: snapshot.data!.docs[index]
                                                     ['usersLiked'][
@@ -129,18 +131,30 @@ class CardView extends GetWidget<PostsViewModel> {
                                             color: Colors.pink),
                                   ),
                                   const SizedBox(width: 10),
-                                  Text(
-                                    snapshot.data!.docs[index]['likesCount']
-                                        .toString(),
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.normal,
-                                        color: snapshot.data!.docs[index]
-                                                        ['usersLiked'][
-                                                    '${controller.auth!.currentUser!.uid}'] ==
-                                                true
-                                            ? Colors.pink
-                                            : Colors.grey.shade600),
+                                  InkWell(
+                                    child: Text(
+                                      snapshot.data!.docs[index]['likesCount']
+                                          .toString(),
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.normal,
+                                          color: snapshot.data!.docs[index]
+                                                          ['usersLiked'][
+                                                      '${controller.auth!.currentUser!.uid}'] ==
+                                                  true
+                                              ? Colors.pink
+                                              : Colors.grey.shade600),
+                                    ),
+                                    onTap: () {
+                                      Get.to(
+                                          () => PostPeopleLiked(
+                                              peopleWhoLiked: snapshot
+                                                  .data!
+                                                  .docs[index]['usersLiked']
+                                                  .keys
+                                                  .toList()),
+                                          transition: Transition.zoom);
+                                    },
                                   )
                                 ],
                               )

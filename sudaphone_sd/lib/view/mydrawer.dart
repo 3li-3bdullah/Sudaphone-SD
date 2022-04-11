@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 import 'package:sudaphone_sd/view/aboutapp.dart';
 import 'package:sudaphone_sd/view/bottom_navigation.dart';
 import 'package:sudaphone_sd/view/categories.dart';
+import 'package:sudaphone_sd/view/my_drawer_widgets/build_listtile.dart';
 import 'package:sudaphone_sd/view/posts.dart';
-import 'package:sudaphone_sd/view/screen_widgets/build_listtile.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text.dart';
 import 'package:sudaphone_sd/view_model/mydrawer_view_model.dart';
 
