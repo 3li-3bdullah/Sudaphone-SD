@@ -179,6 +179,8 @@ class PostsViewModel extends GetxController {
             'imageUrl': _imageUrl.toString(),
             'dateTime': _formattedDate.toString(),
             'isThereImageUrl': true,
+            "usersLiked": {"${auth!.currentUser!.uid}": false},
+            'likesCount': 0,
           });
           isPickedForComment!.value = false;
         } else {
@@ -187,6 +189,8 @@ class PostsViewModel extends GetxController {
             'imageUrl': "null",
             'dateTime': _formattedDate.toString(),
             'isThereImageUrl': false,
+            "usersLiked": {"${auth!.currentUser!.uid}": false},
+            'likesCount': 0,
           });
         }
       } catch (e) {
