@@ -40,10 +40,10 @@ class WritePost extends GetWidget<PostsViewModel> {
                 children: [
                   Container(
                     margin: const EdgeInsets.only(left: 8, top: 20),
-                    child:  CircleAvatar(
-                      backgroundImage:
-                          NetworkImage("${snapshot.data!.data()?['profileUrl']}"),
-                    ),
+                    // child:  CircleAvatar(
+                    //   backgroundImage:
+                    //       NetworkImage("${snapshot.data!.data()?['profileUrl']}"),
+                    // ),
                   ),
                   const SizedBox(
                     width: 15,
@@ -51,7 +51,7 @@ class WritePost extends GetWidget<PostsViewModel> {
                   Container(
                     margin: const EdgeInsets.only(top: 15),
                     child:  Text(
-                      "${snapshot.data!.data()?['userName']}",
+                      "${snapshot.data?.data()!['userName']}",
                       style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,

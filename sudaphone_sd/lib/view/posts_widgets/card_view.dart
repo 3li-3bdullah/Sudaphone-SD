@@ -10,10 +10,9 @@ import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 
 // ignore: must_be_immutable
 class CardView extends GetWidget<PostsViewModel> {
-  CardView({Key? key, required this.data, required this.index})
+  CardView({Key? key, required this.data})
       : super(key: key);
   var data;
-  int index;
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +45,8 @@ class CardView extends GetWidget<PostsViewModel> {
                               children: [
                                 Container(
                                   margin: const EdgeInsets.only(top: 10),
-                                  child: const CustomText(
-                                    text: "Ali Abdullah",
+                                  child: CustomText(
+                                    text: data.data()['userName'],
                                     color: Colors.black,
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold,
@@ -152,7 +151,11 @@ class CardView extends GetWidget<PostsViewModel> {
                                                   .data!
                                                   .docs[index]['usersLiked']
                                                   .keys
-                                                  .toList()),
+                                                  .toList(),
+                                                  currentDoc: snapshot
+                                                  .data!
+                                                  .docs[index]['usersLiked'],
+                                                  ),
                                           transition: Transition.zoom);
                                     },
                                   )

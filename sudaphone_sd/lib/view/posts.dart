@@ -46,7 +46,7 @@ class Posts extends GetWidget<PostsViewModel> {
               reverse: true,
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) {
-                return CardView(data: snapshot.data!.docs[index], index: index);
+                return CardView(data: snapshot.data!.docs[index]);
               },
             );
           } else if (snapshot.hasError) {

@@ -2,14 +2,20 @@ import 'package:elastic_drawer/elastic_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudaphone_sd/view/categories.dart';
+import 'package:sudaphone_sd/view/categories_pages/huawei.dart';
+import 'package:sudaphone_sd/view/categories_pages/iphone.dart';
+import 'package:sudaphone_sd/view/categories_pages/lenovo.dart';
+import 'package:sudaphone_sd/view/categories_pages/oppo.dart';
+import 'package:sudaphone_sd/view/categories_pages/realme.dart';
+import 'package:sudaphone_sd/view/categories_pages/samsung.dart';
+import 'package:sudaphone_sd/view/categories_pages/tecno.dart';
 import 'package:sudaphone_sd/view/screen_pages/data_search.dart';
 import 'package:sudaphone_sd/view/screen_pages/drawer_child.dart';
 import 'package:sudaphone_sd/view/screen_widgets/build_images_carousel.dart';
 import 'package:sudaphone_sd/view/screen_widgets/build_indicator_carousel.dart';
-import 'package:sudaphone_sd/view/screen_widgets/carousel_most_used.dart';
 import 'package:sudaphone_sd/view/screen_widgets/categories_title.dart';
+import 'package:sudaphone_sd/view/screen_widgets/custom_listtile.dart';
 import 'package:sudaphone_sd/view/screen_widgets/last_product.dart';
-import 'package:sudaphone_sd/view/screen_widgets/screen_lists.dart';
 import 'package:sudaphone_sd/view_model/mydrawer_view_model.dart';
 import 'package:sudaphone_sd/view_model/screen_view_model.dart';
 
@@ -58,7 +64,7 @@ class Screen extends GetWidget<ScreenViewModel> {
                   ),
                 ],
                 leading: GetX<MyDrawerViewModel>(
-                 builder:  (controller) => IconButton(
+                  builder: (controller) => IconButton(
                     onPressed: () {
                       return controller.value.value == 0.0
                           ? controller.valueOne()
@@ -124,58 +130,75 @@ class Screen extends GetWidget<ScreenViewModel> {
                   SizedBox(
                     height: 120,
                     //I've removed Expanded
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: ScreenLists.imagesCateLogo.length,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          height: 90,
-                          width: 70,
-                          margin: const EdgeInsets.all(8),
-                          child: InkWell(
-                            onTap: () {
-                              ScreenLists.ontap[index];
-                            },
-                            child: Column(
-                              children: [
-                                Container(
-                                  height: 70,
-                                  width: 70,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    image: DecorationImage(
-                                        image: AssetImage(
-                                            ScreenLists.imagesCateLogo[index]),
-                                        fit: BoxFit.cover),
-                                  ),
-                                ),
-                                Center(
-                                  child: Text(
-                                    ScreenLists.text[index],
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.grey.shade800),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ), 
+                    child:
+                        ListView(scrollDirection: Axis.horizontal, children: [
+                      CustomListTile(
+                        image: "assets/images/logo/huawei.png",
+                        onTap: () {
+                          Get.to(() => Huawei(), transition: Transition.zoom);
+                        },
+                        text: "Huawei",
+                      ),
+                      CustomListTile(
+                        image: "assets/images/logo/iphone.jpg",
+                        onTap: () {
+                          Get.to(() => Iphone(), transition: Transition.zoom);
+                        },
+                        text: "Iphone",
+                      ),
+                      CustomListTile(
+                        image: "assets/images/logo/lenovo.png",
+                        onTap: () {
+                          Get.to(() => Lenovo(), transition: Transition.zoom);
+                        },
+                        text: "Lenovo",
+                      ),
+                      CustomListTile(
+                          image: "assets/images/logo/samsung.jpg",
+                          onTap: () {
+                            Get.to(() => Samsung(),
+                                transition: Transition.zoom);
+                          },
+                          text: "Samsung"),
+                      CustomListTile(
+                        image: "assets/images/logo/oppo.jpg",
+                        onTap: () {
+                          Get.to(() => Oppo(), transition: Transition.zoom);
+                        },
+                        text: "Oppo",
+                      ),
+                      CustomListTile(
+                        image: "assets/images/logo/realme.png",
+                        onTap: () {
+                          Get.to(() => Realme(), transition: Transition.zoom);
+                        },
+                        text: "Realme",
+                      ),
+                      CustomListTile(
+                        image: "assets/images/logo/tecno.png",
+                        onTap: () {
+                          Get.to(() => Tecno(), transition: Transition.zoom);
+                        },
+                        text: "Tecno",
+                      ),
+                    ]),
+                  ),
                   CategoriesTitle(
                       text: "Most Used", text2: "more", press: () {}),
-                      const SizedBox(height: 10,),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   // SizedBox(
                   //   height: MediaQuery.of(context).size.height / 3,
                   //   width: MediaQuery.of(context).size.height / 3,
                   //   child: const CarouselMostUsed()),
-                 const SizedBox(height: 5,),
+                  const SizedBox(
+                    height: 5,
+                  ),
                   CategoriesTitle(
                     text: "Lastest Phones",
                     text2: "< Pull",
-                     press: () {},
+                    press: () {},
                   ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 2 +

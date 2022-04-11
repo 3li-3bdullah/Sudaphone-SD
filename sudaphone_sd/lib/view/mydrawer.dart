@@ -47,20 +47,6 @@ class MyDrawer extends GetWidget<MyDrawerViewModel> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // DrawerHeader(
-                    //   curve: Curves.linearToEaseOut,
-                    //   child:
-                    //       CircleAvatar(
-                    //         radius: 50,
-                    //         backgroundImage:
-                    //             AssetImage("assets/images/slider/ali1.jpg"),
-                    //       ),
-
-                    // ),
-                    // const SizedBox(
-                    //   height: 10,
-                    // ),
-
                     const SizedBox(height: 10),
                     GetBuilder<MyDrawerViewModel>(
                       builder: ((controller) =>
@@ -70,11 +56,11 @@ class MyDrawer extends GetWidget<MyDrawerViewModel> {
                               return Column(
                                 children: [
                                   const SizedBox(height: 20,),
-                                   CircleAvatar(
-                                     radius: 65,
-                                     backgroundImage: NetworkImage(
-                                          snapshot.data?.data()!['profileUrl']),
-                                   ),
+                                  //  CircleAvatar(
+                                  //    radius: 65,
+                                  //    backgroundImage: NetworkImage(
+                                  //         snapshot.data?.data()!['profileUrl']),
+                                  //  ),
                                    const SizedBox(height: 10,),
                                   CustomText(
                                     text:
@@ -131,7 +117,7 @@ class MyDrawer extends GetWidget<MyDrawerViewModel> {
                     BuildListTile(
                       text: "About",
                       onTap: () {
-                        Get.to(() => AboutApp(),
+                        Get.to(() => const AboutApp(),
                             transition: Transition.upToDown);
                       },
                       icon: "assets/images/icons/info.png",
