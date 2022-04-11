@@ -28,7 +28,6 @@ class PostsViewModel extends GetxController {
   String? _fileNameForComment;
   File? _imageFileForComment;
   String? imageUrl;
-  // RxBool isLiked = false.obs;
   File? _imageFile;
   XFile? pickedImage;
   TextEditingController? textController;
