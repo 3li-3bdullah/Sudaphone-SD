@@ -60,7 +60,7 @@ class Details extends GetWidget<DetailsViewModel> {
                     ),
                     child: IconButton(
                       iconSize: 38,
-                      color: Colors.orange,
+                      color: snapshot.data()['usersLiked']['${controller.uid}'] ? Colors.orange : Colors.white,
                       icon: const Icon(Icons.favorite),
                       onPressed: () {
                         controller.handlePhoneLikes(
@@ -141,7 +141,7 @@ class Details extends GetWidget<DetailsViewModel> {
                           text: "Likes : ${snapshot.data()['likesCount']}",
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Colors.orange,
+                          color: snapshot.data()['usersLiked']['${controller.uid}'] ? Colors.orange : Colors.white,
                           textAlign: TextAlign.left)
                     ],
                   ),
