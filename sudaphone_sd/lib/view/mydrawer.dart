@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 import 'package:sudaphone_sd/view/aboutapp.dart';
 import 'package:sudaphone_sd/view/bottom_navigation.dart';
 import 'package:sudaphone_sd/view/categories.dart';
-import 'package:sudaphone_sd/view/posts.dart';
 import 'package:sudaphone_sd/view/my_drawer_widgets/build_listtile.dart';
+import 'package:sudaphone_sd/view/posts.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text.dart';
 import 'package:sudaphone_sd/view_model/mydrawer_view_model.dart';
 
@@ -47,20 +47,6 @@ class MyDrawer extends GetWidget<MyDrawerViewModel> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // DrawerHeader(
-                    //   curve: Curves.linearToEaseOut,
-                    //   child:
-                    //       CircleAvatar(
-                    //         radius: 50,
-                    //         backgroundImage:
-                    //             AssetImage("assets/images/slider/ali1.jpg"),
-                    //       ),
-
-                    // ),
-                    // const SizedBox(
-                    //   height: 10,
-                    // ),
-
                     const SizedBox(height: 10),
                     GetBuilder<MyDrawerViewModel>(
                       builder: ((controller) =>
@@ -131,7 +117,7 @@ class MyDrawer extends GetWidget<MyDrawerViewModel> {
                     BuildListTile(
                       text: "About",
                       onTap: () {
-                        Get.to(() => AboutApp(),
+                        Get.to(() => const AboutApp(),
                             transition: Transition.upToDown);
                       },
                       icon: "assets/images/icons/info.png",

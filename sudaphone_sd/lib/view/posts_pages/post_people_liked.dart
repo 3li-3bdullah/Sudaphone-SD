@@ -5,8 +5,8 @@ import 'package:sudaphone_sd/view/widgets/custom_text.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 
 // ignore: must_be_immutable
-class ShowCommentLikes extends GetWidget<PostsViewModel> {
-  ShowCommentLikes({required this.peopleWhoLiked,required this.currentDoc , Key? key}) : super(key: key);
+class PostPeopleLiked extends GetWidget<PostsViewModel> {
+  PostPeopleLiked({required this.peopleWhoLiked,required this.currentDoc, Key? key}) : super(key: key);
   var peopleWhoLiked;
   var currentDoc;
   @override
@@ -35,12 +35,12 @@ class ShowCommentLikes extends GetWidget<PostsViewModel> {
         itemBuilder: (context, index) {
           return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
             future: controller.peopleWhoLikedReference
-                .doc(peopleWhoLiked[index])
+                .doc("${peopleWhoLiked[index]}")
                 .get(),
             builder: ((context, snapshot) {
               if(currentDoc['${peopleWhoLiked[index]}']){
                 return Padding(
-                padding: const EdgeInsets.all(5.0),
+                padding: const EdgeInsets.only(left: 2,top: 10),
                 child: ListTile(
                   title: Padding(
                     padding: const EdgeInsets.only(bottom: 10),
@@ -51,7 +51,7 @@ class ShowCommentLikes extends GetWidget<PostsViewModel> {
                         color: Colors.black,
                         textAlign: TextAlign.left),
                   ),
-                  // leading : CircleAvatar(
+                  // leading: CircleAvatar(
                   //   radius: 30,
                   //   backgroundImage:
                   //       NetworkImage(snapshot.data?.data()!['profileUrl']),

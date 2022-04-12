@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elastic_drawer/elastic_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,15 +8,14 @@ import 'package:sudaphone_sd/view/categories_pages/lenovo.dart';
 import 'package:sudaphone_sd/view/categories_pages/oppo.dart';
 import 'package:sudaphone_sd/view/categories_pages/realme.dart';
 import 'package:sudaphone_sd/view/categories_pages/samsung.dart';
+import 'package:sudaphone_sd/view/categories_pages/tecno.dart';
 import 'package:sudaphone_sd/view/screen_pages/data_search.dart';
 import 'package:sudaphone_sd/view/screen_pages/drawer_child.dart';
 import 'package:sudaphone_sd/view/screen_widgets/build_images_carousel.dart';
 import 'package:sudaphone_sd/view/screen_widgets/build_indicator_carousel.dart';
-import 'package:sudaphone_sd/view/screen_widgets/carousel_most_used.dart';
 import 'package:sudaphone_sd/view/screen_widgets/categories_title.dart';
 import 'package:sudaphone_sd/view/screen_widgets/custom_listtile.dart';
 import 'package:sudaphone_sd/view/screen_widgets/last_product.dart';
-import 'package:sudaphone_sd/view/screen_widgets/screen_lists.dart';
 import 'package:sudaphone_sd/view_model/mydrawer_view_model.dart';
 import 'package:sudaphone_sd/view_model/screen_view_model.dart';
 
@@ -93,8 +91,7 @@ class Screen extends GetWidget<ScreenViewModel> {
                     height: MediaQuery.of(context).size.height / 2,
                     width: MediaQuery.of(context).size.width,
                     child: GridTile(
-                      child: GetBuilder<ScreenViewModel>(
-                        builder: ((controller) => PageView.builder(
+                      child: PageView.builder(
                         allowImplicitScrolling: true,
                         controller: controller.controllerCarousel,
                         itemCount: controller.imagesCarousel.length,
@@ -107,7 +104,7 @@ class Screen extends GetWidget<ScreenViewModel> {
                                     controller.imagesCarousel[index]),
                           );
                         },
-                      ))),
+                      ),
                       footer: Container(
                         height: 60,
                         color: Colors.transparent,

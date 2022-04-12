@@ -32,38 +32,36 @@ class WritePost extends GetWidget<PostsViewModel> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                  future: controller.writePostsData
-                      .doc(controller.uid.toString())
-                      .get(),
-                  builder: (context, snapshot) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(left: 8, top: 20),
-                          child:   CircleAvatar(
-                            radius: 30,
-                            backgroundImage: NetworkImage(
-                                        snapshot.data!.data()!['profileUrl']) 
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 15,
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(top: 15),
-                          child: Text(
-                            "${snapshot.data?.data()?['userName']}",
-                            style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black),
-                          ),
-                        ),
-                      ],
-                    );
-                  }),
+              FutureBuilder<DocumentSnapshot<Map<String,dynamic>>>(
+                future: controller.writePostsData.doc(controller.uid.toString()).get(),
+                builder: (context,snapshot){
+                  return Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(left: 8, top: 20),
+                    // child:  CircleAvatar(
+                    //   backgroundImage:
+                    //       NetworkImage("${snapshot.data!.data()?['profileUrl']}"),
+                    // ),
+                  ),
+                  const SizedBox(
+                    width: 15,
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 15),
+                    child:  Text(
+                      "${snapshot.data?.data()!['userName']}",
+                      style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                    ),
+                  ),
+                ],
+              );
+                }
+                ),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                 child: Form(
@@ -99,13 +97,10 @@ class WritePost extends GetWidget<PostsViewModel> {
                           children: const [
                             Icon(Icons.camera_alt_outlined,
                                 color: Colors.pink, size: 25),
-                            SizedBox(
-                              width: 10,
-                            ),
+                                SizedBox(width: 10,),
                             Text(
                               "From Camera",
-                              style:
-                                  TextStyle(fontSize: 15, color: Colors.grey),
+                              style: TextStyle(fontSize: 15, color: Colors.grey),
                             ),
                           ],
                         ),
@@ -119,13 +114,10 @@ class WritePost extends GetWidget<PostsViewModel> {
                           children: const [
                             Icon(Icons.photo_outlined,
                                 color: Colors.green, size: 25),
-                            SizedBox(
-                              width: 10,
-                            ),
+                                SizedBox(width: 10,),
                             Text(
                               "From Gallery",
-                              style:
-                                  TextStyle(fontSize: 15, color: Colors.grey),
+                              style: TextStyle(fontSize: 15, color: Colors.grey),
                             ),
                           ],
                         ),
@@ -138,10 +130,7 @@ class WritePost extends GetWidget<PostsViewModel> {
                         borderRadius: BorderRadius.circular(20),
                         child: ElevatedButton(
                           onPressed: () {
-                            controller.addPost(
-                              controller.textController!.text,
-                              controller.postKey,
-                            );
+                            controller.addPost(controller.textController!.text , controller.postKey,);
                           },
                           child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 8),

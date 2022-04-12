@@ -23,8 +23,6 @@ class ScreenViewModel extends GetxController {
     "assets/images/slider/5.jpg",
     "assets/images/slider/6.jpg",
   ];
-  
-
   final List<String> images = [
     'assets/images/carousel/1.jpg',
     'assets/images/carousel/1.jpg',
@@ -42,7 +40,4 @@ class ScreenViewModel extends GetxController {
     value(0.0);
   }
  
-}
-
-class Tecno {
 }

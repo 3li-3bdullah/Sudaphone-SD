@@ -4,15 +4,15 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sudaphone_sd/view/posts_pages/comments.dart';
 import 'package:sudaphone_sd/view/download_images.dart';
+import 'package:sudaphone_sd/view/posts_pages/post_people_liked.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 
 // ignore: must_be_immutable
 class CardView extends GetWidget<PostsViewModel> {
-  CardView({Key? key, required this.data, required this.index})
+  CardView({Key? key, required this.data})
       : super(key: key);
   var data;
-  int index;
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +36,9 @@ class CardView extends GetWidget<PostsViewModel> {
                       child: Column(
                         children: [
                           ListTile(
-                            leading:  CircleAvatar(
-                              radius: 30,
-                              backgroundImage: NetworkImage(snapshot.data!.docs[index]['profileUrl'])
+                            leading: const CircleAvatar(
+                              backgroundImage:
+                                  AssetImage("assets/images/slider/ali1.jpg"),
                             ),
                             title: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,7 +46,7 @@ class CardView extends GetWidget<PostsViewModel> {
                                 Container(
                                   margin: const EdgeInsets.only(top: 10),
                                   child: CustomText(
-                                    text: "${snapshot.data!.docs[index]['userName']}",
+                                    text: data.data()['userName'],
                                     color: Colors.black,
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold,
@@ -115,8 +115,9 @@ class CardView extends GetWidget<PostsViewModel> {
                                   IconButton(
                                     onPressed: () {
                                       controller.handlePostLikes(
-                                          firstDocsSnapshot : data,
-                                          docSnapshot: snapshot.data!.docs[index]);
+                                          firstDocsSnapshot: data,
+                                          docSnapshot:
+                                              snapshot.data!.docs[index]);
                                     }, //'usersLiked.${controller.auth!.currentUser!.uid}'
                                     icon: snapshot.data!.docs[index]
                                                     ['usersLiked'][
@@ -129,18 +130,34 @@ class CardView extends GetWidget<PostsViewModel> {
                                             color: Colors.pink),
                                   ),
                                   const SizedBox(width: 10),
-                                  Text(
-                                    snapshot.data!.docs[index]['likesCount']
-                                        .toString(),
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.normal,
-                                        color: snapshot.data!.docs[index]
-                                                        ['usersLiked'][
-                                                    '${controller.auth!.currentUser!.uid}'] ==
-                                                true
-                                            ? Colors.pink
-                                            : Colors.grey.shade600),
+                                  InkWell(
+                                    child: Text(
+                                      snapshot.data!.docs[index]['likesCount']
+                                          .toString(),
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.normal,
+                                          color: snapshot.data!.docs[index]
+                                                          ['usersLiked'][
+                                                      '${controller.auth!.currentUser!.uid}'] ==
+                                                  true
+                                              ? Colors.pink
+                                              : Colors.grey.shade600),
+                                    ),
+                                    onTap: () {
+                                      Get.to(
+                                          () => PostPeopleLiked(
+                                              peopleWhoLiked: snapshot
+                                                  .data!
+                                                  .docs[index]['usersLiked']
+                                                  .keys
+                                                  .toList(),
+                                                  currentDoc: snapshot
+                                                  .data!
+                                                  .docs[index]['usersLiked'],
+                                                  ),
+                                          transition: Transition.zoom);
+                                    },
                                   )
                                 ],
                               )

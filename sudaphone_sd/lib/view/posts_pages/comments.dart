@@ -16,6 +16,25 @@ class Comments extends GetWidget<PostsViewModel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: CustomText(
+            text: "${firstCollection.data()['userName']}'s post",
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+            textAlign: TextAlign.center),
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: Colors.white,
+        leading: IconButton(
+            onPressed: () {
+              Get.back();
+            },
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            )),
+      ),
       body: SafeArea(
         child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
           stream: FirebaseFirestore.instance
@@ -34,158 +53,174 @@ class Comments extends GetWidget<PostsViewModel> {
                     shrinkWrap: true,
                     itemCount: snapshot.data?.docs.length,
                     itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.all(10),
-                                width: MediaQuery.of(context).size.width / 2,
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(20),
-                                  ),
-                                  color: Colors.grey.shade200,
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 5),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                CircleAvatar(
+                                  backgroundImage: NetworkImage(
+                                      "${firstCollection.data()['profileUrl']}"),
+                                  radius: 25,
                                 ),
-                                child: ListTile(
-                                  title: Align(
-                                    alignment: Alignment.topRight,
-                                    child: Text(
-                                      "${firstCollection.data()['userName']}",
-                                      style: const TextStyle(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.all(10),
+                                  width: MediaQuery.of(context).size.width / 2,
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(20),
                                     ),
+                                    color: Colors.grey.shade200,
                                   ),
-                                  subtitle: Text(
-                                    "${snapshot.data?.docs[index]['text']}",
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.grey.shade800),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              CircleAvatar(
-                                backgroundImage: NetworkImage(
-                                    "${firstCollection.data()['profileUrl']}"),
-                                radius: 20,
-                              ),
-                            ],
-                          ),
-                          snapshot.data?.docs[index]['isThereImageUrl'] == true
-                              ? InkWell(
-                                  onTap: () {
-                                    Get.to(
-                                        () => DownloadImages(
-                                            image: snapshot.data!.docs[index]
-                                                ['imageUrl']),
-                                        transition: Transition.zoom,
-                                        curve: Curves.easeInExpo);
-                                  },
-                                  child: Container(
-                                    width:
-                                        MediaQuery.of(context).size.width / 3,
-                                    decoration: const BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(30),
+                                  child: ListTile(
+                                    title: CustomText(
+                                      text:
+                                          "${firstCollection.data()['userName']}",
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                      textAlign: TextAlign.left,
+                                    ),
+                                    subtitle: Padding(
+                                      padding: const EdgeInsets.only(top: 5),
+                                      child: Text(
+                                        "${snapshot.data?.docs[index]['text']}",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.grey.shade800),
                                       ),
                                     ),
-                                    child: Image.network(
-                                      snapshot.data!.docs[index]['imageUrl']
-                                          .toString(),
-                                      fit: BoxFit.fill,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            snapshot.data?.docs[index]['isThereImageUrl'] ==
+                                    true
+                                ? InkWell(
+                                    onTap: () {
+                                      Get.to(
+                                          () => DownloadImages(
+                                              image: snapshot.data!.docs[index]
+                                                  ['imageUrl']),
+                                          transition: Transition.zoom,
+                                          curve: Curves.easeInExpo);
+                                    },
+                                    child: Container(
+                                      width:
+                                          MediaQuery.of(context).size.width / 3,
+                                      decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(30),
+                                        ),
+                                      ),
+                                      child: Image.network(
+                                        snapshot.data!.docs[index]['imageUrl']
+                                            .toString(),
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                  )
+                                : const SizedBox(),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      left: MediaQuery.of(context).size.width /
+                                          5),
+                                  child: Text(
+                                    "${snapshot.data?.docs[index]['dateTime'].toString()}",
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal,
                                     ),
                                   ),
-                                )
-                              : const SizedBox(),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              
-                              InkWell(
-                                child: snapshot.data?.docs[index]['usersLiked']
-                                            ['${controller.uid}'] !=
-                                        true
-                                    ? CustomText(
-                                        text:
-                                            "${snapshot.data?.docs[index]['likesCount']}",
-                                        color: Colors.grey,
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold,
-                                        textAlign: TextAlign.center)
-                                    : CustomText(
-                                        text:
-                                            "${snapshot.data?.docs[index]['likesCount']}",
-                                        color: Colors.pink,
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold,
-                                        textAlign: TextAlign.center),
-                                onTap: () {
-                                  Get.to(() => ShowCommentLikes(
-                                      peopleWhoLiked: snapshot
-                                          .data?.docs[index]['usersLiked'].keys
-                                          .toList()));
-                                },
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              InkWell(
-                                child: snapshot.data?.docs[index]['usersLiked']
-                                            ['${controller.uid}'] !=
-                                        true
-                                    ? const CustomText(
-                                        text: "Like",
-                                        color: Colors.grey,
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold,
-                                        textAlign: TextAlign.center)
-                                    : const CustomText(
-                                        text: "Like",
-                                        color: Colors.pink,
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold,
-                                        textAlign: TextAlign.center),
-                                onTap: () {
-                                  controller.handleCommentLikes(
-                                      firstCollectionDocs: firstCollection,
-                                      secondCollectionDocs: secondCollection,
-                                      docSnapshot: snapshot.data?.docs[index]);
-                                },
-                              ),
-                              const SizedBox(width: 10,),
-                              Text(
-                                "${snapshot.data?.docs[index]['dateTime'].toString()}",
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
                                 ),
-                              ),
-                              
-                             
-                            ],
-                          ),
-                          // Padding(
-                          //   padding: const EdgeInsets.only(left: 40),
-                          //   child: Text(
-                          //     "${snapshot.data?.docs[index]['dateTime'].toString()}",
-                          //     style: const TextStyle(
-                          //       color: Colors.black,
-                          //       fontSize: 14,
-                          //       fontWeight: FontWeight.normal,
-                          //     ),
-                          //   ),
-                          // ),
-                        ],
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                InkWell(
+                                  child: snapshot.data?.docs[index]
+                                                  ['usersLiked']
+                                              ['${controller.uid}'] !=
+                                          true
+                                      ? const CustomText(
+                                          text: "Like",
+                                          color: Colors.grey,
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.bold,
+                                          textAlign: TextAlign.center)
+                                      : const CustomText(
+                                          text: "Like",
+                                          color: Colors.pink,
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.bold,
+                                          textAlign: TextAlign.center),
+                                  onTap: () {
+                                    controller.handleCommentLikes(
+                                        firstCollectionDocs: firstCollection,
+                                        secondCollectionDocs: secondCollection,
+                                        docSnapshot:
+                                            snapshot.data?.docs[index]);
+                                  },
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                InkWell(
+                                  child: snapshot.data?.docs[index]
+                                                  ['usersLiked']
+                                              ['${controller.uid}'] !=
+                                          true
+                                      ? CustomText(
+                                          text:
+                                              "${snapshot.data?.docs[index]['likesCount']}",
+                                          color: Colors.grey,
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.bold,
+                                          textAlign: TextAlign.center)
+                                      : CustomText(
+                                          text:
+                                              "${snapshot.data?.docs[index]['likesCount']}",
+                                          color: Colors.pink,
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.bold,
+                                          textAlign: TextAlign.center),
+                                  onTap: () {
+                                    Get.to(() => ShowCommentLikes(
+                                        peopleWhoLiked: snapshot.data
+                                            ?.docs[index]['usersLiked'].keys
+                                            .toList(),
+                                            currentDoc: snapshot.data
+                                            ?.docs[index]['usersLiked'],
+                                            ), 
+                                            transition: Transition.zoom
+                                            );
+                                  },
+                                )
+                              ],
+                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.only(left: 40),
+                            //   child: Text(
+                            //     "${snapshot.data?.docs[index]['dateTime'].toString()}",
+                            //     style: const TextStyle(
+                            //       color: Colors.black,
+                            //       fontSize: 14,
+                            //       fontWeight: FontWeight.normal,
+                            //     ),
+                            //   ),
+                            // ),
+                          ],
+                        ),
                       );
                     },
                   ),
