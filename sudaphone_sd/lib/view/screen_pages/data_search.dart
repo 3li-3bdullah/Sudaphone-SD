@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:sudaphone_sd/view/widgets/custom_text.dart';
+import 'package:sudaphone_sd/view/widgets/phone_list.dart';
 
 class DataSearch extends SearchDelegate<String> {
   @override
@@ -29,7 +32,54 @@ class DataSearch extends SearchDelegate<String> {
   @override
   Widget buildResults(BuildContext context) {
     // Result Search
-    return Text(query);
+    if (query.toLowerCase().contains("huawei")) {
+      return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
+          future: FirebaseFirestore.instance
+              .collection("phonesCategory")
+              .doc("allHuawei")
+              .collection("huawei")
+              .where("name", isGreaterThanOrEqualTo: query)
+              .get(),
+          builder: (context, snapshot) {
+            return ListView.builder(
+                itemCount: snapshot.data!.docs.length,
+                itemBuilder: (context, index) {
+                  return PhoneList(
+                      collction: "huawei",
+                      snapshot: snapshot.data!.docs[index],
+                      docOne: "allHuawei",
+                      docTwo: snapshot.data!.docs[index].id);
+                });
+          });
+    } else if (query.toLowerCase().contains("samsung")) {
+      return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
+          future: FirebaseFirestore.instance
+              .collection("phonesCategory")
+              .doc("allSamsung")
+              .collection("samsung")
+              .where("name", isGreaterThanOrEqualTo: query)
+              .get(),
+          builder: (context, snapshot) {
+            return ListView.builder(
+                itemCount: snapshot.data!.docs.length,
+                itemBuilder: (context, index) {
+                  return PhoneList(
+                      collction: "samsung",
+                      snapshot: snapshot.data!.docs[index],
+                      docOne: "allSamsung",
+                      docTwo: snapshot.data!.docs[index].id);
+                });
+          });
+    } else {
+      return const CustomText(
+        text: "Please write the phone's brand first",
+        color: Colors.pink,
+        fontSize: 20,
+        fontWeight: FontWeight.normal,
+        textAlign: TextAlign.center,
+      );
+    }
+    // Text(query);
   }
 
   @override
@@ -54,7 +104,7 @@ class DataSearch extends SearchDelegate<String> {
               ],
             ),
             Lottie.asset("assets/images/bf_search.json"),
-            const SizedBox(height:40),
+            const SizedBox(height: 40),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: const [
