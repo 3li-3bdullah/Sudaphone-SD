@@ -58,6 +58,7 @@ dependencies:
   # Dart Path
   path: ^1.8.0
   intl: ^0.17.0
+  sliding_up_panel: ^2.0.0+1
 
 dev_dependencies:
   flutter_test:
