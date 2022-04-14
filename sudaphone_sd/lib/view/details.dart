@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:sudaphone_sd/view/download_images.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text.dart';
 import 'package:sudaphone_sd/view_model/details_view_model.dart';
 
@@ -28,7 +29,7 @@ class Details extends GetWidget<DetailsViewModel> {
           // boxShadow: const [BoxShadow(
           //   offset: Offset.zero
           // )],
-          minHeight: controller.size.height / 2.1,
+          minHeight: controller.size.height / 2.2,
           controller: controller.panelController.value,
           borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
           body: SingleChildScrollView(
@@ -40,11 +41,13 @@ class Details extends GetWidget<DetailsViewModel> {
                     InkWell(
                       child: Image(
                         width: double.infinity,
-                        height: controller.size.height / 2 + 50,
-                        fit: BoxFit.cover,
+                        height: controller.size.height / 2 + 80,
+                        fit: BoxFit.contain,
                         image: NetworkImage(snapshot.data()['imageUrl']),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        Get.to(() => DownloadImages(image: snapshot.data()['imageUrl'].toString()));
+                      },
                     ),
                   ],
                 ),
@@ -60,15 +63,16 @@ class Details extends GetWidget<DetailsViewModel> {
                     ),
                     child: IconButton(
                       iconSize: 38,
-                      color: snapshot.data()['usersLiked']['${controller.uid}'] ? Colors.orange : Colors.white,
+                      color: snapshot.data()['usersLiked']['${controller.uid}']
+                          ? Colors.orange
+                          : Colors.white,
                       icon: const Icon(Icons.favorite),
                       onPressed: () {
                         controller.handlePhoneLikes(
-                          collection: collction,
-                          docOne: docOne,
-                          docTwo: docTwo,
-                          snapshot: snapshot
-                        );
+                            collection: collction,
+                            docOne: docOne,
+                            docTwo: docTwo,
+                            snapshot: snapshot);
                       },
                     ),
                   ),
@@ -122,26 +126,32 @@ class Details extends GetWidget<DetailsViewModel> {
                   const SizedBox(
                     height: 20,
                   ),
+                  CustomText(
+                      text: "${snapshot.data()['name']}",
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      textAlign: TextAlign.start),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       CustomText(
-                          text: "${snapshot.data()['name']}",
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                          textAlign: TextAlign.left),
-                      CustomText(
                           text: "Price : \$ ${snapshot.data()['price']}",
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Colors.green,
+                          color: Colors.orange,
                           textAlign: TextAlign.left),
                       CustomText(
                           text: "Likes : ${snapshot.data()['likesCount']}",
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: snapshot.data()['usersLiked']['${controller.uid}'] ? Colors.orange : Colors.white,
+                          color: snapshot.data()['usersLiked']
+                                  ['${controller.uid}']
+                              ? Colors.orange
+                              : Colors.green,
                           textAlign: TextAlign.left)
                     ],
                   ),
@@ -314,8 +324,8 @@ class Details extends GetWidget<DetailsViewModel> {
                           ],
                         ),
                       ),
-                      const CustomText(
-                        text: "frontCamera",
+                       CustomText(
+                        text: "${snapshot.data()['frontCamera']}",
                         color: Colors.black,
                         fontSize: 14,
                         fontWeight: FontWeight.normal,
