@@ -45,10 +45,10 @@ class DataSearch extends SearchDelegate<String> {
                 itemCount: snapshot.data?.docs.length,
                 itemBuilder: (context, index) {
                   return PhoneList(
+                    isHasData: snapshot,
                       collction: "huawei",
                       snapshot: snapshot.data?.docs[index],
-                      docOne: "allHuawei",
-                      docTwo: snapshot.data?.docs[index].id);
+                      docOne: "allHuawei",);
                 });
           });
     } else if (query.toLowerCase().contains("samsung")) {
@@ -64,10 +64,10 @@ class DataSearch extends SearchDelegate<String> {
                 itemCount: snapshot.data?.docs.length,
                 itemBuilder: (context, index) {
                   return PhoneList(
+                    isHasData: snapshot,
                       collction: "samsung",
                       snapshot: snapshot.data?.docs[index],
-                      docOne: "allSamsung",
-                      docTwo: snapshot.data?.docs[index].id);
+                      docOne: "allSamsung");
                 });
           });
     } else {
