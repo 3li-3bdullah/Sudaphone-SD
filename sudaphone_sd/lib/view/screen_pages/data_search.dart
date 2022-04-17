@@ -42,13 +42,13 @@ class DataSearch extends SearchDelegate<String> {
               .get(),
           builder: (context, snapshot) {
             return ListView.builder(
-                itemCount: snapshot.data!.docs.length,
+                itemCount: snapshot.data?.docs.length,
                 itemBuilder: (context, index) {
                   return PhoneList(
                       collction: "huawei",
-                      snapshot: snapshot.data!.docs[index],
+                      snapshot: snapshot.data?.docs[index],
                       docOne: "allHuawei",
-                      docTwo: snapshot.data!.docs[index].id);
+                      docTwo: snapshot.data?.docs[index].id);
                 });
           });
     } else if (query.toLowerCase().contains("samsung")) {
@@ -61,13 +61,13 @@ class DataSearch extends SearchDelegate<String> {
               .get(),
           builder: (context, snapshot) {
             return ListView.builder(
-                itemCount: snapshot.data!.docs.length,
+                itemCount: snapshot.data?.docs.length,
                 itemBuilder: (context, index) {
                   return PhoneList(
                       collction: "samsung",
-                      snapshot: snapshot.data!.docs[index],
+                      snapshot: snapshot.data?.docs[index],
                       docOne: "allSamsung",
-                      docTwo: snapshot.data!.docs[index].id);
+                      docTwo: snapshot.data?.docs[index].id);
                 });
           });
     } else {
