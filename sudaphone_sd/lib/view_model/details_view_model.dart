@@ -30,13 +30,13 @@ class DetailsViewModel extends GetxController {
      * or not, and even if the user delete the app and reinstall again , so
      * he'll see he has liked before or not.
      */
-  handlePhoneLikes({String? docOne, String? docTwo, String? collection, snapshot}) async {
+  handlePhoneLikes({String? docOne, String? collection, snapshot}) async {
     DocumentReference<Map<String, dynamic>> _likeData = FirebaseFirestore
         .instance
         .collection("phonesCategory")
         .doc(docOne)
         .collection(collection!)
-        .doc(docTwo);
+        .doc(snapshot.id);
 
     bool _isHasLiked = await _likeData
         .get()
