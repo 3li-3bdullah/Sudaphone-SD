@@ -151,7 +151,7 @@ class Details extends GetWidget<DetailsViewModel> {
                           color: snapshot.data()['usersLiked']
                                   ['${controller.uid}']
                               ? Colors.orange
-                              : Colors.green,
+                              : Colors.grey,
                           textAlign: TextAlign.left)
                     ],
                   ),
@@ -245,7 +245,7 @@ class Details extends GetWidget<DetailsViewModel> {
                             ),
                             SizedBox(width: 5),
                             CustomText(
-                              text: "Performance :",
+                              text: "CPU :",
                               color: Colors.black,
                               fontSize: 14,
                               fontWeight: FontWeight.normal,
@@ -255,7 +255,7 @@ class Details extends GetWidget<DetailsViewModel> {
                         ),
                       ),
                       CustomText(
-                        text: "${snapshot.data()['performance']}",
+                        text: "${snapshot.data()['cpu']}",
                         color: Colors.black,
                         fontSize: 14,
                         fontWeight: FontWeight.normal,
