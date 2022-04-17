@@ -10,13 +10,11 @@ class Details extends GetWidget<DetailsViewModel> {
   Details(
       {required this.snapshot,
       required this.docOne,
-      required this.docTwo,
       required this.collction,
       Key? key})
       : super(key: key);
   var snapshot;
   var docOne;
-  var docTwo;
   var collction;
 
   @override
@@ -71,7 +69,6 @@ class Details extends GetWidget<DetailsViewModel> {
                         controller.handlePhoneLikes(
                             collection: collction,
                             docOne: docOne,
-                            docTwo: docTwo,
                             snapshot: snapshot);
                       },
                     ),
