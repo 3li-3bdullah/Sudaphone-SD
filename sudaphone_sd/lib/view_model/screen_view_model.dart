@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -5,6 +6,7 @@ class ScreenViewModel extends GetxController {
   //Declare Variables
   RxInt? activeIndex = 0.obs;
   RxDouble value = 0.0.obs;
+  CollectionReference<Map<String, dynamic>> carouselFire = FirebaseFirestore.instance.collection("carousel");
   PageController controllerCarousel =
       PageController(viewportFraction: 0.8, keepPage: true);
   final List<MaterialColor> colors = const [
@@ -14,6 +16,8 @@ class ScreenViewModel extends GetxController {
     Colors.pink,
     Colors.blue,
     Colors.amber,
+    Colors.purple,
+    Colors.brown,
   ];
   final List<String> imagesCarousel = [
     "assets/images/slider/1.png",

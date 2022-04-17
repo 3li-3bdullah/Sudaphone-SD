@@ -1,6 +1,7 @@
 import 'package:elastic_drawer/elastic_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sudaphone_sd/view/categories.dart';
 import 'package:sudaphone_sd/view/categories_pages/huawei.dart';
 import 'package:sudaphone_sd/view/categories_pages/iphone.dart';
@@ -16,6 +17,7 @@ import 'package:sudaphone_sd/view/screen_widgets/build_indicator_carousel.dart';
 import 'package:sudaphone_sd/view/screen_widgets/categories_title.dart';
 import 'package:sudaphone_sd/view/screen_widgets/custom_listtile.dart';
 import 'package:sudaphone_sd/view/screen_widgets/last_product.dart';
+import 'package:sudaphone_sd/view/widgets/custom_text.dart';
 import 'package:sudaphone_sd/view_model/mydrawer_view_model.dart';
 import 'package:sudaphone_sd/view_model/screen_view_model.dart';
 
@@ -91,20 +93,41 @@ class Screen extends GetWidget<ScreenViewModel> {
                     height: MediaQuery.of(context).size.height / 2,
                     width: MediaQuery.of(context).size.width,
                     child: GridTile(
-                      child: PageView.builder(
-                        allowImplicitScrolling: true,
-                        controller: controller.controllerCarousel,
-                        itemCount: controller.imagesCarousel.length,
-                        itemBuilder: (context, index) {
-                          return SizedBox(
-                            height: halfheight,
-                            width: size.width,
-                            child: BuildImagesCarousel(
-                                imagesCarousel:
-                                    controller.imagesCarousel[index]),
-                          );
-                        },
-                      ),
+                      child: FutureBuilder(
+                          future: controller.carouselFire.get(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return PageView.builder(
+                                allowImplicitScrolling: true,
+                                controller: controller.controllerCarousel,
+                                itemCount: controller.imagesCarousel.length,
+                                itemBuilder: (context, index) {
+                                  return SizedBox(
+                                    height: halfheight,
+                                    width: size.width,
+                                    child: BuildImagesCarousel(
+                                        imagesCarousel:
+                                            controller.imagesCarousel[index]),
+                                  );
+                                },
+                              );
+                            } else if (!snapshot.hasData) {
+                              return const Center(
+                                child: CustomText(
+                                  text: "No data found!",
+                                  color: Colors.red,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.normal,
+                                  textAlign: TextAlign.center,
+                                ),
+                              );
+                            } else {
+                              return Center(
+                                child: Lottie.asset(
+                                    "assets/lottie/please_wait.json"),
+                              );
+                            }
+                          }),
                       footer: Container(
                         height: 60,
                         color: Colors.transparent,
@@ -135,49 +158,55 @@ class Screen extends GetWidget<ScreenViewModel> {
                       CustomListTile(
                         image: "assets/images/logo/huawei.png",
                         onTap: () {
-                          Get.to(() => Huawei(), transition: Transition.zoom);
+                          Get.to(() => const Huawei(),
+                              transition: Transition.zoom);
                         },
                         text: "Huawei",
                       ),
                       CustomListTile(
                         image: "assets/images/logo/iphone.jpg",
                         onTap: () {
-                          Get.to(() => Iphone(), transition: Transition.zoom);
+                          Get.to(() => const Iphone(),
+                              transition: Transition.zoom);
                         },
                         text: "Iphone",
                       ),
                       CustomListTile(
                         image: "assets/images/logo/lenovo.png",
                         onTap: () {
-                          Get.to(() => Lenovo(), transition: Transition.zoom);
+                          Get.to(() => const Lenovo(),
+                              transition: Transition.zoom);
                         },
                         text: "Lenovo",
                       ),
                       CustomListTile(
                           image: "assets/images/logo/samsung.jpg",
                           onTap: () {
-                            Get.to(() => Samsung(),
+                            Get.to(() => const Samsung(),
                                 transition: Transition.zoom);
                           },
                           text: "Samsung"),
                       CustomListTile(
                         image: "assets/images/logo/oppo.jpg",
                         onTap: () {
-                          Get.to(() => Oppo(), transition: Transition.zoom);
+                          Get.to(() => const Oppo(),
+                              transition: Transition.zoom);
                         },
                         text: "Oppo",
                       ),
                       CustomListTile(
                         image: "assets/images/logo/realme.png",
                         onTap: () {
-                          Get.to(() => Realme(), transition: Transition.zoom);
+                          Get.to(() => const Realme(),
+                              transition: Transition.zoom);
                         },
                         text: "Realme",
                       ),
                       CustomListTile(
                         image: "assets/images/logo/tecno.png",
                         onTap: () {
-                          Get.to(() => Tecno(), transition: Transition.zoom);
+                          Get.to(() => const Tecno(),
+                              transition: Transition.zoom);
                         },
                         text: "Tecno",
                       ),
