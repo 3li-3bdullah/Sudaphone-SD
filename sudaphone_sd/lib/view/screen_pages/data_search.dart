@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:sudaphone_sd/view/screen_widgets/search_futurebuilder.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text.dart';
 import 'package:sudaphone_sd/view/widgets/phone_list.dart';
 
@@ -32,53 +33,7 @@ class DataSearch extends SearchDelegate<String> {
   @override
   Widget buildResults(BuildContext context) {
     // Result Search
-    if (query.toLowerCase().contains("huawei")) {
-      return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-          future: FirebaseFirestore.instance
-              .collection("phonesCategory")
-              .doc("allHuawei")
-              .collection("huawei")
-              .where("name", isGreaterThanOrEqualTo: query)
-              .get(),
-          builder: (context, snapshot) {
-            return ListView.builder(
-                itemCount: snapshot.data?.docs.length,
-                itemBuilder: (context, index) {
-                  return PhoneList(
-                    isHasData: snapshot,
-                      collction: "huawei",
-                      snapshot: snapshot.data?.docs[index],
-                      docOne: "allHuawei",);
-                });
-          });
-    } else if (query.toLowerCase().contains("samsung")) {
-      return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-          future: FirebaseFirestore.instance
-              .collection("phonesCategory")
-              .doc("allSamsung")
-              .collection("samsung")
-              .where("name", isGreaterThanOrEqualTo: query)
-              .get(),
-          builder: (context, snapshot) {
-            return ListView.builder(
-                itemCount: snapshot.data?.docs.length,
-                itemBuilder: (context, index) {
-                  return PhoneList(
-                    isHasData: snapshot,
-                      collction: "samsung",
-                      snapshot: snapshot.data?.docs[index],
-                      docOne: "allSamsung");
-                });
-          });
-    } else {
-      return const CustomText(
-        text: "Please write the phone's brand first",
-        color: Colors.pink,
-        fontSize: 20,
-        fontWeight: FontWeight.normal,
-        textAlign: TextAlign.center,
-      );
-    }
+    return SearchFutureBuilder(query: query);
     // Text(query);
   }
 
