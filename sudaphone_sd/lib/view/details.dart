@@ -61,7 +61,7 @@ class Details extends GetWidget<DetailsViewModel> {
                     ),
                     child: IconButton(
                       iconSize: 38,
-                      color: snapshot.data()['usersLiked']['${controller.uid}']
+                      color: snapshot.data()?['usersLiked']['${controller.uid}'] != null || false
                           ? Colors.orange
                           : Colors.white,
                       icon: const Icon(Icons.favorite),
@@ -146,7 +146,7 @@ class Details extends GetWidget<DetailsViewModel> {
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: snapshot.data()['usersLiked']
-                                  ['${controller.uid}']
+                                  ['${controller.uid}'] != null || false
                               ? Colors.orange
                               : Colors.grey,
                           textAlign: TextAlign.left)
