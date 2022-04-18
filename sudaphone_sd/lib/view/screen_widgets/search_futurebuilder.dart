@@ -14,7 +14,7 @@ class SearchFutureBuilder extends StatelessWidget {
     /* 
     * Huawei Methods
     */
-    if (query.toLowerCase().contains("huawei")) {
+    if (query.toLowerCase().contains("huawei") || query.contains("Huawei")) {
       return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
           future: FirebaseFirestore.instance
               .collection("phonesCategory")
@@ -63,7 +63,7 @@ class SearchFutureBuilder extends StatelessWidget {
     /* 
     * Samsung Methods
     */
-    else if (query.toLowerCase().contains("samsung")) {
+    else if (query.toLowerCase().contains("samsung") || query.contains("Samsung")) {
       return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
           future: FirebaseFirestore.instance
               .collection("phonesCategory")
@@ -99,7 +99,7 @@ class SearchFutureBuilder extends StatelessWidget {
     /* 
     * Iphone Methods
     */
-    else if (query.toLowerCase().contains("iphone")) {
+    else if (query.toLowerCase().contains("iphone") || query.contains("Iphone")) {
       return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
           future: FirebaseFirestore.instance
               .collection("phonesCategory")
@@ -135,7 +135,7 @@ class SearchFutureBuilder extends StatelessWidget {
     /* 
     * Vivo Methods
     */
-    else if (query.toLowerCase().contains("vivo")) {
+    else if (query.toLowerCase().contains("vivo") || query.contains("vivo")) {
       return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
           future: FirebaseFirestore.instance
               .collection("phonesCategory")
@@ -171,7 +171,7 @@ class SearchFutureBuilder extends StatelessWidget {
     /* 
     * Realme Methods
     */
-    else if (query.toLowerCase().contains("realme")) {
+    else if (query.toLowerCase().contains("realme") || query.contains("Realme")) {
       return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
           future: FirebaseFirestore.instance
               .collection("phonesCategory")
@@ -208,7 +208,7 @@ class SearchFutureBuilder extends StatelessWidget {
     * Xiaomi Methods
     */
     else if (query.toLowerCase().contains("xiaomi") ||
-        query.toLowerCase().contains("poco")) {
+        query.toLowerCase().contains("poco") || query.contains("Xiaomi")) {
       return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
           future: FirebaseFirestore.instance
               .collection("phonesCategory")
@@ -244,7 +244,7 @@ class SearchFutureBuilder extends StatelessWidget {
     /* 
     * Lenovo Methods
     */
-    else if (query.toLowerCase().contains("lenovo")) {
+    else if (query.toLowerCase().contains("lenovo") || query.contains("Lenovo")) {
       return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
           future: FirebaseFirestore.instance
               .collection("phonesCategory")
@@ -280,7 +280,7 @@ class SearchFutureBuilder extends StatelessWidget {
     /* 
     * Tecno Methods
     */
-    else if (query.toLowerCase().contains("tecno")) {
+    else if (query.toLowerCase().contains("tecno") || query.contains("Tecno")) {
       return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
           future: FirebaseFirestore.instance
               .collection("phonesCategory")
@@ -316,7 +316,7 @@ class SearchFutureBuilder extends StatelessWidget {
     /* 
     * Nokia Methods
     */
-    else if (query.toLowerCase().contains("nokia")) {
+    else if (query.toLowerCase().contains("nokia") || query.contains("nokia")) {
       return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
           future: FirebaseFirestore.instance
               .collection("phonesCategory")
@@ -352,7 +352,7 @@ class SearchFutureBuilder extends StatelessWidget {
     /* 
     * Oppo Methods
     */
-    else if (query.toLowerCase().contains("oppo")) {
+    else if (query.toLowerCase().contains("oppo") || query.contains("Oppo")) {
       return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
           future: FirebaseFirestore.instance
               .collection("phonesCategory")
