@@ -1,10 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sudaphone_sd/view/screen_widgets/search_futurebuilder.dart';
-import 'package:sudaphone_sd/view/widgets/custom_text.dart';
-import 'package:sudaphone_sd/view/widgets/phone_list.dart';
 
 class DataSearch extends SearchDelegate<String> {
   @override
