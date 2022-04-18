@@ -1,15 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:sudaphone_sd/view/details.dart';
+
 import '../widgets/custom_text.dart';
 
 class LastProduct extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
   const LastProduct({
     required this.imageProduct,
     required this.text,
-    required this.onTap,
+    required this.price,
+    required this.docOne,
+     required this.collection,
+     required this.snapshot,
+     
   });
   final String imageProduct;
   final String text;
-  final Function onTap;
+  final String price;
+  final String docOne;
+  final String collection;
+  final dynamic snapshot;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -29,7 +39,7 @@ class LastProduct extends StatelessWidget {
                 ),
                 )),
         onTap: () {
-          onTap();
+          Details(snapshot: snapshot, docOne: docOne, collction: collection);
         },
       ),
     );
