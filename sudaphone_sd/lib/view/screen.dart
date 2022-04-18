@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elastic_drawer/elastic_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,8 +13,10 @@ import 'package:sudaphone_sd/view/categories_pages/samsung.dart';
 import 'package:sudaphone_sd/view/categories_pages/tecno.dart';
 import 'package:sudaphone_sd/view/screen_pages/data_search.dart';
 import 'package:sudaphone_sd/view/screen_pages/drawer_child.dart';
+import 'package:sudaphone_sd/view/screen_widgets/all_products.dart';
 import 'package:sudaphone_sd/view/screen_widgets/build_images_carousel.dart';
 import 'package:sudaphone_sd/view/screen_widgets/build_indicator_carousel.dart';
+import 'package:sudaphone_sd/view/screen_widgets/carousel_most_used.dart';
 import 'package:sudaphone_sd/view/screen_widgets/categories_title.dart';
 import 'package:sudaphone_sd/view/screen_widgets/custom_listtile.dart';
 import 'package:sudaphone_sd/view/screen_widgets/last_product.dart';
@@ -92,53 +95,66 @@ class Screen extends GetWidget<ScreenViewModel> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 2,
                     width: MediaQuery.of(context).size.width,
-                    child: GridTile(
-                      child: FutureBuilder(
-                          future: controller.carouselFire.get(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return PageView.builder(
+                    child: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                        future: controller.carouselFire
+                            .doc("carouselSlider")
+                            .collection("carousel")
+                            .get(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return GridTile(
+                              child: PageView.builder(
+                                scrollDirection: Axis.horizontal,
                                 allowImplicitScrolling: true,
                                 controller: controller.controllerCarousel,
-                                itemCount: controller.imagesCarousel.length,
+                                itemCount: snapshot.data!.docs.length,
                                 itemBuilder: (context, index) {
                                   return SizedBox(
                                     height: halfheight,
                                     width: size.width,
                                     child: BuildImagesCarousel(
-                                        imagesCarousel:
-                                            controller.imagesCarousel[index]),
+                                        imagesCarousel: snapshot
+                                            .data!.docs[index]
+                                            .data()['imageUrl']),
                                   );
                                 },
-                              );
-                            } else if (!snapshot.hasData) {
-                              return const Center(
-                                child: CustomText(
-                                  text: "No data found!",
-                                  color: Colors.red,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.normal,
-                                  textAlign: TextAlign.center,
+                              ),
+                              footer: Container(
+                                height: 60,
+                                color: Colors.transparent,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    BuildIndicatorCarousel(
+                                      imageLength: snapshot.data!.docs.length,
+                                    ),
+                                  ],
                                 ),
-                              );
-                            } else {
-                              return Center(
-                                child: Lottie.asset(
-                                    "assets/lottie/please_wait.json"),
-                              );
-                            }
-                          }),
-                      footer: Container(
-                        height: 60,
-                        color: Colors.transparent,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            BuildIndicatorCarousel(),
-                          ],
-                        ),
-                      ),
-                    ),
+                              ),
+                            );
+                          } else if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(
+                              child: Lottie.asset(
+                                  "assets/lottie/please_wait.json"),
+                            );
+                          } else if (!snapshot.hasData) {
+                            return const Center(
+                              child: CustomText(
+                                text: "No data found!",
+                                color: Colors.red,
+                                fontSize: 20,
+                                fontWeight: FontWeight.normal,
+                                textAlign: TextAlign.center,
+                              ),
+                            );
+                          } else {
+                            return Center(
+                              child: Lottie.asset(
+                                  "assets/lottie/please_wait.json"),
+                            );
+                          }
+                        }),
                   ),
                   const SizedBox(height: 10),
                   CategoriesTitle(
@@ -220,15 +236,51 @@ class Screen extends GetWidget<ScreenViewModel> {
                   // SizedBox(
                   //   height: MediaQuery.of(context).size.height / 3,
                   //   width: MediaQuery.of(context).size.height / 3,
-                  //   child: const CarouselMostUsed()),
+                  //   child:  FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                  //     future: FirebaseFirestore.instance.collection("carousel").doc("popular").collection("carousel").get(),
+                  //     builder: (context,snapshot){
+                  //       return ListView.builder(
+                  //         itemCount: snapshot.data?.docs.length,
+                  //         itemBuilder: (context,index){
+                  //           return CarouselMostUsed(data: snapshot.data?.docs[index]);
+                  //         },
+                  //       );
+                  //     },)),
                   const SizedBox(
                     height: 5,
                   ),
-                  CategoriesTitle(
-                    text: "Lastest Phones",
-                    text2: "< Pull",
-                    press: () {},
+                  Row(
+                    children: [
+                      const CustomText(
+                        text: "All Products",
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        textAlign: TextAlign.center,
+                      ),
+                      const Spacer(),
+                      Material(
+                        color: Colors.green,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40)),
+                        child: ElevatedButton.icon(
+                            onPressed: () {},
+                            icon: const Icon(Icons.arrow_back),
+                            label: const CustomText(
+                              text: "Pull",
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              textAlign: TextAlign.center,
+                            )),
+                      ),
+                    ],
                   ),
+                  // CategoriesTitle(
+                  //   text: "Lastest Phones",
+                  //   text2: "< Pull",
+                  //   press: () {},
+                  // ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 2 +
                         MediaQuery.of(context).size.height / 8,
@@ -237,49 +289,100 @@ class Screen extends GetWidget<ScreenViewModel> {
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2),
                       children: [
-                        LastProduct(
-                            imageProduct: "assets/images/product/huawei.jpg",
-                            text: "Huawei Mate 40 Pro : 1000\$",
-                            onTap: () {}),
-                        LastProduct(
-                            imageProduct: "assets/images/product/samsung.jpg",
-                            text: "Samsung S20 Ultra : 999\$",
-                            onTap: () {}),
-                        LastProduct(
-                            imageProduct: "assets/images/product/iphone.jpg",
-                            text: "iPhone 12 pro max : 1170\$",
-                            onTap: () {}),
-                        LastProduct(
-                            imageProduct: "assets/images/product/xiaomi.jpg",
-                            text: "Xiaomi Mi 10T  : 950\$",
-                            onTap: () {}),
-                        LastProduct(
-                            imageProduct: "assets/images/product/oppo.jpg",
-                            text: "Oppo F17 Pro : 975\$",
-                            onTap: () {}),
-                        LastProduct(
-                            imageProduct: "assets/images/product/lenovo.jpg",
-                            text: "Lenovo K12 Pro : 800\$",
-                            onTap: () {}),
-                        LastProduct(
-                            imageProduct: "assets/images/product/nokia.jpg",
-                            text: "Nokia G300 : 750\$",
-                            onTap: () {}),
-                        LastProduct(
-                            imageProduct: "assets/images/product/realme.jpg",
-                            text: "Realme race teaser : 900\$",
-                            onTap: () {}),
-                        LastProduct(
-                            imageProduct: "assets/images/product/tecno.jpg",
-                            text: "Tecno Spark6 : 850\$",
-                            onTap: () {}),
-                        LastProduct(
-                            imageProduct: "assets/images/product/vivo.jpeg",
-                            text: "Vivo Y53s : 950\$",
-                            onTap: () {}),
+                        AllProducts(
+                            collection: "huawei",
+                            docOne: "allHuawei",
+                            docTwo: "AxMzs7IShYFwBfw7hSYm"),
+                        AllProducts(
+                            collection: "iphone",
+                            docOne: "allIphone",
+                            docTwo: "kgCtXk3jHTz5tJHV3VNe"),
+                        AllProducts(
+                            collection: "realme",
+                            docOne: "allRealme",
+                            docTwo: "E620Lr8NMpLdYCIVvWJe"),
+                        AllProducts(
+                            collection: "vivo",
+                            docOne: "allVivo",
+                            docTwo: "cYg4hOV1jC7AGykbnHZY"),
+                        AllProducts(
+                            collection: "xiaomi",
+                            docOne: "allXiaomi",
+                            docTwo: "uG5hyJeFkL2KbxuufVIP"),
+                        AllProducts(
+                            collection: "samsung",
+                            docOne: "allSamsung",
+                            docTwo: "OoPjLoRUIxo2tF1GsoDD"),
+                        AllProducts(
+                            collection: "oppo",
+                            docOne: "allOppo",
+                            docTwo: "AfTtdDT9u4J3hDpwGf7n"),
+                        AllProducts(
+                            collection: "lenovo",
+                            docOne: "allLenovo",
+                            docTwo: "1IUPh51OJVPBEoBQt1Lg"),
+                        AllProducts(
+                            collection: "tecno",
+                            docOne: "allTecno",
+                            docTwo: "ph2AiHJOeuSQHcOKMabs"),
+                        AllProducts(
+                            collection: "Nokia",
+                            docOne: "allTecno",
+                            docTwo: "cJ9YAF2gv0m34L3LS49f"),
                       ],
                     ),
                   ),
+                  // SizedBox(
+                  //   height: MediaQuery.of(context).size.height / 2 +
+                  //       MediaQuery.of(context).size.height / 8,
+                  //   child: GridView(
+                  //     gridDelegate:
+                  //         const SliverGridDelegateWithFixedCrossAxisCount(
+                  //             crossAxisCount: 2),
+                  //     children: [
+                  //       LastProduct(
+                  //           imageProduct: "assets/images/product/huawei.jpg",
+                  //           text: "Huawei Mate 40 Pro : 1000\$",
+                  //           onTap: () {}),
+                  //       LastProduct(
+                  //           imageProduct: "assets/images/product/samsung.jpg",
+                  //           text: "Samsung S20 Ultra : 999\$",
+                  //           onTap: () {}),
+                  //       LastProduct(
+                  //           imageProduct: "assets/images/product/iphone.jpg",
+                  //           text: "iPhone 12 pro max : 1170\$",
+                  //           onTap: () {}),
+                  //       LastProduct(
+                  //           imageProduct: "assets/images/product/xiaomi.jpg",
+                  //           text: "Xiaomi Mi 10T  : 950\$",
+                  //           onTap: () {}),
+                  //       LastProduct(
+                  //           imageProduct: "assets/images/product/oppo.jpg",
+                  //           text: "Oppo F17 Pro : 975\$",
+                  //           onTap: () {}),
+                  //       LastProduct(
+                  //           imageProduct: "assets/images/product/lenovo.jpg",
+                  //           text: "Lenovo K12 Pro : 800\$",
+                  //           onTap: () {}),
+                  //       LastProduct(
+                  //           imageProduct: "assets/images/product/nokia.jpg",
+                  //           text: "Nokia G300 : 750\$",
+                  //           onTap: () {}),
+                  //       LastProduct(
+                  //           imageProduct: "assets/images/product/realme.jpg",
+                  //           text: "Realme race teaser : 900\$",
+                  //           onTap: () {}),
+                  //       LastProduct(
+                  //           imageProduct: "assets/images/product/tecno.jpg",
+                  //           text: "Tecno Spark6 : 850\$",
+                  //           onTap: () {}),
+                  //       LastProduct(
+                  //           imageProduct: "assets/images/product/vivo.jpeg",
+                  //           text: "Vivo Y53s : 950\$",
+                  //           onTap: () {}),
+                  //     ],
+                  //   ),
+                  // ),
                 ],
               ),
             ),
