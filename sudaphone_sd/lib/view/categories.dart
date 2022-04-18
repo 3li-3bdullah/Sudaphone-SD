@@ -24,10 +24,10 @@ class Categories extends StatelessWidget {
         home: Scaffold(
           appBar: AppBar(
             title: const Text(
-                "Categories"
-                ,style: TextStyle(color:Colors.black),
-                ),
-                backgroundColor: Colors.white,
+              "Categories",
+              style: TextStyle(color: Colors.black),
+            ),
+            backgroundColor: Colors.white,
             centerTitle: true,
             elevation: 0,
           ),
@@ -45,72 +45,71 @@ class Categories extends StatelessWidget {
                   imageCat: "assets/images/category/samsung.png",
                   text: "Samsung",
                   onTap: () {
-                    Get.to(Samsung(),
-                        transition: Transition.zoom,
-                        curve: Curves.bounceInOut);
+                    Get.to(() => const Samsung(),
+                        transition: Transition.zoom, curve: Curves.bounceInOut);
                   },
                 ),
                 CategoriesCard(
                   imageCat: "assets/images/category/huawei.png",
                   text: "Huawei",
                   onTap: () {
-                    Get.to(() => Huawei());
+                    Get.to(() => const Huawei());
                   },
                 ),
                 CategoriesCard(
                   imageCat: "assets/images/category/apple.jpg",
                   text: "Iphone",
                   onTap: () {
-                    Get.to(() => Iphone());
+                    Get.to(() => const Iphone());
                   },
                 ),
                 CategoriesCard(
                   imageCat: "assets/images/category/oppo.png",
                   text: "Oppo",
                   onTap: () {
-                    Get.to(() => Oppo());
+                    Get.to(() => const Oppo());
                   },
                 ),
                 CategoriesCard(
                   imageCat: "assets/images/category/xiaomi.png",
                   text: "Xiaomi",
                   onTap: () {
-                    Get.to(() => Xiaomi());
+                    Get.to(() => const Xiaomi());
                   },
                 ),
                 CategoriesCard(
                   imageCat: "assets/images/category/lenovo.png",
                   text: "Lenovo",
                   onTap: () {
-                    Get.to(() => Lenovo());
+                    Get.to(() => const Lenovo());
                   },
                 ),
                 CategoriesCard(
                   imageCat: "assets/images/category/realme.png",
                   text: "Realme",
                   onTap: () {
-                    Get.to(() => Realme());
+                    Get.to(() => const Realme());
                   },
                 ),
                 CategoriesCard(
                   imageCat: "assets/images/category/tecno.png",
                   text: "Tecno",
                   onTap: () {
-                    Get.to(() => Tecno());
+                    Get.to(() => const Tecno());
                   },
                 ),
                 CategoriesCard(
                   imageCat: "assets/images/category/vivo.jpg",
                   text: "Vivo",
                   onTap: () {
-                    Get.to(() => Vivo());
+                    Get.to(() => const Vivo());
                   },
                 ),
                 CategoriesCard(
                   imageCat: "assets/images/category/nokia.png",
                   text: "Nokia",
                   onTap: () {
-                    Get.to(() => Nokia());
+                    Get.to(() => const Nokia());
                   },
                 ),
               ],
