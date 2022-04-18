@@ -3,9 +3,9 @@ import '../widgets/custom_text.dart';
 
 class CategoriesCard extends StatelessWidget {
   const CategoriesCard({
-  required  this.imageCat,
-  required  this.text,
-  required  this.onTap,
+    required this.imageCat,
+    required this.text,
+    required this.onTap,
   });
   final String imageCat;
   final String text;
@@ -16,26 +16,26 @@ class CategoriesCard extends StatelessWidget {
       padding: const EdgeInsets.all(5),
       child: InkWell(
           child: Card(
-            elevation: 5,
+              elevation: 3,
               child: SizedBox(
                 height: 170,
                 child: Column(
-            children: [
-                Expanded(
-                  child: Image.asset(
-                    imageCat,
-                    fit: BoxFit.cover,
-                  ),
+                  children: [
+                    Expanded(
+                      child: Image.asset(
+                        imageCat,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    CustomText(
+                      text: text,
+                      fontSize: 20,
+                      fontWeight: FontWeight.normal,
+                      textAlign: TextAlign.center,
+                      color: Colors.grey.shade900,
+                    ),
+                  ],
                 ),
-                CustomText(
-                  text: text,
-                  fontSize: 20,
-                  fontWeight: FontWeight.normal,
-                  textAlign: TextAlign.center,
-                  color: Colors.grey.shade900,
-                ),
-            ],
-          ),
               )),
           onTap: () {
             onTap();
