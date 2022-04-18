@@ -3,14 +3,15 @@ import 'package:get/get.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sudaphone_sd/view_model/screen_view_model.dart';
 
+// ignore: must_be_immutable
 class BuildIndicatorCarousel extends GetWidget<ScreenViewModel> {
-  const BuildIndicatorCarousel({ Key? key }) : super(key: key);
-
+   BuildIndicatorCarousel({required this.imageLength, Key? key }) : super(key: key);
+ int imageLength;
   @override
   Widget build(BuildContext context) {
     return SmoothPageIndicator(
         controller: controller.controllerCarousel,
-        count: controller.imagesCarousel.length,
+        count: imageLength,
         effect: CustomizableEffect(
           activeDotDecoration: DotDecoration(
             width: 32,
