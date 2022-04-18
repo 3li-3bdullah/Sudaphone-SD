@@ -14,7 +14,7 @@ class BuildImagesCarousel extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           image: DecorationImage(
-            image: AssetImage(
+            image: NetworkImage(
               imagesCarousel,
             ),
             fit: BoxFit.cover,
