@@ -30,73 +30,74 @@ class PhoneList extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(
-                      flex: 2,
-                      child: Container(
-                        padding: const EdgeInsets.all(10),
-                        alignment: Alignment.topRight,
-                        height: 180,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              margin:
-                                  const EdgeInsets.only(bottom: 10, right: 10),
-                              child: Text("${snapshot?.data()['name']}",
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w800),
-                                  textAlign: TextAlign.center),
-                            ),
-                            Row(children: [
-                              const Text("Front Camera : ",
-                                  style: TextStyle(color: Colors.grey)),
-                              Text("${snapshot?.data()['frontCamera']}",
-                                  style: const TextStyle(color: Colors.blue)),
-                            ]),
-                            const SizedBox(
-                              height: 3,
-                            ),
-                            Row(children: [
-                              const Text("OS : ",
-                                  style: TextStyle(color: Colors.grey)),
-                              Text("${snapshot?.data()['os']}",
-                                  style: const TextStyle(color: Colors.blue))
-                            ]),
-                            const SizedBox(
-                              height: 3,
-                            ),
-                            Row(children: [
-                              const Text("Storage : ",
-                                  style: TextStyle(color: Colors.grey)),
-                              Text("${snapshot?.data()['storage']}",
-                                  style: const TextStyle(color: Colors.blue)),
-                            ]),
-                            const SizedBox(
-                              height: 3,
-                            ),
-                            Row(children: [
-                              const Text("Battery :",
-                                  style: TextStyle(color: Colors.grey)),
-                              Text("${snapshot?.data()['battery']}",
-                                  style: const TextStyle(color: Colors.blue))
-                            ]),
-                            const SizedBox(
-                              height: 3,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text("Price : ${snapshot?.data()['price']}",
-                                    style: const TextStyle(color: Colors.pink)),
-                                const Text("more..",
-                                    style: TextStyle(color: Colors.green)),
-                              ],
-                            ),
-                          ],
-                        ),
-                      )),
-                  // Expanded(
-                  //     flex: 1, child: Image.network("${snapshot?.data()['imageUrl']}")),
+                    flex: 2,
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      alignment: Alignment.topRight,
+                      height: 180,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            margin:
+                                const EdgeInsets.only(bottom: 10, right: 10),
+                            child: Text("${snapshot?.data()['name']}",
+                                style: const TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.w800),
+                                textAlign: TextAlign.center),
+                          ),
+                          Row(children: [
+                            const Text("Front Camera : ",
+                                style: TextStyle(color: Colors.grey)),
+                            Text("${snapshot?.data()['frontCamera']}",
+                                style: const TextStyle(color: Colors.blue)),
+                          ]),
+                          const SizedBox(
+                            height: 3,
+                          ),
+                          Row(children: [
+                            const Text("OS : ",
+                                style: TextStyle(color: Colors.grey)),
+                            Text("${snapshot?.data()['os']}",
+                                style: const TextStyle(color: Colors.blue))
+                          ]),
+                          const SizedBox(
+                            height: 3,
+                          ),
+                          Row(children: [
+                            const Text("Storage : ",
+                                style: TextStyle(color: Colors.grey)),
+                            Text("${snapshot?.data()['storage']}",
+                                style: const TextStyle(color: Colors.blue)),
+                          ]),
+                          const SizedBox(
+                            height: 3,
+                          ),
+                          Row(children: [
+                            const Text("Battery :",
+                                style: TextStyle(color: Colors.grey)),
+                            Text("${snapshot?.data()['battery']}",
+                                style: const TextStyle(color: Colors.blue))
+                          ]),
+                          const SizedBox(
+                            height: 3,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Text("Price : ${snapshot?.data()['price']}",
+                                  style: const TextStyle(color: Colors.pink)),
+                              const Text("more..",
+                                  style: TextStyle(color: Colors.green)),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                      flex: 1,
+                      child: Image.network("${snapshot?.data()['imageUrl']}")),
                 ],
               ),
             ),
