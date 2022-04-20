@@ -26,16 +26,25 @@ class LastProduct extends StatelessWidget {
       padding: const EdgeInsets.all(5),
       child: InkWell(
         child: GridTile(
-            child: Image.asset(imageProduct),
+            child: Image.network(imageProduct),
             footer: Container(
-                height: 30,
+                height: 40,
                 color: Colors.black.withOpacity(0.3),
-                child: CustomText(
-                  text: text,
-                  color: Colors.white,
-                  textAlign: TextAlign.center,
-                  fontSize: 13,
-                  fontWeight: FontWeight.normal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    CustomText(
+                      text: text,
+                      color: Colors.white,
+                      textAlign: TextAlign.center,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ), 
+                    CustomText(text: "\$$price",color: Colors.white,
+                      textAlign: TextAlign.center,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,)
+                  ],
                 ),
                 )),
         onTap: () {
