@@ -8,6 +8,8 @@ class ScreenViewModel extends GetxController {
   RxDouble value = 0.0.obs;
   CollectionReference<Map<String, dynamic>> carouselFire = FirebaseFirestore.instance.collection("carousel");
   CollectionReference<Map<String, dynamic>> phonesCategory = FirebaseFirestore.instance.collection("phonesCategory");
+  FirebaseFirestore drawerData = FirebaseFirestore.instance;
+  Size size = MediaQuery.of(Get.context!).size;
   PageController controllerCarousel =
       PageController(viewportFraction: 0.8, keepPage: true);
   final List<MaterialColor> colors = const [
@@ -20,7 +22,7 @@ class ScreenViewModel extends GetxController {
     Colors.purple,
     Colors.brown,
   ];
-  static const List<String> docOne = [
+   final List<String> docOne = const [
     "allHuawei",
     "allIphone",
     "allOppo",
@@ -32,7 +34,7 @@ class ScreenViewModel extends GetxController {
     "allVivo",
     "allLenovo"
   ];
-  static const List<String> collectionTwo = [
+  final List<String> collectionTwo = const [
     "huawei",
     "iphone",
     "oppo",
@@ -43,12 +45,6 @@ class ScreenViewModel extends GetxController {
     "nokia",
     "vivo",
     "lenovo"
-  ];
-  final List<String> images = [
-    'assets/images/carousel/1.jpg',
-    'assets/images/carousel/1.jpg',
-    'assets/images/carousel/1.jpg',
-    'assets/images/carousel/1.jpg'
   ];
 
 
