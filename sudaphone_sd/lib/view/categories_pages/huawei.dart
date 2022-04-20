@@ -11,7 +11,9 @@ class Huawei extends GetWidget<CategoriesViewModel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(elevation: 0,
+      appBar: AppBar(
+        elevation: 0,
+        centerTitle: true,
         backgroundColor: Colors.white,
         title: const CustomText(
             text: "Huawei",
@@ -30,7 +32,7 @@ class Huawei extends GetWidget<CategoriesViewModel> {
                 itemCount: snapshot.data?.docs.length,
                 itemBuilder: (context, index) {
                   return PhoneList(
-                      isHasData : snapshot,
+                      isHasData: snapshot,
                       collction: "huawei",
                       snapshot: snapshot.data?.docs[index],
                       docOne: "allHuawei");
