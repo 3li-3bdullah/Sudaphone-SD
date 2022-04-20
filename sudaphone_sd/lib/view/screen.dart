@@ -16,10 +16,8 @@ import 'package:sudaphone_sd/view/screen_pages/drawer_child.dart';
 import 'package:sudaphone_sd/view/screen_widgets/all_products.dart';
 import 'package:sudaphone_sd/view/screen_widgets/build_images_carousel.dart';
 import 'package:sudaphone_sd/view/screen_widgets/build_indicator_carousel.dart';
-import 'package:sudaphone_sd/view/screen_widgets/carousel_most_used.dart';
 import 'package:sudaphone_sd/view/screen_widgets/categories_title.dart';
 import 'package:sudaphone_sd/view/screen_widgets/custom_listtile.dart';
-import 'package:sudaphone_sd/view/screen_widgets/last_product.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text.dart';
 import 'package:sudaphone_sd/view_model/mydrawer_view_model.dart';
 import 'package:sudaphone_sd/view_model/screen_view_model.dart';
@@ -249,32 +247,31 @@ class Screen extends GetWidget<ScreenViewModel> {
                   const SizedBox(
                     height: 5,
                   ),
-                  Row(
-                    children: [
-                      const CustomText(
-                        text: "All Products",
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        textAlign: TextAlign.center,
-                      ),
-                      const Spacer(),
-                      Material(
-                        color: Colors.green,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40)),
-                        child: ElevatedButton.icon(
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        const CustomText(
+                          text: "All Products",
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.normal,
+                          textAlign: TextAlign.center,
+                        ),
+                        const Spacer(),
+                        ElevatedButton.icon(
                             onPressed: () {},
                             icon: const Icon(Icons.arrow_back),
                             label: const CustomText(
                               text: "Pull",
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal,
                               color: Colors.white,
                               textAlign: TextAlign.center,
                             )),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   // CategoriesTitle(
                   //   text: "Lastest Phones",
@@ -326,8 +323,8 @@ class Screen extends GetWidget<ScreenViewModel> {
                             docOne: "allTecno",
                             docTwo: "ph2AiHJOeuSQHcOKMabs"),
                         AllProducts(
-                            collection: "Nokia",
-                            docOne: "allTecno",
+                            collection: "nokia",
+                            docOne: "allNokia",
                             docTwo: "cJ9YAF2gv0m34L3LS49f"),
                       ],
                     ),

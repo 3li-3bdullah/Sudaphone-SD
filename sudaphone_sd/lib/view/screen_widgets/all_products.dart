@@ -28,7 +28,7 @@ class AllProducts extends GetWidget<ScreenViewModel> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return LastProduct(
-                imageProduct: snapshot.data?.data()!['imageUrl'],
+                imageProduct: snapshot.data?.data()?['imageUrl'],
                 text: snapshot.data?.data()!['name'],
                 price: snapshot.data?.data()!['price'],
                 collection: collection,

@@ -14,7 +14,7 @@ class SearchFutureBuilder extends StatelessWidget {
     /* 
     * Huawei Methods
     */
-    if (query.toLowerCase().contains("huawei") || query.contains("Huawei")) {
+    if (query.toLowerCase().contains("huawei") || query.contains("Huawei") || query.contains("Honor")) {
       return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
           future: FirebaseFirestore.instance
               .collection("phonesCategory")

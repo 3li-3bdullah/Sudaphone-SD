@@ -11,7 +11,9 @@ class Nokia extends GetWidget<CategoriesViewModel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(elevation: 0,
+      appBar: AppBar(
+        centerTitle: true,
+        elevation: 0,
         backgroundColor: Colors.white,
         title: const CustomText(
             text: "Nokia",
@@ -25,12 +27,12 @@ class Nokia extends GetWidget<CategoriesViewModel> {
             controller.phonesCategory.doc("allNokia").collection("nokia").get(),
         builder: (context, snapshot) {
           return ListView.builder(
-            itemCount: snapshot.data!.docs.length,
+            itemCount: snapshot.data?.docs.length,
             itemBuilder: (context, index) {
               return PhoneList(
                   isHasData: snapshot,
                   collction: "nokia",
-                  snapshot: snapshot.data!.docs[index],
+                  snapshot: snapshot.data?.docs[index],
                   docOne: "allNokia");
             },
           );

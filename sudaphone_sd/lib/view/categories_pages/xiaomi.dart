@@ -13,9 +13,10 @@ class Xiaomi extends GetWidget<CategoriesViewModel> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        centerTitle: true,
         backgroundColor: Colors.white,
         title: const CustomText(
-            text: "Huawei",
+            text: "Xiaomi",
             fontSize: 22,
             fontWeight: FontWeight.bold,
             color: Colors.black,
@@ -28,12 +29,12 @@ class Xiaomi extends GetWidget<CategoriesViewModel> {
             .get(),
         builder: (context, snapshot) {
           return ListView.builder(
-            itemCount: snapshot.data!.docs.length,
+            itemCount: snapshot.data?.docs.length,
             itemBuilder: (context, index) {
               return PhoneList(
                   isHasData: snapshot,
                   collction: "xiaomi",
-                  snapshot: snapshot.data!.docs[index],
+                  snapshot: snapshot.data?.docs[index],
                   docOne: "allXiaomi");
             },
           );
