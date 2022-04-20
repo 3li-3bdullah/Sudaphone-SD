@@ -24,14 +24,19 @@ class DownloadImages extends GetWidget<DownloadImagesViewModel> {
         body: SafeArea(
           child: Container(
             color: Colors.black,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                image == null
-                    ? Lottie.asset("assets/images/no_data.json")
-                    : Image.network(image!,fit:BoxFit.fill),
-              ],
+            alignment: Alignment.center,
+            width: double.maxFinite,
+            height: MediaQuery.of(context).size.height, 
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  image == null
+                      ? Lottie.asset("assets/images/no_data.json")
+                      : Image.network(image!,fit:BoxFit.fill),
+                ],
+              ),
             ),
           ),
         ));
