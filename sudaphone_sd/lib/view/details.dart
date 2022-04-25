@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:sudaphone_sd/view/download_images.dart';
+import 'package:sudaphone_sd/view/people_have_liked.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text.dart';
 import 'package:sudaphone_sd/view_model/details_view_model.dart';
 
@@ -41,10 +42,11 @@ class Details extends GetWidget<DetailsViewModel> {
                         width: double.infinity,
                         height: controller.size.height / 2 + 80,
                         fit: BoxFit.contain,
-                        image: NetworkImage(snapshot.data()['imageUrl']),
+                        image: NetworkImage(snapshot?.data()['imageUrl']),
                       ),
                       onTap: () {
-                        Get.to(() => DownloadImages(image: snapshot.data()['imageUrl'].toString()));
+                        Get.to(() => DownloadImages(
+                            image: snapshot.data()['imageUrl'].toString()));
                       },
                     ),
                   ],
@@ -61,7 +63,10 @@ class Details extends GetWidget<DetailsViewModel> {
                     ),
                     child: IconButton(
                       iconSize: 38,
-                      color: snapshot.data()?['usersLiked']['${controller.uid}'] != null || false
+                      color: snapshot.data()?['usersLiked']
+                                      ['${controller.uid}'] !=
+                                  null ||
+                              false
                           ? Colors.orange
                           : Colors.white,
                       icon: const Icon(Icons.favorite),
@@ -87,7 +92,7 @@ class Details extends GetWidget<DetailsViewModel> {
                       color: Colors.white,
                       icon: const Padding(
                         padding: EdgeInsets.only(left: 5),
-                        child: Icon(Icons.arrow_back_ios),
+                        child: Icon(Icons.arrow_back),
                       ),
                       onPressed: () {
                         Get.back();
@@ -141,15 +146,27 @@ class Details extends GetWidget<DetailsViewModel> {
                           fontWeight: FontWeight.bold,
                           color: Colors.orange,
                           textAlign: TextAlign.left),
-                      CustomText(
-                          text: "Likes : ${snapshot.data()['likesCount']}",
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: snapshot.data()['usersLiked']
-                                  ['${controller.uid}'] != null || false
-                              ? Colors.orange
-                              : Colors.grey,
-                          textAlign: TextAlign.left)
+                      InkWell(
+                        child: CustomText(
+                            text: "Likes : ${snapshot.data()['likesCount']}",
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: snapshot.data()['usersLiked']
+                                            ['${controller.uid}'] !=
+                                        null ||
+                                    false
+                                ? Colors.orange
+                                : Colors.grey,
+                            textAlign: TextAlign.left),
+                        onTap: () {
+                          Get.to(() => PeopleHaveLIked(
+                              peopleWhoLiked:
+                                  snapshot.data()['usersLiked'].keys.toList(),
+                              currentDoc: snapshot.data()['usersLiked']),
+                              transition: Transition.zoom
+                              );
+                        },
+                      )
                     ],
                   ),
                   const SizedBox(
@@ -321,7 +338,7 @@ class Details extends GetWidget<DetailsViewModel> {
                           ],
                         ),
                       ),
-                       CustomText(
+                      CustomText(
                         text: "${snapshot.data()['frontCamera']}",
                         color: Colors.black,
                         fontSize: 14,
