@@ -1,3 +1,5 @@
+import 'package:carousel_slider/carousel_options.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elastic_drawer/elastic_drawer.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +18,7 @@ import 'package:sudaphone_sd/view/screen_pages/drawer_child.dart';
 import 'package:sudaphone_sd/view/screen_widgets/all_products.dart';
 import 'package:sudaphone_sd/view/screen_widgets/build_images_carousel.dart';
 import 'package:sudaphone_sd/view/screen_widgets/build_indicator_carousel.dart';
+import 'package:sudaphone_sd/view/screen_widgets/carousel_most_used.dart';
 import 'package:sudaphone_sd/view/screen_widgets/categories_title.dart';
 import 'package:sudaphone_sd/view/screen_widgets/custom_listtile.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text.dart';
@@ -94,67 +97,67 @@ class Screen extends GetWidget<ScreenViewModel> {
                     height: MediaQuery.of(context).size.height / 2,
                     width: MediaQuery.of(context).size.width,
                     child: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                        future: controller.carouselFire
-                            .doc("carouselSlider")
-                            .collection("carousel")
-                            .get(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return GridTile(
-                              child: PageView.builder(
-                                scrollDirection: Axis.horizontal,
-                                allowImplicitScrolling: true,
-                                controller: controller.controllerCarousel,
-                                itemCount: snapshot.data!.docs.length,
-                                itemBuilder: (context, index) {
-                                  return SizedBox(
-                                    height: halfheight,
-                                    width: size.width,
-                                    child: BuildImagesCarousel(
-                                        imagesCarousel: snapshot
-                                            .data!.docs[index]
-                                            .data()['imageUrl']),
-                                  );
-                                },
+                      future: controller.carouselFire
+                          .doc("carouselSlider")
+                          .collection("carousel")
+                          .get(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return GridTile(
+                            child: PageView.builder(
+                              scrollDirection: Axis.horizontal,
+                              allowImplicitScrolling: true,
+                              controller: controller.controllerCarousel,
+                              itemCount: snapshot.data!.docs.length,
+                              itemBuilder: (context, index) {
+                                return SizedBox(
+                                  height: halfheight,
+                                  width: size.width,
+                                  child: BuildImagesCarousel(
+                                      imagesCarousel: snapshot.data!.docs[index]
+                                          .data()['imageUrl']),
+                                );
+                              },
+                            ),
+                            footer: Container(
+                              height: 60,
+                              color: Colors.transparent,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  BuildIndicatorCarousel(
+                                    imageLength: snapshot.data!.docs.length,
+                                  ),
+                                ],
                               ),
-                              footer: Container(
-                                height: 60,
-                                color: Colors.transparent,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    BuildIndicatorCarousel(
-                                      imageLength: snapshot.data!.docs.length,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          } else if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Center(
-                              child: Lottie.asset(
-                                  "assets/lottie/please_wait.json"),
-                            );
-                          } else if (!snapshot.hasData) {
-                            return const Center(
-                              child: CustomText(
-                                text: "No data found!",
-                                color: Colors.red,
-                                fontSize: 20,
-                                fontWeight: FontWeight.normal,
-                                textAlign: TextAlign.center,
-                              ),
-                            );
-                          } else {
-                            return Center(
-                              child: Lottie.asset(
-                                  "assets/lottie/please_wait.json"),
-                            );
-                          }
-                        }),
+                            ),
+                          );
+                        } else if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(
+                            child:
+                                Lottie.asset("assets/lottie/please_wait.json"),
+                          );
+                        } else if (!snapshot.hasData) {
+                          return const Center(
+                            child: CustomText(
+                              text: "Oops! no data found",
+                              color: Colors.red,
+                              fontSize: 20,
+                              fontWeight: FontWeight.normal,
+                              textAlign: TextAlign.center,
+                            ),
+                          );
+                        } else {
+                          return Center(
+                            child:
+                                Lottie.asset("assets/lottie/please_wait.json"),
+                          );
+                        }
+                      },
+                    ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 15),
                   CategoriesTitle(
                     text: "Categories",
                     text2: "more",
@@ -165,7 +168,7 @@ class Screen extends GetWidget<ScreenViewModel> {
                     },
                   ),
                   SizedBox(
-                    height: 120,
+                    height: 130,
                     //I've removed Expanded
                     child:
                         ListView(scrollDirection: Axis.horizontal, children: [
@@ -231,53 +234,207 @@ class Screen extends GetWidget<ScreenViewModel> {
                   const SizedBox(
                     height: 10,
                   ),
-                  // SizedBox(
-                  //   height: MediaQuery.of(context).size.height / 3,
-                  //   width: MediaQuery.of(context).size.height / 3,
-                  //   child:  FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                  //     future: FirebaseFirestore.instance.collection("carousel").doc("popular").collection("carousel").get(),
-                  //     builder: (context,snapshot){
-                  //       return ListView.builder(
-                  //         itemCount: snapshot.data?.docs.length,
-                  //         itemBuilder: (context,index){
-                  //           return CarouselMostUsed(data: snapshot.data?.docs[index]);
-                  //         },
-                  //       );
-                  //     },)),
+
+                  // CarouselSlider(
+                  //   items: [
+                  //     SizedBox(
+                  //       height: MediaQuery.of(context).size.height / 3,
+                  //       child:
+                  //           FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                  //               future: FirebaseFirestore.instance
+                  //                   .collection("carousel")
+                  //                   .doc("popular")
+                  //                   .collection("carousel")
+                  //                   .get(),
+                  //               builder: (context, snapshot) {
+                  //                 if (snapshot.hasData) {
+                  //                   return ListView.builder(
+                  //                       itemCount: snapshot.data!.docs.length,
+                  //                       itemBuilder: (context, index) {
+                  //                         return Container(
+                  //                           width: MediaQuery.of(context)
+                  //                               .size
+                  //                               .width,
+                  //                           margin: const EdgeInsets.all(5.0),
+                  //                           decoration: BoxDecoration(
+                  //                             borderRadius:
+                  //                                 BorderRadius.circular(10),
+                  //                             image: DecorationImage(
+                  //                                 image: NetworkImage(snapshot
+                  //                                     .data!.docs[index]
+                  //                                     .data()['imageUrl']),
+                  //                                 fit: BoxFit.cover),
+                  //                           ),
+                  //                           child: Column(
+                  //                             mainAxisAlignment:
+                  //                                 MainAxisAlignment.center,
+                  //                             crossAxisAlignment:
+                  //                                 CrossAxisAlignment.center,
+                  //                             children: [
+                  //                               const Align(
+                  //                                 alignment: Alignment.center,
+                  //                                 child: Text(
+                  //                                   "Enjoy Your Eyes",
+                  //                                   style: TextStyle(
+                  //                                     fontSize: 18,
+                  //                                     fontWeight:
+                  //                                         FontWeight.bold,
+                  //                                     color: Colors.white,
+                  //                                   ),
+                  //                                 ),
+                  //                               ),
+                  //                               Padding(
+                  //                                 padding:
+                  //                                     const EdgeInsets.all(5.0),
+                  //                                 child: Text(
+                  //                                   "${snapshot.data!.docs[index].data()['name']}",
+                  //                                   style: const TextStyle(
+                  //                                     fontSize: 15,
+                  //                                     color: Colors.white,
+                  //                                   ),
+                  //                                 ),
+                  //                               ),
+                  //                             ],
+                  //                           ),
+                  //                         );
+                  //                       });
+                  //                 } else {
+                  //                   return Center(
+                  //                     child: Lottie.asset(
+                  //                         "assets/lottie/please_wait.json"),
+                  //                   );
+                  //                 }
+                  //               }),
+                  //     ),
+                  //   ],
+                  //   options: CarouselOptions(
+                  //     initialPage: 0,
+                  //     autoPlay: true,
+                  //     scrollDirection: Axis.horizontal,
+                  //     enableInfiniteScroll: true,
+                  //     enlargeCenterPage: true,
+                  //     aspectRatio: 16 / 9,
+                  //     viewportFraction: 0.8,
+                  //     autoPlayCurve: Curves.fastOutSlowIn,
+                  //     autoPlayAnimationDuration:
+                  //         const Duration(milliseconds: 200),
+                  //   ),
+                  // ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 3,
+                    child: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                      future: FirebaseFirestore.instance
+                          .collection("carousel")
+                          .doc("popular")
+                          .collection("carousel")
+                          .get(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return ListView.builder(
+                            itemCount: snapshot.data?.docs.length,
+                            itemBuilder: (context, index) {
+                              return CarouselSlider(
+                                items: [
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    margin: const EdgeInsets.all(5.0),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      image: DecorationImage(
+                                          image: NetworkImage(snapshot
+                                              .data!.docs[index]
+                                              .data()['imageUrl']),
+                                          fit: BoxFit.cover),
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        const Align(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            "Enjoy Your Eyes",
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(5.0),
+                                          child: Text(
+                                            "${snapshot.data!.docs[index].data()['name']}",
+                                            style: const TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                                options: CarouselOptions(
+                                  initialPage: 0,
+                                  autoPlay: true,
+                                  scrollDirection: Axis.horizontal,
+                                  enableInfiniteScroll: true,
+                                  enlargeCenterPage: true,
+                                  aspectRatio: 16 / 9,
+                                  viewportFraction: 0.8,
+                                  autoPlayCurve: Curves.fastOutSlowIn,
+                                  autoPlayAnimationDuration:
+                                      const Duration(milliseconds: 200),
+                                ),
+                              );
+                            },
+                          );
+                        } else {
+                          return Center(
+                            child:
+                                Lottie.asset("assets/lottie/please_wait.json"),
+                          );
+                        }
+                      },
+                    ),
+                  ),
                   const SizedBox(
                     height: 5,
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        const CustomText(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: const [
+                        CustomText(
                           text: "All Products",
                           color: Colors.black,
                           fontSize: 20,
                           fontWeight: FontWeight.normal,
                           textAlign: TextAlign.center,
                         ),
-                        const Spacer(),
-                        ElevatedButton.icon(
-                            onPressed: () {},
-                            icon: const Icon(Icons.arrow_back),
-                            label: const CustomText(
-                              text: "Pull",
-                              fontSize: 16,
-                              fontWeight: FontWeight.normal,
-                              color: Colors.white,
-                              textAlign: TextAlign.center,
-                            )),
+                        // const Spacer(),
+                        // ElevatedButton.icon(
+                        //     onPressed: () {},
+                        //     icon: const Icon(Icons.arrow_back),
+                        //     label: const CustomText(
+                        //       text: "Pull",
+                        //       fontSize: 16,
+                        //       fontWeight: FontWeight.normal,
+                        //       color: Colors.white,
+                        //       textAlign: TextAlign.center,
+                        //     )),
                       ],
                     ),
                   ),
-                  // CategoriesTitle(
-                  //   text: "Lastest Phones",
-                  //   text2: "< Pull",
-                  //   press: () {},
-                  // ),
+                  CategoriesTitle(
+                    text: "Lastest Phones",
+                    text2: "< Pull",
+                    press: () {},
+                  ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 2 +
                         MediaQuery.of(context).size.height / 8,
@@ -329,57 +486,6 @@ class Screen extends GetWidget<ScreenViewModel> {
                       ],
                     ),
                   ),
-                  // SizedBox(
-                  //   height: MediaQuery.of(context).size.height / 2 +
-                  //       MediaQuery.of(context).size.height / 8,
-                  //   child: GridView(
-                  //     gridDelegate:
-                  //         const SliverGridDelegateWithFixedCrossAxisCount(
-                  //             crossAxisCount: 2),
-                  //     children: [
-                  //       LastProduct(
-                  //           imageProduct: "assets/images/product/huawei.jpg",
-                  //           text: "Huawei Mate 40 Pro : 1000\$",
-                  //           onTap: () {}),
-                  //       LastProduct(
-                  //           imageProduct: "assets/images/product/samsung.jpg",
-                  //           text: "Samsung S20 Ultra : 999\$",
-                  //           onTap: () {}),
-                  //       LastProduct(
-                  //           imageProduct: "assets/images/product/iphone.jpg",
-                  //           text: "iPhone 12 pro max : 1170\$",
-                  //           onTap: () {}),
-                  //       LastProduct(
-                  //           imageProduct: "assets/images/product/xiaomi.jpg",
-                  //           text: "Xiaomi Mi 10T  : 950\$",
-                  //           onTap: () {}),
-                  //       LastProduct(
-                  //           imageProduct: "assets/images/product/oppo.jpg",
-                  //           text: "Oppo F17 Pro : 975\$",
-                  //           onTap: () {}),
-                  //       LastProduct(
-                  //           imageProduct: "assets/images/product/lenovo.jpg",
-                  //           text: "Lenovo K12 Pro : 800\$",
-                  //           onTap: () {}),
-                  //       LastProduct(
-                  //           imageProduct: "assets/images/product/nokia.jpg",
-                  //           text: "Nokia G300 : 750\$",
-                  //           onTap: () {}),
-                  //       LastProduct(
-                  //           imageProduct: "assets/images/product/realme.jpg",
-                  //           text: "Realme race teaser : 900\$",
-                  //           onTap: () {}),
-                  //       LastProduct(
-                  //           imageProduct: "assets/images/product/tecno.jpg",
-                  //           text: "Tecno Spark6 : 850\$",
-                  //           onTap: () {}),
-                  //       LastProduct(
-                  //           imageProduct: "assets/images/product/vivo.jpeg",
-                  //           text: "Vivo Y53s : 950\$",
-                  //           onTap: () {}),
-                  //     ],
-                  //   ),
-                  // ),
                 ],
               ),
             ),
