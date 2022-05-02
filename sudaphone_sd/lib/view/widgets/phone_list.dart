@@ -99,7 +99,7 @@ class PhoneList extends StatelessWidget {
                       flex: 1,
                       child:
                           isHasData.connectionState != ConnectionState.waiting
-                              ? Image.network("${snapshot?.data()['imageUrl']}")
+                              ? Image(image: NetworkImage("${snapshot?.data()['imageUrl']}"))
                               : const SizedBox()),
                 ],
               ),
