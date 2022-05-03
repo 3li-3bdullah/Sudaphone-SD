@@ -21,9 +21,8 @@ class SudaphoneSD extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: "SudaPhone SD",
-      theme: ThemeData(primaryColor: Colors.white),
       initialBinding: MyBinding(),
-      home: const Home(),
+      home:  const Home()
     );
   }
 }
