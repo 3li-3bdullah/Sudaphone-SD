@@ -329,75 +329,94 @@ class Screen extends GetWidget<ScreenViewModel> {
                           .collection("carousel")
                           .get(),
                       builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                            itemCount: snapshot.data?.docs.length,
-                            itemBuilder: (context, index) {
-                              return CarouselSlider(
-                                items: [
-                                  Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    margin: const EdgeInsets.all(5.0),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      image: DecorationImage(
-                                          image: NetworkImage(snapshot
-                                              .data!.docs[index]
-                                              .data()['imageUrl']),
-                                          fit: BoxFit.cover),
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        const Align(
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            "Enjoy Your Eyes",
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white,
-                                            ),
-                                          ),
+                        return CarouselSlider.builder(
+                          itemCount: snapshot.data?.docs.length,
+                          itemBuilder: (context, index, _) {
+                            if (snapshot.hasData) {
+                              return Container(
+                                width: MediaQuery.of(context).size.width,
+                                margin: const EdgeInsets.all(5.0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: DecorationImage(
+                                      image: NetworkImage(snapshot
+                                          .data!.docs[index]
+                                          .data()['imageUrl']),
+                                      fit: BoxFit.cover),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    const Align(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        "Enjoy Your Eyes",
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(5.0),
-                                          child: Text(
-                                            "${snapshot.data!.docs[index].data()['name']}",
-                                            style: const TextStyle(
-                                              fontSize: 15,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                      ),
                                     ),
-                                  )
-                                ],
-                                options: CarouselOptions(
-                                  initialPage: 0,
-                                  autoPlay: true,
-                                  scrollDirection: Axis.horizontal,
-                                  enableInfiniteScroll: true,
-                                  enlargeCenterPage: true,
-                                  aspectRatio: 16 / 9,
-                                  viewportFraction: 0.8,
-                                  autoPlayCurve: Curves.fastOutSlowIn,
-                                  autoPlayAnimationDuration:
-                                      const Duration(milliseconds: 200),
+                                    Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Text(
+                                        "${snapshot.data!.docs[index].data()['name']}",
+                                        style: const TextStyle(
+                                          fontSize: 15,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               );
-                            },
-                          );
-                        } else {
-                          return Center(
-                            child:
-                                Lottie.asset("assets/lottie/please_wait.json"),
-                          );
-                        }
+                            } else if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(
+                                child: Lottie.asset(
+                                    "assets/lottie/please_wait.json"),
+                              );
+                            } else if (snapshot.hasError) {
+                              return Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children:  [
+                                  const CustomText(
+                                    text: "Oops!",
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                 const SizedBox(height: 10,),
+                                   CustomText(
+                                    text: snapshot.hasError.toString(),
+                                    color: Colors.black,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.normal,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              );
+                            } else {
+                              return const Center(child: CircularProgressIndicator(color: Colors.red,),);
+                            }
+                          },
+                          options: CarouselOptions(
+                            initialPage: 0,
+                            autoPlay: true,
+                            scrollDirection: Axis.horizontal,
+                            enableInfiniteScroll: true,
+                            enlargeCenterPage: true,
+                            aspectRatio: 16 / 9,
+                            viewportFraction: 0.8,
+                            autoPlayCurve: Curves.fastOutSlowIn,
+                            autoPlayAnimationDuration:
+                                const Duration(milliseconds: 200),
+                          ),
+                        );
                       },
                     ),
                   ),
