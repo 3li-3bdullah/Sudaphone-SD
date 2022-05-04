@@ -52,7 +52,11 @@ class Posts extends GetWidget<PostsViewModel> {
           } else if (snapshot.hasError) {
             return Center(child: Text("${snapshot.error}"));
           } else if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: Lottie.asset("assets/images/create_post.json"));
+            return Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              alignment: Alignment.center,
+              child: Lottie.asset("assets/images/create_post.json"));
           } else if (!snapshot.hasData) {
             return Container(
               color: Colors.white,
