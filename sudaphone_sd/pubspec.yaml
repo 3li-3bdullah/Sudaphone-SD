@@ -60,6 +60,7 @@ dependencies:
   intl: ^0.17.0
   sliding_up_panel: ^2.0.0+1
   staggered_grid_view_flutter: ^0.0.4
+  avatar_glow: ^2.0.2
 
 dev_dependencies:
   flutter_test:
