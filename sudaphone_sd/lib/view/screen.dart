@@ -157,16 +157,16 @@ class Screen extends GetWidget<ScreenViewModel> {
                       },
                     ),
                   ),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 20),
                   CategoriesTitle(
                     text: "Categories",
-                    text2: "more",
                     press: () {
                       Get.to(() => const Categories(),
                           duration: const Duration(milliseconds: 50),
                           transition: Transition.zoom);
                     },
                   ),
+                  const SizedBox(height: 10),
                   SizedBox(
                     height: 130,
                     //I've removed Expanded
@@ -230,98 +230,13 @@ class Screen extends GetWidget<ScreenViewModel> {
                     ]),
                   ),
                   CategoriesTitle(
-                      text: "Most Used", text2: "more", press: () {}),
+                      text: "Most Used", press: () {}),
                   const SizedBox(
                     height: 10,
                   ),
-
-                  // CarouselSlider(
-                  //   items: [
-                  //     SizedBox(
-                  //       height: MediaQuery.of(context).size.height / 3,
-                  //       child:
-                  //           FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                  //               future: FirebaseFirestore.instance
-                  //                   .collection("carousel")
-                  //                   .doc("popular")
-                  //                   .collection("carousel")
-                  //                   .get(),
-                  //               builder: (context, snapshot) {
-                  //                 if (snapshot.hasData) {
-                  //                   return ListView.builder(
-                  //                       itemCount: snapshot.data!.docs.length,
-                  //                       itemBuilder: (context, index) {
-                  //                         return Container(
-                  //                           width: MediaQuery.of(context)
-                  //                               .size
-                  //                               .width,
-                  //                           margin: const EdgeInsets.all(5.0),
-                  //                           decoration: BoxDecoration(
-                  //                             borderRadius:
-                  //                                 BorderRadius.circular(10),
-                  //                             image: DecorationImage(
-                  //                                 image: NetworkImage(snapshot
-                  //                                     .data!.docs[index]
-                  //                                     .data()['imageUrl']),
-                  //                                 fit: BoxFit.cover),
-                  //                           ),
-                  //                           child: Column(
-                  //                             mainAxisAlignment:
-                  //                                 MainAxisAlignment.center,
-                  //                             crossAxisAlignment:
-                  //                                 CrossAxisAlignment.center,
-                  //                             children: [
-                  //                               const Align(
-                  //                                 alignment: Alignment.center,
-                  //                                 child: Text(
-                  //                                   "Enjoy Your Eyes",
-                  //                                   style: TextStyle(
-                  //                                     fontSize: 18,
-                  //                                     fontWeight:
-                  //                                         FontWeight.bold,
-                  //                                     color: Colors.white,
-                  //                                   ),
-                  //                                 ),
-                  //                               ),
-                  //                               Padding(
-                  //                                 padding:
-                  //                                     const EdgeInsets.all(5.0),
-                  //                                 child: Text(
-                  //                                   "${snapshot.data!.docs[index].data()['name']}",
-                  //                                   style: const TextStyle(
-                  //                                     fontSize: 15,
-                  //                                     color: Colors.white,
-                  //                                   ),
-                  //                                 ),
-                  //                               ),
-                  //                             ],
-                  //                           ),
-                  //                         );
-                  //                       });
-                  //                 } else {
-                  //                   return Center(
-                  //                     child: Lottie.asset(
-                  //                         "assets/lottie/please_wait.json"),
-                  //                   );
-                  //                 }
-                  //               }),
-                  //     ),
-                  //   ],
-                  //   options: CarouselOptions(
-                  //     initialPage: 0,
-                  //     autoPlay: true,
-                  //     scrollDirection: Axis.horizontal,
-                  //     enableInfiniteScroll: true,
-                  //     enlargeCenterPage: true,
-                  //     aspectRatio: 16 / 9,
-                  //     viewportFraction: 0.8,
-                  //     autoPlayCurve: Curves.fastOutSlowIn,
-                  //     autoPlayAnimationDuration:
-                  //         const Duration(milliseconds: 200),
-                  //   ),
-                  // ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 3,
+                    width: MediaQuery.of(context).size.width,
                     child: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
                       future: FirebaseFirestore.instance
                           .collection("carousel")
@@ -329,10 +244,9 @@ class Screen extends GetWidget<ScreenViewModel> {
                           .collection("carousel")
                           .get(),
                       builder: (context, snapshot) {
-                        return CarouselSlider.builder(
+                       if(snapshot.hasData){ return CarouselSlider.builder(
                           itemCount: snapshot.data?.docs.length,
-                          itemBuilder: (context, index, _) {
-                            if (snapshot.hasData) {
+                          itemBuilder: (context, index, __) {
                               return Container(
                                 width: MediaQuery.of(context).size.width,
                                 margin: const EdgeInsets.all(5.0),
@@ -340,7 +254,7 @@ class Screen extends GetWidget<ScreenViewModel> {
                                   borderRadius: BorderRadius.circular(10),
                                   image: DecorationImage(
                                       image: NetworkImage(snapshot
-                                          .data!.docs[index]
+                                          .data?.docs[index]
                                           .data()['imageUrl']),
                                       fit: BoxFit.cover),
                                 ),
@@ -372,37 +286,6 @@ class Screen extends GetWidget<ScreenViewModel> {
                                   ],
                                 ),
                               );
-                            } else if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return Center(
-                                child: Lottie.asset(
-                                    "assets/lottie/please_wait.json"),
-                              );
-                            } else if (snapshot.hasError) {
-                              return Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children:  [
-                                  const CustomText(
-                                    text: "Oops!",
-                                    color: Colors.black,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                 const SizedBox(height: 10,),
-                                   CustomText(
-                                    text: snapshot.hasError.toString(),
-                                    color: Colors.black,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.normal,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ],
-                              );
-                            } else {
-                              return const Center(child: CircularProgressIndicator(color: Colors.red,),);
-                            }
                           },
                           options: CarouselOptions(
                             initialPage: 0,
@@ -417,9 +300,47 @@ class Screen extends GetWidget<ScreenViewModel> {
                                 const Duration(milliseconds: 200),
                           ),
                         );
+                      } else if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(
+                                child: Lottie.asset(
+                                    "assets/lottie/please_wait.json"),
+                              );
+                            } else if (snapshot.hasError) {
+                              return Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  const CustomText(
+                                    text: "Oops!",
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  CustomText(
+                                    text: snapshot.error.toString(),
+                                    color: Colors.black,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.normal,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              );
+                            } else {
+                              return const Center(
+                                child: CircularProgressIndicator(
+                                  color: Colors.red,
+                                ),
+                              );
+                            }
                       },
                     ),
                   ),
+                  
                   const SizedBox(
                     height: 5,
                   ),
@@ -429,12 +350,13 @@ class Screen extends GetWidget<ScreenViewModel> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: const [
                         CustomText(
-                          text: "All Products",
+                          text: "Last Products",
                           color: Colors.black,
                           fontSize: 20,
                           fontWeight: FontWeight.normal,
                           textAlign: TextAlign.center,
                         ),
+                        
                         // const Spacer(),
                         // ElevatedButton.icon(
                         //     onPressed: () {},
@@ -449,11 +371,12 @@ class Screen extends GetWidget<ScreenViewModel> {
                       ],
                     ),
                   ),
-                  CategoriesTitle(
-                    text: "Lastest Phones",
-                    text2: "< Pull",
-                    press: () {},
-                  ),
+                  // CategoriesTitle(
+                  //   text: "Lastest Phones",
+                  //   text2: "< Pull",
+                  //   press: () {},
+                  // ),
+                  const SizedBox(height: 10,),
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 2 +
                         MediaQuery.of(context).size.height / 8,
