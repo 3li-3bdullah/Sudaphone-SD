@@ -27,7 +27,7 @@ class Settings extends GetWidget<SettingsViewModel> {
           centerTitle: true,
           elevation: 0,
           backgroundColor: Colors.white),
-      body: Container(
+          body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
         child: Column(
           children: [
@@ -100,6 +100,7 @@ class Settings extends GetWidget<SettingsViewModel> {
           ],
         ),
       ),
+   
     );
   }
 }
