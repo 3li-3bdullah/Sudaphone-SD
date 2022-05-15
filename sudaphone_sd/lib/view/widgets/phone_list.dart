@@ -108,7 +108,7 @@ class PhoneList extends StatelessWidget {
           onTap: () {
             Get.to(
                 () => Details(
-                    snapshot: snapshot, docOne: docOne, collction: collction),
+                    docTwo: snapshot.id, docOne: docOne, collction: collction),
                 transition: Transition.zoom);
           },
         ),
