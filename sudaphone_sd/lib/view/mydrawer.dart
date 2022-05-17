@@ -55,12 +55,12 @@ class MyDrawer extends GetWidget<MyDrawerViewModel> {
                             builder: (context, snapshot) {
                               return Column(
                                 children: [
-                                  // const SizedBox(height: 20,),
-                                  // //  CircleAvatar(
-                                  //    radius: 65,
-                                  //    backgroundImage: NetworkImage(
-                                  //         snapshot.data!.data()?['profileUrl']),
-                                  //  ),
+                                  const SizedBox(height: 20,),
+                                   CircleAvatar(
+                                     radius: 65,
+                                     backgroundImage: NetworkImage(
+                                          snapshot.data!.data()?['profileUrl']),
+                                   ),
                                    const SizedBox(height: 10,),
                                   CustomText(
                                     text:
