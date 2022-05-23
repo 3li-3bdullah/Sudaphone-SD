@@ -16,7 +16,7 @@ class Oppo extends GetWidget<CategoriesViewModel> {
         centerTitle: true,
         backgroundColor: Colors.white,
         title: const CustomText(
-            text: "Huawei",
+            text: "Oppo",
             fontSize: 22,
             fontWeight: FontWeight.bold,
             color: Colors.black,
