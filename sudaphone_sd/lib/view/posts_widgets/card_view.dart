@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:sudaphone_sd/view/posts_pages/comments.dart';
 import 'package:sudaphone_sd/view/download_images.dart';
-import 'package:sudaphone_sd/view/posts_pages/post_people_liked.dart';
+import 'package:sudaphone_sd/view/people_have_liked.dart';
+import 'package:sudaphone_sd/view/posts_pages/comments.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 
@@ -36,9 +36,9 @@ class CardView extends GetWidget<PostsViewModel> {
                       child: Column(
                         children: [
                           ListTile(
-                            leading: const CircleAvatar(
+                            leading: CircleAvatar(
                               backgroundImage:
-                                  AssetImage("assets/images/slider/ali1.jpg"),
+                                  NetworkImage(data.data()['profileUrl']),
                             ),
                             title: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,7 +64,16 @@ class CardView extends GetWidget<PostsViewModel> {
                             ),
                             trailing: IconButton(
                                 icon: const Icon(Icons.more_horiz),
-                                onPressed: () {}),
+                                onPressed: () {
+                                  Get.bottomSheet(
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.black.withOpacity(0.5),
+                                        borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20))
+                                      ),
+                                    ),
+                                  );
+                                }),
                             isThreeLine: true,
                             subtitle: Column(
                               children: [
@@ -146,7 +155,7 @@ class CardView extends GetWidget<PostsViewModel> {
                                     ),
                                     onTap: () {
                                       Get.to(
-                                          () => PostPeopleLiked(
+                                          () => PeopleHaveLIked(
                                               peopleWhoLiked: snapshot
                                                   .data!
                                                   .docs[index]['usersLiked']
@@ -251,8 +260,8 @@ class CardView extends GetWidget<PostsViewModel> {
                                     IconButton(
                                       onPressed: () {
                                         Get.to(() => Comments(
-                                              firstCollection: data,
-                                              secondCollection:
+                                              firstDocSnapshot: data,
+                                              secondDocSnapshot:
                                                   snapshot.data!.docs[index],
                                             ));
                                       },
