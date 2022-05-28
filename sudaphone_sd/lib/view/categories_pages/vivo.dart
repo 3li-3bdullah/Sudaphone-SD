@@ -16,7 +16,7 @@ class Vivo extends GetWidget<CategoriesViewModel> {
         centerTitle: true,
         backgroundColor: Colors.white,
         title: const CustomText(
-            text: "Huawei",
+            text: "Vivo",
             fontSize: 22,
             fontWeight: FontWeight.bold,
             color: Colors.black,
