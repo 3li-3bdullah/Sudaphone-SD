@@ -37,6 +37,7 @@ class PostsViewModel extends GetxController {
   FirebaseAuth? auth = FirebaseAuth.instance;
   RxBool isHasLiked = false.obs;
   String? uid;
+  Map<String, dynamic>? getUserInfo;
 
   /// All Methods
   String? formattedDate;
@@ -86,11 +87,11 @@ class PostsViewModel extends GetxController {
                 "text": text!,
                 "imageUrl": imageUrl.toString(),
                 "dateTime": formattedDate.toString(),
-                "ownerUid": auth!.currentUser!.uid.toString(),
+                "ownerUid": uid.toString(),
                 "isThereImageUrl": true,
                 "likesCount": 0,
                 "isHasLiked": false,
-                "usersLiked": {"${auth!.currentUser!.uid}": false}
+                "usersLiked": {"$uid": false}
               })
               .whenComplete(
                 () => CustomSnakbar.showSnakBar(
@@ -110,11 +111,11 @@ class PostsViewModel extends GetxController {
                 "text": text!,
                 "imageUrl": "null",
                 "dateTime": formattedDate.toString(),
-                "ownerUid": auth!.currentUser!.uid.toString(),
+                "ownerUid": uid.toString(),
                 "isThereImageUrl": false,
                 "likesCount": 0,
                 "isHasLiked": false,
-                "usersLiked": {"${auth!.currentUser!.uid}": false}
+                "usersLiked": {"$uid": false}
               })
               .whenComplete(
                 () => CustomSnakbar.showSnakBar(
@@ -158,6 +159,11 @@ class PostsViewModel extends GetxController {
     final commentState = commentKey!.currentState?.validate();
     if (commentState == true) {
       commentKey.currentState!.save();
+      getUserInfo = await FirebaseFirestore.instance
+          .collection("posts")
+          .doc(uid)
+          .get()
+          .then((value) => value.data());
       final _formattedDate = DateFormat('M/d/y - kk:mm').format(DateTime.now());
       try {
         CollectionReference<Map<String, dynamic>> commentReference =
@@ -175,21 +181,25 @@ class PostsViewModel extends GetxController {
           String _imageUrl = await _uploadToStorage.ref.getDownloadURL();
 
           await commentReference.add({
+            'userName': getUserInfo!['userName'].toString(),
+            'profileUrl': getUserInfo!['profileUrl'].toString(),
             'text': text,
             'imageUrl': _imageUrl.toString(),
             'dateTime': _formattedDate.toString(),
             'isThereImageUrl': true,
-            "usersLiked": {"${auth!.currentUser!.uid}": false},
+            "usersLiked": {"$uid": false},
             'likesCount': 0,
           });
           isPickedForComment!.value = false;
         } else {
           await commentReference.add({
             'text': text,
+            'userName': getUserInfo!['userName'].toString(),
+            'profileUrl': getUserInfo!['profileUrl'].toString(),
             'imageUrl': "null",
             'dateTime': _formattedDate.toString(),
             'isThereImageUrl': false,
-            "usersLiked": {"${auth!.currentUser!.uid}": false},
+            "usersLiked": {"$uid": false},
             'likesCount': 0,
           });
         }
@@ -203,26 +213,7 @@ class PostsViewModel extends GetxController {
   clearCommentText() {
     commentController.clear();
   }
-  // Handle Likes
-  // handleLikes({collection1 , collection2, snapshot}) async {
-  //   CollectionReference<Map<String, dynamic>> _likeData = FirebaseFirestore
-  //       .instance
-  //       .collection("posts")
-  //       .doc(collection1.id)
-  //       .collection("userPosts")
-  //       .doc(collection2.id)
-  //       .collection("likes");
-  //   // The option will show up if the owner user has liked the post before
-  //   // or not, and even if the user delete the app and reinstall again , so
-  //   // he'll see he has liked before or not.
 
-  //   if (isHasLiked.value) {
-  //     await _likeData.doc(auth!.currentUser!.uid).set({'userName' : collection1.data()?['userName'].toString()});
-  //     isHasLiked(false);
-  //   } else {
-  //     await _likeData.doc(auth!.currentUser!.uid).delete();
-  //   }
-  // }
   handlePostLikes({firstDocsSnapshot, docSnapshot}) async {
     DocumentReference<Map<String, dynamic>> _likeData = FirebaseFirestore
         .instance
