@@ -7,6 +7,9 @@ class DetailsViewModel extends GetxController {
   /// variables
   // Size size = MediaQuery.of(Get.context!).size;
   Rx<PanelController> panelController = PanelController().obs;
+   CollectionReference<Map<String, dynamic>> isSaved = FirebaseFirestore
+        .instance
+        .collection("posts");
   FirebaseAuth auth = FirebaseAuth.instance;
   String? uid;
 
