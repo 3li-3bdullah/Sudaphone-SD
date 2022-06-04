@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sudaphone_sd/constants.dart';
 import 'package:sudaphone_sd/view/login_widgets/custom_text_form_field.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text.dart';
 import 'package:sudaphone_sd/view_model/login_view_model.dart';
@@ -16,35 +17,35 @@ class CustomSignUp extends GetWidget<LoginViewModel> {
       // duration: const Duration(milliseconds: 500),
       // curve: Curves.easeInOutBack,
       alignment: Alignment.center,
-      padding: const EdgeInsets.only(top: 15 , left:10,bottom:10,right:10),
+      padding: const EdgeInsets.only(top: 15, left: 10, bottom: 10, right: 10),
       width: MediaQuery.of(context).size.width / 1.2,
       // decoration: const BoxDecoration(
       //  color:Colors.black12,
       //  borderRadius: BorderRadius.all(Radius.circular(20),),
-        
+
       // ),
-        // boxShadow: [
-        //   BoxShadow(
-        //       color: Colors.black,
-        //       blurRadius: 0.1,
-        //       spreadRadius: 1,
-        //       offset: Offset(1, 1),),
-        // ],
-      
+      // boxShadow: [
+      //   BoxShadow(
+      //       color: Colors.black,
+      //       blurRadius: 0.1,
+      //       spreadRadius: 1,
+      //       offset: Offset(1, 1),),
+      // ],
+
       child: Form(
         key: controller.signUpKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             //Start User Name----------
-            const CustomText(
-              text: "Username",
-              color: Colors.white,
-              fontSize: 15,
-              fontWeight: FontWeight.w600,
-              textAlign: TextAlign.right,
-            ),
-            const SizedBox(height: 10),
+            // const CustomText(
+            //   text: "Username",
+            //   color: Colors.white,
+            //   fontSize: 15,
+            //   fontWeight: FontWeight.w600,
+            //   textAlign: TextAlign.right,
+            // ),
+            // const SizedBox(height: 10),
             CustomTextFormField(
               labelText: "Username",
               textEditingController: controller.usernameController!,
@@ -64,15 +65,15 @@ class CustomSignUp extends GetWidget<LoginViewModel> {
             ),
             //End User Name----------
             //Start User E-mail ----------
-            const SizedBox(height: 10),
-            const CustomText(
-              text: "E-mail",
-              color: Colors.white,
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-              textAlign: TextAlign.right,
-            ),
-            const SizedBox(height: 10),
+            // const SizedBox(height: 10),
+            // const CustomText(
+            //   text: "E-mail",
+            //   color: Colors.white,
+            //   fontSize: 15,
+            //   fontWeight: FontWeight.w700,
+            //   textAlign: TextAlign.right,
+            // ),
+            const SizedBox(height: 30),
             CustomTextFormField(
               labelText: "E-mail",
               textEditingController: controller.emailController!,
@@ -90,17 +91,17 @@ class CustomSignUp extends GetWidget<LoginViewModel> {
               // borderSideColor: Colors.grey,
               prefixColor: Colors.blue,
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 30),
             //End User E-mail ----------
             //Start User Password----------
-            const CustomText(
-              text: "Password",
-              color: Colors.white,
-              fontSize: 15,
-              fontWeight: FontWeight.w600,
-              textAlign: TextAlign.right,
-            ),
-            const SizedBox(height: 10),
+            // const CustomText(
+            //   text: "Password",
+            //   color: Colors.white,
+            //   fontSize: 15,
+            //   fontWeight: FontWeight.w600,
+            //   textAlign: TextAlign.right,
+            // ),
+            // const SizedBox(height: 10),
             CustomTextFormField(
               labelText: "Password",
               textEditingController: controller.passwordController!,
@@ -117,16 +118,19 @@ class CustomSignUp extends GetWidget<LoginViewModel> {
               // focusedColor: Colors.green,
               // borderSideColor: Colors.grey,
               prefixColor: Colors.blue,
-            ), const SizedBox(height: 10,),
-            //Start User Password Confirm----------
-            const CustomText(
-              text: "Confirm password",
-              color: Colors.white,
-              fontSize: 15,
-              fontWeight: FontWeight.w600,
-              textAlign: TextAlign.right,
             ),
-            const SizedBox(height: 10),
+            const SizedBox(
+              height: 30,
+            ),
+            //Start User Password Confirm----------
+            // const CustomText(
+            //   text: "Confirm password",
+            //   color: Colors.white,
+            //   fontSize: 15,
+            //   fontWeight: FontWeight.w600,
+            //   textAlign: TextAlign.right,
+            // ),
+            // const SizedBox(height: 10),
             CustomTextFormField(
               labelText: "Rewrite the password",
               textEditingController: controller.confirmPasswordController!,
@@ -144,7 +148,9 @@ class CustomSignUp extends GetWidget<LoginViewModel> {
               // borderSideColor: Colors.grey,
               prefixColor: Colors.blue,
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             //End User Password Confirm----------
           ],
         ),
@@ -158,39 +164,23 @@ class SignUpButton extends GetWidget<LoginViewModel> {
 
   @override
   Widget build(BuildContext context) {
-    return CircleAvatar(
-      radius: 58,
-      backgroundColor: Colors.blue,
-      child: MaterialButton(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+    return ElevatedButton(
+        style: ElevatedButton.styleFrom(
+            shadowColor: Colors.black,
+            elevation: 5,
+            primary: Colors.grey,
+            shape: const CircleBorder()),
         onPressed: () => controller.signUpWithEmailAndPassword(
             controller.usernameController!.text,
             controller.emailController!.text,
             controller.passwordController!.text,
             controller.signUpKey!),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Expanded(
-              flex: 3,
-              child: CustomText(
-                text: "Sign up",
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Container(
-                margin: const EdgeInsets.only(top: 4),
-                child: const Icon(Icons.arrow_forward_ios_outlined, color: Colors.white),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+        child: const SizedBox(
+            height: 100,
+            width: 100,
+            child: Icon(
+              Icons.arrow_forward,
+              size: 30,
+            )));
   }
 }

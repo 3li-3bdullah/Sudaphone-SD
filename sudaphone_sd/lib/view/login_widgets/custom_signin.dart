@@ -108,16 +108,23 @@ class SignInButton extends GetWidget<LoginViewModel> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      child: const CircleAvatar(
-        backgroundColor: Colors.blue,
-        radius: 50,
-        child:  Icon(Icons.arrow_forward,color:Colors.white,size: 30,)
-      ),
-      onTap: () => controller.signInWithEmailAndPassword(controller.emailController!.text,
+    return ElevatedButton(
+        style: ElevatedButton.styleFrom(
+            shadowColor: Colors.black,
+            elevation: 5,
+            primary: Colors.grey,
+            shape: const CircleBorder()),
+        onPressed: () => controller.signInWithEmailAndPassword(controller.emailController!.text,
               controller.passwordController!.text,
               controller.signInKey!
-    ));
+    ),
+        child: const SizedBox(
+            height: 100,
+            width: 100,
+            child: Icon(
+              Icons.arrow_forward,
+              size: 30,
+            )));
   }
 }
 /*

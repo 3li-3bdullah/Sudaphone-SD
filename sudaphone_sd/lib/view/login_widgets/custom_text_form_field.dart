@@ -28,32 +28,37 @@ class CustomTextFormField extends StatelessWidget {
   final TextEditingController textEditingController;
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
+    return TextFormField(style: const TextStyle(color: Colors.white),
       controller: textEditingController,
-
+      
       obscureText: obscure,
       validator:(value){
         return validator(value);
       },
       decoration: InputDecoration(
-        labelText: labelText,
+        
+        labelText: labelText,labelStyle: const TextStyle(color: Colors.white ),
         contentPadding: const EdgeInsets.all(4),
-        hintText: myhinttext,
-        prefixIcon: Icon(icon, color: prefixColor),
+        // hintText: myhinttext,
+        prefixIcon: Icon(icon, color: Colors.white , size: 30,),
         // filled: true,
         // fillColor: fillColor,
-        // enabledBorder: OutlineInputBorder(
-        //   borderSide: BorderSide(
-        //       color: enabledColor, style: BorderStyle.solid, width: 1),
-        // ),
-        // focusedBorder: OutlineInputBorder(
-        //   borderSide: BorderSide(
-        //       color: focusedColor, style: BorderStyle.solid, width: 1),
-        // ),
-        // border: OutlineInputBorder(
-        //   borderSide: BorderSide(
-        //       color: borderSideColor, style: BorderStyle.solid, width: 1),
-        // ),
+        
+        enabledBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(50)),
+          borderSide: BorderSide(
+              color: Colors.white, style: BorderStyle.solid, width: 1),
+        ),
+        focusedBorder:const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(50)),
+          borderSide: BorderSide(
+              color: Colors.white, style: BorderStyle.solid, width: 1),
+        ),
+        border: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(50),),
+          borderSide: BorderSide(
+              color: Colors.white, style: BorderStyle.solid, width: 1),
+        ),
       ),
     );
   }
