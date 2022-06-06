@@ -48,7 +48,7 @@ class LastProduct extends StatelessWidget {
                 ),
                 )),
         onTap: () {
-          Details(snapshot: snapshot, docOne: docOne, collction: collection);
+          Details(docTwo: snapshot.id, docOne: docOne, collction: collection);
         },
       ),
     );
