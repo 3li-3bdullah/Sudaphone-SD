@@ -2,12 +2,11 @@
 Here to get the best services with Sudaphone SD. It's actually e-eommerece App :), So that will provide you telephone news and his price by dollar.
 
 ## About the app :
-<hr>
 
 So as i mentioned before it's e-commerce app, that will show you most and popular phones that are use , you can also post if you want to buy a phone or sell yours and the other users will interact, write a comment if anyone want to buy or sell, and there are found favorite page to show you which phones you've liked  and more features ^_^ .
 
 ## Technologies that i've used : 
-<hr>
+
 
 - MVVM architecture.
 - Getx.
@@ -18,23 +17,22 @@ So as i mentioned before it's e-commerce app, that will show you most and popula
 I collected most types of phones are used in these categories { Huawei,Samsung,Iphone,Xiaomi,Realme,Oppo,Tecno,Lenovo,Nokia,Vivo }, and each category has 10 phones, so we have 100 types of phones. And all these data i have uploaded into Firebase.
 
 ## Screens it contains:
-<hr>
-_ Login.
-_ Sign Up.
-_ Home Page.
-_ Bottom Navigation Bar.
-_ Categories.
-_ Post.
-_ Setting.
-_ Search.
-_ Result .
-_ Favorite.
-_ 3D Drawer.
-_ About App.
-_ Feedback.
+
+_ Login. <br>
+_ Sign Up. <br>
+_ Home Page. <br>
+_ Bottom Navigation Bar. <br>
+_ Categories. <br>
+_ Post. <br>
+_ Setting. <br>
+_ Search. <br>
+_ Result . <br>
+_ Favorite. <br>
+_ 3D Drawer. <br>
+_ About App. <br>
+_ Feedback. <br>
 
 ## Packages i am using:
-<hr>
 
 - get.
 - permission_handler.
