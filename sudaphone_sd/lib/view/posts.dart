@@ -19,7 +19,7 @@ class Posts extends GetWidget<PostsViewModel> {
         ),
         leading: IconButton(
           icon: const Icon(
-            Icons.arrow_back_ios,
+            Icons.arrow_back,
             color: Colors.black,
           ),
           onPressed: () {
@@ -38,9 +38,8 @@ class Posts extends GetWidget<PostsViewModel> {
         child: const Icon(Icons.add, size: 20),
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        stream: FirebaseFirestore.instance
-            .collection("posts")
-            // .orderBy('dateTime',descending: true)
+        stream: controller.postsCollections
+            .orderBy("dateTime", descending: true)
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -49,7 +48,18 @@ class Posts extends GetWidget<PostsViewModel> {
               reverse: true,
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) {
-                return CardView(data: snapshot.data!.docs[index]);
+                if (snapshot.hasData) {
+                  return CardView(data: snapshot.data!.docs[index]);
+                } else if (snapshot.connectionState ==
+                    ConnectionState.waiting) {
+                  return Container(
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
+                      alignment: Alignment.center,
+                      child: Lottie.asset("assets/images/create_post.json"));
+                } else {
+                  return const Center(child: CircularProgressIndicator(color: Colors.brown,));
+                }
               },
             );
           } else if (snapshot.hasError) {
