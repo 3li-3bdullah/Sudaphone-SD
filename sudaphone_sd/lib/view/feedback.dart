@@ -5,6 +5,15 @@ class Feedback extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Feedback",style: TextStyle(color: Colors.black),),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+      ),
+      body: SingleChildScrollView(child: Column(children: [
+        
+      ],)),
+    );
   }
 }
