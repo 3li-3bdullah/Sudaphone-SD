@@ -5,11 +5,13 @@ import 'package:get/get.dart';
 class MyDrawerViewModel extends GetxController {
   /// Declaring Variables
   RxDouble value = 0.0.obs;
+  RxString uid = "".obs;
+  Future<void> logOut = FirebaseAuth.instance.signOut();
   // FirebaseAuth _auth = FirebaseAuth.instance;
   // RxString? userName;
-  DocumentReference<Map<String, dynamic>> userName = FirebaseFirestore.instance
-      .collection("posts")
-      .doc(FirebaseAuth.instance.currentUser?.uid);
+  CollectionReference<Map<String, dynamic>> userName = FirebaseFirestore.instance
+      .collection("usersInfo");
+      // .doc(FirebaseAuth.instance.currentUser!.uid);
 
   /// Some Methods
   void valueOne() {
@@ -18,6 +20,11 @@ class MyDrawerViewModel extends GetxController {
 
   void valueZero() {
     value(0.0);
+  }
+  @override
+  void onInit() {
+    uid.value = FirebaseAuth.instance.currentUser!.uid;
+    super.onInit();
   }
 
   //  getUserInfo() async {
