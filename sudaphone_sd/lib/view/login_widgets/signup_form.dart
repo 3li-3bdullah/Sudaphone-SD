@@ -27,8 +27,6 @@ class SignUpForm extends GetWidget<LoginViewModel> {
                 }
               },
               icon: Icons.person_outline_rounded,
-              myhinttext: "Username",
-              prefixColor: Colors.blue,
             ),
             //End User Name----------
             //Start User E-mail ----------
@@ -43,42 +41,44 @@ class SignUpForm extends GetWidget<LoginViewModel> {
                 }
               },
               icon: Icons.email_outlined,
-              myhinttext: "example@gmail.com",
-              prefixColor: Colors.blue,
             ),
             const SizedBox(height: 30),
             //End User E-mail ----------
             //Start User Password----------
-            CustomTextFormField(
-              labelText: "Password",
-              textEditingController: controller.passwordController!,
-              obscure: true,
-              validator: (String value) {
-                if (value.isEmpty) {
-                  return "Write your password";
-                }
-              },
-              icon: Icons.lock_outlined,
-              myhinttext: "***********",
-              prefixColor: Colors.blue,
+            Obx(
+              () => CustomTextFormField(
+                labelText: "Password",
+                textEditingController: controller.passwordController!,
+                obscure: true,
+                validator: (String value) {
+                  if (value.isEmpty) {
+                    return "Write your password";
+                  }
+                },
+                icon: Icons.lock_outlined,
+                istrue: controller.isObSecureSignup.value,
+                changeObscureValue: ()=> controller.toggle2(),
+              ),
             ),
             const SizedBox(
               height: 30,
             ),
             //Start User Password Confirm----------
-            
-            CustomTextFormField(
-              labelText: "Rewrite the password",
-              textEditingController: controller.confirmPasswordController!,
-              obscure: true,
-              validator: (String value) {
-                if (value != controller.passwordController!.text) {
-                  return "Password incorrect";
-                }
-              },
-              icon: Icons.lock_outlined,
-              myhinttext: "***********",
-              prefixColor: Colors.blue,
+
+            Obx(
+              () => CustomTextFormField(
+                labelText: "Rewrite the password",
+                textEditingController: controller.confirmPasswordController!,
+                obscure: true,
+                validator: (String value) {
+                  if (value != controller.passwordController!.text) {
+                    return "Password incorrect";
+                  }
+                },
+                icon: Icons.lock_outlined,
+                istrue: controller.isObSecureSignup.value,
+                changeObscureValue: ()=> controller.toggle2(),
+              ),
             ),
             const SizedBox(
               height: 10,

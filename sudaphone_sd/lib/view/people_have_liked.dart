@@ -34,7 +34,7 @@ class PeopleHaveLIked extends GetWidget<PostsViewModel> {
         itemCount: peopleWhoLiked.length,
         itemBuilder: (context, index) {
           return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-            future: controller.peopleWhoLikedReference
+            future: controller.postsCollections
                 .doc("${peopleWhoLiked[index]}")
                 .get(),
             builder: ((context, snapshot) {

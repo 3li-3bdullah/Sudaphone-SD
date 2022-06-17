@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -14,14 +16,20 @@ class SearchFutureBuilder extends StatelessWidget {
     /* 
     * Huawei Methods
     */
-    if (query.toLowerCase().contains("huawei") || query.contains("Huawei") || query.contains("Honor")) {
+    if (query.toLowerCase().contains("huawei") || query.toLowerCase().contains("Honor")) {
+      // if (query.contains("huawei")) {
+      //   query = query.replaceAll("huawei", "Huawei");
+      //   log(query.toString());
+      // } else {
+      //   query = query.replaceAll("honor", "Honor");
+      // }
       return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
           future: FirebaseFirestore.instance
               .collection("phonesCategory")
               .doc("allHuawei")
               .collection("huawei")
-              .where("name", isGreaterThanOrEqualTo: query)
-              .get(),
+              .orderBy('name')
+              .startAt([query]).endAt([query + '\uf8ff']).get(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
@@ -41,7 +49,7 @@ class SearchFutureBuilder extends StatelessWidget {
             } else {
               return const Center(
                 child: CircularProgressIndicator(
-                  color: Colors.purpleAccent,
+                  color: Colors.brown,
                 ),
               );
             }
@@ -63,14 +71,15 @@ class SearchFutureBuilder extends StatelessWidget {
     /* 
     * Samsung Methods
     */
-    else if (query.toLowerCase().contains("samsung") || query.contains("Samsung")) {
+    else if (query.toLowerCase().contains("samsung")) {
+      query = query.replaceAll("samsung", "Samsung");
       return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
           future: FirebaseFirestore.instance
               .collection("phonesCategory")
               .doc("allSamsung")
               .collection("samsung")
-              .where("name", isGreaterThanOrEqualTo: query)
-              .get(),
+              .orderBy('name')
+              .startAt([query]).endAt([query + '\uf8ff']).get(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
@@ -90,7 +99,7 @@ class SearchFutureBuilder extends StatelessWidget {
             } else {
               return const Center(
                 child: CircularProgressIndicator(
-                  color: Colors.purpleAccent,
+                  color: Colors.brown,
                 ),
               );
             }
@@ -99,14 +108,15 @@ class SearchFutureBuilder extends StatelessWidget {
     /* 
     * Iphone Methods
     */
-    else if (query.toLowerCase().contains("iphone") || query.contains("Iphone")) {
+    else if (query.toLowerCase().contains("iphone")) {
+      query = query.replaceAll("iphone", "Iphone");
       return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
           future: FirebaseFirestore.instance
               .collection("phonesCategory")
               .doc("allIphone")
               .collection("iphone")
-              .where("name", isGreaterThanOrEqualTo: query)
-              .get(),
+              .orderBy('name')
+              .startAt([query]).endAt([query + '\uf8ff']).get(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
@@ -126,7 +136,7 @@ class SearchFutureBuilder extends StatelessWidget {
             } else {
               return const Center(
                 child: CircularProgressIndicator(
-                  color: Colors.purpleAccent,
+                  color: Colors.brown,
                 ),
               );
             }
@@ -135,14 +145,15 @@ class SearchFutureBuilder extends StatelessWidget {
     /* 
     * Vivo Methods
     */
-    else if (query.toLowerCase().contains("vivo") || query.contains("vivo")) {
+    else if (query.toLowerCase().contains("vivo")) {
+      query = query.replaceAll("vivo", "Vivo");
       return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
           future: FirebaseFirestore.instance
               .collection("phonesCategory")
               .doc("allVivo")
               .collection("vivo")
-              .where("name", isGreaterThanOrEqualTo: query)
-              .get(),
+              .orderBy('name')
+              .startAt([query]).endAt([query + '\uf8ff']).get(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
@@ -162,7 +173,7 @@ class SearchFutureBuilder extends StatelessWidget {
             } else {
               return const Center(
                 child: CircularProgressIndicator(
-                  color: Colors.purpleAccent,
+                  color: Colors.brown,
                 ),
               );
             }
@@ -171,14 +182,15 @@ class SearchFutureBuilder extends StatelessWidget {
     /* 
     * Realme Methods
     */
-    else if (query.toLowerCase().contains("realme") || query.contains("Realme")) {
+    else if (query.toLowerCase().contains("realme")) {
+      query = query.replaceAll("realme", "Realme");
       return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
           future: FirebaseFirestore.instance
               .collection("phonesCategory")
               .doc("allRealme")
               .collection("realme")
-              .where("name", isGreaterThanOrEqualTo: query)
-              .get(),
+              .orderBy('name')
+              .startAt([query]).endAt([query + '\uf8ff']).get(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
@@ -198,7 +210,7 @@ class SearchFutureBuilder extends StatelessWidget {
             } else {
               return const Center(
                 child: CircularProgressIndicator(
-                  color: Colors.purpleAccent,
+                  color: Colors.brown,
                 ),
               );
             }
@@ -208,14 +220,19 @@ class SearchFutureBuilder extends StatelessWidget {
     * Xiaomi Methods
     */
     else if (query.toLowerCase().contains("xiaomi") ||
-        query.toLowerCase().contains("poco") || query.contains("Xiaomi")) {
+        query.toLowerCase().contains("poco")) {
+      if (query.contains("xiaomi")) {
+        query = query.replaceAll("xiaomi", "Xiaomi");
+      } else {
+        query = query.replaceAll("poco", "Poco");
+      }
       return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
           future: FirebaseFirestore.instance
               .collection("phonesCategory")
               .doc("allXiaomi")
               .collection("xiaomi")
-              .where("name", isGreaterThanOrEqualTo: query)
-              .get(),
+              .orderBy('name')
+              .startAt([query]).endAt([query + '\uf8ff']).get(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
@@ -235,7 +252,7 @@ class SearchFutureBuilder extends StatelessWidget {
             } else {
               return const Center(
                 child: CircularProgressIndicator(
-                  color: Colors.purpleAccent,
+                  color: Colors.brown,
                 ),
               );
             }
@@ -244,14 +261,15 @@ class SearchFutureBuilder extends StatelessWidget {
     /* 
     * Lenovo Methods
     */
-    else if (query.toLowerCase().contains("lenovo") || query.contains("Lenovo")) {
+    else if (query.toLowerCase().contains("lenovo")) {
+      query = query.replaceAll("lenovo", "Lenovo");
       return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
           future: FirebaseFirestore.instance
               .collection("phonesCategory")
               .doc("allLenovo")
               .collection("lenovo")
-              .where("name", isGreaterThanOrEqualTo: query)
-              .get(),
+              .orderBy('name')
+              .startAt([query]).endAt([query + '\uf8ff']).get(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
@@ -271,7 +289,7 @@ class SearchFutureBuilder extends StatelessWidget {
             } else {
               return const Center(
                 child: CircularProgressIndicator(
-                  color: Colors.purpleAccent,
+                  color: Colors.brown,
                 ),
               );
             }
@@ -280,14 +298,15 @@ class SearchFutureBuilder extends StatelessWidget {
     /* 
     * Tecno Methods
     */
-    else if (query.toLowerCase().contains("tecno") || query.contains("Tecno")) {
+    else if (query.toLowerCase().contains("tecno")) {
+      query = query.replaceAll("tecno", "Tecno");
       return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
           future: FirebaseFirestore.instance
               .collection("phonesCategory")
               .doc("allTecno")
               .collection("tecno")
-              .where("name", isGreaterThanOrEqualTo: query)
-              .get(),
+              .orderBy('name')
+              .startAt([query]).endAt([query + '\uf8ff']).get(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
@@ -307,7 +326,7 @@ class SearchFutureBuilder extends StatelessWidget {
             } else {
               return const Center(
                 child: CircularProgressIndicator(
-                  color: Colors.purpleAccent,
+                  color: Colors.brown,
                 ),
               );
             }
@@ -316,14 +335,15 @@ class SearchFutureBuilder extends StatelessWidget {
     /* 
     * Nokia Methods
     */
-    else if (query.toLowerCase().contains("nokia") || query.contains("nokia")) {
+    else if (query.toLowerCase().contains("nokia")) {
+      query = query.replaceAll("nokia", "Nokia");
       return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
           future: FirebaseFirestore.instance
               .collection("phonesCategory")
               .doc("allNokia")
               .collection("nokia")
-              .where("name", isGreaterThanOrEqualTo: query)
-              .get(),
+              .orderBy('name')
+              .startAt([query]).endAt([query + '\uf8ff']).get(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
@@ -343,7 +363,7 @@ class SearchFutureBuilder extends StatelessWidget {
             } else {
               return const Center(
                 child: CircularProgressIndicator(
-                  color: Colors.purpleAccent,
+                  color: Colors.brown,
                 ),
               );
             }
@@ -352,14 +372,15 @@ class SearchFutureBuilder extends StatelessWidget {
     /* 
     * Oppo Methods
     */
-    else if (query.toLowerCase().contains("oppo") || query.contains("Oppo")) {
+    else if (query.toLowerCase().contains("oppo")) {
+      query = query.replaceAll("oppo", "Oppo");
       return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
           future: FirebaseFirestore.instance
               .collection("phonesCategory")
               .doc("allOppo")
               .collection("oppo")
-              .where("name", isGreaterThanOrEqualTo: query)
-              .get(),
+              .orderBy('name')
+              .startAt([query]).endAt([query + '\uf8ff']).get(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
@@ -379,20 +400,20 @@ class SearchFutureBuilder extends StatelessWidget {
             } else {
               return const Center(
                 child: CircularProgressIndicator(
-                  color: Colors.purpleAccent,
+                  color: Colors.brown,
                 ),
               );
             }
           });
     } else {
-      return const Center(
-        child: CustomText(
-            text: "Please write the phone's brand first ",
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            textAlign: TextAlign.center,
-            color: Colors.pink),
-      );
+      return const SizedBox(
+          // child: CustomText(
+          //     text: "Please write the phone's brand first ",
+          //     fontSize: 20,
+          //     fontWeight: FontWeight.bold,
+          //     textAlign: TextAlign.center,
+          //     color: Colors.pink),
+          );
     }
   }
 }

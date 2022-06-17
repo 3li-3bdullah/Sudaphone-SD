@@ -15,13 +15,12 @@ class PostsViewModel extends GetxController {
   /// Declaring Variables
   final GlobalKey<FormState>? postKey = GlobalKey<FormState>();
   final GlobalKey<FormState>? commentKey = GlobalKey<FormState>();
-  CollectionReference<Map<String, dynamic>> writePostsData =
+  CollectionReference<Map<String, dynamic>> userInfoCollection =
+      FirebaseFirestore.instance.collection("usersInfo");
+  CollectionReference postsReference =
       FirebaseFirestore.instance.collection("posts");
-  CollectionReference postsCollections =
+  CollectionReference<Map<String, dynamic>> postsCollections =
       FirebaseFirestore.instance.collection("posts");
-  CollectionReference<Map<String, dynamic>> peopleWhoLikedReference =
-      FirebaseFirestore.instance.collection("posts");
-  // RxInt? commentsCount;
   TextEditingController commentController = TextEditingController();
 
   String? _fileName;
@@ -80,9 +79,7 @@ class PostsViewModel extends GetxController {
           imageUrl = await uploadToStorage.ref.getDownloadURL();
           isHasAnImageUrl(imageUrl);
           isPicked!.value = false;
-          postsCollections
-              .doc(auth!.currentUser!.uid)
-              .collection("userPosts")
+          postsReference
               .add({
                 "text": text!,
                 "imageUrl": imageUrl.toString(),
@@ -98,15 +95,13 @@ class PostsViewModel extends GetxController {
                     backgroundColor: const Color.fromARGB(255, 188, 204, 189),
                     context: Get.context,
                     message: "Uploaded Post Successfully",
-                    title: "Done"),
+                    title: ""),
               )
               .then(
                 (value) => Get.off(() => const Posts()),
               );
         } else {
-          postsCollections
-              .doc(auth!.currentUser!.uid)
-              .collection("userPosts")
+          postsReference
               .add({
                 "text": text!,
                 "imageUrl": "null",
@@ -122,7 +117,7 @@ class PostsViewModel extends GetxController {
                     backgroundColor: const Color.fromARGB(255, 188, 204, 189),
                     context: Get.context,
                     message: "Uploaded Post Successfully",
-                    title: "Done"),
+                    title: ""),
               )
               .then(
                 (value) => Get.off(() => const Posts()),
@@ -132,7 +127,6 @@ class PostsViewModel extends GetxController {
         return Get.snackbar("Error", "The error : ${e.toString()}");
       }
       clearEditingControllers();
-      resetValues(fileName: _fileName, imageFile: _imageFile, url: imageUrl);
     }
   }
 
@@ -153,7 +147,6 @@ class PostsViewModel extends GetxController {
 
   Future addComment(
       {collectionOne,
-      collectionTwo,
       String? text,
       GlobalKey<FormState>? commentKey}) async {
     final commentState = commentKey!.currentState?.validate();
@@ -166,12 +159,10 @@ class PostsViewModel extends GetxController {
           .then((value) => value.data());
       final _formattedDate = DateFormat('M/d/y - kk:mm').format(DateTime.now());
       try {
-        CollectionReference<Map<String, dynamic>> commentReference =
+        CollectionReference<Map<String, dynamic>> _commentReference =
             FirebaseFirestore.instance
                 .collection("posts")
                 .doc(collectionOne.id)
-                .collection("userPosts")
-                .doc(collectionTwo.id)
                 .collection("comments");
         if (isPickedForComment!.value) {
           TaskSnapshot _uploadToStorage = await FirebaseStorage.instance
@@ -180,10 +171,11 @@ class PostsViewModel extends GetxController {
               .putFile(_imageFileForComment!);
           String _imageUrl = await _uploadToStorage.ref.getDownloadURL();
 
-          await commentReference.add({
-            'userName': getUserInfo!['userName'].toString(),
-            'profileUrl': getUserInfo!['profileUrl'].toString(),
+          await _commentReference.add({
+            // 'userName': getUserInfo!['userName'].toString(),
+            // 'profileUrl': getUserInfo!['profileUrl'].toString(),
             'text': text,
+            'ownerUid': uid.toString(),
             'imageUrl': _imageUrl.toString(),
             'dateTime': _formattedDate.toString(),
             'isThereImageUrl': true,
@@ -192,11 +184,12 @@ class PostsViewModel extends GetxController {
           });
           isPickedForComment!.value = false;
         } else {
-          await commentReference.add({
+          await _commentReference.add({
             'text': text,
-            'userName': getUserInfo!['userName'].toString(),
-            'profileUrl': getUserInfo!['profileUrl'].toString(),
+            // 'userName': getUserInfo!['userName'].toString(),
+            // 'profileUrl': getUserInfo!['profileUrl'].toString(),
             'imageUrl': "null",
+            'ownerUid': uid.toString(),
             'dateTime': _formattedDate.toString(),
             'isThereImageUrl': false,
             "usersLiked": {"$uid": false},
@@ -214,24 +207,23 @@ class PostsViewModel extends GetxController {
     commentController.clear();
   }
 
-  handlePostLikes({firstDocsSnapshot, docSnapshot}) async {
+  handlePostLikes({firstDocsSnapshot}) async {
     DocumentReference<Map<String, dynamic>> _likeData = FirebaseFirestore
         .instance
         .collection("posts")
-        .doc(firstDocsSnapshot.id)
-        .collection("userPosts")
-        .doc(docSnapshot.id);
+        .doc(firstDocsSnapshot.id);
     /*
      * This option will show up if the owner user has liked the post before
      * or not, and even if the user delete the app and reinstall again , so
      * he'll see he has liked before or not.
      */
-    bool _isHasLiked = await _likeData
-        .get()
-        .then((value) => value.data()!['usersLiked']['$uid'] == true);
+    bool _isHasLiked = firstDocsSnapshot.data()['usersLiked']['$uid'];
+    // await _likeData
+    //     .get()
+    //     .then((value) => value.data()!['usersLiked']['$uid'] == true);
 
     if (!_isHasLiked) {
-      int _addLike = docSnapshot['likesCount'] + 1;
+      int _addLike = firstDocsSnapshot.data()['likesCount'] + 1;
       await _likeData.update({
         'likesCount': _addLike.toInt(),
         'isHasLiked': true,
@@ -239,7 +231,7 @@ class PostsViewModel extends GetxController {
       });
       // isLiked.value = true;
     } else {
-      int _removeLike = docSnapshot['likesCount'] - 1;
+      int _removeLike = firstDocsSnapshot.data()['likesCount'] - 1;
       await _likeData.update({
         'likesCount': _removeLike.toInt(),
         'isHasLiked': false,
@@ -250,13 +242,11 @@ class PostsViewModel extends GetxController {
   }
 
   handleCommentLikes(
-      {firstCollectionDocs, secondCollectionDocs, docSnapshot}) async {
+      {firstCollectionDocs, docSnapshot}) async {
     DocumentReference<Map<String, dynamic>> _commentLikeData = FirebaseFirestore
         .instance
         .collection("posts")
         .doc(firstCollectionDocs.id)
-        .collection("userPosts")
-        .doc(secondCollectionDocs.id)
         .collection("comments")
         .doc(docSnapshot.id);
     /*
@@ -304,11 +294,7 @@ class PostsViewModel extends GetxController {
     textController!.clear();
   }
 
-  void resetValues({String? fileName, File? imageFile, String? url}) {
-    fileName = null;
-    imageFile = null;
-    url = null;
-  }
+  
 
   @override
   void onClose() {

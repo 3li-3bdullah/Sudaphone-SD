@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sudaphone_sd/view/login_widgets/primary_button.dart';
 import 'package:sudaphone_sd/view/login_widgets/signin_form.dart';
 import 'package:sudaphone_sd/view/signup.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text.dart';
+import 'package:sudaphone_sd/view/widgets/primary_button.dart';
 import 'package:sudaphone_sd/view_model/login_view_model.dart';
 
 class SignIn extends GetWidget<LoginViewModel> {

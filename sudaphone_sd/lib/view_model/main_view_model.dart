@@ -20,6 +20,8 @@ Future refreshFirebaseUser() async {
     final user = auth.currentUser;
     final idTokenResult = await user!.getIdTokenResult(true);
     return idTokenResult;
+  } else{
+    isLogin.value =false;
   }
 }
 

@@ -1,9 +1,8 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sudaphone_sd/view/widgets/snack_to_upload_images.dart';
-import 'package:sudaphone_sd/view_model/login_view_model.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text.dart';
+import 'package:sudaphone_sd/view_model/login_view_model.dart';
 
 class BuildAvatar extends GetWidget<LoginViewModel> {
   const BuildAvatar({Key? key}) : super(key: key);
@@ -17,15 +16,15 @@ class BuildAvatar extends GetWidget<LoginViewModel> {
               width: 100,
               child: InkWell(
                 onTap: () {},
-                child: AvatarGlow(
+                child: AvatarGlow(shape: BoxShape.circle,animate: true,
                   child: CircleAvatar(
                     radius: 100,
-                    backgroundColor: Colors.blue,
+                    backgroundColor: Colors.brown,
                     backgroundImage: FileImage(controller.imageFile!),
                   ),
                   duration: const Duration(milliseconds: 2500),
                   showTwoGlows: true,
-                  glowColor: Colors.blue,
+                  glowColor: Colors.brown,
                   repeat: true,
                   endRadius: 100,
                   repeatPauseDuration: const Duration(milliseconds: 150),
@@ -36,6 +35,12 @@ class BuildAvatar extends GetWidget<LoginViewModel> {
               height: 100,
               width: 100,
               child: AvatarGlow(
+                duration: const Duration(milliseconds: 2500),
+                  showTwoGlows: true,
+                  glowColor: Colors.brown,
+                  repeat: true,
+                  endRadius: 300,
+                  // repeatPauseDuration: const Duration(milliseconds: 150),
                 child: InkWell(
                   onTap: () {
                     Get.defaultDialog(
@@ -48,7 +53,7 @@ class BuildAvatar extends GetWidget<LoginViewModel> {
                       ),
                       title: "Upload",
                       cancel: MaterialButton(
-                        color: Colors.blue,
+                        color: Colors.brown,
                         elevation: 0,
                         onPressed: () {
                           controller.uploadProfilePic(source: "gallery");
@@ -56,7 +61,7 @@ class BuildAvatar extends GetWidget<LoginViewModel> {
                         child: Row(
                           children: const [
                             Icon(
-                              Icons.camera_alt_outlined,
+                              Icons.photo,
                               color: Colors.white,
                             ),
                             SizedBox(
@@ -73,7 +78,7 @@ class BuildAvatar extends GetWidget<LoginViewModel> {
                         ),
                       ),
                       confirm: MaterialButton(
-                        color: Colors.blue,
+                        color: Colors.brown,
                         elevation: 0,
                         onPressed: () {
                           controller.uploadProfilePic(source: "camera");
@@ -99,37 +104,13 @@ class BuildAvatar extends GetWidget<LoginViewModel> {
                       ),
                     );
                   },
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      const CircleAvatar(
-                        radius: 100,
-                        backgroundColor: Colors.grey,
-                        child: Icon(Icons.person, size: 80, color: Colors.white),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        child: Container(
-                          height: 30,
-                          color: Colors.grey,
-                          child: const Align(
-                            alignment: Alignment.center,
-                            child: Icon(
-                              Icons.camera_alt_outlined,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                  child: const CircleAvatar(
+                    radius: 100,
+                    backgroundColor: Colors.grey,
+                    child: Icon(Icons.person, size: 80, color: Colors.brown),
                   ),
                 ),
-                 duration: const Duration(milliseconds: 2500),
-                  showTwoGlows: true,
-                  glowColor: Colors.blue,
-                  repeat: true,
-                  endRadius: 100,
-                  repeatPauseDuration: const Duration(milliseconds: 150),
+                 
               ),
             )),
     );

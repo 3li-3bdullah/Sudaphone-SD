@@ -33,20 +33,18 @@ class SignInForm extends GetWidget<LoginViewModel> {
                 const SizedBox(height: 10),
                 CustomTextFormField(
                   labelText: "E-mail",
-                    textEditingController: controller.emailController!,
-                    obscure: false,
-                    validator: (String value) {
-                      if (value.isEmpty) {
-                       return "Please write your e-mail";
-                      }
-                    },
-                    icon: Icons.email_outlined,
-                    myhinttext: "example@gmail.com",
-                    prefixColor: Colors.orange,
-                    ),
+                  textEditingController: controller.emailController!,
+                  obscure: false,
+                  validator: (String value) {
+                    if (value.isEmpty) {
+                      return "Please write your e-mail";
+                    }
+                  },
+                  icon: Icons.email_outlined,
+                ),
                 //End Email ----------
                 //Start User Password----------
-                const SizedBox(height:10),
+                const SizedBox(height: 10),
                 const CustomText(
                   text: "Password",
                   color: Colors.white,
@@ -55,22 +53,23 @@ class SignInForm extends GetWidget<LoginViewModel> {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 10),
-                CustomTextFormField(
-                  labelText: "Password",
+                Obx(
+                  () => CustomTextFormField(
+                    labelText: "Password",
                     textEditingController: controller.passwordController!,
                     obscure: true,
                     validator: (String value) {
                       if (value.isEmpty) {
-                       return "Please write your password ";
+                        return "Please write your password ";
                       }
                     },
                     icon: Icons.lock_outline,
-                    myhinttext: "***********",
-                    prefixColor: Colors.orange,
+                    changeObscureValue: ()=> controller.toggle1(),
+                    istrue: controller.isObSecureSignin.value,
+                  ),
                 ),
-                    const SizedBox(height:10),
+                const SizedBox(height: 10),
                 //End User Password----------
-                
               ],
             ),
           ),

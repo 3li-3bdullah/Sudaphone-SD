@@ -7,12 +7,12 @@ class ScreenViewModel extends GetxController {
   /*
   *Declare Variables 
   */
-  RxInt? activeIndex = 0.obs;
+  RxInt activeIndex = 0.obs;
   RxDouble value = 0.0.obs;
   CollectionReference<Map<String, dynamic>> carouselFire = FirebaseFirestore.instance.collection("carousel");
   CollectionReference<Map<String, dynamic>> phonesCategory = FirebaseFirestore.instance.collection("phonesCategory");
-  String? uid;
-  FirebaseAuth auth = FirebaseAuth.instance;
+  RxString uid = "".obs;
+  FirebaseAuth? auth = FirebaseAuth.instance;
   CollectionReference<Map<String, dynamic>> drawerData = FirebaseFirestore.instance.collection("posts");
   Size size = MediaQuery.of(Get.context!).size;
   PageController controllerCarousel =
@@ -32,7 +32,7 @@ class ScreenViewModel extends GetxController {
   */
   @override
   void onInit() {
-    uid = auth.currentUser!.uid;
+   uid.value = auth!.currentUser!.uid;
     super.onInit();
   }
   void valueOne() {
@@ -42,5 +42,4 @@ class ScreenViewModel extends GetxController {
   void valueZero() {
     value(0.0);
   }
- 
 }

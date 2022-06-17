@@ -18,7 +18,6 @@ import 'package:sudaphone_sd/view/screen_pages/drawer_child.dart';
 import 'package:sudaphone_sd/view/screen_widgets/all_products.dart';
 import 'package:sudaphone_sd/view/screen_widgets/build_images_carousel.dart';
 import 'package:sudaphone_sd/view/screen_widgets/build_indicator_carousel.dart';
-import 'package:sudaphone_sd/view/screen_widgets/carousel_most_used.dart';
 import 'package:sudaphone_sd/view/screen_widgets/categories_title.dart';
 import 'package:sudaphone_sd/view/screen_widgets/custom_listtile.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text.dart';
@@ -32,7 +31,6 @@ class Screen extends GetWidget<ScreenViewModel> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double halfheight = size.height / 2;
-    double partOfHeight = size.height / 8;
     return ElasticDrawer(
       mainColor: Colors.transparent,
       drawerColor: Colors.transparent,
@@ -229,8 +227,7 @@ class Screen extends GetWidget<ScreenViewModel> {
                       ),
                     ]),
                   ),
-                  CategoriesTitle(
-                      text: "Most Used", press: () {}),
+                  CategoriesTitle(text: "Most Used", press: () {}),
                   const SizedBox(
                     height: 10,
                   ),
@@ -244,9 +241,10 @@ class Screen extends GetWidget<ScreenViewModel> {
                           .collection("carousel")
                           .get(),
                       builder: (context, snapshot) {
-                       if(snapshot.hasData){ return CarouselSlider.builder(
-                          itemCount: snapshot.data?.docs.length,
-                          itemBuilder: (context, index, __) {
+                        if (snapshot.hasData) {
+                          return CarouselSlider.builder(
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (context, index, __) {
                               return Container(
                                 width: MediaQuery.of(context).size.width,
                                 margin: const EdgeInsets.all(5.0),
@@ -286,61 +284,60 @@ class Screen extends GetWidget<ScreenViewModel> {
                                   ],
                                 ),
                               );
-                          },
-                          options: CarouselOptions(
-                            initialPage: 0,
-                            autoPlay: true,
-                            scrollDirection: Axis.horizontal,
-                            enableInfiniteScroll: true,
-                            enlargeCenterPage: true,
-                            aspectRatio: 16 / 9,
-                            viewportFraction: 0.8,
-                            autoPlayCurve: Curves.fastOutSlowIn,
-                            autoPlayAnimationDuration:
-                                const Duration(milliseconds: 200),
-                          ),
-                        );
-                      } else if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return Center(
-                                child: Lottie.asset(
-                                    "assets/lottie/please_wait.json"),
-                              );
-                            } else if (snapshot.hasError) {
-                              return Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  const CustomText(
-                                    text: "Oops!",
-                                    color: Colors.black,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  CustomText(
-                                    text: snapshot.error.toString(),
-                                    color: Colors.black,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.normal,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ],
-                              );
-                            } else {
-                              return const Center(
-                                child: CircularProgressIndicator(
-                                  color: Colors.red,
-                                ),
-                              );
-                            }
+                            },
+                            options: CarouselOptions(
+                              initialPage: 0,
+                              autoPlay: true,
+                              scrollDirection: Axis.horizontal,
+                              enableInfiniteScroll: true,
+                              enlargeCenterPage: true,
+                              aspectRatio: 16 / 9,
+                              viewportFraction: 0.8,
+                              autoPlayCurve: Curves.fastOutSlowIn,
+                              autoPlayAnimationDuration:
+                                  const Duration(milliseconds: 200),
+                            ),
+                          );
+                        } else if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(
+                            child:
+                                Lottie.asset("assets/lottie/please_wait.json"),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const CustomText(
+                                text: "Oops!",
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              CustomText(
+                                text: snapshot.error.toString(),
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.normal,
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          );
+                        } else {
+                          return const Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.red,
+                            ),
+                          );
+                        }
                       },
                     ),
                   ),
-                  
                   const SizedBox(
                     height: 5,
                   ),
@@ -356,7 +353,7 @@ class Screen extends GetWidget<ScreenViewModel> {
                           fontWeight: FontWeight.normal,
                           textAlign: TextAlign.center,
                         ),
-                        
+
                         // const Spacer(),
                         // ElevatedButton.icon(
                         //     onPressed: () {},
@@ -376,7 +373,9 @@ class Screen extends GetWidget<ScreenViewModel> {
                   //   text2: "< Pull",
                   //   press: () {},
                   // ),
-                  const SizedBox(height: 10,),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 2 +
                         MediaQuery.of(context).size.height / 8,

@@ -5,15 +5,13 @@ import 'package:lottie/lottie.dart';
 import 'package:sudaphone_sd/view/download_images.dart';
 import 'package:sudaphone_sd/view/posts_pages/show_comment_likes.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text.dart';
-import 'package:sudaphone_sd/view/widgets/snack_to_upload_images.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 
 // ignore: must_be_immutable
 class Comments extends GetWidget<PostsViewModel> {
-  Comments({Key? key, this.firstDocSnapshot, this.secondDocSnapshot})
+  Comments({Key? key, this.firstDocSnapshot})
       : super(key: key);
   var firstDocSnapshot;
-  var secondDocSnapshot;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,8 +39,6 @@ class Comments extends GetWidget<PostsViewModel> {
           stream: FirebaseFirestore.instance
               .collection("posts")
               .doc(firstDocSnapshot.id)
-              .collection("userPosts")
-              .doc(secondDocSnapshot.id)
               .collection("comments")
               .orderBy('dateTime', descending: true)
               .snapshots(),
@@ -59,12 +55,15 @@ class Comments extends GetWidget<PostsViewModel> {
                           padding: const EdgeInsets.only(left: 5),
                           child: Column(
                             children: [
-                              Row(
+                              FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                                future: controller.userInfoCollection.doc(snapshot.data?.docs[index]['ownerUid']).get(),
+                                builder: (context,_snapshot){
+                                  return Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   CircleAvatar(
                                     backgroundImage: NetworkImage(
-                                        "${snapshot.data!.docs[index]['profileUrl']}"),
+                                        "${_snapshot.data!.data()?['profileUrl']}"),
                                     radius: 25,
                                   ),
                                   const SizedBox(
@@ -83,7 +82,7 @@ class Comments extends GetWidget<PostsViewModel> {
                                     child: ListTile(
                                       title: CustomText(
                                         text:
-                                            "${snapshot.data?.docs[index]['userName']}",
+                                            "${_snapshot.data!.data()?['userName']}",
                                         fontSize: 17,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black,
@@ -101,7 +100,8 @@ class Comments extends GetWidget<PostsViewModel> {
                                     ),
                                   ),
                                 ],
-                              ),
+                              );
+                                }),
                               snapshot.data?.docs[index]['isThereImageUrl'] ==
                                       true
                                   ? InkWell(
@@ -172,8 +172,6 @@ class Comments extends GetWidget<PostsViewModel> {
                                     onTap: () {
                                       controller.handleCommentLikes(
                                           firstCollectionDocs: firstDocSnapshot,
-                                          secondCollectionDocs:
-                                              secondDocSnapshot,
                                           docSnapshot:
                                               snapshot.data?.docs[index]);
                                     },
@@ -294,7 +292,6 @@ class Comments extends GetWidget<PostsViewModel> {
                                         onPressed: () {
                                           controller.addComment(
                                               collectionOne: firstDocSnapshot,
-                                              collectionTwo: secondDocSnapshot,
                                               commentKey: controller.commentKey,
                                               text: controller
                                                   .commentController.text);

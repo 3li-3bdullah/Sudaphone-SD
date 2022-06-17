@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:sudaphone_sd/constants.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text.dart';
 import 'package:get/get.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
@@ -33,17 +34,20 @@ class WritePost extends GetWidget<PostsViewModel> {
           child: Column(
             children: [
               FutureBuilder<DocumentSnapshot<Map<String,dynamic>>>(
-                future: controller.writePostsData.doc(controller.uid.toString()).get(),
+                future: controller.userInfoCollection.doc(controller.uid.toString()).get(),
                 builder: (context,snapshot){
                   return Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Container(
                     margin: const EdgeInsets.only(left: 8, top: 20),
-                    // child:  CircleAvatar(
-                    //   backgroundImage:
-                    //       NetworkImage("${snapshot.data!.data()?['profileUrl']}"),
-                    // ),
+                    /* 
+                    This circleAvatar now i dont need it.
+                    */
+                    child:  CircleAvatar(
+                      backgroundImage:
+                          NetworkImage("${snapshot.data!.data()?['profileUrl']}"),
+                    ),
                   ),
                   const SizedBox(
                     width: 15,
@@ -126,28 +130,21 @@ class WritePost extends GetWidget<PostsViewModel> {
                         },
                       ),
                       const SizedBox(height: 15),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            controller.addPost(controller.textController!.text , controller.postKey,);
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 8),
-                            color: Colors.blue,
-                            child: const Align(
-                              alignment: Alignment.center,
-                              child: CustomText(
-                                text: "POST",
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
+                      InkWell(
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: MediaQuery.of(context).size.height * 0.08,
+                          width: MediaQuery.of(context).size.width / 1.5,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16), color: Colors.brown),
+                          child: Text(
+                            "POST",
+                            style: textButton.copyWith(color: kWhiteColor),
                           ),
                         ),
-                      ),
+                        onTap: ()=>  controller.addPost(controller.textController!.text , controller.postKey,),
+                      )
+                      
                     ],
                   ),
                 ),

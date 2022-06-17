@@ -2,8 +2,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudaphone_sd/my_binding/my_binding.dart';
-import 'package:sudaphone_sd/view/login.dart';
+import 'package:sudaphone_sd/view/categories.dart';
 import 'package:sudaphone_sd/view/mydrawer.dart';
+import 'package:sudaphone_sd/view/screen.dart';
+import 'package:sudaphone_sd/view/signin.dart';
+// import 'package:sudaphone_sd/view/signin.dart';
 import 'package:sudaphone_sd/view_model/main_view_model.dart';
 
 Future<void> main() async {
@@ -19,11 +22,11 @@ class SudaphoneSD extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.testMode = true;
     return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "SudaPhone SD",
-      initialBinding: MyBinding(),
-      home:  const Home()
-    );
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(fontFamily: 'Poppins'),
+        title: "SudaPhone SD",
+        initialBinding: MyBinding(),
+        home: const Home());
   }
 }
 
@@ -36,9 +39,17 @@ class Home extends GetWidget<MainViewModel> {
       future: controller.fbApp,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return Text("You have an error! : ${snapshot.error.toString()}");
+          return Container(
+              color: Colors.green,
+              alignment: Alignment.center,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Text(
+                "You have an error! : ${snapshot.error.toString()}",
+                style: const TextStyle(color: Colors.white),
+              ));
         } else if (snapshot.hasData) {
-          return controller.isLogin.value?  const MyDrawer() : const LogIn();
+          return controller.isLogin.value ? const MyDrawer() : const MyDrawer();
         } else {
           return Container(
             color: Colors.white,

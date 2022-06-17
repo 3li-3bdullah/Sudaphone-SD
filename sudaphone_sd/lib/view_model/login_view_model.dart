@@ -29,13 +29,19 @@ class LoginViewModel extends GetxController {
   String? _fileName;
   File? imageFile;
   XFile? pickImage;
-
-  // final Rxn<User> _user = Rxn<User>();
-  // String? get user => _user.value?.email;
   RxBool showsignin = true.obs;
 
-  /// Methods
+  RxBool isObSecureSignin = true.obs;
+  RxBool isObSecureSignup = true.obs;
 
+  /// Methods
+  
+  toggle1(){
+    isObSecureSignin.value = !isObSecureSignin.value;
+  }
+  toggle2(){
+    isObSecureSignup.value = !isObSecureSignup.value;
+  }
   signinOrSignup() {
     return showsignin.value = !showsignin.value;
   }
@@ -101,11 +107,11 @@ class LoginViewModel extends GetxController {
         userCredential = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email, password: password);
             TaskSnapshot _uploadToStorage = await FirebaseStorage.instance
-              .ref("comments")
+              .ref("login_profile")
               .child(_fileName!)
               .putFile(imageFile!);
           String _imageUrl = await _uploadToStorage.ref.getDownloadURL();
-        firebaseFirestore!.collection("posts").doc(auth.currentUser!.uid).set({
+        firebaseFirestore!.collection("usersInfo").doc(auth.currentUser!.uid).set({
           "userName": username.toString(),
           "email": email.toString(),
           "password": password.toString(),

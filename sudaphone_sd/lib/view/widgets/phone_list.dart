@@ -24,7 +24,7 @@ class PhoneList extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: 10),
         child: InkWell(
           child: SizedBox(
-            height: 180,
+            height: 200,
             width: 100,
             child: Card(
               child: Row(

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sudaphone_sd/constants.dart';
 import 'package:sudaphone_sd/view/login_widgets/build_avatar.dart';
-import 'package:sudaphone_sd/view/login_widgets/primary_button.dart';
 import 'package:sudaphone_sd/view/login_widgets/signup_form.dart';
 import 'package:sudaphone_sd/view/signin.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text.dart';
+import 'package:sudaphone_sd/view/widgets/primary_button.dart';
 import 'package:sudaphone_sd/view_model/login_view_model.dart';
 
 class SignUp extends GetWidget<LoginViewModel> {

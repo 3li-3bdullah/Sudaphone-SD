@@ -25,9 +25,10 @@ class DrawerChild extends GetWidget<ScreenViewModel> {
         centerTitle: true,
         elevation: 0,
       ),
-      body: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
+      body: Text("ksjdk"),
+      /* FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
           future: controller.drawerData
-              .doc(controller.uid)
+              .doc(controller.uid.value.toString())
               .collection("favorite")
               .get(),
           builder: (context, snapshot) {
@@ -62,7 +63,7 @@ class DrawerChild extends GetWidget<ScreenViewModel> {
                             Get.to(
                                 () => Details(
                                     docTwo: snapshot.data!.docs[i].id,
-                                    docOne: controller.uid.toString(),
+                                    docOne: controller.uid.value.toString(),
                                     collction: "favorite"),
                                 transition: Transition.zoom);
                           },
@@ -100,7 +101,7 @@ class DrawerChild extends GetWidget<ScreenViewModel> {
                 child: CircularProgressIndicator(),
               );
             }
-          }),
+          }),*/
     );
   }
 }

@@ -12,7 +12,7 @@ class CustomListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 90,
-      width: 70,
+      width: 80,
       margin: const EdgeInsets.all(8),
       child: InkWell(
         onTap: () {
@@ -21,8 +21,8 @@ class CustomListTile extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              height: 70,
-              width: 70,
+              height: 80,
+              width: 80,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 image: DecorationImage(

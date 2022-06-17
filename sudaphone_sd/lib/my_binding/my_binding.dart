@@ -13,7 +13,7 @@ class MyBinding implements Bindings {
   @override
   void dependencies() {
     Get.lazyPut( () => ScreenViewModel() , fenix: true);
-    Get.put( MyDrawerViewModel());
+    Get.lazyPut(() => MyDrawerViewModel(),fenix: true);
     Get.put(LoginViewModel());
     Get.lazyPut(() => PostsViewModel(), fenix: true);
     Get.put(MainViewModel());
