@@ -6,9 +6,9 @@ import 'package:get/get.dart';
 import 'package:sudaphone_sd/view/aboutapp.dart';
 import 'package:sudaphone_sd/view/bottom_navigation.dart';
 import 'package:sudaphone_sd/view/categories.dart';
+import 'package:sudaphone_sd/view/feedbacks.dart';
 import 'package:sudaphone_sd/view/my_drawer_widgets/build_listtile.dart';
 import 'package:sudaphone_sd/view/posts.dart';
-import 'package:sudaphone_sd/view/widgets/custom_text.dart';
 import 'package:sudaphone_sd/view_model/mydrawer_view_model.dart';
 
 class MyDrawer extends GetWidget<MyDrawerViewModel> {
@@ -47,42 +47,38 @@ class MyDrawer extends GetWidget<MyDrawerViewModel> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const SizedBox(height: 10),
-                    GetBuilder<MyDrawerViewModel>(
-                      builder: ((controller) =>
-                          FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                            future: controller.userName.get(),
-                            builder: (context, snapshot) {
-                              return Column(
-                                children: [
-                                  const SizedBox(height: 20,),
-                                   CircleAvatar(
-                                     radius: 65,
-                                     backgroundImage: NetworkImage(
-                                          snapshot.data!.data()?['profileUrl']),
-                                   ),
-                                   const SizedBox(height: 10,),
-                                  CustomText(
-                                    text:
-                                        "${snapshot.data?.data()?['userName']}",
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.normal,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  const SizedBox(height: 8),
-                                  CustomText(
-                                      text:
-                                          "${snapshot.data?.data()?['email']}",
-                                      textAlign: TextAlign.center,
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.normal),
-                                ],
-                              );
-                            },
-                          )),
-                    ),
+                    // FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                    //         future: controller.userName.doc(FirebaseAuth.instance.currentUser!.uid).get(),
+                    //         builder: (context, snapshot) {
+                    //           return Column(
+                    //             children: [
+                    //               const SizedBox(height: 20,),
+                    //                CircleAvatar(
+                    //                  radius: 65,
+                    //                  backgroundImage: NetworkImage(
+                    //                       snapshot.data!.data()!['profileUrl']),
+                    //                ),
+                    //                const SizedBox(height: 10,),
+                    //               CustomText(
+                    //                 text:
+                    //                     "${snapshot.data?.data()!['userName']}",
+                    //                 color: Colors.white,
+                    //                 fontSize: 18,
+                    //                 fontWeight: FontWeight.normal,
+                    //                 textAlign: TextAlign.center,
+                    //               ),
+                    //               const SizedBox(height: 8),
+                    //               CustomText(
+                    //                   text:
+                    //                       "${snapshot.data?.data()!['email']}",
+                    //                   textAlign: TextAlign.center,
+                    //                   color: Colors.white,
+                    //                   fontSize: 16,
+                    //                   fontWeight: FontWeight.normal),
+                    //             ],
+                    //           );
+                    //         },
+                    //       ),
 
                     const SizedBox(height: 15),
                     BuildListTile(
@@ -130,15 +126,23 @@ class MyDrawer extends GetWidget<MyDrawerViewModel> {
                       },
                       icon: "assets/images/icons/settings.png",
                     ),
+                    BuildListTile(
+                      text: "Feedback",
+                      onTap: () {
+                        Get.to(() => const Feedbacks(),
+                            transition: Transition.zoom);
+                      },
+                      icon: "assets/images/icons/feedback.png",
+                    ),
 
                     /// i will Start this when i will try use firebase-------
                     BuildListTile(
                       text: "Logout",
                       onTap: () {
                         Get.defaultDialog(
-                          title: "Why :( ,Are you sure dear ?!",
+                          title: "Why :( ? Are you sure dear ?!",
                           middleText:
-                              "If you logout, =( you will stop receiving our services.",
+                              "If you logout =( , you will stop receiving our services.",
                           titleStyle: const TextStyle(
                               color: Colors.black,
                               fontSize: 24,
@@ -150,7 +154,9 @@ class MyDrawer extends GetWidget<MyDrawerViewModel> {
                           buttonColor: Colors.purple,
                           confirmTextColor: Colors.white,
                           cancelTextColor: Colors.green,
-                          onConfirm: () {},
+                          onConfirm: () async {
+                            await controller.logOut;
+                          },
                           onCancel: () {
                             Get.back();
                           },
@@ -165,7 +171,7 @@ class MyDrawer extends GetWidget<MyDrawerViewModel> {
           ),
           GetX<MyDrawerViewModel>(
             builder: (controller) => TweenAnimationBuilder(
-              tween: Tween<double>(begin: 0, end: controller.value.value),
+              tween: Tween<double>(begin: 0.0, end: controller.value.value),
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeIn,
               builder: (_, double val, __) {
