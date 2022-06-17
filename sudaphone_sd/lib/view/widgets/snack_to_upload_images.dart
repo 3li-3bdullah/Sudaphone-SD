@@ -6,13 +6,13 @@ class SanckToUploadImages {
   static void showTheSnack({required Function gallery, required Function camera}) {
     Get.defaultDialog(
       content: const CustomText(
-        text: "Choose an image from : ",
+        text: "Upload an image from : ",
         textAlign: TextAlign.center,
-        color: Colors.grey,
+        color: Colors.brown,
         fontSize: 16,
         fontWeight: FontWeight.normal,
       ),
-      title: "Upload an image",
+      title: "",
       textCancel: "Gallery",
       textConfirm: "Camera",
       onCancel: () {
@@ -21,6 +21,9 @@ class SanckToUploadImages {
       onConfirm: () {
         camera();
       },
+      confirmTextColor: Colors.white,
+      cancelTextColor: Colors.brown,
+      buttonColor: Colors.brown,
     );
   }
 }
