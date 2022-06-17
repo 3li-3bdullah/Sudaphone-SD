@@ -21,10 +21,10 @@ class BottomNavigation extends GetWidget<ScreenViewModel> {
     return GetX<ScreenViewModel>(
       builder: (controller) => Scaffold(
         bottomNavigationBar: BottomNavyBar(
-          selectedIndex: controller.activeIndex!.value,
+          selectedIndex: controller.activeIndex.value,
           showElevation: true,
           onItemSelected: (index) {
-            controller.activeIndex!.value = index;
+            controller.activeIndex.value = index;
           },
           items: [
             BottomNavyBarItem(
@@ -65,7 +65,7 @@ class BottomNavigation extends GetWidget<ScreenViewModel> {
                 activeColor: Colors.blue),
           ],
         ),
-        body: screens[controller.activeIndex!.value],
+        body: screens[controller.activeIndex.value],
       ),
     );
   }
