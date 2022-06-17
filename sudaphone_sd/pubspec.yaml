@@ -61,6 +61,7 @@ dependencies:
   sliding_up_panel: ^2.0.0+1
   staggered_grid_view_flutter: ^0.0.4
   avatar_glow: ^2.0.2
+  get_storage: ^2.0.3
 
 dev_dependencies:
   flutter_test:
