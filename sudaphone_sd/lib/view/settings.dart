@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sudaphone_sd/constants.dart';
+import 'package:sudaphone_sd/view/login_widgets/custom_text_form_field.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text.dart';
+import 'package:sudaphone_sd/view/widgets/snack_to_upload_images.dart';
 import 'package:sudaphone_sd/view_model/settings_view_model.dart';
 
 class Settings extends GetWidget<SettingsViewModel> {
@@ -27,7 +30,7 @@ class Settings extends GetWidget<SettingsViewModel> {
           centerTitle: true,
           elevation: 0,
           backgroundColor: Colors.white),
-          body: Container(
+      body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
         child: Column(
           children: [
@@ -45,7 +48,13 @@ class Settings extends GetWidget<SettingsViewModel> {
                                 "${snapshot.data?.data()?['profileUrl']}"),
                           ),
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          SanckToUploadImages.showTheSnack(
+                              gallery: controller.uploadProfilePic(
+                                  source: "gallery"),
+                              camera: controller.uploadProfilePic(
+                                  source: "camera"));
+                        },
                       ),
                       const SizedBox(
                         height: 20,
@@ -58,7 +67,41 @@ class Settings extends GetWidget<SettingsViewModel> {
                           fontWeight: FontWeight.bold,
                           textAlign: TextAlign.center,
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          Get.defaultDialog(
+                            title: "Edit your name",
+                            titleStyle: const TextStyle(
+                                color: Colors.brown,
+                                fontWeight: FontWeight.bold),
+                            content: Form(
+                              key: controller.editingKey,
+                              child: CustomTextFormField(
+                                  obscure: false,
+                                  validator: (String name) {
+                                    if (name.trim().isEmpty) {
+                                      return "The field is empty";
+                                    }
+                                  },
+                                  icon: Icons.person,
+                                  textEditingController:
+                                      controller.textEditing),
+                            ),
+                            textConfirm: "Update",
+                            textCancel: "Cancel",
+                            cancelTextColor: Colors.brown,
+                            confirmTextColor: Colors.white,
+                            buttonColor: Colors.brown,
+                            radius: 20.0,
+                            onConfirm: () {
+                              controller.modifyUserName(
+                                  name: controller.textEditing.text,
+                                  textKey: controller.editingKey);
+                            },
+                            onCancel: () {
+                              Get.back();
+                            },
+                          );
+                        },
                       ),
                       const SizedBox(
                         height: 10,
@@ -66,7 +109,7 @@ class Settings extends GetWidget<SettingsViewModel> {
                       CustomText(
                         text: "${snapshot.data?.data()!['email']}",
                         fontSize: 20,
-                        fontWeight: FontWeight.normal,
+                        fontWeight: FontWeight.bold,
                         color: Colors.black,
                         textAlign: TextAlign.center,
                       )
@@ -100,7 +143,6 @@ class Settings extends GetWidget<SettingsViewModel> {
           ],
         ),
       ),
-   
     );
   }
 }
