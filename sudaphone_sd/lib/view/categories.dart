@@ -19,7 +19,7 @@ class Categories extends StatelessWidget {
   Widget build(BuildContext context) {
     ///ThemeData(fontFamily: 'Cairo');
 
-    return MaterialApp(
+    return GetMaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
           appBar: AppBar(

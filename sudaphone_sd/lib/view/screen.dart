@@ -34,7 +34,7 @@ class Screen extends GetWidget<ScreenViewModel> {
     return ElasticDrawer(
       mainColor: Colors.transparent,
       drawerColor: Colors.transparent,
-      mainChild: MaterialApp(
+      mainChild: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: "Sudaphone",
         home: Scaffold(

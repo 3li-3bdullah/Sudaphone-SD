@@ -23,3 +23,12 @@ TextStyle textButton = const TextStyle(
   fontSize: 18,
   fontWeight: FontWeight.w700,
 );
+
+class Themes{
+ static final lightTheme = ThemeData(
+  colorScheme: const ColorScheme.light()
+ );
+ static final darkTheme = ThemeData(
+  colorScheme: const ColorScheme.dark()
+ );
+}
