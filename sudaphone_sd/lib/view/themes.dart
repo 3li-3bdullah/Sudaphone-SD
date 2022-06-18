@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text.dart';
 import 'package:sudaphone_sd/view_model/themes_view_model.dart';
 
-class Themes extends GetWidget<ThemesViewModel> {
-  const Themes({Key? key}) : super(key: key);
+class Themesx extends GetWidget<ThemesViewModel> {
+  const Themesx({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
