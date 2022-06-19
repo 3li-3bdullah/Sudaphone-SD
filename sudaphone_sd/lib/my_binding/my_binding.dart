@@ -22,6 +22,6 @@ class MyBinding implements Bindings {
     Get.lazyPut(() => SettingsViewModel(), fenix: true);
     Get.lazyPut(() => DetailsViewModel(), fenix: true);
     Get.lazyPut(() => CategoriesViewModel(), fenix: true);
-    Get.put(ThemesController());
+    Get.put(ThemesViewModel());
   }
 }
