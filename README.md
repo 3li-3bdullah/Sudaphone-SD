@@ -52,6 +52,7 @@ _ Feedback. <br>
 - sliding_up_panel.
 - staggered_grid_view_flutter.
 - avatar_glow.
+- get_storage.
 
 ## Photos:
 - Soon when i compelete :) .
