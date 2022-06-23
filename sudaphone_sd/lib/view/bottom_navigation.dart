@@ -14,7 +14,7 @@ class BottomNavigation extends GetWidget<ScreenViewModel> {
     const Screen(),
     const Categories(),
     const Posts(),
-    const Settings(),
+    Settings(),
   ];
   @override
   Widget build(BuildContext context) {
