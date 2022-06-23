@@ -22,6 +22,9 @@ class SettingsViewModel extends GetxController {
       DateFormat('M/d/y - kk:mm').format(DateTime.now());
   GlobalKey<FormState> editingKey = GlobalKey<FormState>();
   TextEditingController textEditing = TextEditingController();
+  final String light = "light";
+  final String dark = "dark";
+  String groupValue = "mode";
 
 // So here we declaring methods
   @override
