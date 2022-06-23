@@ -18,10 +18,7 @@ class Categories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ///ThemeData(fontFamily: 'Cairo');
-
-    return GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
+    return Scaffold(
           appBar: AppBar(
             title: const Text(
               "Categories",
@@ -115,6 +112,6 @@ class Categories extends StatelessWidget {
               ],
             ),
           ),
-        ));
+        );
   }
 }

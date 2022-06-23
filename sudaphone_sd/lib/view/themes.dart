@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,23 +11,31 @@ class Themesx extends GetWidget<ThemesViewModel> {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: const CustomText(
-        text: "Dark mode",
-        fontWeight: FontWeight.bold,
-        color: Colors.black,
-      ),
-      trailing: CupertinoSwitch(
-        value: Get.isDarkMode,
-        onChanged: (value) {
-          if (Get.isDarkMode) {
-            controller.changeThemeMode(ThemeMode.light);
-            controller.saveTheme(false);
-          } else {
-            controller.changeThemeMode(ThemeMode.dark);
-            controller.saveTheme(true);
-          }
-        },
+    return GetBuilder<ThemesViewModel>(
+      builder: (controller) => ListTile(
+        title: const Text(
+          "Dark mode",
+          style: TextStyle(
+              color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        trailing: CupertinoSwitch(
+          value: Get.isDarkMode,
+          onChanged: (value) {
+            log(value.toString());
+            value = Get.isDarkMode;
+            log("=============");
+            log(value.toString());
+            if (Get.isDarkMode) {
+              controller.changeThemeMode(ThemeMode.dark);
+              controller.saveTheme(true);
+              log("dark theme");
+            } else {
+              controller.changeThemeMode(ThemeMode.light);
+              controller.saveTheme(false);
+              log("light theme");
+            }
+          },
+        ),
       ),
     );
   }
