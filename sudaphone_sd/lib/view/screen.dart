@@ -34,10 +34,7 @@ class Screen extends GetWidget<ScreenViewModel> {
     return ElasticDrawer(
       mainColor: Colors.transparent,
       drawerColor: Colors.transparent,
-      mainChild: GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: "Sudaphone",
-        home: Scaffold(
+      mainChild: Scaffold(
           body: NestedScrollView(
             floatHeaderSlivers: true,
             headerSliverBuilder: (context, innerBoxIsScrolled) => [
@@ -432,7 +429,6 @@ class Screen extends GetWidget<ScreenViewModel> {
             ),
           ),
         ),
-      ),
       drawerChild: const DrawerChild(),
     );
   }
