@@ -26,9 +26,9 @@ TextStyle textButton = const TextStyle(
 
 class Themes{
  static final lightTheme = ThemeData(
-  colorScheme: const ColorScheme.light(),fontFamily: 'Poppins'
+  colorScheme: const ColorScheme.light(),fontFamily: 'Poppins',primaryColor: Colors.black
  );
  static final darkTheme = ThemeData(
-  colorScheme: const ColorScheme.dark(),fontFamily: 'Poppins'
+  colorScheme: const ColorScheme.dark(),fontFamily: 'Poppins',primaryColor: Colors.white
  );
 }
