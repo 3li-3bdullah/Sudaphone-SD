@@ -38,8 +38,8 @@ class SignIn extends GetWidget<LoginViewModel> {
                   color: Colors.brown,
                   buttonText: "Sign In",
                   ontap: () => controller.signInWithEmailAndPassword(
-                      controller.emailController!.text,
-                      controller.passwordController!.text,
+                      controller.emailSigninController!.text,
+                      controller.passwordSigninController!.text,
                       controller.signInKey!),
                 ),
                 const SizedBox(
