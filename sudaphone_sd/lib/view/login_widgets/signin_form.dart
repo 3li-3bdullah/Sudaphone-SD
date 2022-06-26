@@ -33,7 +33,7 @@ class SignInForm extends GetWidget<LoginViewModel> {
                 const SizedBox(height: 10),
                 CustomTextFormField(
                   labelText: "E-mail",
-                  textEditingController: controller.emailController!,
+                  textEditingController: controller.emailSigninController!,
                   obscure: false,
                   validator: (String value) {
                     if (value.isEmpty) {
@@ -56,7 +56,7 @@ class SignInForm extends GetWidget<LoginViewModel> {
                 Obx(
                   () => CustomTextFormField(
                     labelText: "Password",
-                    textEditingController: controller.passwordController!,
+                    textEditingController: controller.passwordSigninController!,
                     obscure: true,
                     validator: (String value) {
                       if (value.isEmpty) {
