@@ -37,7 +37,7 @@ class CustomTextFormField extends StatelessWidget {
             enabledBorder : const OutlineInputBorder(
             borderRadius:  BorderRadius.all(Radius.circular(10))
             ),
-        labelText: labelText, labelStyle: const TextStyle(color: Colors.white),
+        labelText: labelText, labelStyle: const TextStyle(color: Colors.brown),
         contentPadding: const EdgeInsets.all(4),
         // hintText: myhinttext,
         
