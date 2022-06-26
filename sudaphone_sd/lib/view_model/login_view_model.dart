@@ -22,6 +22,8 @@ class LoginViewModel extends GetxController {
   // TextEditingController for login fields 
   TextEditingController? emailController = TextEditingController();
   TextEditingController? passwordController = TextEditingController();
+  TextEditingController? emailSigninController = TextEditingController();
+  TextEditingController? passwordSigninController = TextEditingController();
   TextEditingController? confirmPasswordController = TextEditingController();
   TextEditingController? usernameController = TextEditingController();
  // Variables for upload image to FirebasaeStorage
@@ -49,6 +51,8 @@ class LoginViewModel extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    emailSigninController = TextEditingController();
+    passwordController  = TextEditingController();
     usernameController = TextEditingController();
     confirmPasswordController = TextEditingController();
     emailController = TextEditingController();
@@ -56,13 +60,24 @@ class LoginViewModel extends GetxController {
 
     // _user.bindStream(auth.authStateChanges());
   }
+  @override
+  void onClose() {
+    super.onClose();
+    emailSigninController!.clear();
+    passwordSigninController!.clear();
+    usernameController!.clear();
+    confirmPasswordController!.clear();
+    emailController!.clear();
+    passwordController!.clear();
+  }
 
   ///SignIn With Email and Password
   void signInWithEmailAndPassword(
       email, password, GlobalKey<FormState> _signInKey) async {
+    try {
     if (_signInKey.currentState!.validate()) {
       _signInKey.currentState!.save();
-      try {
+      
         userCredential = await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: password);
         CustomSnakbar.showSnakBar(
@@ -71,14 +86,14 @@ class LoginViewModel extends GetxController {
             message: "Successfully signin",
             backgroundColor: Colors.lightGreenAccent);
         Get.off(() => const MyDrawer());
-      } on FirebaseAuthException catch (e) {
+    }  } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           Get.snackbar("Error", "No user found for that email.");
         } else if (e.code == 'wrong-password') {
           Get.snackbar("Error", "Wrong password provided for that user.");
         }
       }
-    }
+    
   }
   // Upload A Picture That User Was choose
   uploadProfilePic({String? source}) async {
