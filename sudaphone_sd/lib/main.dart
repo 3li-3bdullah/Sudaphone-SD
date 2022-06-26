@@ -35,7 +35,7 @@ class SudaphoneSD extends StatelessWidget {
           // theme: ThemeData(fontFamily: 'Poppins'),
           title: "SudaPhone SD",
           initialBinding: MyBinding(),
-          home: const MyDrawer()),
+          home: const Home()),
     );
   }
 }
@@ -46,9 +46,9 @@ class Home extends GetWidget<MainViewModel> {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      theme: ThemeData(fontFamily: 'Poppins'),
-      home: FutureBuilder(
+    return Scaffold(
+      // theme: ThemeData(fontFamily: 'Poppins'),
+      body: FutureBuilder(
         future: controller.fbApp,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
