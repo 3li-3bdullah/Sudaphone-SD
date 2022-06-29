@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudaphone_sd/view/login_widgets/custom_text_form_field.dart';
+import 'package:sudaphone_sd/view/widgets/custom_text.dart';
 import 'package:sudaphone_sd/view_model/login_view_model.dart';
 
 class SignUpForm extends GetWidget<LoginViewModel> {
@@ -17,8 +18,17 @@ class SignUpForm extends GetWidget<LoginViewModel> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             //Start User Name----------
+            const CustomText(
+                  text: "Username",
+                  color: Colors.brown,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  textAlign: TextAlign.center,
+                ),
+
+                const SizedBox(height: 10),
             CustomTextFormField(
-              labelText: "Username",
+              customHintText: "Username",
               textEditingController: controller.usernameController!,
               obscure: false,
               validator: (String value) {
@@ -30,9 +40,19 @@ class SignUpForm extends GetWidget<LoginViewModel> {
             ),
             //End User Name----------
             //Start User E-mail ----------
-            const SizedBox(height: 30),
+            const SizedBox(height: 20),
+            const CustomText(
+                  text: "E-mail",
+                  color: Colors.brown,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  textAlign: TextAlign.center,
+                ),
+
+                const SizedBox(height: 10),
+            
             CustomTextFormField(
-              labelText: "E-mail",
+              customHintText: "E-mail",
               textEditingController: controller.emailController!,
               obscure: false,
               validator: (String value) {
@@ -42,12 +62,21 @@ class SignUpForm extends GetWidget<LoginViewModel> {
               },
               icon: Icons.email_outlined,
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 20),
             //End User E-mail ----------
             //Start User Password----------
+            const CustomText(
+                  text: "Password",
+                  color: Colors.brown,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  textAlign: TextAlign.center,
+                ),
+
+                const SizedBox(height: 10),
             Obx(
               () => CustomTextFormField(
-                labelText: "Password",
+                customHintText: "Password",
                 textEditingController: controller.passwordController!,
                 obscure: true,
                 validator: (String value) {
@@ -61,13 +90,21 @@ class SignUpForm extends GetWidget<LoginViewModel> {
               ),
             ),
             const SizedBox(
-              height: 30,
+              height: 20,
             ),
             //Start User Password Confirm----------
+            const CustomText(
+                  text: "Confirm password",
+                  color: Colors.brown,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  textAlign: TextAlign.center,
+                ),
 
+                const SizedBox(height: 10),
             Obx(
               () => CustomTextFormField(
-                labelText: "Rewrite the password",
+                customHintText: "Rewrite the password",
                 textEditingController: controller.confirmPasswordController!,
                 obscure: true,
                 validator: (String value) {
