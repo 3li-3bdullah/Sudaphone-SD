@@ -131,7 +131,7 @@ class Screen extends GetWidget<ScreenViewModel> {
                             ConnectionState.waiting) {
                           return Center(
                             child:
-                                Lottie.asset("assets/lottie/please_wait.json"),
+                                Lottie.asset("assets/lotties/loading.json"),
                           );
                         } else if (!snapshot.hasData) {
                           return const Center(
@@ -146,7 +146,7 @@ class Screen extends GetWidget<ScreenViewModel> {
                         } else {
                           return Center(
                             child:
-                                Lottie.asset("assets/lottie/please_wait.json"),
+                                Lottie.asset("assets/lotties/no_data.json"),
                           );
                         }
                       },
@@ -299,7 +299,7 @@ class Screen extends GetWidget<ScreenViewModel> {
                             ConnectionState.waiting) {
                           return Center(
                             child:
-                                Lottie.asset("assets/lottie/please_wait.json"),
+                                Lottie.asset("assets/lotties/loading.json"),
                           );
                         } else if (snapshot.hasError) {
                           return Column(
