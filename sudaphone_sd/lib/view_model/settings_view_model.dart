@@ -12,7 +12,7 @@ import 'package:intl/intl.dart';
 class SettingsViewModel extends GetxController {
 // Here  we declaring variables
   FirebaseAuth auth = FirebaseAuth.instance;
-  String? uid;
+  RxString? uid ;
   CollectionReference<Map<String, dynamic>> getUserData =
       FirebaseFirestore.instance.collection("usersInfo");
   XFile? pickImage;
@@ -30,7 +30,7 @@ class SettingsViewModel extends GetxController {
   @override
   void onInit() {
     textEditing = TextEditingController();
-    uid = auth.currentUser!.uid;
+    uid!.value = FirebaseAuth.instance.currentUser!.uid;
     super.onInit();
   }
   @override
