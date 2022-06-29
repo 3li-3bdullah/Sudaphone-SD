@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudaphone_sd/constants.dart';
+import 'package:sudaphone_sd/view/widgets/loading.dart';
 import 'package:sudaphone_sd/view/widgets/primary_button.dart';
 import 'package:sudaphone_sd/view_model/feedback_view_model.dart';
 
@@ -72,16 +73,21 @@ class Feedbacks extends GetWidget<FeedbackViewModel> {
             const SizedBox(
               height: 40,
             ),
-            PrimaryButton(
-              buttonText: "Send Feedback",
-              ontap: () {
-                controller.sendFeedback(
-                  key: controller.textKey,
-                  text: controller.textEditingController.text.toString(),
-                );
-              },
-              color: Colors.brown,
-            )
+            controller.showLoading.value
+                ? Loading(
+                    height: MediaQuery.of(context).size.width / 3,
+                    width: MediaQuery.of(context).size.width,
+                    lotHeight: MediaQuery.of(context).size.width / 3)
+                : PrimaryButton(
+                    buttonText: "Send Feedback",
+                    ontap: () {
+                      controller.sendFeedback(
+                        key: controller.textKey,
+                        text: controller.textEditingController.text.toString(),
+                      );
+                    },
+                    color: Colors.brown,
+                  )
           ],
         ),
       ),
