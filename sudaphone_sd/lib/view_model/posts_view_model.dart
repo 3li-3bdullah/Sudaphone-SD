@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:sudaphone_sd/constants.dart';
 import 'package:sudaphone_sd/view/posts.dart';
 import 'package:sudaphone_sd/view/posts_widgets/custom_snakbar.dart';
 
@@ -37,13 +38,14 @@ class PostsViewModel extends GetxController {
   RxBool isHasLiked = false.obs;
   String? uid;
   Map<String, dynamic>? getUserInfo;
+  RxBool showLoading = false.obs;
 
   /// All Methods
   String? formattedDate;
 
   @override
   void onInit() {
-    uid = auth!.currentUser!.uid;
+    uid = FirebaseAuth.instance.currentUser!.uid;
     super.onInit();
     commentController = TextEditingController();
     textController = TextEditingController();
@@ -68,6 +70,7 @@ class PostsViewModel extends GetxController {
   Future addPost(String? text, GlobalKey<FormState>? textFieldkey) async {
     final formState = textFieldkey!.currentState;
     if (formState!.validate()) {
+      showLoading.value = true;
       formState.save();
       final formattedDate = DateFormat('M/d/y - kk:mm').format(DateTime.now());
       try {
@@ -90,15 +93,17 @@ class PostsViewModel extends GetxController {
                 "isHasLiked": false,
                 "usersLiked": {"$uid": false}
               })
-              .whenComplete(
-                () => CustomSnakbar.showSnakBar(
-                    backgroundColor: const Color.fromARGB(255, 188, 204, 189),
-                    context: Get.context,
-                    message: "Uploaded Post Successfully",
-                    title: ""),
-              )
+              .whenComplete(() => showLoading.value = false)
               .then(
-                (value) => Get.off(() => const Posts()),
+                (value) {
+                  CustomSnakbar.showSnakBar(
+                      backgroundColor: kPrimaryColor,
+                      context: Get.context,
+                      message: "Uploaded Post Successfully",
+                      title: "");
+                  Get.off(() => const Posts(),
+                      transition: Transition.circularReveal);
+                },
               );
         } else {
           postsReference
@@ -112,19 +117,20 @@ class PostsViewModel extends GetxController {
                 "isHasLiked": false,
                 "usersLiked": {"$uid": false}
               })
-              .whenComplete(
-                () => CustomSnakbar.showSnakBar(
-                    backgroundColor: const Color.fromARGB(255, 188, 204, 189),
-                    context: Get.context,
-                    message: "Uploaded Post Successfully",
-                    title: ""),
-              )
+              .whenComplete(() => showLoading.value = false)
               .then(
-                (value) => Get.off(() => const Posts()),
+                (value) {
+                  CustomSnakbar.showSnakBar(
+                      backgroundColor: const Color.fromARGB(255, 188, 204, 189),
+                      context: Get.context,
+                      message: "Uploaded Post Successfully",
+                      title: "");
+                  Get.off(() => const Posts());
+                },
               );
         }
       } catch (e) {
-        return Get.snackbar("Error", "The error : ${e.toString()}");
+        return Get.snackbar("Oops", "The error : ${e.toString()}");
       }
       clearEditingControllers();
     }
@@ -146,9 +152,7 @@ class PostsViewModel extends GetxController {
   }
 
   Future addComment(
-      {collectionOne,
-      String? text,
-      GlobalKey<FormState>? commentKey}) async {
+      {collectionOne, String? text, GlobalKey<FormState>? commentKey}) async {
     final commentState = commentKey!.currentState?.validate();
     if (commentState == true) {
       commentKey.currentState!.save();
@@ -241,8 +245,7 @@ class PostsViewModel extends GetxController {
     }
   }
 
-  handleCommentLikes(
-      {firstCollectionDocs, docSnapshot}) async {
+  handleCommentLikes({firstCollectionDocs, docSnapshot}) async {
     DocumentReference<Map<String, dynamic>> _commentLikeData = FirebaseFirestore
         .instance
         .collection("posts")
@@ -293,8 +296,6 @@ class PostsViewModel extends GetxController {
   void clearEditingControllers() {
     textController!.clear();
   }
-
-  
 
   @override
   void onClose() {
