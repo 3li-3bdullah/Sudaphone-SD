@@ -24,7 +24,7 @@ class SignInForm extends GetWidget<LoginViewModel> {
                 //Start Email----------
                 const CustomText(
                   text: "E-mail",
-                  color: Colors.white,
+                  color: Colors.brown,
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
                   textAlign: TextAlign.center,
@@ -32,7 +32,7 @@ class SignInForm extends GetWidget<LoginViewModel> {
 
                 const SizedBox(height: 10),
                 CustomTextFormField(
-                  labelText: "E-mail",
+                  customHintText: "E-mail",
                   textEditingController: controller.emailSigninController!,
                   obscure: false,
                   validator: (String value) {
@@ -47,7 +47,7 @@ class SignInForm extends GetWidget<LoginViewModel> {
                 const SizedBox(height: 10),
                 const CustomText(
                   text: "Password",
-                  color: Colors.white,
+                  color: Colors.brown,
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
                   textAlign: TextAlign.center,
@@ -55,7 +55,7 @@ class SignInForm extends GetWidget<LoginViewModel> {
                 const SizedBox(height: 10),
                 Obx(
                   () => CustomTextFormField(
-                    labelText: "Password",
+                    customHintText: "Password",
                     textEditingController: controller.passwordSigninController!,
                     obscure: true,
                     validator: (String value) {
