@@ -36,7 +36,7 @@ class AllProducts extends GetWidget<ScreenViewModel> {
                 snapshot: snapshot.data);
           } else if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
-              child: Lottie.asset("assets/lottie/please_wait.json"),
+              child: Lottie.asset("assets/lotties/loading.json"),
             );
           } else {
             return const Center(
