@@ -10,6 +10,7 @@ class FeedbackViewModel extends GetxController {
   String? uId;
   Map<String, dynamic>? uInfo;
   final date = DateFormat('M/d/y - kk:mm').format(DateTime.now());
+  RxBool showLoading = false.obs;
 
   @override
   void onInit() {
@@ -34,11 +35,12 @@ class FeedbackViewModel extends GetxController {
   }
 
   sendFeedback({GlobalKey? key, String? text}) async {
+    showLoading.value = true;
     await FirebaseFirestore.instance.collection("Feedbacks").add({
       "Note": text.toString(),
       "Sender Name": uInfo!['username'].toString(),
       "Sender Id": uId.toString(),
       "Time": date.toString(),
-    });
+    }).whenComplete(() => showLoading.value = false);
   }
 }
