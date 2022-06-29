@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -35,46 +36,48 @@ class SudaphoneSD extends StatelessWidget {
           // theme: ThemeData(fontFamily: 'Poppins'),
           title: "SudaPhone SD",
           initialBinding: MyBinding(),
-          home: const Home()),
-    );
-  }
-}
-
-// ignore: must_be_immutable
-class Home extends GetWidget<MainViewModel> {
-  const Home({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      // theme: ThemeData(fontFamily: 'Poppins'),
-      body: FutureBuilder(
-        future: controller.fbApp,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Container(
-                color: Colors.green,
-                alignment: Alignment.center,
-                // width: MediaQuery.of(context).size.width,
-                // height: MediaQuery.of(context).size.height,
-                child: Text(
-                  "You have an error! : ${snapshot.error.toString()}",
-                  style: const TextStyle(color: Colors.white),
-                ));
-          } else if (snapshot.hasData) {
-            return controller.isLogin.value
+          home: FirebaseAuth.instance.currentUser?.uid != null
                 ? const MyDrawer()
-                : const SignIn();
-          } else {
-            return Container(
-              color: Colors.white,
-              child: const Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }
-        },
-      ),
+                : const SignIn()),
     );
   }
 }
+
+// // ignore: must_be_immutable
+// class Home extends GetWidget<MainViewModel> {
+//   const Home({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       // theme: ThemeData(fontFamily: 'Poppins'),
+//       body: FutureBuilder(
+//         future: controller.fbApp,
+//         builder: (context, snapshot) {
+//           if (snapshot.hasError) {
+//             return Container(
+//                 color: Colors.green,
+//                 alignment: Alignment.center,
+//                 // width: MediaQuery.of(context).size.width,
+//                 // height: MediaQuery.of(context).size.height,
+//                 child: Text(
+//                   "You have an error! : ${snapshot.error.toString()}",
+//                   style: const TextStyle(color: Colors.white),
+//                 ));
+//           } else if (snapshot.hasData) {
+//             return FirebaseAuth.instance.currentUser?.uid != null
+//                 ? const MyDrawer()
+//                 : const SignIn();
+//           } else {
+//             return Container(
+//               color: Colors.white,
+//               child: const Center(
+//                 child: CircularProgressIndicator(),
+//               ),
+//             );
+//           }
+//         },
+//       ),
+//     );
+//   }
+// }
