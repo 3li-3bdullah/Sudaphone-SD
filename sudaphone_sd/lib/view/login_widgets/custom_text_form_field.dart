@@ -10,13 +10,13 @@ class CustomTextFormField extends StatelessWidget {
       required this.validator,
       required this.icon,
       required this.textEditingController,
-       this.labelText});
+       this.customHintText = ""});
   final bool obscure;
   final Function validator;
   final IconData icon;
   // final String myhinttext;
   // final Color prefixColor;
-  final String? labelText;
+  final String customHintText;
   final bool istrue;
   final Function? changeObscureValue;
   final TextEditingController textEditingController;
@@ -37,13 +37,14 @@ class CustomTextFormField extends StatelessWidget {
             enabledBorder : const OutlineInputBorder(
             borderRadius:  BorderRadius.all(Radius.circular(10))
             ),
-        labelText: labelText, labelStyle: const TextStyle(color: Colors.brown),
+        hintText: customHintText,
+        //  labelStyle: const TextStyle(color: Colors.white),
         contentPadding: const EdgeInsets.all(4),
         // hintText: myhinttext,
         
         prefixIcon: Icon(
           icon,
-          color: Colors.brown,
+          color: Colors.white,
           size: 30,
         ),
          suffixIcon: obscure
