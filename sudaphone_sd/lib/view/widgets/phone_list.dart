@@ -120,13 +120,13 @@ class PhoneList extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Lottie.asset("assets/lottie/please_wait.json"),
+            Lottie.asset("assets/lotties/loading.json"),
           ],
         ),
       );
     } else {
       return Center(
-        child: Lottie.asset("assets/lottie/please_wait.json"),
+        child: Lottie.asset("assets/lotties/loading.json"),
       );
     }
   }
