@@ -96,6 +96,7 @@ flutter:
     - assets/images/carousel/
     - assets/images/icons/
     - assets/images/
+    - assets/lotties/
     - assets/lottie/
   #   - images/a_dot_ham.jpeg
 
