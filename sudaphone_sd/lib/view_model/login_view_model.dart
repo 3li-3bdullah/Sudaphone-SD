@@ -87,13 +87,14 @@ class LoginViewModel extends GetxController {
         print("$email &  $password *************************************8");
         userCredential = await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: password);
-        showLoading.value = false;
+        
         CustomSnakbar.showSnakBar(
             context: Get.context,
             title: "Done",
             message: "Successfully signin",
             backgroundColor: kPrimaryColor);
         Get.off(() => const MyDrawer(), transition: Transition.circularReveal);
+        showLoading.value = false;
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -147,13 +148,14 @@ class LoginViewModel extends GetxController {
           "registerTime": _formattedDate.toString(),
           "profileUrl": _imageUrl.toString()
         });
-        showLoading.value = false;
+      
         CustomSnakbar.showSnakBar(
             context: Get.context,
             title: "Done",
             message: "Created account successfully",
             backgroundColor: kPrimaryColor);
         Get.off(() => const MyDrawer(),transition: Transition.circularReveal);
+          showLoading.value = false;
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
