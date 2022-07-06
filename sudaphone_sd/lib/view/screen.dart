@@ -384,43 +384,43 @@ class Screen extends GetWidget<ScreenViewModel> {
                         AllProducts(
                             collection: "huawei",
                             docOne: "allHuawei",
-                            docTwo: "AxMzs7IShYFwBfw7hSYm"),
+                            docTwo: "CfGO6CuHvwbIKhgvFqYb"),
                         AllProducts(
                             collection: "iphone",
                             docOne: "allIphone",
-                            docTwo: "kgCtXk3jHTz5tJHV3VNe"),
+                            docTwo: "JWnNYP4gljeiQzC9GnkX"),
                         AllProducts(
                             collection: "realme",
                             docOne: "allRealme",
-                            docTwo: "E620Lr8NMpLdYCIVvWJe"),
+                            docTwo: "E7DZUXcbqFSEZX7a5YNJ"),
                         AllProducts(
                             collection: "vivo",
                             docOne: "allVivo",
-                            docTwo: "cYg4hOV1jC7AGykbnHZY"),
+                            docTwo: "aAE8oyG0CjOYmgTPI7xX"),
                         AllProducts(
                             collection: "xiaomi",
                             docOne: "allXiaomi",
-                            docTwo: "uG5hyJeFkL2KbxuufVIP"),
+                            docTwo: "9PdSol0BCoc65X3VGDku"),
                         AllProducts(
                             collection: "samsung",
                             docOne: "allSamsung",
-                            docTwo: "OoPjLoRUIxo2tF1GsoDD"),
+                            docTwo: "pXHctUDdVonU9V4JsnuB"),
                         AllProducts(
                             collection: "oppo",
                             docOne: "allOppo",
-                            docTwo: "AfTtdDT9u4J3hDpwGf7n"),
+                            docTwo: "NSSovWEiWs1GUPNvACD0"),
                         AllProducts(
                             collection: "lenovo",
                             docOne: "allLenovo",
-                            docTwo: "1IUPh51OJVPBEoBQt1Lg"),
+                            docTwo: "7RLJ0BMcSsnW3XJciksP"),
                         AllProducts(
                             collection: "tecno",
                             docOne: "allTecno",
-                            docTwo: "ph2AiHJOeuSQHcOKMabs"),
+                            docTwo: "YO7Yt6Yet4QG5jniPlO0"),
                         AllProducts(
                             collection: "nokia",
                             docOne: "allNokia",
-                            docTwo: "cJ9YAF2gv0m34L3LS49f"),
+                            docTwo: "eWcKpOM0HWMqm5Gu9cAt"),
                       ],
                     ),
                   ),
