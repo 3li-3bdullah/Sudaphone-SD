@@ -5,10 +5,9 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sudaphone_sd/my_binding/my_binding.dart';
 import 'package:sudaphone_sd/view/mydrawer.dart';
+import 'package:sudaphone_sd/view/posts.dart';
 import 'package:sudaphone_sd/view/settings.dart';
 import 'package:sudaphone_sd/view/signin.dart';
-// import 'package:sudaphone_sd/view/signin.dart';
-import 'package:sudaphone_sd/view_model/main_view_model.dart';
 import 'package:sudaphone_sd/view_model/themes_view_model.dart';
 
 import 'constants.dart';
@@ -36,48 +35,9 @@ class SudaphoneSD extends StatelessWidget {
           // theme: ThemeData(fontFamily: 'Poppins'),
           title: "SudaPhone SD",
           initialBinding: MyBinding(),
-          home: FirebaseAuth.instance.currentUser?.uid != null
-                ? const MyDrawer()
+          home: FirebaseAuth.instance.currentUser != null
+                ?  const MyDrawer()
                 : const SignIn()),
     );
   }
 }
-
-// // ignore: must_be_immutable
-// class Home extends GetWidget<MainViewModel> {
-//   const Home({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       // theme: ThemeData(fontFamily: 'Poppins'),
-//       body: FutureBuilder(
-//         future: controller.fbApp,
-//         builder: (context, snapshot) {
-//           if (snapshot.hasError) {
-//             return Container(
-//                 color: Colors.green,
-//                 alignment: Alignment.center,
-//                 // width: MediaQuery.of(context).size.width,
-//                 // height: MediaQuery.of(context).size.height,
-//                 child: Text(
-//                   "You have an error! : ${snapshot.error.toString()}",
-//                   style: const TextStyle(color: Colors.white),
-//                 ));
-//           } else if (snapshot.hasData) {
-//             return FirebaseAuth.instance.currentUser?.uid != null
-//                 ? const MyDrawer()
-//                 : const SignIn();
-//           } else {
-//             return Container(
-//               color: Colors.white,
-//               child: const Center(
-//                 child: CircularProgressIndicator(),
-//               ),
-//             );
-//           }
-//         },
-//       ),
-//     );
-//   }
-// }
