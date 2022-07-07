@@ -1,14 +1,17 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sudaphone_sd/view/aboutapp.dart';
 import 'package:sudaphone_sd/view/bottom_navigation.dart';
 import 'package:sudaphone_sd/view/categories.dart';
 import 'package:sudaphone_sd/view/feedbacks.dart';
 import 'package:sudaphone_sd/view/my_drawer_widgets/build_listtile.dart';
 import 'package:sudaphone_sd/view/posts.dart';
+import 'package:sudaphone_sd/view/widgets/custom_text.dart';
 import 'package:sudaphone_sd/view_model/mydrawer_view_model.dart';
 
 class MyDrawer extends GetWidget<MyDrawerViewModel> {
@@ -47,38 +50,43 @@ class MyDrawer extends GetWidget<MyDrawerViewModel> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                    //         future: controller.userName.doc(FirebaseAuth.instance.currentUser!.uid).get(),
-                    //         builder: (context, snapshot) {
-                    //           return Column(
-                    //             children: [
-                    //               const SizedBox(height: 20,),
-                    //                CircleAvatar(
-                    //                  radius: 65,
-                    //                  backgroundImage: NetworkImage(
-                    //                       snapshot.data!.data()!['profileUrl']),
-                    //                ),
-                    //                const SizedBox(height: 10,),
-                    //               CustomText(
-                    //                 text:
-                    //                     "${snapshot.data?.data()!['userName']}",
-                    //                 color: Colors.white,
-                    //                 fontSize: 18,
-                    //                 fontWeight: FontWeight.normal,
-                    //                 textAlign: TextAlign.center,
-                    //               ),
-                    //               const SizedBox(height: 8),
-                    //               CustomText(
-                    //                   text:
-                    //                       "${snapshot.data?.data()!['email']}",
-                    //                   textAlign: TextAlign.center,
-                    //                   color: Colors.white,
-                    //                   fontSize: 16,
-                    //                   fontWeight: FontWeight.normal),
-                    //             ],
-                    //           );
-                    //         },
-                    //       ),
+                    FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                            future: controller.userInfo.doc(controller.uid).get(),
+                            builder: (context, snapshot) {
+                              if(snapshot.hasData){
+                                   return Column(
+                                children: [
+                                  const SizedBox(height: 20,),
+                                   CircleAvatar(
+                                     radius: 65,
+                                     backgroundImage: NetworkImage(
+                                          snapshot.data!.data()!['profileUrl']),
+                                   ),
+                                   const SizedBox(height: 10,),
+                                  CustomText(
+                                    text:
+                                        "${snapshot.data?.data()!['userName']}",
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.normal,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const SizedBox(height: 8),
+                                  CustomText(
+                                      text:
+                                          "${snapshot.data?.data()!['email']}",
+                                      textAlign: TextAlign.center,
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.normal),
+                                ],
+                              );
+                           
+                              }else{
+                                return Lottie.asset("assets/lotties/loading.json");
+                              }
+                            },
+                          ),
 
                     const SizedBox(height: 15),
                     BuildListTile(
