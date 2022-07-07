@@ -1,4 +1,4 @@
-package com.example.sudaphone_sd
+package com.example.sudaphone.sd
 
 import io.flutter.embedding.android.FlutterActivity
 
