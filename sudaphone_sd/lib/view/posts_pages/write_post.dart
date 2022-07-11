@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sudaphone_sd/constants.dart';
-import 'package:sudaphone_sd/view/widgets/custom_text.dart';
 import 'package:get/get.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 
@@ -18,7 +19,7 @@ class WritePost extends GetWidget<PostsViewModel> {
         ),
         leading: IconButton(
           icon: const Icon(
-            Icons.arrow_back_ios,
+            Icons.arrow_back,
             color: Colors.black,
           ),
           onPressed: () {
@@ -34,19 +35,16 @@ class WritePost extends GetWidget<PostsViewModel> {
           child: Column(
             children: [
               FutureBuilder<DocumentSnapshot<Map<String,dynamic>>>(
-                future: controller.userInfoCollection.doc(controller.uid.toString()).get(),
+                future: controller.userInfoCollection.doc(FirebaseAuth.instance.currentUser!.uid).get(),
                 builder: (context,snapshot){
-                  return Row(
+               if(snapshot.hasData){
+                   return Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Container(
                     margin: const EdgeInsets.only(left: 8, top: 20),
-                    /* 
-                    This circleAvatar now i dont need it.
-                    */
                     child:  CircleAvatar(
-                      backgroundImage:
-                          NetworkImage("${snapshot.data!.data()?['profileUrl']}"),
+                      backgroundImage:  NetworkImage("${snapshot.data!.data()?['profileUrl']}"),
                     ),
                   ),
                   const SizedBox(
@@ -64,7 +62,10 @@ class WritePost extends GetWidget<PostsViewModel> {
                   ),
                 ],
               );
-                }
+               
+               }else{
+                return Lottie.asset("assets/lotties/loading.json");
+               } }
                 ),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
