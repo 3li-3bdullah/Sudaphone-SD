@@ -34,7 +34,7 @@ class ShowCommentLikes extends GetWidget<PostsViewModel> {
         itemCount: peopleWhoLiked.length,
         itemBuilder: (context, index) {
           return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-            future: controller.postsCollections
+            future: controller.userInfoCollection
                 .doc(peopleWhoLiked[index])
                 .get(),
             builder: ((context, snapshot) {
@@ -45,17 +45,17 @@ class ShowCommentLikes extends GetWidget<PostsViewModel> {
                   title: Padding(
                     padding: const EdgeInsets.only(bottom: 10),
                     child: CustomText(
-                        text: "${snapshot.data?.data()!['userName']}",
+                        text: "${snapshot.data!.data()!['userName']}",
                         fontSize: 17,
                         fontWeight: FontWeight.normal,
                         color: Colors.black,
                         textAlign: TextAlign.left),
                   ),
-                  // leading : CircleAvatar(
-                  //   radius: 30,
-                  //   backgroundImage:
-                  //       NetworkImage(snapshot.data?.data()!['profileUrl']),
-                  // ),
+                  leading : CircleAvatar(
+                    radius: 30,
+                    backgroundImage:
+                        NetworkImage(snapshot.data?.data()!['profileUrl']),
+                  ),
                 ),
               );
               } else {
