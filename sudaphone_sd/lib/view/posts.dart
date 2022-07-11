@@ -1,15 +1,13 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:like_button/like_button.dart';
 import 'package:lottie/lottie.dart';
+import 'package:sudaphone_sd/constants.dart';
 import 'package:sudaphone_sd/view/download_images.dart';
+import 'package:sudaphone_sd/view/login_widgets/custom_text_form_field.dart';
 import 'package:sudaphone_sd/view/people_have_liked.dart';
 import 'package:sudaphone_sd/view/posts_pages/comments.dart';
 import 'package:sudaphone_sd/view/posts_pages/write_post.dart';
-import 'package:sudaphone_sd/view/posts_widgets/card_view.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 
@@ -66,11 +64,10 @@ class Posts extends GetWidget<PostsViewModel> {
                                     .data()['ownerUid'])
                                 .snapshots(),
                             builder: (context, _snapshot) {
-                              [controller.auth!.currentUser!.uid];
+                              //Here should i add the new idea
                               if (_snapshot.hasData) {
                                 return ListTile(
                                   leading: CircleAvatar(
-                                    // Doneeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
                                     backgroundImage: NetworkImage(
                                         _snapshot.data?.data()!['profileUrl']),
                                   ),
@@ -81,7 +78,6 @@ class Posts extends GetWidget<PostsViewModel> {
                                       Container(
                                         margin: const EdgeInsets.only(top: 10),
                                         child: CustomText(
-                                          // Doneeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
                                           text: _snapshot.data
                                               ?.data()!['userName'],
                                           color: Colors.black,
@@ -100,24 +96,121 @@ class Posts extends GetWidget<PostsViewModel> {
                                       )
                                     ],
                                   ),
-                                  trailing: IconButton(
-                                    icon: const Icon(Icons.more_horiz),
-                                    onPressed: () {
-                                      Get.bottomSheet(
-                                        Container(
-                                          decoration: BoxDecoration(
-                                              color:
-                                                  Colors.black.withOpacity(0.5),
-                                              borderRadius:
-                                                  const BorderRadius.only(
-                                                      topLeft:
-                                                          Radius.circular(20),
-                                                      topRight:
-                                                          Radius.circular(20))),
+                                  trailing: snapshot.data!.docs[index]
+                                              .data()['ownerUid'] ==
+                                          controller.uid
+                                      ? PopupMenuButton<MenuItems>(
+                                          onSelected: (value) {
+                                            if (value == MenuItems.save) {
+                                              controller.savePost(
+                                                postDoc: snapshot
+                                                    .data!.docs[index].id,
+                                              );
+                                            } else if (value ==
+                                                MenuItems.edit) {
+                                              Get.defaultDialog(
+                                                title: "Edit the post",
+                                                titleStyle: const TextStyle(
+                                                    color: Colors.brown,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                                content: Form(
+                                                  key:
+                                                      controller.editingPostKey,
+                                                  child: CustomTextFormField(
+                                                      obscure: false,
+                                                      validator: (String name) {
+                                                        if (name
+                                                            .trim()
+                                                            .isEmpty) {
+                                                          return "The field is empty";
+                                                        }
+                                                      },
+                                                      icon: Icons.person,
+                                                      textEditingController:
+                                                          controller
+                                                              .editingPostController),
+                                                ),
+                                                textConfirm: "Edit",
+                                                textCancel: "Cancel",
+                                                cancelTextColor: Colors.brown,
+                                                confirmTextColor: Colors.white,
+                                                buttonColor: Colors.brown,
+                                                radius: 20.0,
+                                                onConfirm: () {
+                                                  controller.editingPost(
+                                                      editKey: controller
+                                                          .editingPostKey,
+                                                      postDoc: snapshot
+                                                          .data!.docs[index].id,
+                                                      text: controller
+                                                          .editingPostController
+                                                          .text);
+                                                },
+                                                onCancel: () {
+                                                  Get.back();
+                                                },
+                                              );
+                                            } else {
+                                              controller.deletePost(snapshot
+                                                  .data!.docs[index].id);
+                                            }
+                                          },
+                                          itemBuilder: (context) => const [
+                                            PopupMenuItem(
+                                              value: MenuItems.save,
+                                              child: CustomText(
+                                                text: "Save",
+                                                color: kBlackColor,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.normal,
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                            PopupMenuItem(
+                                              value: MenuItems.edit,
+                                              child: CustomText(
+                                                text: "Edit",
+                                                color: kBlackColor,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.normal,
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                            PopupMenuItem(
+                                              value: MenuItems.delete,
+                                              child: CustomText(
+                                                text: "Delete",
+                                                color: kBlackColor,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.normal,
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      : PopupMenuButton<MenuItems>(
+                                          onSelected: (value) {
+                                            if (value == MenuItems.save) {
+                                              controller.savePost(
+                                                postDoc: snapshot
+                                                    .data!.docs[index].id,
+                                              );
+                                            }
+                                          },
+                                          itemBuilder: (context) => const [
+                                            PopupMenuItem(
+                                              value: MenuItems.save,
+                                              child: CustomText(
+                                                text: "Save",
+                                                color: kBlackColor,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.normal,
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      );
-                                    },
-                                  ),
                                   isThreeLine: true,
                                   subtitle: Column(
                                     children: [
@@ -132,6 +225,21 @@ class Posts extends GetWidget<PostsViewModel> {
                                         fontWeight: FontWeight.normal,
                                         textAlign: TextAlign.center,
                                       ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      snapshot.data!.docs[index]
+                                                      .data()['edited']
+                                                  [controller.uid] ==
+                                              true
+                                          ? const CustomText(
+                                              text: "Edited",
+                                              color: Colors.green,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.normal,
+                                              textAlign: TextAlign.left,
+                                            )
+                                          : const SizedBox(),
                                       const SizedBox(
                                         height: 10,
                                       ),
