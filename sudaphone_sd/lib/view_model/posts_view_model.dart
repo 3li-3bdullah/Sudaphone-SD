@@ -14,8 +14,10 @@ import 'package:sudaphone_sd/view/posts_widgets/custom_snakbar.dart';
 
 class PostsViewModel extends GetxController {
   /// Declaring Variables
+  String uid = FirebaseAuth.instance.currentUser!.uid;
   final GlobalKey<FormState>? postKey = GlobalKey<FormState>();
   final GlobalKey<FormState>? commentKey = GlobalKey<FormState>();
+  final GlobalKey<FormState>? editingPostKey = GlobalKey<FormState>();
   CollectionReference<Map<String, dynamic>> userInfoCollection =
       FirebaseFirestore.instance.collection("usersInfo");
   CollectionReference postsReference =
@@ -23,6 +25,7 @@ class PostsViewModel extends GetxController {
   CollectionReference<Map<String, dynamic>> postsCollections =
       FirebaseFirestore.instance.collection("posts");
   TextEditingController commentController = TextEditingController();
+  TextEditingController editingPostController = TextEditingController();
 
   String? _fileName;
   String? _fileNameForComment;
@@ -36,16 +39,17 @@ class PostsViewModel extends GetxController {
   RxBool? isPickedForComment = false.obs;
   FirebaseAuth? auth = FirebaseAuth.instance;
   RxBool isHasLiked = false.obs;
-  String? uid;
   Map<String, dynamic>? getUserInfo;
   RxBool showLoading = false.obs;
+  RxBool? isLiked;
+  RxBool commentIsloaded = false.obs;
+  List<String> dropList = ["Edit", "Delete"];
 
   /// All Methods
   String? formattedDate;
 
   @override
   void onInit() {
-    uid = FirebaseAuth.instance.currentUser!.uid;
     super.onInit();
     commentController = TextEditingController();
     textController = TextEditingController();
@@ -91,7 +95,8 @@ class PostsViewModel extends GetxController {
                 "isThereImageUrl": true,
                 "likesCount": 0,
                 "isHasLiked": false,
-                "usersLiked": {"$uid": false}
+                "usersLiked": {"$uid": false},
+                "edited": false
               })
               .whenComplete(() => showLoading.value = false)
               .then(
@@ -115,7 +120,8 @@ class PostsViewModel extends GetxController {
                 "isThereImageUrl": false,
                 "likesCount": 0,
                 "isHasLiked": false,
-                "usersLiked": {"$uid": false}
+                "usersLiked": {"$uid": false},
+                "edited": false
               })
               .whenComplete(() => showLoading.value = false)
               .then(
@@ -136,9 +142,9 @@ class PostsViewModel extends GetxController {
     }
   }
 
-  // Here I've removed the type annotaion Futre<bool>?
   uploadImageToComment({String? source}) async {
     final _picker = ImagePicker();
+    commentIsloaded.value = true;
     XFile? pickImage = await _picker.pickImage(
         source: source == "camera" ? ImageSource.camera : ImageSource.gallery);
     int rand = Random().nextInt(1000000);
@@ -153,7 +159,7 @@ class PostsViewModel extends GetxController {
 
   Future addComment(
       {collectionOne, String? text, GlobalKey<FormState>? commentKey}) async {
-    final commentState = commentKey!.currentState?.validate();
+    final commentState = commentKey!.currentState!.validate();
     if (commentState == true) {
       commentKey.currentState!.save();
       getUserInfo = await FirebaseFirestore.instance
@@ -204,6 +210,7 @@ class PostsViewModel extends GetxController {
         return Get.snackbar("Errors", e.toString());
       }
       clearCommentText();
+      commentIsloaded.value = false;
     }
   }
 
@@ -211,39 +218,70 @@ class PostsViewModel extends GetxController {
     commentController.clear();
   }
 
-  handlePostLikes({firstDocsSnapshot}) async {
+  handlePostLikes({currentPostDocData}) {
     DocumentReference<Map<String, dynamic>> _likeData = FirebaseFirestore
         .instance
         .collection("posts")
-        .doc(firstDocsSnapshot.id);
+        .doc(currentPostDocData.id);
     /*
      * This option will show up if the owner user has liked the post before
      * or not, and even if the user delete the app and reinstall again , so
      * he'll see he has liked before or not.
      */
-    bool _isHasLiked = firstDocsSnapshot.data()['usersLiked']['$uid'];
-    // await _likeData
-    //     .get()
-    //     .then((value) => value.data()!['usersLiked']['$uid'] == true);
-
+    bool _isHasLiked = currentPostDocData.data()['usersLiked'][uid];
+    //  bool _isHasLiked = await _likeData
+    //       .get()
+    //       .then((value) => value.data()!['usersLiked'][uid] == true);
     if (!_isHasLiked) {
-      int _addLike = firstDocsSnapshot.data()['likesCount'] + 1;
-      await _likeData.update({
+      int _addLike = currentPostDocData.data()['likesCount'] + 1;
+      _likeData.update({
         'likesCount': _addLike.toInt(),
         'isHasLiked': true,
         'usersLiked.$uid': true,
       });
-      // isLiked.value = true;
     } else {
-      int _removeLike = firstDocsSnapshot.data()['likesCount'] - 1;
-      await _likeData.update({
+      int _removeLike = currentPostDocData.data()['likesCount'] - 1;
+      _likeData.update({
         'likesCount': _removeLike.toInt(),
         'isHasLiked': false,
         'usersLiked.$uid': false
       });
-      // isLiked.value = false;
     }
   }
+
+  // handlePostLikes({firstDocsSnapshot}) async {
+  //   DocumentReference<Map<String, dynamic>> _likeData = FirebaseFirestore
+  //       .instance
+  //       .collection("posts")
+  //       .doc(firstDocsSnapshot.id);
+  //   /*
+  //    * This option will show up if the owner user has liked the post before
+  //    * or not, and even if the user delete the app and reinstall again , so
+  //    * he'll see he has liked before or not.
+  //    */
+  //   bool _isHasLiked = firstDocsSnapshot.data()['usersLiked'][uid];
+  //   // await _likeData
+  //   //     .get()
+  //   //     .then((value) => value.data()!['usersLiked']['$uid'] == true);
+
+  //   if (!_isHasLiked) {
+  //     int _addLike = firstDocsSnapshot.data()['likesCount'] + 1;
+  //      _likeData.update({
+  //       'likesCount': _addLike.toInt(),
+  //       'isHasLiked': true,
+  //       'usersLiked.$uid': true,
+  //     });
+  //     // isLiked.value = true;
+  //   } else {
+  //     int _removeLike = firstDocsSnapshot.data()['likesCount'] - 1;
+  //      _likeData.update({
+  //       'likesCount': _removeLike.toInt(),
+  //       'isHasLiked': false,
+  //       'usersLiked.$uid': false
+  //     });
+  //     // isLiked.value = false;
+  //   }
+  // }
 
   handleCommentLikes({firstCollectionDocs, docSnapshot}) async {
     DocumentReference<Map<String, dynamic>> _commentLikeData = FirebaseFirestore
@@ -276,6 +314,39 @@ class PostsViewModel extends GetxController {
         'usersLiked.$uid': false
       });
     }
+  }
+
+  savePost({String? postDoc}){
+    FirebaseFirestore.instance.collection("posts").doc(postDoc).set({
+      "saved.$uid": true
+    },SetOptions(merge: true));
+  }
+
+  editingPost({String? text ,String? postDoc, GlobalKey<FormState>? editKey}){
+  if(editKey!.currentState!.validate()){
+    editKey.currentState!.save();
+      FirebaseFirestore.instance
+        .collection("posts")
+        .doc(postDoc)
+        .update({
+      "text": text.toString(),
+      "edited": true
+    }).whenComplete(() => Get.snackbar(
+            "", "The post has edited successfully.",
+            snackPosition: SnackPosition.BOTTOM,
+            duration: const Duration(seconds: 3)));
+   }
+  }
+
+  deletePost(String theDoc) {
+    FirebaseFirestore.instance
+        .collection("posts")
+        .doc(theDoc)
+        .delete()
+        .whenComplete(() => Get.snackbar(
+            "", "The post has deleted successfully.",
+            snackPosition: SnackPosition.BOTTOM,
+            duration: const Duration(seconds: 3)));
   }
 
   isHasAnImageUrl(String? url) {
