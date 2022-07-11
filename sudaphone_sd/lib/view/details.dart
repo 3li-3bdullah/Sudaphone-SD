@@ -54,10 +54,8 @@ class Details extends GetWidget<DetailsViewModel> {
                                 height:
                                     MediaQuery.of(context).size.height / 2 + 80,
                                 fit: BoxFit.contain,
-                                image: const AssetImage(
-                                    "assets/images/slider/ali.jpg"),
-                                // NetworkImage(
-                                //     _snapshot.data?.data()!['imageUrl']),
+                                image: NetworkImage(
+                                    _snapshot.data?.data()!['imageUrl']),
                               ),
                               onTap: () {
                                 Get.to(() => DownloadImages(
@@ -72,6 +70,8 @@ class Details extends GetWidget<DetailsViewModel> {
                           top: 40,
                           right: 20,
                           child: Container(
+                            height: 50,
+                            width: 50,
                             decoration: BoxDecoration(
                               color: Colors.black.withOpacity(0.3),
                               borderRadius: const BorderRadius.all(
@@ -81,21 +81,20 @@ class Details extends GetWidget<DetailsViewModel> {
                             child: Padding(
                                 padding: const EdgeInsets.only(
                                     bottom: 8.0, right: 10),
-                                child: StreamBuilder<
-                                    DocumentSnapshot<Map<String, dynamic>>>(
-                                  stream: controller.isSaved
+                                child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                                  stream: controller.favorite
                                       .doc(controller.uid)
                                       .collection("archivists")
-                                      .doc(_snapshot.data?.id)
+                                      .doc(_snapshot.data!.id)
                                       .snapshots(),
                                   builder: (_, snapData) {
                                     return IconButton(
                                       iconSize: 38,
-                                      color: snapData.data?['name'] != null
+                                      color: snapData.data!.data()!['name'] != false
                                           ? bottomLogin
                                           : Colors.white,
-                                      icon: snapData.data?['name'] !=
-                                                  null ? const Icon(
+                                      icon: snapData.data!.data()!['name'] !=
+                                                  false ? const Icon(
                                               Icons.bookmark,
                                               size: 50,
                                             )
