@@ -5,9 +5,8 @@ const kSecondaryColor = Color(0xFF59706F);
 const kDarkGreyColor = Color(0xFFA8A8A8);
 const kWhiteColor = Color(0xFFFFFFFF);
 const kZambeziColor = Color(0xFF5B5B5B);
-const kBlackColor = Color(0xFF272726);
+const kBlackColor = Color.fromARGB(255, 0, 0, 0);
 const kTextFieldColor = Color(0xFF979797);
-
 
 Color topLogin = const Color(0xff3b247e);
 Color bottomLogin = const Color(0xff09fbd3);
@@ -31,4 +30,10 @@ class Themes{
  static final darkTheme = ThemeData(
   colorScheme: const ColorScheme.dark(),fontFamily: 'Poppins',primaryColor: Colors.white
  );
+}
+
+enum MenuItems {
+  save,
+  edit,
+  delete
 }
