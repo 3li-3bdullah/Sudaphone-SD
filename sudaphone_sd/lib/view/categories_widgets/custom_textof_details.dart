@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomTextOfDetails extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
   const CustomTextOfDetails(
       {
       required  this.text1,

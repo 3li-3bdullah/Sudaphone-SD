@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../widgets/custom_text.dart';
 
 class CategoriesCard extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
   const CategoriesCard({
     required this.imageCat,
     required this.text,
