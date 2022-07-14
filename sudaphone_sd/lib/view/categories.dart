@@ -17,7 +17,6 @@ class Categories extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ///ThemeData(fontFamily: 'Cairo');
     return Scaffold(
           appBar: AppBar(
             title: const Text(
@@ -28,8 +27,6 @@ class Categories extends StatelessWidget {
             centerTitle: true,
             elevation: 0,
           ),
-
-          /// drawer: MyDrawer(),
           body: Container(
             height: double.infinity,
             width: double.infinity,
