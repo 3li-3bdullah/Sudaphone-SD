@@ -40,10 +40,10 @@ dependencies:
   permission_handler: ^9.1.0
   gallery_saver: ^2.3.2
   # Firebase
-  firebase_core: ^1.13.1
-  firebase_auth: ^3.3.9
-  cloud_firestore: ^3.1.10
-  firebase_storage: ^10.2.9
+  firebase_core: ^1.19.1
+  firebase_auth: ^3.4.1
+  cloud_firestore: ^3.2.1
+  firebase_storage: ^10.3.1
   # bottom_navy_bar
   bottom_navy_bar: ^6.0.0
   # Carousel
@@ -62,7 +62,8 @@ dependencies:
   staggered_grid_view_flutter: ^0.0.4
   avatar_glow: ^2.0.2
   get_storage: ^2.0.3
-
+  like_button: ^2.0.4
+  email_validator: ^2.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -97,7 +98,6 @@ flutter:
     - assets/images/icons/
     - assets/images/
     - assets/lotties/
-    - assets/lottie/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
