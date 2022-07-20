@@ -1,3 +1,4 @@
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudaphone_sd/view/login_widgets/signin_form.dart';
@@ -47,11 +48,58 @@ class SignIn extends GetWidget<LoginViewModel> {
                           ontap: () => controller.signInWithEmailAndPassword(
                               controller.emailSigninController!.text,
                               controller.passwordSigninController!.text,
-                              controller.signInKey!
-                              ),
+                              controller.signInKey!),
                         ),
                         const SizedBox(
                           height: 15,
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Divider(color: Colors.brown),
+                              Padding(
+                                padding: EdgeInsets.all(10.0),
+                                child: CustomText(
+                                  text: "OR",
+                                  color: Colors.brown,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              Divider(color: Colors.brown),
+                            ]),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircleAvatar(
+                              backgroundColor: Colors.transparent,
+                              child: InkWell(
+                                onTap: () {},
+                                child: Image.asset(
+                                    "assets/images/icons/google.png"),
+                              ),
+                              radius: 30,
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            CircleAvatar(
+                              backgroundColor: Colors.transparent,
+                              child: InkWell(
+                                onTap: () {},
+                                child: Image.asset(
+                                    "assets/images/icons/facebook.png"),
+                              ),
+                              radius: 30,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 20,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -77,7 +125,10 @@ class SignIn extends GetWidget<LoginViewModel> {
                               },
                             ),
                           ],
-                        )
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
                       ],
                     ),
                   ),
