@@ -36,26 +36,18 @@ dependencies:
   cupertino_icons: ^1.0.2
   # get
   get: ^4.6.1
-  # Dio and some packages to save images
   permission_handler: ^9.1.0
   gallery_saver: ^2.3.2
-  # Firebase
   firebase_core: ^1.19.1
   firebase_auth: ^3.4.1
   cloud_firestore: ^3.2.1
   firebase_storage: ^10.3.1
-  # bottom_navy_bar
   bottom_navy_bar: ^6.0.0
-  # Carousel
   carousel_slider: ^4.1.1
   smooth_page_indicator: ^1.0.0+2
-  # ImagePicker
   image_picker: ^0.8.4+5
-  # Elastic Drawer
   elastic_drawer: ^2.0.1
-  # Lottie
   lottie: ^1.2.1
-  # Dart Path
   path: ^1.8.0
   intl: ^0.17.0
   sliding_up_panel: ^2.0.0+1
@@ -64,6 +56,9 @@ dependencies:
   get_storage: ^2.0.3
   like_button: ^2.0.4
   email_validator: ^2.0.1
+  shared_preferences: ^2.0.15
+  better_player: ^0.0.67
+  internet_connection_checker: ^0.0.1+4
 dev_dependencies:
   flutter_test:
     sdk: flutter
