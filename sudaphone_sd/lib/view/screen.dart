@@ -1,32 +1,49 @@
-import 'package:carousel_slider/carousel_options.dart';
+import 'dart:developer';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elastic_drawer/elastic_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
+import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
+import 'package:sudaphone_sd/model/screen_model.dart';
 import 'package:sudaphone_sd/view/categories.dart';
 import 'package:sudaphone_sd/view/categories_pages/huawei.dart';
 import 'package:sudaphone_sd/view/categories_pages/iphone.dart';
 import 'package:sudaphone_sd/view/categories_pages/lenovo.dart';
+import 'package:sudaphone_sd/view/categories_pages/nokia.dart';
 import 'package:sudaphone_sd/view/categories_pages/oppo.dart';
 import 'package:sudaphone_sd/view/categories_pages/realme.dart';
 import 'package:sudaphone_sd/view/categories_pages/samsung.dart';
 import 'package:sudaphone_sd/view/categories_pages/tecno.dart';
+import 'package:sudaphone_sd/view/categories_pages/vivo.dart';
+import 'package:sudaphone_sd/view/categories_pages/xiaomi.dart';
+import 'package:sudaphone_sd/view/details_pages/last_product_details.dart';
+import 'package:sudaphone_sd/view/screen_pages/best_gaming_phones.dart';
 import 'package:sudaphone_sd/view/screen_pages/data_search.dart';
-import 'package:sudaphone_sd/view/screen_pages/drawer_child.dart';
-import 'package:sudaphone_sd/view/screen_widgets/all_products.dart';
+import 'package:sudaphone_sd/view/screen_pages/favorite.dart';
 import 'package:sudaphone_sd/view/screen_widgets/build_images_carousel.dart';
 import 'package:sudaphone_sd/view/screen_widgets/build_indicator_carousel.dart';
 import 'package:sudaphone_sd/view/screen_widgets/categories_title.dart';
 import 'package:sudaphone_sd/view/screen_widgets/custom_listtile.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text.dart';
+import 'package:sudaphone_sd/view/widgets/custom_text2.dart';
+import 'package:sudaphone_sd/view_model/details_view_model.dart';
 import 'package:sudaphone_sd/view_model/mydrawer_view_model.dart';
+import 'package:sudaphone_sd/view_model/posts_view_model.dart';
+import 'package:sudaphone_sd/view_model/public_data.dart';
 import 'package:sudaphone_sd/view_model/screen_view_model.dart';
+import 'package:sudaphone_sd/view_model/themes_view_model.dart';
 
 class Screen extends GetWidget<ScreenViewModel> {
-  const Screen({Key? key}) : super(key: key);
-
+  Screen({Key? key}) : super(key: key);
+  // Here i initialized these two dependences to init the User ID
+  // final post = Get.find<PostsViewModel>();
+  // final setting = Get.find<SettingsViewModel>();
+  // final publicdata = Get.find<PublicData>();
+  // final details = Get.find<DetailsViewModel>();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -35,214 +52,372 @@ class Screen extends GetWidget<ScreenViewModel> {
       mainColor: Colors.transparent,
       drawerColor: Colors.transparent,
       mainChild: Scaffold(
-          body: NestedScrollView(
-            floatHeaderSlivers: true,
-            headerSliverBuilder: (context, innerBoxIsScrolled) => [
-              SliverAppBar(
-                title: const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Sudaphone SD",
-                    style: TextStyle(color: Colors.black),
-                  ),
+        body: NestedScrollView(
+          floatHeaderSlivers: true,
+          headerSliverBuilder: (context, innerBoxIsScrolled) => [
+            SliverAppBar(
+              title: Align(
+                alignment: Alignment.centerLeft,
+                child: CustomText(
+                  text: "Sudaphone SD",
+                  fontSize: 20,
+                  textAlign: TextAlign.center,
+                  fontWeight: FontWeight.normal,
                 ),
-                elevation: 0,
-                backgroundColor: Colors.white,
-                actions: [
-                  Padding(
+              ),
+              elevation: 0,
+              actions: [
+                GetBuilder<ThemesViewModel>(
+                  builder: (control) => Padding(
                     padding: const EdgeInsets.only(right: 18.0),
                     child: IconButton(
-                      icon: const Image(
-                        image: AssetImage("assets/images/icons/search.png"),
+                      icon: Image(
+                        image:
+                            const AssetImage("assets/images/icons/search.png"),
                         height: 22,
                         width: 22,
-                        color: Colors.black,
+                        color: control.theme == ThemeMode.dark
+                            ? Colors.white
+                            : Colors.black,
                       ),
                       onPressed: () {
                         showSearch(context: context, delegate: DataSearch());
                       },
                     ),
                   ),
-                ],
-                leading: GetX<MyDrawerViewModel>(
-                  builder: (controller) => IconButton(
-                    onPressed: () {
-                      return controller.value.value == 0.0
-                          ? controller.valueOne()
-                          : controller.valueZero();
-                    },
-                    icon: controller.value.value == 0.0
-                        ? const Icon(
+                ),
+              ],
+              leading: GetX<MyDrawerViewModel>(
+                builder: (controller) => IconButton(
+                  onPressed: () {
+                    return controller.value.value == 0.0
+                        ? controller.valueOne()
+                        : controller.valueZero();
+                  },
+                  icon: controller.value.value == 0.0
+                      ? GetBuilder<ThemesViewModel>(
+                          builder: (control) => Icon(
                             Icons.menu,
-                            color: Colors.black,
-                          )
-                        : const Icon(
-                            Icons.menu_open_outlined,
-                            color: Colors.black,
+                            color: control.theme == ThemeMode.dark
+                                ? Colors.white
+                                : Colors.black,
                           ),
+                        )
+                      : GetBuilder<ThemesViewModel>(
+                          builder: (control) => Icon(
+                            Icons.menu_open_outlined,
+                            color: control.theme == ThemeMode.dark
+                                ? Colors.white
+                                : Colors.black,
+                          ),
+                        ),
+                ),
+              ),
+              floating: true,
+            ),
+          ],
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 2,
+                  width: MediaQuery.of(context).size.width,
+                  child: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                    future: controller.carouselFire
+                        .doc("carouselSlider")
+                        .collection("carousel")
+                        .get(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return GridTile(
+                          footer: Container(
+                            height: 60,
+                            color: Colors.transparent,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                BuildIndicatorCarousel(
+                                  imageLength: snapshot.data!.docs.length,
+                                ),
+                              ],
+                            ),
+                          ),
+                          child: PageView.builder(
+                            scrollDirection: Axis.horizontal,
+                            allowImplicitScrolling: true,
+                            controller: controller.controllerCarousel,
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (context, index) {
+                              return SizedBox(
+                                height: halfheight,
+                                width: size.width,
+                                child: BuildImagesCarousel(
+                                    imagesCarousel: snapshot.data!.docs[index]
+                                        .data()['imageUrl']),
+                              );
+                            },
+                          ),
+                        );
+                      } else if (snapshot.connectionState ==
+                          ConnectionState.waiting) {
+                        return Center(
+                          child: Lottie.asset("assets/lotties/loading.json"),
+                        );
+                      } else if (!snapshot.hasData) {
+                        return const Center(
+                          child: CustomText2(
+                            text: "Oops! no data found",
+                            color: Colors.red,
+                            fontSize: 20,
+                            fontWeight: FontWeight.normal,
+                            textAlign: TextAlign.center,
+                          ),
+                        );
+                      } else {
+                        return Center(
+                          child: Lottie.asset("assets/lotties/no_data.json"),
+                        );
+                      }
+                    },
                   ),
                 ),
-                floating: true,
-              ),
-            ],
-            body: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height / 2,
-                    width: MediaQuery.of(context).size.width,
-                    child: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                      future: controller.carouselFire
-                          .doc("carouselSlider")
-                          .collection("carousel")
-                          .get(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return GridTile(
-                            child: PageView.builder(
-                              scrollDirection: Axis.horizontal,
-                              allowImplicitScrolling: true,
-                              controller: controller.controllerCarousel,
-                              itemCount: snapshot.data!.docs.length,
-                              itemBuilder: (context, index) {
-                                return SizedBox(
-                                  height: halfheight,
-                                  width: size.width,
-                                  child: BuildImagesCarousel(
-                                      imagesCarousel: snapshot.data!.docs[index]
-                                          .data()['imageUrl']),
-                                );
-                              },
-                            ),
-                            footer: Container(
-                              height: 60,
-                              color: Colors.transparent,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  BuildIndicatorCarousel(
-                                    imageLength: snapshot.data!.docs.length,
-                                  ),
-                                ],
+                const SizedBox(height: 20),
+                CategoriesTitle(
+                  text: "Categories",
+                  press: () {
+                    Get.to(() => const Categories(),
+                        duration: const Duration(milliseconds: 50),
+                        transition: Transition.zoom);
+                  },
+                ),
+                const SizedBox(height: 10),
+
+                /// Here i should remove the comment and see what's wrong
+                // Obx(
+                //   () =>
+                SizedBox(
+                          height: size.height / 3,
+                          width: size.width,
+                          //I've removed Expanded
+                          child:
+                              Obx(
+                                () => controller.isCateHasData.value
+                                    ? Center(
+                                        child:
+                                            Lottie.asset("assets/lotties/loading.json"),
+                                      )
+                              :
+                              ListView.builder(
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: controller.listCategories!.length,
+                                    itemBuilder: (context, index) {
+                                      controller.mediaUrl.value =
+                                          controller.listCategories![index].videoUrl;
+                                          log(controller.listCategories![index].videoUrl);
+                                          controller.initialPlayer();
+                                      return CustomListTile(
+                                        logo: controller
+                                            .listCategories![index].logo,
+                                        videoUrl: controller
+                                            .listCategories![index].videoUrl,
+                                        thumbinalUrl: controller
+                                            .listCategories![index].thumbinalUrl,
+                                        onTap: () {
+                                          switch (controller
+                                              .listCategories![index].name) {
+                                            case "Samsung":
+                                              Get.to(() => const Samsung(),
+                                                  duration: const Duration(
+                                                      milliseconds: 50),
+                                                  transition: Transition.zoom);
+                                              break;
+                                            case "Huawei":
+                                              Get.to(() => const Huawei(),
+                                                  duration: const Duration(
+                                                      milliseconds: 50),
+                                                  transition: Transition.zoom);
+                                              break;
+                                            case "Iphone":
+                                              Get.to(() => const Iphone(),
+                                                  duration: const Duration(
+                                                      milliseconds: 50),
+                                                  transition: Transition.zoom);
+                                              break;
+                                            case "Realme":
+                                              Get.to(() => const Realme(),
+                                                  duration: const Duration(
+                                                      milliseconds: 50),
+                                                  transition: Transition.zoom);
+                                              break;
+                                            case "Oppo":
+                                              Get.to(() => const Oppo(),
+                                                  duration: const Duration(
+                                                      milliseconds: 50),
+                                                  transition: Transition.zoom);
+                                              break;
+                                            case "Xiaomi":
+                                              Get.to(() => const Xiaomi(),
+                                                  duration: const Duration(
+                                                      milliseconds: 50),
+                                                  transition: Transition.zoom);
+                                              break;
+                                            case "Lenovo":
+                                              Get.to(() => const Lenovo(),
+                                                  duration: const Duration(
+                                                      milliseconds: 50),
+                                                  transition: Transition.zoom);
+                                              break;
+                                            case "Tecno":
+                                              Get.to(() => const Tecno(),
+                                                  duration: const Duration(
+                                                      milliseconds: 50),
+                                                  transition: Transition.zoom);
+                                              break;
+                                            case "Nokia":
+                                              Get.to(() => const Nokia(),
+                                                  duration: const Duration(
+                                                      milliseconds: 50),
+                                                  transition: Transition.zoom);
+                                              break;
+                                            case "Vivo":
+                                              Get.to(() => const Vivo(),
+                                                  duration: const Duration(
+                                                      milliseconds: 50),
+                                                  transition: Transition.zoom);
+                                              break;
+                                            default:
+                                              Get.to(() => const Categories());
+                                          }
+                                        },
+                                        text: controller
+                                            .listCategories![index].name,
+                                      );
+                                    }),
+                          )
+                        ),
+                // ),
+                CategoriesTitle(text: "Popular", press: () {}),
+                const SizedBox(
+                  height: 10,
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 3,
+                  width: MediaQuery.of(context).size.width,
+                  child: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                    future: FirebaseFirestore.instance
+                        .collection("carousel")
+                        .doc("popular")
+                        .collection("carousel")
+                        .get(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return CarouselSlider.builder(
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index, __) {
+                            return Container(
+                              width: MediaQuery.of(context).size.width,
+                              margin: const EdgeInsets.all(5.0),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                image: DecorationImage(
+                                    image: NetworkImage(snapshot
+                                        .data?.docs[index]
+                                        .data()['imageUrl']),
+                                    fit: BoxFit.cover),
                               ),
+                              child: Container(
+                                alignment: Alignment.center,
+                                padding: const EdgeInsets.all(5.0),
+                                child: Text(
+                                  "${snapshot.data!.docs[index].data()['name']}",
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                          options: CarouselOptions(
+                            initialPage: 0,
+                            autoPlay: true,
+                            scrollDirection: Axis.horizontal,
+                            enableInfiniteScroll: true,
+                            enlargeCenterPage: true,
+                            aspectRatio: 16 / 9,
+                            viewportFraction: 0.8,
+                            autoPlayCurve: Curves.fastOutSlowIn,
+                            autoPlayAnimationDuration:
+                                const Duration(milliseconds: 200),
+                          ),
+                        );
+                      } else if (snapshot.connectionState ==
+                          ConnectionState.waiting) {
+                        return Center(
+                          child: Lottie.asset("assets/lotties/loading.json"),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CustomText(
+                              text: "Oops!",
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              textAlign: TextAlign.center,
                             ),
-                          );
-                        } else if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Center(
-                            child:
-                                Lottie.asset("assets/lotties/loading.json"),
-                          );
-                        } else if (!snapshot.hasData) {
-                          return const Center(
-                            child: CustomText(
-                              text: "Oops! no data found",
-                              color: Colors.red,
-                              fontSize: 20,
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            CustomText(
+                              text: snapshot.error.toString(),
+                              fontSize: 15,
                               fontWeight: FontWeight.normal,
                               textAlign: TextAlign.center,
                             ),
-                          );
-                        } else {
-                          return Center(
-                            child:
-                                Lottie.asset("assets/lotties/no_data.json"),
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  CategoriesTitle(
-                    text: "Categories",
-                    press: () {
-                      Get.to(() => const Categories(),
-                          duration: const Duration(milliseconds: 50),
-                          transition: Transition.zoom);
+                          ],
+                        );
+                      } else {
+                        return const Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.red,
+                          ),
+                        );
+                      }
                     },
                   ),
-                  const SizedBox(height: 10),
-                  SizedBox(
-                    height: 130,
-                    //I've removed Expanded
-                    child:
-                        ListView(scrollDirection: Axis.horizontal, children: [
-                      CustomListTile(
-                        image: "assets/images/logo/huawei.png",
-                        onTap: () {
-                          Get.to(() => const Huawei(),
-                              transition: Transition.zoom);
-                        },
-                        text: "Huawei",
-                      ),
-                      CustomListTile(
-                        image: "assets/images/logo/iphone.jpg",
-                        onTap: () {
-                          Get.to(() => const Iphone(),
-                              transition: Transition.zoom);
-                        },
-                        text: "Iphone",
-                      ),
-                      CustomListTile(
-                        image: "assets/images/logo/lenovo.png",
-                        onTap: () {
-                          Get.to(() => const Lenovo(),
-                              transition: Transition.zoom);
-                        },
-                        text: "Lenovo",
-                      ),
-                      CustomListTile(
-                          image: "assets/images/logo/samsung.jpg",
-                          onTap: () {
-                            Get.to(() => const Samsung(),
-                                transition: Transition.zoom);
-                          },
-                          text: "Samsung"),
-                      CustomListTile(
-                        image: "assets/images/logo/oppo.jpg",
-                        onTap: () {
-                          Get.to(() => const Oppo(),
-                              transition: Transition.zoom);
-                        },
-                        text: "Oppo",
-                      ),
-                      CustomListTile(
-                        image: "assets/images/logo/realme.png",
-                        onTap: () {
-                          Get.to(() => const Realme(),
-                              transition: Transition.zoom);
-                        },
-                        text: "Realme",
-                      ),
-                      CustomListTile(
-                        image: "assets/images/logo/tecno.png",
-                        onTap: () {
-                          Get.to(() => const Tecno(),
-                              transition: Transition.zoom);
-                        },
-                        text: "Tecno",
-                      ),
-                    ]),
-                  ),
-                  CategoriesTitle(text: "Most Used", press: () {}),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height / 3,
-                    width: MediaQuery.of(context).size.width,
-                    child: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                      future: FirebaseFirestore.instance
-                          .collection("carousel")
-                          .doc("popular")
-                          .collection("carousel")
-                          .get(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return CarouselSlider.builder(
-                            itemCount: snapshot.data!.docs.length,
-                            itemBuilder: (context, index, __) {
-                              return Container(
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                CategoriesTitle(
+                    text: "Best Gaming Phones",
+                    press: () {
+                      Get.to(() => const BestGamingPhones());
+                    }),
+                const SizedBox(
+                  height: 10,
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 3,
+                  width: MediaQuery.of(context).size.width,
+                  child: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                    future:
+                        FirebaseFirestore.instance.collection("forGames").get(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return CarouselSlider.builder(
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index, __) {
+                            return InkWell(
+                              onTap: () {
+                                Get.to(() => LastProducDetails(
+                                    collection: "forGames",
+                                    phoneDoc: snapshot.data!.docs[index].id));
+                              },
+                              child: Container(
                                 width: MediaQuery.of(context).size.width,
                                 margin: const EdgeInsets.all(5.0),
                                 decoration: BoxDecoration(
@@ -253,183 +428,240 @@ class Screen extends GetWidget<ScreenViewModel> {
                                           .data()['imageUrl']),
                                       fit: BoxFit.cover),
                                 ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    const Align(
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        "Enjoy Your Eyes",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                        ),
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      CustomText2(
+                                        text:
+                                            "${snapshot.data!.docs[index].data()['name']}",
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.normal,
+                                        textAlign: TextAlign.center,
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Text(
-                                        "${snapshot.data!.docs[index].data()['name']}",
-                                        style: const TextStyle(
-                                          fontSize: 15,
-                                          color: Colors.white,
-                                        ),
+                                      const SizedBox(height: 5),
+                                      CustomText2(
+                                        text:
+                                            "${snapshot.data!.docs[index].data()['ram']}",
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.normal,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      const SizedBox(height: 5),
+                                      CustomText2(
+                                        text:
+                                            "${snapshot.data!.docs[index].data()['battery']}",
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.normal,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                          options: CarouselOptions(
+                            initialPage: 0,
+                            autoPlay: true,
+                            scrollDirection: Axis.horizontal,
+                            enableInfiniteScroll: true,
+                            enlargeCenterPage: true,
+                            aspectRatio: 16 / 9,
+                            viewportFraction: 0.8,
+                            autoPlayCurve: Curves.fastOutSlowIn,
+                            autoPlayAnimationDuration:
+                                const Duration(milliseconds: 200),
+                          ),
+                        );
+                      } else if (snapshot.connectionState ==
+                          ConnectionState.waiting) {
+                        return Center(
+                          child: Lottie.asset("assets/lotties/loading.json"),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CustomText(
+                              text: "Oops!",
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            CustomText(
+                              text: snapshot.error.toString(),
+                              fontSize: 15,
+                              fontWeight: FontWeight.normal,
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        );
+                      } else {
+                        return const Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.red,
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                GetBuilder<ThemesViewModel>(
+                  builder: (controller) => Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                              color: controller.theme == ThemeMode.dark
+                                  ? Colors.white12
+                                  : Colors.black12,
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10))),
+                          alignment: Alignment.centerLeft,
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: CustomText(
+                            text: "Last Products",
+                            fontSize: 18,
+                            fontWeight: FontWeight.normal,
+                            textAlign: TextAlign.left,
+                          ),
+                        ),
+                        const Spacer(),
+                        const SizedBox()
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                       SizedBox(
+                         height: size.height / 2 + size.height / 7,
+                  width: size.width,
+                        child: Obx(
+                          () => controller.loading.value ? Center(child: Lottie.asset("assets/lotties/loading.json"),) :  StaggeredGridView.countBuilder(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                            itemCount: controller.listOfLastProducts!.length,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                onTap: () {
+                                  Get.to(() => LastProducDetails(
+                                      collection: "lastProducts",
+                                      phoneDoc: controller
+                                          .listOfLastProducts![index].docId));
+                                },
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Image.network(controller
+                                        .listOfLastProducts![index].imageUrl),
+                                    Positioned(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 20),
+                                        child: CustomText2(
+                                            text: controller
+                                                .listOfLastProducts![index].name,
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.bold,
+                                            textAlign: TextAlign.center,
+                                            color: Colors.white),
                                       ),
                                     ),
                                   ],
                                 ),
                               );
                             },
-                            options: CarouselOptions(
-                              initialPage: 0,
-                              autoPlay: true,
-                              scrollDirection: Axis.horizontal,
-                              enableInfiniteScroll: true,
-                              enlargeCenterPage: true,
-                              aspectRatio: 16 / 9,
-                              viewportFraction: 0.8,
-                              autoPlayCurve: Curves.fastOutSlowIn,
-                              autoPlayAnimationDuration:
-                                  const Duration(milliseconds: 200),
-                            ),
-                          );
-                        } else if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Center(
-                            child:
-                                Lottie.asset("assets/lotties/loading.json"),
-                          );
-                        } else if (snapshot.hasError) {
-                          return Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const CustomText(
-                                text: "Oops!",
-                                color: Colors.black,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                textAlign: TextAlign.center,
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              CustomText(
-                                text: snapshot.error.toString(),
-                                color: Colors.black,
-                                fontSize: 15,
-                                fontWeight: FontWeight.normal,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          );
-                        } else {
-                          return const Center(
-                            child: CircularProgressIndicator(
-                              color: Colors.red,
-                            ),
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [
-                        CustomText(
-                          text: "Last Products",
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.normal,
-                          textAlign: TextAlign.center,
+                            staggeredTileBuilder: (index) =>
+                                const StaggeredTile.fit(1),
+                          ),
                         ),
-
-                        // const Spacer(),
-                        // ElevatedButton.icon(
-                        //     onPressed: () {},
-                        //     icon: const Icon(Icons.arrow_back),
-                        //     label: const CustomText(
-                        //       text: "Pull",
-                        //       fontSize: 16,
-                        //       fontWeight: FontWeight.normal,
-                        //       color: Colors.white,
-                        //       textAlign: TextAlign.center,
-                        //     )),
-                      ],
-                    ),
-                  ),
-                  // CategoriesTitle(
-                  //   text: "Lastest Phones",
-                  //   text2: "< Pull",
-                  //   press: () {},
-                  // ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height / 2 +
-                        MediaQuery.of(context).size.height / 8,
-                    child: GridView(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2),
-                      children: [
-                        AllProducts(
-                            collection: "huawei",
-                            docOne: "allHuawei",
-                            docTwo: "CfGO6CuHvwbIKhgvFqYb"),
-                        AllProducts(
-                            collection: "iphone",
-                            docOne: "allIphone",
-                            docTwo: "JWnNYP4gljeiQzC9GnkX"),
-                        AllProducts(
-                            collection: "realme",
-                            docOne: "allRealme",
-                            docTwo: "E7DZUXcbqFSEZX7a5YNJ"),
-                        AllProducts(
-                            collection: "vivo",
-                            docOne: "allVivo",
-                            docTwo: "aAE8oyG0CjOYmgTPI7xX"),
-                        AllProducts(
-                            collection: "xiaomi",
-                            docOne: "allXiaomi",
-                            docTwo: "9PdSol0BCoc65X3VGDku"),
-                        AllProducts(
-                            collection: "samsung",
-                            docOne: "allSamsung",
-                            docTwo: "pXHctUDdVonU9V4JsnuB"),
-                        AllProducts(
-                            collection: "oppo",
-                            docOne: "allOppo",
-                            docTwo: "NSSovWEiWs1GUPNvACD0"),
-                        AllProducts(
-                            collection: "lenovo",
-                            docOne: "allLenovo",
-                            docTwo: "7RLJ0BMcSsnW3XJciksP"),
-                        AllProducts(
-                            collection: "tecno",
-                            docOne: "allTecno",
-                            docTwo: "YO7Yt6Yet4QG5jniPlO0"),
-                        AllProducts(
-                            collection: "nokia",
-                            docOne: "allNokia",
-                            docTwo: "eWcKpOM0HWMqm5Gu9cAt"),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                      )
+              ],
             ),
           ),
         ),
-      drawerChild: const DrawerChild(),
+      ),
+      drawerChild: const Favorite(),
     );
   }
 }
+// ListView(scrollDirection: Axis.horizontal, children: [
+//   CustomListTile(
+//     image: "assets/images/logo/huawei.png",
+//     onTap: () {
+//       Get.to(() => const Huawei(),
+//           duration: const Duration(milliseconds: 50),
+//           transition: Transition.zoom);
+//     },
+//     text: "Huawei",
+//   ),
+//   CustomListTile(
+//     image: "assets/images/logo/iphone.jpg",
+//     onTap: () {
+//       Get.to(() => const Iphone(),
+//           duration: const Duration(milliseconds: 50),
+//           transition: Transition.zoom);
+//     },
+//     text: "Iphone",
+//   ),
+//   CustomListTile(
+//     image: "assets/images/logo/lenovo.png",
+//     onTap: () {
+//       Get.to(() => const Lenovo(),
+//           duration: const Duration(milliseconds: 50),
+//           transition: Transition.zoom);
+//     },
+//     text: "Lenovo",
+//   ),
+//   CustomListTile(
+//       image: "assets/images/logo/samsung.jpg",
+//       onTap: () {
+//         Get.to(() => const Samsung(),
+//             transition: Transition.zoom);
+//       },
+//       text: "Samsung"),
+//   CustomListTile(
+//     image: "assets/images/logo/oppo.jpg",
+//     onTap: () {
+//       Get.to(() => const Oppo(),
+//           duration: const Duration(milliseconds: 50),
+//           transition: Transition.zoom);
+//     },
+//     text: "Oppo",
+//   ),
+//   CustomListTile(
+//     image: "assets/images/logo/realme.png",
+//     onTap: () {
+//       Get.to(() => const Realme(),
+//           duration: const Duration(milliseconds: 50),
+//           transition: Transition.zoom);
+//     },
+//     text: "Realme",
+//   ),
+//   CustomListTile(
+//     image: "assets/images/logo/tecno.png",
+//     onTap: () {
+//       Get.to(() => const Tecno(),
+//           duration: const Duration(milliseconds: 50),
+//           transition: Transition.zoom);
+//     },
+//     text: "Tecno",
+//   ),
+// ]),
