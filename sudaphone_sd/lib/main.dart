@@ -1,12 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sudaphone_sd/my_binding/my_binding.dart';
 import 'package:sudaphone_sd/view/mydrawer.dart';
-import 'package:sudaphone_sd/view/posts.dart';
-import 'package:sudaphone_sd/view/settings.dart';
 import 'package:sudaphone_sd/view/signin.dart';
 import 'package:sudaphone_sd/view_model/themes_view_model.dart';
 
@@ -16,15 +14,17 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await GetStorage.init();
-  runApp(const SudaphoneSD());
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? email = prefs.getString('email');
+  runApp( SudaphoneSD(email: email));
 }
 
 class SudaphoneSD extends StatelessWidget {
-  const SudaphoneSD({Key? key}) : super(key: key);
-
+  const SudaphoneSD({this.email ,Key? key}) : super(key: key);
+  final String? email;
   @override
   Widget build(BuildContext context) {
-    // Get.testMode = true;
+    // Get.testMode =  true;
     return GetBuilder<ThemesViewModel>(
       init: ThemesViewModel(),
       builder:(control)=> GetMaterialApp(
@@ -35,7 +35,7 @@ class SudaphoneSD extends StatelessWidget {
           // theme: ThemeData(fontFamily: 'Poppins'),
           title: "SudaPhone SD",
           initialBinding: MyBinding(),
-          home: FirebaseAuth.instance.currentUser != null
+          home: email != null
                 ?  const MyDrawer()
                 : const SignIn()),
     );
