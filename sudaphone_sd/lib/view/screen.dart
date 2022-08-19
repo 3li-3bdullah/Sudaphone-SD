@@ -8,7 +8,6 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
-import 'package:sudaphone_sd/model/screen_model.dart';
 import 'package:sudaphone_sd/view/categories.dart';
 import 'package:sudaphone_sd/view/categories_pages/huawei.dart';
 import 'package:sudaphone_sd/view/categories_pages/iphone.dart';
@@ -30,15 +29,12 @@ import 'package:sudaphone_sd/view/screen_widgets/categories_title.dart';
 import 'package:sudaphone_sd/view/screen_widgets/custom_listtile.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text2.dart';
-import 'package:sudaphone_sd/view_model/details_view_model.dart';
 import 'package:sudaphone_sd/view_model/mydrawer_view_model.dart';
-import 'package:sudaphone_sd/view_model/posts_view_model.dart';
-import 'package:sudaphone_sd/view_model/public_data.dart';
 import 'package:sudaphone_sd/view_model/screen_view_model.dart';
 import 'package:sudaphone_sd/view_model/themes_view_model.dart';
 
 class Screen extends GetWidget<ScreenViewModel> {
-  Screen({Key? key}) : super(key: key);
+  const Screen({Key? key}) : super(key: key);
   // Here i initialized these two dependences to init the User ID
   // final post = Get.find<PostsViewModel>();
   // final setting = Get.find<SettingsViewModel>();
@@ -122,14 +118,19 @@ class Screen extends GetWidget<ScreenViewModel> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height / 2,
                   width: MediaQuery.of(context).size.width,
-                  child: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                    future: controller.carouselFire
-                        .doc("carouselSlider")
-                        .collection("carousel")
-                        .get(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return GridTile(
+                  // child: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                  //   future: controller.carouselFire
+                  //       .doc("carouselSlider")
+                  //       .collection("carousel")
+                  //       .get(),
+                  //   builder: (context, snapshot) {
+                  //     if (snapshot.hasData) {
+                  //       return
+                  child: controller.isMainCarouselHasData.value
+                      ? Center(
+                          child: Lottie.asset("assets/lotties/loading.json"),
+                        )
+                      : GridTile(
                           footer: Container(
                             height: 60,
                             color: Colors.transparent,
@@ -137,7 +138,8 @@ class Screen extends GetWidget<ScreenViewModel> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 BuildIndicatorCarousel(
-                                  imageLength: snapshot.data!.docs.length,
+                                  imageLength:
+                                      controller.listMainCarousel!.length,
                                 ),
                               ],
                             ),
@@ -146,40 +148,40 @@ class Screen extends GetWidget<ScreenViewModel> {
                             scrollDirection: Axis.horizontal,
                             allowImplicitScrolling: true,
                             controller: controller.controllerCarousel,
-                            itemCount: snapshot.data!.docs.length,
+                            itemCount: controller.listMainCarousel!.length,
                             itemBuilder: (context, index) {
                               return SizedBox(
                                 height: halfheight,
                                 width: size.width,
                                 child: BuildImagesCarousel(
-                                    imagesCarousel: snapshot.data!.docs[index]
-                                        .data()['imageUrl']),
+                                    imagesCarousel: controller
+                                        .listMainCarousel![index].imageUrl),
                               );
                             },
                           ),
-                        );
-                      } else if (snapshot.connectionState ==
-                          ConnectionState.waiting) {
-                        return Center(
-                          child: Lottie.asset("assets/lotties/loading.json"),
-                        );
-                      } else if (!snapshot.hasData) {
-                        return const Center(
-                          child: CustomText2(
-                            text: "Oops! no data found",
-                            color: Colors.red,
-                            fontSize: 20,
-                            fontWeight: FontWeight.normal,
-                            textAlign: TextAlign.center,
-                          ),
-                        );
-                      } else {
-                        return Center(
-                          child: Lottie.asset("assets/lotties/no_data.json"),
-                        );
-                      }
-                    },
-                  ),
+                        ),
+                  //     } else if (snapshot.connectionState ==
+                  //         ConnectionState.waiting) {
+                  //       return Center(
+                  //         child: Lottie.asset("assets/lotties/loading.json"),
+                  //       );
+                  //     } else if (!snapshot.hasData) {
+                  //       return const Center(
+                  //         child: CustomText2(
+                  //           text: "Oops! no data found",
+                  //           color: Colors.red,
+                  //           fontSize: 20,
+                  //           fontWeight: FontWeight.normal,
+                  //           textAlign: TextAlign.center,
+                  //         ),
+                  //       );
+                  //     } else {
+                  //       return Center(
+                  //         child: Lottie.asset("assets/lotties/no_data.json"),
+                  //       );
+                  //     }
+                  //   },
+                  // ),
                 ),
                 const SizedBox(height: 20),
                 CategoriesTitle(
@@ -196,106 +198,100 @@ class Screen extends GetWidget<ScreenViewModel> {
                 // Obx(
                 //   () =>
                 SizedBox(
-                          height: size.height / 3,
-                          width: size.width,
-                          //I've removed Expanded
-                          child:
-                              Obx(
-                                () => controller.isCateHasData.value
-                                    ? Center(
-                                        child:
-                                            Lottie.asset("assets/lotties/loading.json"),
-                                      )
-                              :
-                              ListView.builder(
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: controller.listCategories!.length,
-                                    itemBuilder: (context, index) {
-                                      controller.mediaUrl.value =
-                                          controller.listCategories![index].videoUrl;
-                                          log(controller.listCategories![index].videoUrl);
-                                          controller.initialPlayer();
-                                      return CustomListTile(
-                                        logo: controller
-                                            .listCategories![index].logo,
-                                        videoUrl: controller
-                                            .listCategories![index].videoUrl,
-                                        thumbinalUrl: controller
-                                            .listCategories![index].thumbinalUrl,
-                                        onTap: () {
-                                          switch (controller
-                                              .listCategories![index].name) {
-                                            case "Samsung":
-                                              Get.to(() => const Samsung(),
-                                                  duration: const Duration(
-                                                      milliseconds: 50),
-                                                  transition: Transition.zoom);
-                                              break;
-                                            case "Huawei":
-                                              Get.to(() => const Huawei(),
-                                                  duration: const Duration(
-                                                      milliseconds: 50),
-                                                  transition: Transition.zoom);
-                                              break;
-                                            case "Iphone":
-                                              Get.to(() => const Iphone(),
-                                                  duration: const Duration(
-                                                      milliseconds: 50),
-                                                  transition: Transition.zoom);
-                                              break;
-                                            case "Realme":
-                                              Get.to(() => const Realme(),
-                                                  duration: const Duration(
-                                                      milliseconds: 50),
-                                                  transition: Transition.zoom);
-                                              break;
-                                            case "Oppo":
-                                              Get.to(() => const Oppo(),
-                                                  duration: const Duration(
-                                                      milliseconds: 50),
-                                                  transition: Transition.zoom);
-                                              break;
-                                            case "Xiaomi":
-                                              Get.to(() => const Xiaomi(),
-                                                  duration: const Duration(
-                                                      milliseconds: 50),
-                                                  transition: Transition.zoom);
-                                              break;
-                                            case "Lenovo":
-                                              Get.to(() => const Lenovo(),
-                                                  duration: const Duration(
-                                                      milliseconds: 50),
-                                                  transition: Transition.zoom);
-                                              break;
-                                            case "Tecno":
-                                              Get.to(() => const Tecno(),
-                                                  duration: const Duration(
-                                                      milliseconds: 50),
-                                                  transition: Transition.zoom);
-                                              break;
-                                            case "Nokia":
-                                              Get.to(() => const Nokia(),
-                                                  duration: const Duration(
-                                                      milliseconds: 50),
-                                                  transition: Transition.zoom);
-                                              break;
-                                            case "Vivo":
-                                              Get.to(() => const Vivo(),
-                                                  duration: const Duration(
-                                                      milliseconds: 50),
-                                                  transition: Transition.zoom);
-                                              break;
-                                            default:
-                                              Get.to(() => const Categories());
-                                          }
-                                        },
-                                        text: controller
-                                            .listCategories![index].name,
-                                      );
-                                    }),
-                          )
-                        ),
+                    height: size.height / 3,
+                    width: size.width,
+                    //I've removed Expanded
+                    child: Obx(
+                      () => controller.isCateHasData.value
+                          ? Center(
+                              child:
+                                  Lottie.asset("assets/lotties/loading.json"),
+                            )
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: controller.listCategories!.length,
+                              itemBuilder: (context, index) {
+                                controller.mediaUrl.value =
+                                    controller.listCategories![index].videoUrl;
+                                controller.initialPlayer();
+                                return CustomListTile(
+                                  logo: controller.listCategories![index].logo,
+                                  videoUrl: controller
+                                      .listCategories![index].videoUrl,
+                                  thumbinalUrl: controller
+                                      .listCategories![index].thumbinalUrl,
+                                  onTap: () {
+                                    switch (controller
+                                        .listCategories![index].name) {
+                                      case "Samsung":
+                                        Get.to(() => const Samsung(),
+                                            duration: const Duration(
+                                                milliseconds: 50),
+                                            transition: Transition.zoom);
+                                        break;
+                                      case "Huawei":
+                                        Get.to(() => const Huawei(),
+                                            duration: const Duration(
+                                                milliseconds: 50),
+                                            transition: Transition.zoom);
+                                        break;
+                                      case "Iphone":
+                                        Get.to(() => const Iphone(),
+                                            duration: const Duration(
+                                                milliseconds: 50),
+                                            transition: Transition.zoom);
+                                        break;
+                                      case "Realme":
+                                        Get.to(() => const Realme(),
+                                            duration: const Duration(
+                                                milliseconds: 50),
+                                            transition: Transition.zoom);
+                                        break;
+                                      case "Oppo":
+                                        Get.to(() => const Oppo(),
+                                            duration: const Duration(
+                                                milliseconds: 50),
+                                            transition: Transition.zoom);
+                                        break;
+                                      case "Xiaomi":
+                                        Get.to(() => const Xiaomi(),
+                                            duration: const Duration(
+                                                milliseconds: 50),
+                                            transition: Transition.zoom);
+                                        break;
+                                      case "Lenovo":
+                                        Get.to(() => const Lenovo(),
+                                            duration: const Duration(
+                                                milliseconds: 50),
+                                            transition: Transition.zoom);
+                                        break;
+                                      case "Tecno":
+                                        Get.to(() => const Tecno(),
+                                            duration: const Duration(
+                                                milliseconds: 50),
+                                            transition: Transition.zoom);
+                                        break;
+                                      case "Nokia":
+                                        Get.to(() => const Nokia(),
+                                            duration: const Duration(
+                                                milliseconds: 50),
+                                            transition: Transition.zoom);
+                                        break;
+                                      case "Vivo":
+                                        Get.to(() => const Vivo(),
+                                            duration: const Duration(
+                                                milliseconds: 50),
+                                            transition: Transition.zoom);
+                                        break;
+                                      default:
+                                        Get.to(() => const Categories());
+                                    }
+                                  },
+                                  text: controller.listCategories![index].name,
+                                );
+                              }),
+                    )),
                 // ),
                 CategoriesTitle(text: "Popular", press: () {}),
                 const SizedBox(
@@ -549,11 +545,15 @@ class Screen extends GetWidget<ScreenViewModel> {
                 const SizedBox(
                   height: 10,
                 ),
-                       SizedBox(
-                         height: size.height / 2 + size.height / 7,
+                SizedBox(
+                  height: size.height / 2 + size.height / 7,
                   width: size.width,
-                        child: Obx(
-                          () => controller.loading.value ? Center(child: Lottie.asset("assets/lotties/loading.json"),) :  StaggeredGridView.countBuilder(
+                  child: Obx(
+                    () => controller.loading.value
+                        ? Center(
+                            child: Lottie.asset("assets/lotties/loading.json"),
+                          )
+                        : StaggeredGridView.countBuilder(
                             crossAxisCount: 2,
                             crossAxisSpacing: 10,
                             mainAxisSpacing: 10,
@@ -577,7 +577,8 @@ class Screen extends GetWidget<ScreenViewModel> {
                                             horizontal: 20),
                                         child: CustomText2(
                                             text: controller
-                                                .listOfLastProducts![index].name,
+                                                .listOfLastProducts![index]
+                                                .name,
                                             fontSize: 17,
                                             fontWeight: FontWeight.bold,
                                             textAlign: TextAlign.center,
@@ -591,8 +592,8 @@ class Screen extends GetWidget<ScreenViewModel> {
                             staggeredTileBuilder: (index) =>
                                 const StaggeredTile.fit(1),
                           ),
-                        ),
-                      )
+                  ),
+                )
               ],
             ),
           ),
