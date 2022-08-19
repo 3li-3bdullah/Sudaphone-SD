@@ -1,18 +1,29 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 class PublicData extends GetxController {
-  late String userName;
-  late String imageUrl;
+  String? getUserName;
   late Map<String, dynamic> map;
-
-  Future<void> getUserInfo(String userDoc) async {
-    FirebaseFirestore.instance
+  String? getProfileUrl;
+  String? getEmail;
+   String? uid;
+   
+  @override
+  onInit() {
+   uid = FirebaseAuth.instance.currentUser!.uid;
+    userInfo();
+    super.onInit();
+  }
+  Future<void> userInfo() async {
+    map = await FirebaseFirestore.instance
         .collection("usersInfo")
-        .doc(userDoc)
+        .doc(uid)
         .get()
-        .then((docSnapshot) => map = docSnapshot.data()!);
-    userName = map['userName'];
-    imageUrl = map['profileUrl'];
+        .then((docSnapshot) => docSnapshot.data()!);
+    getUserName = map['userName'];
+    getProfileUrl = map['profileUrl'];
+    getEmail = map['email'];
+    update();
   }
 }
