@@ -1,9 +1,9 @@
-import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sudaphone_sd/view/login_pages/forgot_password.dart';
 import 'package:sudaphone_sd/view/login_widgets/signin_form.dart';
 import 'package:sudaphone_sd/view/signup.dart';
-import 'package:sudaphone_sd/view/widgets/custom_text.dart';
+import 'package:sudaphone_sd/view/widgets/custom_text2.dart';
 import 'package:sudaphone_sd/view/widgets/loading.dart';
 import 'package:sudaphone_sd/view/widgets/primary_button.dart';
 import 'package:sudaphone_sd/view_model/login_view_model.dart';
@@ -14,14 +14,9 @@ class SignIn extends GetWidget<LoginViewModel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
-        child: Obx(
-          () => controller.showLoading.value
-              ? Loading(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                  lotHeight: MediaQuery.of(context).size.height / 3)
-              : Container(
+        child: Container(
                   height: double.maxFinite,
                   width: double.maxFinite,
                   alignment: Alignment.center,
@@ -29,12 +24,39 @@ class SignIn extends GetWidget<LoginViewModel> {
                     child: Column(
                       children: [
                         Container(
+                            alignment: Alignment.centerLeft,
+                            padding: const EdgeInsets.only(left: 20),
+                            child: const CustomText2(
+                                text: "Sudaphone SD",
+                                textAlign: TextAlign.left,
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.brown)),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
                           alignment: Alignment.center,
-                          height: MediaQuery.of(context).size.height / 3,
-                          width: MediaQuery.of(context).size.height / 1.5,
-                          child: Image.asset(
-                            "assets/images/login/login_logo.png",
-                            fit: BoxFit.cover,
+                          height: MediaQuery.of(context).size.height / 2.8,
+                          width: MediaQuery.of(context).size.width,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Container(
+                                height: controller.size.height / 2.8,
+                                width: controller.size.width,
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 20),
+                                decoration: const BoxDecoration(
+                                    color: Colors.brown,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20))),
+                              ),
+                              Image.asset(
+                                "assets/images/login/login_logo.png",
+                                fit: BoxFit.cover,
+                              ),
+                            ],
                           ),
                         ),
                         const SizedBox(height: 30),
@@ -51,60 +73,84 @@ class SignIn extends GetWidget<LoginViewModel> {
                               controller.signInKey!),
                         ),
                         const SizedBox(
-                          height: 15,
+                          height: 10,
                         ),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              Divider(color: Colors.brown),
-                              Padding(
-                                padding: EdgeInsets.all(10.0),
-                                child: CustomText(
-                                  text: "OR",
-                                  color: Colors.brown,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              Divider(color: Colors.brown),
-                            ]),
+                        InkWell(
+                          onTap: () {
+                            Get.to(
+                              () => const ForgotPassword(),
+                              transition: Transition.zoom,
+                            );
+                          },
+                          child: const Text(
+                            "Forgot Password",
+                            style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: Colors.brown,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        // const SizedBox(
+                        //   height: 10,
+                        // ),
+                        // Row(
+                        //     mainAxisAlignment: MainAxisAlignment.center,
+                        //     children: const [
+                        //       Divider(color: Colors.brown),
+                        //       Padding(
+                        //         padding: EdgeInsets.all(10.0),
+                        //         child: CustomText2(
+                        //           text: "or sign in with",
+                        //           color: Colors.brown,
+                        //           fontSize: 14,
+                        //           fontWeight: FontWeight.bold,
+                        //           textAlign: TextAlign.center,
+                        //         ),
+                        //       ),
+                        //       Divider(color: Colors.brown),
+                        //     ]),
+                        // const SizedBox(
+                        //   height: 15,
+                        // ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   children: [
+                        //     CircleAvatar(
+                        //       backgroundColor: Colors.transparent,
+                        //       child: InkWell(
+                        //         radius: 30,
+                        //         onTap: () {},
+                        //         /*
+                        //          * So here i shuold change the path
+                        //          */
+                        //         child: Image.asset(
+                        //             "assets/images/social/google.png"),
+                        //       ),
+                        //     ),
+                        //     const SizedBox(
+                        //       width: 20,
+                        //     ),
+                        //     CircleAvatar(
+                        //       radius: 30,
+                        //       backgroundColor: Colors.transparent,
+                        //       child: InkWell(
+                        //         child: Image.asset(
+                        //             "assets/images/social/facebook.png"),
+                        //         onTap: () {},
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
                         const SizedBox(
                           height: 15,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            CircleAvatar(
-                              backgroundColor: Colors.transparent,
-                              child: InkWell(
-                                onTap: () {},
-                                child: Image.asset(
-                                    "assets/images/icons/google.png"),
-                              ),
-                              radius: 30,
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            CircleAvatar(
-                              backgroundColor: Colors.transparent,
-                              child: InkWell(
-                                onTap: () {},
-                                child: Image.asset(
-                                    "assets/images/icons/facebook.png"),
-                              ),
-                              radius: 30,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const CustomText(
+                            const CustomText2(
                                 text: "Don't have an acount ? ",
                                 color: Colors.black,
                                 fontSize: 14,
@@ -133,7 +179,6 @@ class SignIn extends GetWidget<LoginViewModel> {
                     ),
                   ),
                 ),
-        ),
       ),
     );
   }
