@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:sudaphone_sd/view/widgets/custom_text.dart';
+import 'package:sudaphone_sd/view/widgets/custom_text2.dart';
 import 'package:sudaphone_sd/view/widgets/phone_list.dart';
 
 // ignore: must_be_immutable
@@ -16,9 +16,8 @@ class SearchFutureBuilder extends StatelessWidget {
     /* 
     * Huawei Methods
     */
-    if (query.toLowerCase().contains("huawei") || query.toLowerCase().contains("honor")) {
-     
-      log(query.toString());
+    if (query.toLowerCase().contains("huawei")) {
+      query = query.replaceAll("huaweri", "Huawei");
       return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
           future: FirebaseFirestore.instance
               .collection("phonesCategory")
@@ -40,7 +39,41 @@ class SearchFutureBuilder extends StatelessWidget {
                   });
             } else if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
-                child: Lottie.asset("assets/lottie/searching.json"),
+                child: Lottie.asset("assets/lotties/loading.json"),
+              );
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.brown,
+                ),
+              );
+            }
+          });
+    }
+    if (query.toLowerCase().contains("honor")) {
+      query = query.replaceAll("honor", "Honor");
+      return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
+          future: FirebaseFirestore.instance
+              .collection("phonesCategory")
+              .doc("allHuawei")
+              .collection("huawei")
+              .orderBy('name')
+              .startAt([query]).endAt([query + '\uf8ff']).get(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return ListView.builder(
+                  itemCount: snapshot.data?.docs.length,
+                  itemBuilder: (context, index) {
+                    return PhoneList(
+                      isHasData: snapshot,
+                      collction: "huawei",
+                      snapshot: snapshot.data?.docs[index],
+                      docOne: "allHuawei",
+                    );
+                  });
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: Lottie.asset("assets/lotties/loading.json"),
               );
             } else {
               return const Center(
@@ -56,7 +89,7 @@ class SearchFutureBuilder extends StatelessWidget {
     */
     else if (query.isEmpty) {
       return const Center(
-        child: CustomText(
+        child: CustomText2(
             text: "What's the phone are looking for!",
             fontSize: 20,
             color: Colors.black,
@@ -90,7 +123,7 @@ class SearchFutureBuilder extends StatelessWidget {
                   });
             } else if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
-                child: Lottie.asset("assets/lottie/searching.json"),
+                child: Lottie.asset("assets/lotties/loading.json"),
               );
             } else {
               return const Center(
@@ -127,7 +160,7 @@ class SearchFutureBuilder extends StatelessWidget {
                   });
             } else if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
-                child: Lottie.asset("assets/lottie/searching.json"),
+                child: Lottie.asset("assets/lotties/loading.json"),
               );
             } else {
               return const Center(
@@ -164,7 +197,7 @@ class SearchFutureBuilder extends StatelessWidget {
                   });
             } else if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
-                child: Lottie.asset("assets/lottie/searching.json"),
+                child: Lottie.asset("assets/lotties/loading.json"),
               );
             } else {
               return const Center(
@@ -201,7 +234,7 @@ class SearchFutureBuilder extends StatelessWidget {
                   });
             } else if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
-                child: Lottie.asset("assets/lottie/searching.json"),
+                child: Lottie.asset("assets/lotties/loading.json"),
               );
             } else {
               return const Center(
@@ -243,7 +276,7 @@ class SearchFutureBuilder extends StatelessWidget {
                   });
             } else if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
-                child: Lottie.asset("assets/lottie/searching.json"),
+                child: Lottie.asset("assets/lotties/loading.json"),
               );
             } else {
               return const Center(
@@ -280,7 +313,7 @@ class SearchFutureBuilder extends StatelessWidget {
                   });
             } else if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
-                child: Lottie.asset("assets/lottie/searching.json"),
+                child: Lottie.asset("assets/lotties/loading.json"),
               );
             } else {
               return const Center(
@@ -317,7 +350,7 @@ class SearchFutureBuilder extends StatelessWidget {
                   });
             } else if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
-                child: Lottie.asset("assets/lottie/searching.json"),
+                child: Lottie.asset("assets/lotties/loading.json"),
               );
             } else {
               return const Center(
@@ -354,7 +387,7 @@ class SearchFutureBuilder extends StatelessWidget {
                   });
             } else if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
-                child: Lottie.asset("assets/lottie/searching.json"),
+                child: Lottie.asset("assets/lotties/loading.json"),
               );
             } else {
               return const Center(
@@ -391,7 +424,7 @@ class SearchFutureBuilder extends StatelessWidget {
                   });
             } else if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
-                child: Lottie.asset("assets/lottie/searching.json"),
+                child: Lottie.asset("assets/lotties/loading.json"),
               );
             } else {
               return const Center(
