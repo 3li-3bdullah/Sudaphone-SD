@@ -3,17 +3,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sudaphone_sd/view/login_widgets/custom_text_form_field.dart';
-import 'package:sudaphone_sd/view/posts.dart';
-import 'package:sudaphone_sd/view/settings_widgets/custom_container.dart';
 import 'package:sudaphone_sd/view/signin.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text.dart';
-import 'package:sudaphone_sd/view/widgets/snack_to_upload_images.dart';
+import 'package:sudaphone_sd/view/widgets/custom_text2.dart';
+import 'package:sudaphone_sd/view/widgets/leading.dart';
+import 'package:sudaphone_sd/view_model/public_data.dart';
 import 'package:sudaphone_sd/view_model/settings_view_model.dart';
 import 'package:sudaphone_sd/view_model/themes_view_model.dart';
 
 // ignore: must_be_immutable
-class Settings extends GetWidget<SettingsViewModel> {
+class Setting extends GetWidget<SettingsViewModel> {
+  Setting({Key? key}) : super(key: key);
   final controll = Get.find<ThemesViewModel>();
   bool isDark = false;
 
@@ -22,102 +24,97 @@ class Settings extends GetWidget<SettingsViewModel> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-          title: const Text(
-            'Settings',
-            style: TextStyle(color: Colors.white),
+        title: GetBuilder<ThemesViewModel>(
+          builder: (contorller) => CustomText(
+            text: 'Settings',
+            textAlign: TextAlign.center,
+            fontSize: 20,
+            fontWeight: FontWeight.normal,
           ),
-          leading: IconButton(
-              icon: const Icon(
-                Icons.arrow_back,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                Get.back();
-              },
-              
-            ),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  Get.to(() => const Posts());
-                },
-                icon: const Icon(Icons.post_add, color: Colors.white))
-          ],
-          centerTitle: true,
-          elevation: 0,
-         backgroundColor:  Colors.brown.withOpacity(.5),
-          ),
+        ),
+        elevation: 0,
+        leading: const Leading(),
+      ),
       body: SingleChildScrollView(
-        child: Container(
-          height: size.height,
-          width: size.width,
-          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-          child: Column(
-            children: [
-              const SizedBox(height: 20,),
-              FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                  future: controller.getUserData
-                      .doc(controller.auth!.uid)
-                      .get(),
+        child: Column(
+          children: [
+            // const SizedBox(height: 20,),
+            GetBuilder<PublicData>(
+              builder: (control) => StreamBuilder<
+                      DocumentSnapshot<Map<String, dynamic>>>(
+                  stream: controller.getUserData.doc(control.uid).snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return Column(
                         children: [
                           Container(
-                            padding: const EdgeInsets.all(10.0),
+                            height: size.height / 4,
+                            width: size.width,
                             decoration: BoxDecoration(
-                                color: Colors.brown[200],
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(20))),
+                              image: DecorationImage(
+                                  image: NetworkImage(
+                                      "${snapshot.data!.data()!['profileUrl']}"),
+                                  fit: BoxFit.cover,
+                                  opacity: 0.5),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(10),
+                              ),
+                            ),
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 10),
+                            padding:
+                                const EdgeInsets.only(left: 10.0, right: 10.0),
                             child: Row(
                               children: [
-                                Align(
-                                  alignment: Alignment.center,
+                                Expanded(
+                                  flex: 1,
                                   child: CircleAvatar(
                                     radius: 70,
                                     backgroundImage: NetworkImage(
-                                        "${snapshot.data?.data()!['profileUrl']}"),
+                                        "${snapshot.data!.data()!['profileUrl']}"),
                                   ),
                                 ),
                                 const SizedBox(
                                   width: 20,
                                 ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    CustomText(
-                                      text:
-                                          "${snapshot.data!.data()!['userName']}",
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    CustomText(
-                                      text: snapshot.data!.data()?['email'],
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    CustomText(
-                                      text: snapshot.data!
-                                          .data()?['registerTime'],
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
+                                Expanded(
+                                  flex: 2,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      CustomText(
+                                        text:
+                                            "${snapshot.data!.data()!['userName']}",
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.normal,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      CustomText(
+                                        text: snapshot.data!.data()?['email'],
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      CustomText(
+                                        text: snapshot.data!
+                                            .data()?['registerTime'],
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
+                                  ),
                                 )
                               ],
                             ),
@@ -128,566 +125,348 @@ class Settings extends GetWidget<SettingsViewModel> {
                       return Lottie.asset("assets/lotties/loading.json");
                     }
                   }),
-              const SizedBox(
-                height: 30,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      height: size.height / 10,
-                      width: size.width,
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.5),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10))),
-                      child: const CustomText(
-                        text: "Edit Name",
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
+            ),
+            InkWell(
+              onTap: () {
+                Get.defaultDialog(
+                  title: "Edit your name",
+                  titleStyle: const TextStyle(
+                      color: Colors.brown, fontWeight: FontWeight.bold),
+                  content: Form(
+                    key: controller.editingKey,
+                    child: CustomTextFormField(
+                        obscure: false,
+                        validator: (String name) {
+                          if (name.trim().isEmpty) {
+                            return "The field is empty";
+                          }
+                        },
+                        icon: Icons.person,
+                        textEditingController: controller.textEditing!),
                   ),
-                  Expanded(
-                    flex: 3,
-                    child: Container(
-                      height: 20,
-                      width: double.maxFinite,
-                      decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.5),
-                          borderRadius: const BorderRadius.only(
-                              topRight: Radius.circular(30),
-                              bottomRight: Radius.circular(30))),
-                      child: Row(
-                        children: [
-                          Expanded(
-                              child: Container(
-                            height: 5,
-                            decoration: const BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(10),
-                                    bottomRight: Radius.circular(10))),
-                          ))
-                        ],
-                      ),
+                  textConfirm: "Update",
+                  textCancel: "Cancel",
+                  cancelTextColor: Colors.brown,
+                  confirmTextColor: Colors.white,
+                  buttonColor: Colors.brown,
+                  radius: 20.0,
+                  onConfirm: () async {
+                    await controller.modifyUserName(
+                        name: controller.textEditing!.text,
+                        textKey: controller.editingKey);
+                  },
+                  onCancel: () {
+                    Get.back();
+                  },
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    SizedBox(
+                        height: size.height / 20,
+                        child: Image.asset("assets/icons/write.png")),
+                    const SizedBox(
+                      width: 20,
                     ),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: CircleAvatar(
-                      radius: 40,
-                      backgroundColor: Colors.black.withOpacity(.5),
-                      child: IconButton(
-                          onPressed: () {
-                            Get.defaultDialog(
-                              title: "Edit your name",
-                              titleStyle: const TextStyle(
-                                  color: Colors.brown,
-                                  fontWeight: FontWeight.bold),
-                              content: Form(
-                                key: controller.editingKey,
-                                child: CustomTextFormField(
-                                    obscure: false,
-                                    validator: (String name) {
-                                      if (name.trim().isEmpty) {
-                                        return "The field is empty";
-                                      }
-                                    },
-                                    icon: Icons.person,
-                                    textEditingController:
-                                        controller.textEditing),
-                              ),
-                              textConfirm: "Update",
-                              textCancel: "Cancel",
-                              cancelTextColor: Colors.brown,
-                              confirmTextColor: Colors.white,
-                              buttonColor: Colors.brown,
-                              radius: 20.0,
-                              onConfirm: () {
-                                controller.modifyUserName(
-                                    name: controller.textEditing.text,
-                                    textKey: controller.editingKey);
-                              },
-                              onCancel: () {
-                                Get.back();
-                              },
-                            );
-                          },
-                          icon: const Text(
-                            "✏",
-                            style: TextStyle(fontSize: 30),
-                          )),
+                    CustomText(
+                      text: "Edit Name",
+                      fontSize: 18,
+                      fontWeight: FontWeight.normal,
+                      textAlign: TextAlign.center,
                     ),
-                  )
-                ],
+                    const Spacer(),
+                    const Icon(Icons.arrow_forward_ios)
+                  ],
+                ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      height: size.height / 10,
-                      width: size.width,
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
+            ),
+            InkWell(
+              onTap: () {
+                Get.bottomSheet(
+                  GetBuilder<ThemesViewModel>(
+                    builder: (controll) => Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 10),
+                      height: MediaQuery.of(context).size.height / 2,
                       decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.5),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10))),
-                      child: GetBuilder<ThemesViewModel>(
-                        builder: (controll) => controll.theme == ThemeMode.dark
-                            ? const CustomText(
-                                text: "Dark Mode",
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                textAlign: TextAlign.left,
+                        gradient: controll.theme == ThemeMode.dark
+                            ? const LinearGradient(
+                                colors: [Colors.black, Colors.grey],
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
                               )
-                            : const CustomText(
-                                text: "Light Mode",
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                textAlign: TextAlign.left,
+                            : const LinearGradient(
+                                colors: [Colors.black54, Colors.black54],
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
                               ),
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(30),
+                            topRight: Radius.circular(30)),
                       ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: Container(
-                      height: 20,
-                      width: double.maxFinite,
-                      decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.5),
-                          borderRadius: const BorderRadius.only(
-                              topRight: Radius.circular(30),
-                              bottomRight: Radius.circular(30))),
-                      child: Row(
+                      child: Column(
                         children: [
-                          Expanded(
-                              child: Container(
+                          const SizedBox(
                             height: 5,
+                          ),
+                          Container(
+                            height: 5,
+                            width: 30,
+                            alignment: Alignment.center,
                             decoration: const BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(10),
-                                    bottomRight: Radius.circular(10))),
-                          ))
+                              color: Colors.grey,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              controll.changeThemeMode(ThemeMode.dark);
+                              controll.saveTheme(true);
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const CustomText2(
+                                  text: "Dark mode ",
+                                  textAlign: TextAlign.justify,
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                                controll.theme == ThemeMode.dark
+                                    ? const CustomText2(
+                                        text: "🌚",
+                                        fontSize: 30,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.normal,
+                                        textAlign: TextAlign.center)
+                                    : const SizedBox()
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              controll.changeThemeMode(ThemeMode.light);
+                              controll.saveTheme(false);
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const CustomText2(
+                                  text: "Light mode ",
+                                  textAlign: TextAlign.justify,
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                                controll.theme == ThemeMode.light
+                                    ? const CustomText2(
+                                        text: "🌞",
+                                        fontSize: 30,
+                                        color: Colors.yellow,
+                                        fontWeight: FontWeight.normal,
+                                        textAlign: TextAlign.center)
+                                    : const SizedBox(),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: CircleAvatar(
-                      radius: 40,
-                      backgroundColor: Colors.black.withOpacity(.5),
-                      child: GetBuilder<ThemesViewModel>(
-                          builder: (controll) => IconButton(
-                                onPressed: () {
-                                  Get.bottomSheet(
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 30, vertical: 10),
-                                      height:
-                                          MediaQuery.of(context).size.height /
-                                              2,
-                                      decoration: const BoxDecoration(
-                                        color: Colors.black54,
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(30),
-                                            topRight: Radius.circular(30)),
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-                                          Container(
-                                            height: 5,
-                                            width: 30,
-                                            alignment: Alignment.center,
-                                            decoration: const BoxDecoration(
-                                              color: Colors.grey,
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(10),
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 30,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Radio(
-                                                  value: controller.dark,
-                                                  groupValue:
-                                                      controller.groupValue,
-                                                  onChanged: (value) {
-                                                    controll.changeThemeMode(
-                                                        ThemeMode.dark);
-                                                    controll.saveTheme(true);
-                                                  },
-                                                  activeColor: Colors.brown,
-                                                  fillColor:
-                                                      MaterialStateProperty.all(
-                                                          Colors.grey)),
-                                              const Align(
-                                                alignment: Alignment.centerLeft,
-                                                child: CustomText(
-                                                  text: "Dark mode ",
-                                                  textAlign: TextAlign.justify,
-                                                  color: Colors.white,
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.normal,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Radio(
-                                                  value: controller.light,
-                                                  groupValue:
-                                                      controller.groupValue,
-                                                  onChanged: (value) {
-                                                    controll.changeThemeMode(
-                                                        ThemeMode.light);
-                                                    controll.saveTheme(false);
-                                                  },
-                                                  activeColor: Colors.brown,
-                                                  fillColor:
-                                                      MaterialStateProperty.all(
-                                                          Colors.grey)),
-                                              const Align(
-                                                alignment: Alignment.centerLeft,
-                                                child: CustomText(
-                                                  text: "Light mode ",
-                                                  textAlign: TextAlign.justify,
-                                                  color: Colors.white,
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.normal,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
-                                icon: controll.theme == ThemeMode.dark
-                                    ? const Text(
-                                        "🌚",
-                                        style: TextStyle(fontSize: 30),
-                                      )
-                                    : const Text(
-                                        "🌞",
-                                        style: TextStyle(fontSize: 30),
-                                      ),
-                              )),
-                    ),
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      height: size.height / 10,
-                      width: size.width,
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.5),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10))),
-                      child: const CustomText(
-                        text: "Upload Photo",
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        textAlign: TextAlign.left,
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GetBuilder<ThemesViewModel>(
+                  builder: (controll) => Row(
+                    children: [
+                      SizedBox(
+                        height: size.height / 20,
+                        child: controll.theme == ThemeMode.dark
+                            ? Image.asset("assets/icons/moon.png")
+                            : Image.asset("assets/icons/sun.png"),
                       ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: Container(
-                      height: 20,
-                      width: double.maxFinite,
-                      decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.5),
-                          borderRadius: const BorderRadius.only(
-                              topRight: Radius.circular(30),
-                              bottomRight: Radius.circular(30))),
-                      child: Row(
-                        children: [
-                          Expanded(
-                              child: Container(
-                            height: 5,
-                            decoration: const BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(10),
-                                    bottomRight: Radius.circular(10))),
-                          ))
-                        ],
+                      const SizedBox(
+                        width: 20,
                       ),
-                    ),
+                      controll.theme == ThemeMode.dark
+                          ? CustomText(
+                              text: "Dark Mode",
+                              fontSize: 18,
+                              fontWeight: FontWeight.normal,
+                              textAlign: TextAlign.center,
+                            )
+                          : CustomText(
+                              text: "Light Mode",
+                              fontSize: 18,
+                              fontWeight: FontWeight.normal,
+                              textAlign: TextAlign.center,
+                            ),
+                      const Spacer(),
+                      const Icon(Icons.arrow_forward_ios)
+                    ],
                   ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: CircleAvatar(
-                      radius: 40,
-                      backgroundColor: Colors.black.withOpacity(.5),
-                      child: IconButton(
-                          onPressed: () {
-                            Get.defaultDialog(
-                              content: const CustomText(
-                                text: "Upload an image from : ",
-                                textAlign: TextAlign.center,
-                                color: Colors.brown,
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal,
-                              ),
-                              title: "",
-                              textCancel: "Gallery",
-                              textConfirm: "Camera",
-                              onCancel: () {
-                                controller.uploadProfilePic(source: "gallery");
-                              },
-                              onConfirm: () {
-                                controller.uploadProfilePic(source: "camera");
-                              },
-                              confirmTextColor: Colors.white,
-                              cancelTextColor: Colors.brown,
-                              buttonColor: Colors.brown,
-                            );
-                          },
-                          icon: const Text(
-                            "📷",
-                            style: TextStyle(fontSize: 30),
-                          )),
-                    ),
-                  )
-                ],
+                ),
               ),
-              const SizedBox(
-                height: 20,
+            ),
+            InkWell(
+              onTap: () {
+                Get.defaultDialog(
+                  content: const CustomText2(
+                    text: "Upload an image from : ",
+                    textAlign: TextAlign.center,
+                    color: Colors.brown,
+                    fontSize: 16,
+                    fontWeight: FontWeight.normal,
+                  ),
+                  title: "",
+                  textCancel: "Gallery",
+                  textConfirm: "Camera",
+                  onCancel: () {
+                    controller.uploadProfilePic(source: "gallery");
+                  },
+                  onConfirm: () {
+                    controller.uploadProfilePic(source: "camera");
+                  },
+                  confirmTextColor: Colors.white,
+                  cancelTextColor: Colors.brown,
+                  buttonColor: Colors.brown,
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    SizedBox(
+                        height: size.height / 20,
+                        child: Image.asset("assets/icons/gallery1.png")),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    CustomText(
+                      text: "Upload Image",
+                      fontSize: 18,
+                      fontWeight: FontWeight.normal,
+                      textAlign: TextAlign.center,
+                    ),
+                    const Spacer(),
+                    const Icon(Icons.arrow_forward_ios)
+                  ],
+                ),
               ),
-              Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      height: size.height / 10,
-                      width: size.width,
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.5),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10))),
-                      child: const CustomText(
-                        text: "Delete Account",
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
+            ),
+            InkWell(
+              onTap: () {
+                Get.defaultDialog(
+                  content: const CustomText2(
+                    text: "Are you sure ?",
+                    textAlign: TextAlign.center,
+                    color: Colors.brown,
+                    fontSize: 16,
+                    fontWeight: FontWeight.normal,
                   ),
-                  Expanded(
-                    flex: 3,
-                    child: Container(
-                      height: 20,
-                      width: double.maxFinite,
-                      decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.5),
-                          borderRadius: const BorderRadius.only(
-                              topRight: Radius.circular(30),
-                              bottomRight: Radius.circular(30))),
-                      child: Row(
-                        children: [
-                          Expanded(
-                              child: Container(
-                            height: 5,
-                            decoration: const BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(10),
-                                    bottomRight: Radius.circular(10))),
-                          ))
-                        ],
-                      ),
+                  title: "",
+                  textCancel: "No",
+                  textConfirm: "Yes",
+                  onCancel: () {
+                    Get.back();
+                  },
+                  onConfirm: () async {
+                    await FirebaseAuth.instance.signOut();
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    prefs.remove('email');
+                    Get.offAll(() => const SignIn());
+                  },
+                  confirmTextColor: Colors.white,
+                  cancelTextColor: Colors.brown,
+                  buttonColor: Colors.brown,
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    SizedBox(
+                        height: size.height / 20,
+                        child: Image.asset("assets/icons/exit.png")),
+                    const SizedBox(
+                      width: 20,
                     ),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: CircleAvatar(
-                      radius: 40,
-                      backgroundColor: Colors.black.withOpacity(.5),
-                      child: IconButton(
-                          onPressed: () {
-                            Get.defaultDialog(
-                              content: const CustomText(
-                                text: "Are you sure dude 😦?",
-                                textAlign: TextAlign.center,
-                                color: Colors.brown,
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal,
-                              ),
-                              title: "",
-                              textCancel: "No😜",
-                              textConfirm: "Yes😞",
-                              onCancel: () {
-                                Get.back();
-                              },
-                              onConfirm: () async {
-                                await FirebaseAuth.instance.currentUser!
-                                    .delete();
-                                Get.off(() => const SignIn(),
-                                    transition: Transition.zoom);
-                              },
-                              confirmTextColor: Colors.white,
-                              cancelTextColor: Colors.brown,
-                              buttonColor: Colors.brown,
-                            );
-                          },
-                          icon: const Text(
-                            "🗑",
-                            style: TextStyle(fontSize: 30),
-                          )),
+                    CustomText(
+                      text: "Log Out",
+                      fontSize: 18,
+                      fontWeight: FontWeight.normal,
+                      textAlign: TextAlign.center,
                     ),
-                  )
-                ],
+                    const Spacer(),
+                    const Icon(Icons.arrow_forward_ios)
+                  ],
+                ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      height: size.height / 10,
-                      width: size.width,
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.5),
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(10),
-                          )),
-                      child: const CustomText(
-                        text: "Log Out",
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
+            ),
+            InkWell(
+              onTap: () {
+                Get.defaultDialog(
+                  content: const CustomText2(
+                    text: "Are you sure dude 😦?",
+                    textAlign: TextAlign.center,
+                    color: Colors.brown,
+                    fontSize: 16,
+                    fontWeight: FontWeight.normal,
                   ),
-                  Expanded(
-                    flex: 3,
-                    child: Container(
-                      height: 20,
-                      width: double.maxFinite,
-                      decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.5),
-                          borderRadius: const BorderRadius.only(
-                              topRight: Radius.circular(30),
-                              bottomRight: Radius.circular(30))),
-                      child: Row(
-                        children: [
-                          Expanded(
-                              child: Container(
-                            height: 5,
-                            decoration: const BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(10),
-                                    bottomRight: Radius.circular(10))),
-                          ))
-                        ],
-                      ),
+                  title: "",
+                  textCancel: "No😜",
+                  textConfirm: "Yes😞",
+                  onCancel: () {
+                    Get.back();
+                  },
+                  onConfirm: () async {
+                    await FirebaseAuth.instance.currentUser!.delete();
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    prefs.remove('email');
+                    Get.off(() => const SignIn(), transition: Transition.zoom);
+                  },
+                  confirmTextColor: Colors.white,
+                  cancelTextColor: Colors.brown,
+                  buttonColor: Colors.brown,
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    SizedBox(
+                        height: size.height / 22,
+                        child: Image.asset("assets/icons/trash.png")),
+                    const SizedBox(
+                      width: 18,
                     ),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: CircleAvatar(
-                      radius: 40,
-                      backgroundColor: Colors.black.withOpacity(.5),
-                      child: IconButton(
-                          onPressed: () {
-                            Get.defaultDialog(
-                              content: const CustomText(
-                                text: "Are you sure ?",
-                                textAlign: TextAlign.center,
-                                color: Colors.brown,
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal,
-                              ),
-                              title: "",
-                              textCancel: "No",
-                              textConfirm: "Yes",
-                              onCancel: () {
-                                Get.back();
-                              },
-                              onConfirm: () async {
-                                await FirebaseAuth.instance.signOut();
-                              },
-                              confirmTextColor: Colors.white,
-                              cancelTextColor: Colors.brown,
-                              buttonColor: Colors.brown,
-                            );
-                          },
-                          icon: const Text(
-                            "🚶‍♂️",
-                            style: TextStyle(fontSize: 30),
-                          )),
+                    CustomText(
+                      text: "Delete Acount",
+                      fontSize: 18,
+                      fontWeight: FontWeight.normal,
+                      textAlign: TextAlign.center,
                     ),
-                  )
-                ],
+                    const Spacer(),
+                    const Icon(Icons.arrow_forward_ios)
+                  ],
+                ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
