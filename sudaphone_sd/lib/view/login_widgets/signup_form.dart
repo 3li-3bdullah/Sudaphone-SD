@@ -1,7 +1,8 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudaphone_sd/view/login_widgets/custom_text_form_field.dart';
-import 'package:sudaphone_sd/view/widgets/custom_text.dart';
+import 'package:sudaphone_sd/view/widgets/custom_text2.dart';
 import 'package:sudaphone_sd/view_model/login_view_model.dart';
 
 class SignUpForm extends GetWidget<LoginViewModel> {
@@ -18,15 +19,15 @@ class SignUpForm extends GetWidget<LoginViewModel> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             //Start User Name----------
-            const CustomText(
-                  text: "Username",
-                  color: Colors.brown,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                  textAlign: TextAlign.center,
-                ),
+            const CustomText2(
+              text: "Username",
+              color: Colors.brown,
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+              textAlign: TextAlign.center,
+            ),
 
-                const SizedBox(height: 10),
+            const SizedBox(height: 5),
             CustomTextFormField(
               customHintText: "Username",
               textEditingController: controller.usernameController!,
@@ -40,17 +41,17 @@ class SignUpForm extends GetWidget<LoginViewModel> {
             ),
             //End User Name----------
             //Start User E-mail ----------
-            const SizedBox(height: 20),
-            const CustomText(
-                  text: "E-mail",
-                  color: Colors.brown,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                  textAlign: TextAlign.center,
-                ),
+            const SizedBox(height: 15),
+            const CustomText2(
+              text: "E-mail",
+              color: Colors.brown,
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+              textAlign: TextAlign.center,
+            ),
 
-                const SizedBox(height: 10),
-            
+            const SizedBox(height: 5),
+
             CustomTextFormField(
               customHintText: "E-mail",
               textEditingController: controller.emailController!,
@@ -58,22 +59,24 @@ class SignUpForm extends GetWidget<LoginViewModel> {
               validator: (String value) {
                 if (value.isEmpty) {
                   return "Write your e-mail address";
+                } else if (!EmailValidator.validate(value.trim())) {
+                  return "The e-mail not valid";
                 }
               },
               icon: Icons.email_outlined,
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 15),
             //End User E-mail ----------
             //Start User Password----------
-            const CustomText(
-                  text: "Password",
-                  color: Colors.brown,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                  textAlign: TextAlign.center,
-                ),
+            const CustomText2(
+              text: "Password",
+              color: Colors.brown,
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+              textAlign: TextAlign.center,
+            ),
 
-                const SizedBox(height: 10),
+            const SizedBox(height: 5),
             Obx(
               () => CustomTextFormField(
                 customHintText: "Password",
@@ -86,22 +89,22 @@ class SignUpForm extends GetWidget<LoginViewModel> {
                 },
                 icon: Icons.lock_outlined,
                 istrue: controller.isObSecureSignup.value,
-                changeObscureValue: ()=> controller.toggle2(),
+                changeObscureValue: () => controller.toggle2(),
               ),
             ),
             const SizedBox(
-              height: 20,
+              height: 15,
             ),
             //Start User Password Confirm----------
-            const CustomText(
-                  text: "Confirm password",
-                  color: Colors.brown,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                  textAlign: TextAlign.center,
-                ),
+            const CustomText2(
+              text: "Confirm password",
+              color: Colors.brown,
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+              textAlign: TextAlign.center,
+            ),
 
-                const SizedBox(height: 10),
+            const SizedBox(height: 5),
             Obx(
               () => CustomTextFormField(
                 customHintText: "Rewrite the password",
@@ -114,7 +117,7 @@ class SignUpForm extends GetWidget<LoginViewModel> {
                 },
                 icon: Icons.lock_outlined,
                 istrue: controller.isObSecureSignup.value,
-                changeObscureValue: ()=> controller.toggle2(),
+                changeObscureValue: () => controller.toggle2(),
               ),
             ),
             const SizedBox(
