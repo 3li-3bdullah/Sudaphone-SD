@@ -21,7 +21,7 @@ class CustomText2 extends StatelessWidget {
       text,
       textAlign: textAlign!,
       style:
-          TextStyle(color: color, fontSize: fontSize!, fontWeight: fontWeight),
+          TextStyle(color: color, fontSize: fontSize!,fontWeight: fontWeight),
     );
   }
 }
