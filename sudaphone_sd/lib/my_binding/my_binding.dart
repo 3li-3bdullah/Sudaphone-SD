@@ -4,7 +4,6 @@ import 'package:sudaphone_sd/view_model/details_view_model.dart';
 import 'package:sudaphone_sd/view_model/download_images_view_model.dart';
 import 'package:sudaphone_sd/view_model/feedback_view_model.dart';
 import 'package:sudaphone_sd/view_model/login_view_model.dart';
-import 'package:sudaphone_sd/view_model/main_view_model.dart';
 import 'package:sudaphone_sd/view_model/mydrawer_view_model.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 import 'package:sudaphone_sd/view_model/public_data.dart';
@@ -17,15 +16,14 @@ class MyBinding implements Bindings {
   void dependencies() {
     Get.lazyPut(() => ScreenViewModel(), fenix: true);
     Get.lazyPut(() => MyDrawerViewModel(), fenix: true);
-    Get.put(LoginViewModel());
+    Get.lazyPut( () => LoginViewModel(),fenix: true);
     Get.lazyPut(() => PostsViewModel(), fenix: true);
-    Get.put(MainViewModel());
     Get.lazyPut(() => DownloadImagesViewModel(), fenix: true);
     Get.lazyPut(() => SettingsViewModel(), fenix: true);
     Get.lazyPut(() => DetailsViewModel(), fenix: true);
     Get.lazyPut(() => CategoriesViewModel(), fenix: true);
     Get.lazyPut(() => FeedbackViewModel(), fenix: true);
     Get.put(ThemesViewModel());
-    Get.lazyPut(() => PublicData());
+    Get.lazyPut(() => PublicData() , fenix: true);
   }
 }
