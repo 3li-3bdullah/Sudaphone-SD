@@ -3,19 +3,18 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sudaphone_sd/view/details.dart';
 
-// ignore: must_be_immutable
 class PhoneList extends StatelessWidget {
-  PhoneList(
+  const PhoneList(
       {required this.collction,
       required this.snapshot,
       required this.docOne,
       required this.isHasData,
       Key? key})
       : super(key: key);
-  var docOne;
-  var collction;
-  var snapshot;
-  var isHasData;
+  final docOne;
+  final collction;
+  final snapshot;
+  final isHasData;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +23,7 @@ class PhoneList extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: 10),
         child: InkWell(
           child: SizedBox(
-            height: 200,
+            height: MediaQuery.of(context).size.height / 3.9,
             width: 100,
             child: Card(
               child: Row(
@@ -34,7 +33,7 @@ class PhoneList extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.all(10),
                       alignment: Alignment.topRight,
-                      height: 180,
+                      height: MediaQuery.of(context).size.height / 3.9,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -83,10 +82,13 @@ class PhoneList extends StatelessWidget {
                             height: 3,
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text("Price : ${snapshot?.data()['price']}",
                                   style: const TextStyle(color: Colors.pink)),
+                              const SizedBox(
+                                width: 20,
+                              ),
                               const Text("more..",
                                   style: TextStyle(color: Colors.green)),
                             ],
@@ -97,10 +99,13 @@ class PhoneList extends StatelessWidget {
                   ),
                   Expanded(
                       flex: 1,
-                      child:
-                          isHasData.connectionState != ConnectionState.waiting
-                              ? Image(image: NetworkImage("${snapshot?.data()['imageUrl']}"))
-                              : const SizedBox()),
+                      child: isHasData.connectionState !=
+                              ConnectionState.waiting
+                          ? Image(
+                              image: NetworkImage(
+                                  "${snapshot?.data()['imageUrl']}"),
+                              height: MediaQuery.of(context).size.height / 4)
+                          : const SizedBox()),
                 ],
               ),
             ),
