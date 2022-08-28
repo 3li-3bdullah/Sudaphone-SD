@@ -1,34 +1,29 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text.dart';
+import 'package:sudaphone_sd/view/widgets/leading.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 
-// ignore: must_be_immutable
+
 class ShowCommentLikes extends GetWidget<PostsViewModel> {
-  ShowCommentLikes({required this.peopleWhoLiked,required this.currentDoc , Key? key}) : super(key: key);
-  var peopleWhoLiked;
-  var currentDoc;
+  const ShowCommentLikes({required this.peopleWhoLiked,required this.currentDoc , Key? key}) : super(key: key);
+  final peopleWhoLiked;
+  final currentDoc;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const CustomText(
+        title: CustomText(
           text: "People who liked",
           fontSize: 20,
           fontWeight: FontWeight.bold,
-          color: Colors.black,
           textAlign: TextAlign.center,
         ),
         centerTitle: true,
         elevation: 0,
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          onPressed: () {
-            Get.back();
-          },
-          icon: const Icon(Icons.arrow_back_ios , color: Colors.black,),
-        ),
+        leading: const Leading(),
       ),
       body: ListView.builder(
         itemCount: peopleWhoLiked.length,
@@ -38,7 +33,8 @@ class ShowCommentLikes extends GetWidget<PostsViewModel> {
                 .doc(peopleWhoLiked[index])
                 .get(),
             builder: ((context, snapshot) {
-              if(currentDoc['${peopleWhoLiked[index]}']){
+             if(snapshot.hasData){
+               if(currentDoc['${peopleWhoLiked[index]}']){
                 return Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: ListTile(
@@ -48,7 +44,6 @@ class ShowCommentLikes extends GetWidget<PostsViewModel> {
                         text: "${snapshot.data!.data()!['userName']}",
                         fontSize: 17,
                         fontWeight: FontWeight.normal,
-                        color: Colors.black,
                         textAlign: TextAlign.left),
                   ),
                   leading : CircleAvatar(
@@ -61,6 +56,13 @@ class ShowCommentLikes extends GetWidget<PostsViewModel> {
               } else {
                 return const SizedBox();
               }
+             }else{
+              return Container(
+                alignment: Alignment.center,
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Lottie.asset("assets/lotties/loading.json"),);
+             }
             }),
           );
         },
