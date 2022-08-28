@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elastic_drawer/elastic_drawer.dart';
@@ -35,11 +33,6 @@ import 'package:sudaphone_sd/view_model/themes_view_model.dart';
 
 class Screen extends GetWidget<ScreenViewModel> {
   const Screen({Key? key}) : super(key: key);
-  // Here i initialized these two dependences to init the User ID
-  // final post = Get.find<PostsViewModel>();
-  // final setting = Get.find<SettingsViewModel>();
-  // final publicdata = Get.find<PublicData>();
-  // final details = Get.find<DetailsViewModel>();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -118,70 +111,42 @@ class Screen extends GetWidget<ScreenViewModel> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height / 2,
                   width: MediaQuery.of(context).size.width,
-                  // child: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                  //   future: controller.carouselFire
-                  //       .doc("carouselSlider")
-                  //       .collection("carousel")
-                  //       .get(),
-                  //   builder: (context, snapshot) {
-                  //     if (snapshot.hasData) {
-                  //       return
-                  child: controller.isMainCarouselHasData.value
-                      ? Center(
-                          child: Lottie.asset("assets/lotties/loading.json"),
-                        )
-                      : GridTile(
-                          footer: Container(
-                            height: 60,
-                            color: Colors.transparent,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                BuildIndicatorCarousel(
-                                  imageLength:
-                                      controller.listMainCarousel!.length,
-                                ),
-                              ],
+                  child: Obx(
+                    () => controller.isMainCarouselHasData.value
+                        ? Center(
+                            child: Lottie.asset("assets/lotties/loading.json"),
+                          )
+                        : GridTile(
+                            footer: Container(
+                              height: 60,
+                              color: Colors.transparent,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  BuildIndicatorCarousel(
+                                    imageLength:
+                                        controller.listMainCarousel!.length,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            child: PageView.builder(
+                              scrollDirection: Axis.horizontal,
+                              allowImplicitScrolling: true,
+                              controller: controller.controllerCarousel,
+                              itemCount: controller.listMainCarousel!.length,
+                              itemBuilder: (context, index) {
+                                return SizedBox(
+                                  height: halfheight,
+                                  width: size.width,
+                                  child: BuildImagesCarousel(
+                                      imagesCarousel: controller
+                                          .listMainCarousel![index].imageUrl),
+                                );
+                              },
                             ),
                           ),
-                          child: PageView.builder(
-                            scrollDirection: Axis.horizontal,
-                            allowImplicitScrolling: true,
-                            controller: controller.controllerCarousel,
-                            itemCount: controller.listMainCarousel!.length,
-                            itemBuilder: (context, index) {
-                              return SizedBox(
-                                height: halfheight,
-                                width: size.width,
-                                child: BuildImagesCarousel(
-                                    imagesCarousel: controller
-                                        .listMainCarousel![index].imageUrl),
-                              );
-                            },
-                          ),
-                        ),
-                  //     } else if (snapshot.connectionState ==
-                  //         ConnectionState.waiting) {
-                  //       return Center(
-                  //         child: Lottie.asset("assets/lotties/loading.json"),
-                  //       );
-                  //     } else if (!snapshot.hasData) {
-                  //       return const Center(
-                  //         child: CustomText2(
-                  //           text: "Oops! no data found",
-                  //           color: Colors.red,
-                  //           fontSize: 20,
-                  //           fontWeight: FontWeight.normal,
-                  //           textAlign: TextAlign.center,
-                  //         ),
-                  //       );
-                  //     } else {
-                  //       return Center(
-                  //         child: Lottie.asset("assets/lotties/no_data.json"),
-                  //       );
-                  //     }
-                  //   },
-                  // ),
+                  ),
                 ),
                 const SizedBox(height: 20),
                 CategoriesTitle(
@@ -212,9 +177,6 @@ class Screen extends GetWidget<ScreenViewModel> {
                               scrollDirection: Axis.horizontal,
                               itemCount: controller.listCategories!.length,
                               itemBuilder: (context, index) {
-                                controller.mediaUrl.value =
-                                    controller.listCategories![index].videoUrl;
-                                controller.initialPlayer();
                                 return CustomListTile(
                                   logo: controller.listCategories![index].logo,
                                   videoUrl: controller
