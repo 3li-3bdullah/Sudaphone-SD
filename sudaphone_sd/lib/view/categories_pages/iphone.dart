@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text.dart';
+import 'package:sudaphone_sd/view/widgets/leading.dart';
 import 'package:sudaphone_sd/view/widgets/phone_list.dart';
 import 'package:sudaphone_sd/view_model/categories_view_model.dart';
 
@@ -11,14 +12,15 @@ class Iphone extends GetWidget<CategoriesViewModel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(elevation: 0,centerTitle: true,
-        backgroundColor: Colors.white,
-        title: const CustomText(
-            text: "Iphone",
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-            textAlign: TextAlign.center),
+      appBar: AppBar(
+        elevation: 0,
+        title: CustomText(
+          text: "Iphone",
+          fontSize: 22,
+          fontWeight: FontWeight.bold,
+          textAlign: TextAlign.center,
+        ),
+        leading: const Leading(),
       ),
       body: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
           future: controller.phonesCategory
@@ -30,7 +32,7 @@ class Iphone extends GetWidget<CategoriesViewModel> {
                 itemCount: snapshot.data?.docs.length,
                 itemBuilder: (context, index) {
                   return PhoneList(
-                      isHasData : snapshot,
+                      isHasData: snapshot,
                       collction: "iphone",
                       snapshot: snapshot.data?.docs[index],
                       docOne: "allIphone");
