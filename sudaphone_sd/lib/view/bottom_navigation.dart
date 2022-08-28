@@ -1,4 +1,4 @@
-import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudaphone_sd/view/categories.dart';
@@ -6,19 +6,22 @@ import 'package:sudaphone_sd/view/posts.dart';
 import 'package:sudaphone_sd/view/screen.dart';
 import 'package:sudaphone_sd/view/settings.dart';
 import 'package:sudaphone_sd/view_model/screen_view_model.dart';
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+
 
 // ignore: must_be_immutable
 class BottomNavigation extends GetWidget<ScreenViewModel> {
   BottomNavigation({Key? key}) : super(key: key);
   final List<Widget> screens = [
-    const Screen(),
+     const Screen(),
     const Categories(),
-    const Posts(),
-    Settings(),
+     const Posts(),
+    Setting(),
   ];
   @override
   Widget build(BuildContext context) {
     return GetX<ScreenViewModel>(
+      init: ScreenViewModel(),
       builder: (controller) => Scaffold(
         bottomNavigationBar: BottomNavyBar(
           selectedIndex: controller.activeIndex.value,
