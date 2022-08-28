@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text.dart';
+import 'package:sudaphone_sd/view/widgets/leading.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 
 class PeopleHaveLiked extends GetWidget<PostsViewModel> {
@@ -15,25 +16,14 @@ class PeopleHaveLiked extends GetWidget<PostsViewModel> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const CustomText(
+        title: CustomText(
           text: "People who liked",
           fontSize: 20,
-          fontWeight: FontWeight.bold,
-          color: Colors.black,
+          fontWeight: FontWeight.normal,
           textAlign: TextAlign.center,
         ),
-        centerTitle: true,
         elevation: 0,
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          onPressed: () {
-            Get.back();
-          },
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
-        ),
+        leading: const Leading(),
       ),
       body: ListView.builder(
         itemCount: peopleWhoLiked.length,
@@ -53,7 +43,6 @@ class PeopleHaveLiked extends GetWidget<PostsViewModel> {
                             text: "${snapshot.data?.data()!['userName']}",
                             fontSize: 17,
                             fontWeight: FontWeight.normal,
-                            color: Colors.black,
                             textAlign: TextAlign.left),
                       ),
                       leading: CircleAvatar(
@@ -76,10 +65,9 @@ class PeopleHaveLiked extends GetWidget<PostsViewModel> {
                       text: snapshot.error.toString(),
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
                       textAlign: TextAlign.center),
                 );
-              } else {
+              }else{
                 return Container(
                   alignment: Alignment.center,
                   height: MediaQuery.of(context).size.height,
