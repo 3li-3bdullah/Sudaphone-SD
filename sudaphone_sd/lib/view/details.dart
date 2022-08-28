@@ -1,14 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:sudaphone_sd/constants.dart';
 import 'package:sudaphone_sd/view/download_images.dart';
 import 'package:sudaphone_sd/view/people_have_liked.dart';
 import 'package:sudaphone_sd/view/widgets/custom_text.dart';
+import 'package:sudaphone_sd/view/widgets/custom_text2.dart';
 import 'package:sudaphone_sd/view_model/details_view_model.dart';
+import 'package:sudaphone_sd/view_model/themes_view_model.dart';
 
-// ignore: must_be_immutable
 class Details extends GetWidget<DetailsViewModel> {
   Details(
       {required this.docTwo,
@@ -16,125 +18,173 @@ class Details extends GetWidget<DetailsViewModel> {
       required this.collction,
       Key? key})
       : super(key: key);
-  String docOne;
-  String docTwo;
-  String collction;
+  final String docOne;
+  final String docTwo;
+  final String collction;
+  final control = Get.find<ThemesViewModel>();
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
-        body: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-            stream: FirebaseFirestore.instance
-                .collection("phonesCategory")
-                .doc(docOne)
-                .collection(collction)
-                .doc(docTwo)
-                .snapshots(),
-            builder: (context, _snapshot) {
-              return Obx(
-                () => SlidingUpPanel(
-                  maxHeight: MediaQuery.of(context).size.height / 1.2,
-                  parallaxEnabled: true,
-                  // boxShadow: const [BoxShadow(
-                  //   offset: Offset.zero
-                  // )],
-                  minHeight: MediaQuery.of(context).size.height / 2.2,
-                  controller: controller.panelController.value,
-                  borderRadius:
-                      const BorderRadius.vertical(top: Radius.circular(30)),
-                  body: SingleChildScrollView(
-                    child: Stack(
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            InkWell(
-                              child: Image(
-                                width: double.infinity,
-                                height:
-                                    MediaQuery.of(context).size.height / 2 + 80,
-                                fit: BoxFit.contain,
-                                image: NetworkImage(
-                                    _snapshot.data?.data()!['imageUrl']),
-                              ),
-                              onTap: () {
-                                Get.to(() => DownloadImages(
-                                    image: _snapshot.data
-                                        ?.data()!['imageUrl']
-                                        .toString()));
-                              },
+      appBar: AppBar(
+        title: CustomText(
+            text: "Details",
+            fontSize: 20,
+            fontWeight: FontWeight.normal,
+            textAlign: TextAlign.center),
+        elevation: 0,
+      ),
+      body: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+        stream: FirebaseFirestore.instance
+            .collection("phonesCategory")
+            .doc(docOne)
+            .collection(collction)
+            .doc(docTwo)
+            .snapshots(),
+        builder: (context, _snapshot) {
+          if (_snapshot.hasData) {
+            return Obx(
+              () => SlidingUpPanel(
+                maxHeight: MediaQuery.of(context).size.height / 1.2,
+                parallaxEnabled: true,
+                minHeight: MediaQuery.of(context).size.height / 2.2,
+                controller: controller.panelController.value,
+                color:
+                    control.theme == ThemeMode.dark ? kDarkColor : Colors.white,
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(30)),
+                body: SingleChildScrollView(
+                  child: Stack(
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          InkWell(
+                            child: Image(
+                              width: double.infinity,
+                              height:
+                                  MediaQuery.of(context).size.height / 2 + 80,
+                              fit: BoxFit.contain,
+                              image: NetworkImage(
+                                  _snapshot.data!.data()!['imageUrl']),
                             ),
-                          ],
+                            onTap: () {
+                              Get.to(() => DownloadImages(
+                                  image: _snapshot.data!
+                                      .data()!['imageUrl']
+                                      .toString()));
+                            },
+                          ),
+                        ],
+                      ),
+                      Positioned(
+                        top: 40,
+                        right: 20,
+                        child: Container(
+                          height: 60,
+                          width: 60,
+                          // padding: EdgeInsets.only(right: ),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.3),
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(40),
+                            ),
+                          ),
+                          child: StreamBuilder<
+                              DocumentSnapshot<Map<String, dynamic>>>(
+                            stream: controller.favorite
+                                .doc(controller.uid)
+                                .collection("favorite")
+                                .doc(_snapshot.data!.data()!['name'])
+                                .snapshots(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return snapshot.data?.data()?['name'] != null
+                                    ? InkWell(
+                                        child: const Icon(
+                                          Icons.bookmark,
+                                          size: 40,
+                                          color: Colors.greenAccent,
+                                        ),
+                                        onTap: () {
+                                          controller.addToFavorite(
+                                              favoriteSnapshot:
+                                                  _snapshot.data?.data(),
+                                              isThereDoc: snapshot.data
+                                                  ?.data()?['name'],
+                                              docId: _snapshot.data!
+                                                  .data()!['name'],
+                                              isAddToFavorte: _snapshot.data
+                                                  ?.data()!['isAddToFavorite'],
+                                              collction: collction,
+                                              docOne: docOne,
+                                              docTwo: docTwo);
+                                        },
+                                      )
+                                    : InkWell(
+                                        onTap: () {
+                                          controller.addToFavorite(
+                                              favoriteSnapshot:
+                                                  _snapshot.data?.data(),
+                                              isThereDoc: snapshot.data
+                                                  ?.data()?['name'],
+                                              docId: _snapshot.data!
+                                                  .data()!['name'],
+                                              isAddToFavorte: _snapshot.data
+                                                  ?.data()!['isAddToFavorite'],
+                                              collction: collction,
+                                              docOne: docOne,
+                                              docTwo: docTwo);
+                                        },
+                                        child: const Icon(
+                                          Icons.bookmark_border_outlined,
+                                          size: 40,
+                                          color: Colors.white,
+                                        ));
+                              } else if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Center(
+                                  child: Lottie.asset(
+                                      "assets/lotties/loading.json"),
+                                );
+                              } else {
+                                return Center(
+                                  child: Lottie.asset(
+                                      "assets/lotties/loading.json"),
+                                );
+                              }
+                            },
+                          ),
                         ),
-                        Positioned(
-                          top: 40,
-                          right: 20,
-                          child: Container(
-                            height: 50,
-                            width: 50,
-                            decoration: BoxDecoration(
+                      ),
+                      Positioned(
+                        top: 40,
+                        left: 20,
+                        child: Container(
+                          decoration: BoxDecoration(
                               color: Colors.black.withOpacity(0.3),
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(40),
-                              ),
-                            ),
-                            child: Padding(
-                                padding: const EdgeInsets.only(
-                                    bottom: 8.0, right: 10),
-                                child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                                  stream: controller.favorite
-                                      .doc(controller.uid)
-                                      .collection("archivists")
-                                      .doc(_snapshot.data!.id)
-                                      .snapshots(),
-                                  builder: (_, snapData) {
-                                    return IconButton(
-                                      iconSize: 38,
-                                      color: snapData.data!.data()!['name'] != false
-                                          ? bottomLogin
-                                          : Colors.white,
-                                      icon: snapData.data!.data()!['name'] !=
-                                                  false ? const Icon(
-                                              Icons.bookmark,
-                                              size: 50,
-                                            )
-                                          : const Icon(
-                                              Icons.bookmark_border_outlined,
-                                              size: 50,
-                                            ),
-                                      onPressed: () {
-                                        controller.addToArchivists(
-                                            archivistsSnapshot:
-                                                _snapshot.data?.data());
-                                      },
-                                    );
-                                  },
-                                )),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(40))),
+                          child: IconButton(
+                            iconSize: 38,
+                            color: Colors.white,
+                            icon: const Icon(Icons.arrow_back),
+                            onPressed: () {
+                              Get.back();
+                            },
                           ),
                         ),
-                        Positioned(
-                          top: 40,
-                          left: 20,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(0.3),
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(40))),
-                            child: IconButton(
-                              iconSize: 38,
-                              color: Colors.white,
-                              icon: const Icon(Icons.arrow_back),
-                              onPressed: () {
-                                Get.back();
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  panel: SingleChildScrollView(
-                    child: Padding(
+                ),
+                panel: SingleChildScrollView(
+                  child: GetBuilder<ThemesViewModel>(
+                    builder: (control) => Container(
+                      color: control.theme == ThemeMode.dark
+                          ? kDarkColor
+                          : Colors.white,
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -163,7 +213,6 @@ class Details extends GetWidget<DetailsViewModel> {
                               text: "${_snapshot.data?['name']}",
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black,
                               textAlign: TextAlign.start),
                           const SizedBox(
                             height: 10,
@@ -171,7 +220,7 @@ class Details extends GetWidget<DetailsViewModel> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              CustomText(
+                              CustomText2(
                                   text:
                                       "Price : \$ ${_snapshot.data?['price']}",
                                   fontSize: 20,
@@ -182,13 +231,35 @@ class Details extends GetWidget<DetailsViewModel> {
                                 children: [
                                   IconButton(
                                     iconSize: 38,
-                                    color: _snapshot.data?['usersLiked']
-                                                    ['${controller.uid}'] !=
-                                                null ||
-                                            false
-                                        ? Colors.pink
-                                        : Colors.grey,
-                                    icon: const Icon(Icons.favorite),
+                                    // color: controller.isliked.value
+                                    //     ? Colors.pink
+                                    //     : Colors.grey,
+                                    // _snapshot.data?['usersLiked']
+                                    //                 ['${controller.uid}'] !=
+                                    //               null || false
+                                    //     ? Colors.pink: Colors.grey,
+                                    icon: _snapshot.data!.data()!['usersLiked']
+                                                [controller.uid] !=
+                                            null
+                                        ? _snapshot.data!.data()!['usersLiked']
+                                                    [controller.uid] ==
+                                                true
+                                            ? const CustomText2(
+                                                text: "💗",
+                                                fontSize: 30,
+                                                color: Colors.pink,
+                                                fontWeight: FontWeight.normal,
+                                                textAlign: TextAlign.center)
+                                            : const Icon(
+                                                Icons.favorite,
+                                                size: 40,
+                                                color: Colors.grey,
+                                              )
+                                        : const Icon(
+                                            Icons.favorite,
+                                            size: 40,
+                                            color: Colors.grey,
+                                          ),
                                     onPressed: () {
                                       controller.handlePhoneLikes(
                                           collection: collction,
@@ -197,21 +268,33 @@ class Details extends GetWidget<DetailsViewModel> {
                                     },
                                   ),
                                   IconButton(
-                                    icon: CustomText(
-                                        text:
-                                            "${_snapshot.data?['likesCount']}",
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: _snapshot.data?['usersLiked']
-                                                        ['${controller.uid}'] !=
-                                                    null ||
-                                                false
-                                            ? Colors.pink
-                                            : Colors.grey,
-                                        textAlign: TextAlign.left),
+                                    icon: AnimatedSwitcher(
+                                      duration:
+                                          const Duration(milliseconds: 400),
+                                      transitionBuilder: (Widget child,
+                                          Animation<double> animation) {
+                                        return ScaleTransition(
+                                          scale: animation,
+                                          child: child,
+                                        );
+                                      },
+                                      child: Text(
+                                          "${_snapshot.data?['likesCount']}",
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            color: _snapshot.data?['usersLiked']
+                                                        ['${controller.uid}'] ==
+                                                    true
+                                                ? Colors.pink
+                                                : Colors.grey,
+                                          ),
+                                          key: ValueKey("${_snapshot.data?['likesCount']}"),
+                                          textAlign: TextAlign.left),
+                                    ),
                                     onPressed: () {
                                       Get.to(
-                                          () => PeopleHaveLIked(
+                                          () => PeopleHaveLiked(
                                               peopleWhoLiked: _snapshot
                                                   .data?['usersLiked'].keys
                                                   .toList(),
@@ -233,18 +316,17 @@ class Details extends GetWidget<DetailsViewModel> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
-                                    CustomText(
+                                  children: [
+                                    const CustomText2(
                                       text: "⚫️ ",
                                       color: Colors.green,
                                       fontSize: 10,
                                       fontWeight: FontWeight.normal,
                                       textAlign: TextAlign.center,
                                     ),
-                                    SizedBox(width: 5),
+                                    const SizedBox(width: 5),
                                     CustomText(
                                       text: "Ram :",
-                                      color: Colors.black,
                                       fontSize: 14,
                                       fontWeight: FontWeight.normal,
                                       textAlign: TextAlign.center,
@@ -255,7 +337,6 @@ class Details extends GetWidget<DetailsViewModel> {
                               const SizedBox(width: 5),
                               CustomText(
                                 text: "${_snapshot.data?['ram']}",
-                                color: Colors.black,
                                 fontSize: 14,
                                 fontWeight: FontWeight.normal,
                                 textAlign: TextAlign.center,
@@ -269,18 +350,17 @@ class Details extends GetWidget<DetailsViewModel> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
-                                    CustomText(
+                                  children: [
+                                    const CustomText2(
                                       text: "⚫️ ",
                                       color: Colors.green,
                                       fontSize: 10,
                                       fontWeight: FontWeight.normal,
                                       textAlign: TextAlign.center,
                                     ),
-                                    SizedBox(width: 5),
+                                    const SizedBox(width: 5),
                                     CustomText(
                                       text: "Storage :",
-                                      color: Colors.black,
                                       fontSize: 14,
                                       fontWeight: FontWeight.normal,
                                       textAlign: TextAlign.center,
@@ -290,7 +370,6 @@ class Details extends GetWidget<DetailsViewModel> {
                               ),
                               CustomText(
                                 text: "${_snapshot.data?['storage']}",
-                                color: Colors.black,
                                 fontSize: 14,
                                 fontWeight: FontWeight.normal,
                                 textAlign: TextAlign.center,
@@ -304,18 +383,17 @@ class Details extends GetWidget<DetailsViewModel> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
-                                    CustomText(
+                                  children: [
+                                    const CustomText2(
                                       text: "⚫️ ",
                                       color: Colors.green,
                                       fontSize: 10,
                                       fontWeight: FontWeight.normal,
                                       textAlign: TextAlign.center,
                                     ),
-                                    SizedBox(width: 5),
+                                    const SizedBox(width: 5),
                                     CustomText(
                                       text: "CPU :",
-                                      color: Colors.black,
                                       fontSize: 14,
                                       fontWeight: FontWeight.normal,
                                       textAlign: TextAlign.center,
@@ -323,12 +401,13 @@ class Details extends GetWidget<DetailsViewModel> {
                                   ],
                                 ),
                               ),
-                              CustomText(
-                                text: "${_snapshot.data?['cpu']}",
-                                color: Colors.black,
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal,
-                                textAlign: TextAlign.center,
+                              Expanded(
+                                child: CustomText(
+                                  text: "${_snapshot.data?['cpu']}",
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
                             ],
                           ),
@@ -339,18 +418,17 @@ class Details extends GetWidget<DetailsViewModel> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
-                                    CustomText(
+                                  children: [
+                                    const CustomText2(
                                       text: "⚫️ ",
                                       color: Colors.green,
                                       fontSize: 10,
                                       fontWeight: FontWeight.normal,
                                       textAlign: TextAlign.center,
                                     ),
-                                    SizedBox(width: 5),
+                                    const SizedBox(width: 5),
                                     CustomText(
                                       text: "Rear Camera :",
-                                      color: Colors.black,
                                       fontSize: 14,
                                       fontWeight: FontWeight.normal,
                                       textAlign: TextAlign.center,
@@ -360,7 +438,6 @@ class Details extends GetWidget<DetailsViewModel> {
                               ),
                               CustomText(
                                 text: "${_snapshot.data?['rearCamera']}",
-                                color: Colors.black,
                                 fontSize: 14,
                                 fontWeight: FontWeight.normal,
                                 textAlign: TextAlign.center,
@@ -374,18 +451,17 @@ class Details extends GetWidget<DetailsViewModel> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
-                                    CustomText(
+                                  children: [
+                                    const CustomText2(
                                       text: "⚫️ ",
                                       color: Colors.green,
                                       fontSize: 10,
                                       fontWeight: FontWeight.normal,
                                       textAlign: TextAlign.center,
                                     ),
-                                    SizedBox(width: 5),
+                                    const SizedBox(width: 5),
                                     CustomText(
                                       text: "Front Camera :",
-                                      color: Colors.black,
                                       fontSize: 14,
                                       fontWeight: FontWeight.normal,
                                       textAlign: TextAlign.center,
@@ -395,7 +471,6 @@ class Details extends GetWidget<DetailsViewModel> {
                               ),
                               CustomText(
                                 text: "${_snapshot.data?['frontCamera']}",
-                                color: Colors.black,
                                 fontSize: 14,
                                 fontWeight: FontWeight.normal,
                                 textAlign: TextAlign.center,
@@ -409,18 +484,17 @@ class Details extends GetWidget<DetailsViewModel> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
-                                    CustomText(
+                                  children: [
+                                    const CustomText2(
                                       text: "⚫️ ",
                                       color: Colors.green,
                                       fontSize: 10,
                                       fontWeight: FontWeight.normal,
                                       textAlign: TextAlign.center,
                                     ),
-                                    SizedBox(width: 5),
+                                    const SizedBox(width: 5),
                                     CustomText(
                                       text: "Battery :",
-                                      color: Colors.black,
                                       fontSize: 14,
                                       fontWeight: FontWeight.normal,
                                       textAlign: TextAlign.center,
@@ -430,7 +504,6 @@ class Details extends GetWidget<DetailsViewModel> {
                               ),
                               CustomText(
                                 text: "${_snapshot.data?['battery']}",
-                                color: Colors.black,
                                 fontSize: 14,
                                 fontWeight: FontWeight.normal,
                                 textAlign: TextAlign.center,
@@ -444,18 +517,17 @@ class Details extends GetWidget<DetailsViewModel> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
-                                    CustomText(
+                                  children: [
+                                    const CustomText2(
                                       text: "⚫️ ",
                                       color: Colors.green,
                                       fontSize: 10,
                                       fontWeight: FontWeight.normal,
                                       textAlign: TextAlign.center,
                                     ),
-                                    SizedBox(width: 5),
+                                    const SizedBox(width: 5),
                                     CustomText(
                                       text: "Display :",
-                                      color: Colors.black,
                                       fontSize: 14,
                                       fontWeight: FontWeight.normal,
                                       textAlign: TextAlign.center,
@@ -465,7 +537,6 @@ class Details extends GetWidget<DetailsViewModel> {
                               ),
                               CustomText(
                                 text: "${_snapshot.data?['screen']}",
-                                color: Colors.black,
                                 fontSize: 14,
                                 fontWeight: FontWeight.normal,
                                 textAlign: TextAlign.center,
@@ -479,18 +550,17 @@ class Details extends GetWidget<DetailsViewModel> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
-                                    CustomText(
+                                  children: [
+                                    const CustomText2(
                                       text: "⚫️ ",
                                       color: Colors.green,
                                       fontSize: 10,
                                       fontWeight: FontWeight.normal,
                                       textAlign: TextAlign.center,
                                     ),
-                                    SizedBox(width: 5),
+                                    const SizedBox(width: 5),
                                     CustomText(
                                       text: "Operating System :",
-                                      color: Colors.black,
                                       fontSize: 14,
                                       fontWeight: FontWeight.normal,
                                       textAlign: TextAlign.center,
@@ -500,7 +570,6 @@ class Details extends GetWidget<DetailsViewModel> {
                               ),
                               CustomText(
                                 text: "${_snapshot.data?['os']}",
-                                color: Colors.black,
                                 fontSize: 14,
                                 fontWeight: FontWeight.normal,
                                 textAlign: TextAlign.center,
@@ -513,7 +582,35 @@ class Details extends GetWidget<DetailsViewModel> {
                     ),
                   ),
                 ),
-              );
-            }));
+              ),
+            );
+          } else if (_snapshot.connectionState == ConnectionState.waiting) {
+            return Container(
+                height: size.height,
+                width: size.width,
+                alignment: Alignment.center,
+                child: Lottie.asset("assets/lotties/loading.json"));
+          } else if (_snapshot.hasError) {
+            return Center(
+              child: CustomText(
+                text: _snapshot.error.toString(),
+                textAlign: TextAlign.center,
+                fontSize: 15,
+                fontWeight: FontWeight.normal,
+              ),
+            );
+            /*
+            * Tomorrow i whould look at save phones at favorite ^_^ 
+            */
+          } else {
+            return Container(
+                height: size.height,
+                width: size.width,
+                alignment: Alignment.center,
+                child: Lottie.asset("assets/lotties/loading.json"));
+          }
+        },
+      ),
+    );
   }
 }
