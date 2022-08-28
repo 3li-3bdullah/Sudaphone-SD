@@ -33,7 +33,6 @@ class CategoriesCard extends StatelessWidget {
                       fontSize: 20,
                       fontWeight: FontWeight.normal,
                       textAlign: TextAlign.center,
-                      color: Colors.grey.shade900,
                     ),
                   ],
                 ),
