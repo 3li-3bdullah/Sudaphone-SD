@@ -1,56 +1,46 @@
 import 'package:flutter/material.dart';
-import 'package:sudaphone_sd/view/details.dart';
-
-import '../widgets/custom_text.dart';
+import 'package:sudaphone_sd/view/details_pages/last_product_details.dart';
 
 class LastProduct extends StatelessWidget {
   // ignore: use_key_in_widget_constructors
-  const LastProduct({
-    required this.imageProduct,
-    required this.text,
-    required this.price,
-    required this.docOne,
-     required this.collection,
-     required this.snapshot,
-     
+  const LastProduct({ required this.collection,
+    required this.phoneDoc, required this.name, required this.imageUrl
   });
-  final String imageProduct;
-  final String text;
-  final String price;
-  final String docOne;
+  
+  final String phoneDoc;
   final String collection;
-  final dynamic snapshot;
+  final String name;
+  final String imageUrl;
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(5),
-      child: InkWell(
-        child: GridTile(
-            child: Image.network(imageProduct),
-            footer: Container(
-                height: 40,
-                color: Colors.black.withOpacity(0.3),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    CustomText(
-                      text: text,
+    return InkWell(
+      child: GridTile(
+        footer: Container(
+          height: 40,
+          color: Colors.black.withOpacity(.5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              RichText(
+                text: TextSpan(
+                  style: const TextStyle(
+                      fontSize: 14,
                       color: Colors.white,
-                      textAlign: TextAlign.center,
-                      fontSize: 14,
                       fontWeight: FontWeight.bold,
-                    ), 
-                    CustomText(text: "\$$price",color: Colors.white,
-                      textAlign: TextAlign.center,
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,)
+                      fontFamily: 'Poppins'),
+                  children: <TextSpan>[
+                    TextSpan(text: name),
                   ],
                 ),
-                )),
-        onTap: () {
-          Details(docTwo: snapshot.id, docOne: docOne, collction: collection);
-        },
+              ),
+            ],
+          ),
+        ),
+        child: Image.network(imageUrl),
       ),
+      onTap: () {
+        LastProducDetails(phoneDoc: phoneDoc , collection: collection,);
+      },
     );
   }
 }
