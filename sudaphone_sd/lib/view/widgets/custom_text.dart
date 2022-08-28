@@ -1,27 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:sudaphone_sd/constants.dart';
+import 'package:sudaphone_sd/view_model/themes_view_model.dart';
 
-class CustomText extends StatelessWidget {
-  const CustomText({
-    ///context,
+class CustomText extends GetWidget<ThemesViewModel> {
+  // ignore: prefer_const_constructors_in_immutables
+    CustomText({Key? key, 
    required this.text,
     this.textAlign,
-    this.color,
     this.fontSize,
     this.fontWeight,
-  });
+  }) : super(key: key);
   final String text;
   final TextAlign? textAlign;
-  final Color? color;
   final double? fontSize;
   final FontWeight? fontWeight;
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      text,
-      textAlign: textAlign!,
-      style:
-          TextStyle(color: color!, fontSize: fontSize!, fontWeight: fontWeight),
+    return GetBuilder<ThemesViewModel>(
+            builder:(contorller) =>  Text(
+        text,
+        textAlign: textAlign!,
+        style:
+            TextStyle(color: controller.theme == ThemeMode.dark ? Colors.white : kDarkColor ,fontSize: fontSize!, fontWeight: fontWeight),
+      ),
     );
   }
 }
