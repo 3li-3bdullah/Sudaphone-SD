@@ -9,22 +9,23 @@ class DataSearch extends SearchDelegate<String> {
     // Action for AppBar
     return [
       IconButton(
-          onPressed: () {
-            query = " ";
-          },
-          icon: const Icon(Icons.clear))
+        onPressed: () {
+          query = " ";
+        },
+        icon: const Icon(Icons.clear),
+      ),
     ];
   }
 
   @override
   Widget buildLeading(BuildContext context) {
     // Icon Leading
-    return (IconButton(
+    return IconButton(
       onPressed: () {
-        Get.back();
+        Get.back(closeOverlays: true);
       },
-      icon: const Icon(Icons.arrow_back),
-    ));
+      icon: const Icon(Icons.arrow_back_ios),
+    );
   }
 
   @override
@@ -80,18 +81,5 @@ class DataSearch extends SearchDelegate<String> {
         ),
       ),
     );
-    //  ListView.builder(
-    //     itemCount: searchlist.length,
-    //     itemBuilder: (context, i) {
-    //       return ListTile(
-    //         leading: Icon(Icons.mobile_screen_share),
-    //         title: Text(name),
-    //         onTap: () {
-    //           query = name;
-    //           showResults(context);
-    //         },
-    //       );
-    //     });
-    // Text("Body Search");
   }
 }
