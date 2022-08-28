@@ -17,14 +17,15 @@ class SearchFutureBuilder extends StatelessWidget {
     * Huawei Methods
     */
     if (query.toLowerCase().contains("huawei")) {
-      query = query.replaceAll("huaweri", "Huawei");
-      return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-          future: FirebaseFirestore.instance
+      query = query.replaceAll("huawei", "Huawei");
+      log(query);
+      return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+          stream: FirebaseFirestore.instance
               .collection("phonesCategory")
               .doc("allHuawei")
               .collection("huawei")
               .orderBy('name')
-              .startAt([query]).endAt([query + '\uf8ff']).get(),
+              .startAt([query]).endAt([query + '\uf8ff']).snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
