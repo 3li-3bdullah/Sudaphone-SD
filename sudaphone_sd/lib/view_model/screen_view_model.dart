@@ -3,16 +3,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sudaphone_sd/model/screen_model.dart';
 
 class ScreenViewModel extends GetxController {
   /*
-  *Declare Variables 
+  * (((((((((((((((((((( Declaring Variables )))))))))))))))))))))))
   */
   RxInt activeIndex = 0.obs;
   RxDouble value = 0.0.obs;
-  String? uid ;
+  String? uid;
   CollectionReference<Map<String, dynamic>> favorite =
       FirebaseFirestore.instance.collection("favorite");
   CollectionReference<Map<String, dynamic>> carouselFire =
@@ -30,12 +29,12 @@ class ScreenViewModel extends GetxController {
 
   // ----------- Variables To Get Data From Firebase ----------------
   List<LastProducts>? listOfLastProducts;
-  // Future<List<LastProducts>>? futureLastProducts;
   List<BGPhones>? listBGPhones;
   List<Category>? listCategories;
-  // Future<List<Category>>? futureCategory;
+  List<MainCarousel>? listMainCarousel;
   // ------------ Loading --------------------
   RxBool isCateHasData = true.obs;
+  RxBool isMainCarouselHasData = true.obs;
   RxBool loading = true.obs;
 
   final List<MaterialColor> colors = const [
@@ -49,23 +48,19 @@ class ScreenViewModel extends GetxController {
     Colors.brown,
   ];
   /* 
-  * Methods
+  *  (((((((((((((((((((( Declaring Methods )))))))))))))))))))))))
   */
 
   @override
   void onInit() {
-   uid = FirebaseAuth.instance.currentUser!.uid;
+    uid = FirebaseAuth.instance.currentUser!.uid;
     retrieveLastProducts();
     retrieveBestGamingPhones();
     retrieveCategoriesData();
+    retrieveMainCarouselData();
     initialPlayer();
     super.onInit();
   }
-
-  // Future<void> getUid() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //  uid = prefs.getString('uid');
-  // }
 
   void valueOne() {
     value(1.0);
@@ -122,7 +117,7 @@ class ScreenViewModel extends GetxController {
     listBGPhones = await getBestGamingPhones();
   }
 
-  // ----------------- Get Categories Data ----------------------
+  // ------------- Get Categories Data --------------
   Future<List<Category>> getCategoriesData() async {
     QuerySnapshot<Map<String, dynamic>> snapshot =
         await FirebaseFirestore.instance.collection("categories").get();
@@ -134,5 +129,23 @@ class ScreenViewModel extends GetxController {
   Future<void> retrieveCategoriesData() async {
     listCategories = await getCategoriesData();
     isCateHasData.value = false;
+  }
+
+  // ------------- Get Main Carousel Data -------------
+  Future<List<MainCarousel>> getMainCasrouselData() async {
+    QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+        .instance
+        .collection("carousel")
+        .doc("carouselSlider")
+        .collection("carousel")
+        .get();
+    return snapshot.docs
+        .map((querySnapshot) => MainCarousel.fromJson(querySnapshot))
+        .toList();
+  }
+
+  Future<void> retrieveMainCarouselData() async {
+    listMainCarousel = await getMainCasrouselData();
+    isMainCarouselHasData.value = false;
   }
 }
