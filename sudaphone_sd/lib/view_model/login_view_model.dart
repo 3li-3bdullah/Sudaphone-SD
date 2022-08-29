@@ -8,38 +8,37 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:sudaphone_sd/constants.dart';
+import 'package:lottie/lottie.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sudaphone_sd/view/mydrawer.dart';
-import 'package:sudaphone_sd/view/posts_widgets/custom_snakbar.dart';
 
 class LoginViewModel extends GetxController {
-  ///Declare and inital variables
-  // for user authentications
-  FirebaseAuth auth = FirebaseAuth.instance;
+// ((((((((((((((((((((((((((((((( VARIABLES )))))))))))))))))))))))))))))))
   UserCredential? userCredential;
   FirebaseFirestore? firebaseFirestore = FirebaseFirestore.instance;
   GlobalKey<FormState>? signInKey = GlobalKey<FormState>();
   GlobalKey<FormState>? signUpKey = GlobalKey<FormState>();
-  // TextEditingController for login fields
+  GlobalKey<FormState>? resetPassKey = GlobalKey<FormState>();
+  /* TextEditingController */
   TextEditingController? emailController = TextEditingController();
   TextEditingController? passwordController = TextEditingController();
   TextEditingController? emailSigninController = TextEditingController();
   TextEditingController? passwordSigninController = TextEditingController();
   TextEditingController? confirmPasswordController = TextEditingController();
   TextEditingController? usernameController = TextEditingController();
+  TextEditingController? emailForResetPassword = TextEditingController();
   // Variables for upload image to FirebasaeStorage
   RxBool isThereProfileUrl = false.obs;
   String? _fileName;
   File? imageFile;
   XFile? pickImage;
   RxBool showsignin = true.obs;
-
+  Size size = MediaQuery.of(Get.context!).size;
+  String? email;
   RxBool isObSecureSignin = true.obs;
   RxBool isObSecureSignup = true.obs;
 
-  RxBool showLoading = false.obs;
-
-  /// Methods
+  /// (((((((((((((((((((((((((((( METHODS ))))))))))))))))))))))))))))
 
   toggle1() {
     isObSecureSignin.value = !isObSecureSignin.value;
@@ -62,8 +61,7 @@ class LoginViewModel extends GetxController {
     confirmPasswordController = TextEditingController();
     emailController = TextEditingController();
     passwordController = TextEditingController();
-
-    // _user.bindStream(auth.authStateChanges());
+    emailForResetPassword = TextEditingController();
   }
 
   @override
@@ -75,26 +73,34 @@ class LoginViewModel extends GetxController {
     confirmPasswordController!.clear();
     emailController!.clear();
     passwordController!.clear();
+    emailForResetPassword!.clear();
   }
 
-  ///SignIn With Email and Password
   void signInWithEmailAndPassword(
       String email, String password, GlobalKey<FormState> signInKey) async {
     try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
       if (signInKey.currentState!.validate()) {
-        showLoading.value = true;
+        showDialog(
+          barrierDismissible: false,
+          context: Get.context!,
+          builder: (BuildContext context) => Center(
+            child: Lottie.asset("assets/lotties/loading.json"),
+          ),
+        );
         signInKey.currentState!.save();
-        print("$email &  $password *************************************8");
-        userCredential = await FirebaseAuth.instance
-            .signInWithEmailAndPassword(email: email, password: password);
-        
-        CustomSnakbar.showSnakBar(
-            context: Get.context,
-            title: "Done",
-            message: "Successfully signin",
-            backgroundColor: kPrimaryColor);
-        Get.off(() => const MyDrawer(), transition: Transition.circularReveal);
-        showLoading.value = false;
+        FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: email, password: password)
+            .whenComplete(() {
+          Get.offAll(
+            () => const MyDrawer(),
+          );
+          prefs.setString('email', email);
+          Get.back(closeOverlays: true);
+          Get.snackbar("", "You've signed in successfully",
+              snackPosition: SnackPosition.BOTTOM,
+              duration: const Duration(seconds: 3));
+        });
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -107,8 +113,8 @@ class LoginViewModel extends GetxController {
 
   // Upload A Picture That User Was choose
   uploadProfilePic({String? source}) async {
-    final _picker = ImagePicker();
-    pickImage = await _picker.pickImage(
+    final picker = ImagePicker();
+    pickImage = await picker.pickImage(
         source: source == "camera" ? ImageSource.camera : ImageSource.gallery);
     int rand = Random().nextInt(1000000);
     _fileName = rand.toString() + pickImage!.name;
@@ -122,40 +128,46 @@ class LoginViewModel extends GetxController {
   }
 
   /// SignUp With Username & Email & Password
-  void signUpWithEmailAndPassword(String username, String email,
-      String password, GlobalKey<FormState> _signUpKey) async {
+  Future<void> signUpWithEmailAndPassword(String username, String email,
+      String password, GlobalKey<FormState> signUpKey) async {
     try {
-      if (_signUpKey.currentState!.validate()) {
-        showLoading.value = true;
-        final _formattedDate =
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      if (signUpKey.currentState!.validate()) {
+        showDialog(
+          barrierDismissible: false,
+          context: Get.context!,
+          builder: (BuildContext context) => Center(
+            child: Lottie.asset("assets/lotties/loading.json"),
+          ),
+        );
+        signUpKey.currentState!.save();
+        final formattedDate =
             DateFormat('M/d/y - kk:mm').format(DateTime.now());
-        _signUpKey.currentState!.save();
-        userCredential = await FirebaseAuth.instance
+
+        FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email, password: password);
-        TaskSnapshot _uploadToStorage = await FirebaseStorage.instance
-            .ref("login_profile")
-            .child(_fileName!)
-            .putFile(imageFile!);
-        String _imageUrl = await _uploadToStorage.ref.getDownloadURL();
-        firebaseFirestore!
+        Reference reference =
+            FirebaseStorage.instance.ref("login_profile").child(_fileName!);
+        UploadTask uploadTask = reference.putFile(imageFile!);
+        String imageUrl = await (await uploadTask).ref.getDownloadURL();
+        prefs.setString('email', email);
+        FirebaseFirestore.instance
             .collection("usersInfo")
-            .doc(auth.currentUser!.uid)
+            .doc(FirebaseAuth.instance.currentUser!.uid)
             .set({
           "userName": username.toString(),
           "email": email.toString(),
           "password": password.toString(),
-          "ownerUid": auth.currentUser!.uid.toString(),
-          "registerTime": _formattedDate.toString(),
-          "profileUrl": _imageUrl.toString()
+          "ownerUid": FirebaseAuth.instance.currentUser!.uid.toString(),
+          "registerTime": formattedDate.toString(),
+          "profileUrl": imageUrl.toString()
+        }).whenComplete(() {
+          Get.offAll(() => const MyDrawer());
+          Get.back(closeOverlays: true);
+          Get.snackbar("", "You've resgistered successfully",
+              snackPosition: SnackPosition.BOTTOM,
+              duration: const Duration(seconds: 3));
         });
-      
-        CustomSnakbar.showSnakBar(
-            context: Get.context,
-            title: "Done",
-            message: "Created account successfully",
-            backgroundColor: kPrimaryColor);
-        Get.off(() => const MyDrawer(),transition: Transition.circularReveal);
-          showLoading.value = false;
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -164,7 +176,35 @@ class LoginViewModel extends GetxController {
         Get.snackbar("E-mail", 'The account already exists for that email.');
       }
     } catch (e) {
-      Get.snackbar("Oops!", "That's error was : $e");
+      Get.snackbar("Oops!", "That error was : $e",
+          duration: const Duration(seconds: 5));
+    }
+  }
+
+  resetPassword(GlobalKey<FormState>? key, String? email) async {
+    try {
+      if (key!.currentState!.validate()) {
+        showDialog(
+          barrierDismissible: false,
+          context: Get.context!,
+          builder: (BuildContext context) => Center(
+            child: Lottie.asset("assets/lotties/loading.json"),
+          ),
+        );
+        await FirebaseAuth.instance
+            .sendPasswordResetEmail(email: email!)
+            .whenComplete(() {
+          Get.back();
+          Get.snackbar("", "Password Reset Email Sent ..",
+              duration: const Duration(seconds: 5),
+              backgroundColor: Colors.green,
+              snackPosition: SnackPosition.BOTTOM);
+        });
+      }
+    } catch (e) {
+      Get.snackbar("Oops", e.toString(),
+          duration: const Duration(seconds: 5),
+          snackPosition: SnackPosition.TOP);
     }
   }
 }
