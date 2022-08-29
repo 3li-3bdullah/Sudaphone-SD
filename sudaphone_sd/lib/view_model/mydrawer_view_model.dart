@@ -1,19 +1,44 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sudaphone_sd/view/signin.dart';
 
 class MyDrawerViewModel extends GetxController {
-  /// Declaring Variables
+  // ((((((((((((((((((((((((((( Declaring Variables )))))))))))))))))))))))))))
   RxDouble value = 0.0.obs;
-  RxString uid = "".obs;
-  Future<void> logOut = FirebaseAuth.instance.signOut();
-  // FirebaseAuth _auth = FirebaseAuth.instance;
-  // RxString? userName;
-  CollectionReference<Map<String, dynamic>> userName = FirebaseFirestore.instance
-      .collection("usersInfo");
-      // .doc(FirebaseAuth.instance.currentUser!.uid);
+  CollectionReference<Map<String, dynamic>> userInfo =
+      FirebaseFirestore.instance.collection("usersInfo");
+  RxInt internetConnectionChecker = 0.obs;
+  late StreamSubscription<InternetConnectionStatus> listener;
+  SharedPreferences? prefs;
+  // ((((((((((((((((((((((((((((((( Declaring Methods )))))))))))))))))))))))))))))))
+  @override
+  void onInit() {
+    listener = InternetConnectionChecker()
+        .onStatusChange
+        .listen((InternetConnectionStatus status) {
+      switch (status) {
+        case InternetConnectionStatus.connected:
+          internetConnectionChecker.value = 1;
+          break;
+        case InternetConnectionStatus.disconnected:
+          internetConnectionChecker.value = 0;
+          break;
+      }
+    });
+    super.onInit();
+  }
 
-  /// Some Methods
+  @override
+  void onClose() {
+    listener.cancel();
+    super.onClose();
+  }
+
   void valueOne() {
     value(1.0);
   }
@@ -21,18 +46,11 @@ class MyDrawerViewModel extends GetxController {
   void valueZero() {
     value(0.0);
   }
-  @override
-  void onInit() {
-    uid.value = FirebaseAuth.instance.currentUser!.uid;
-    super.onInit();
+
+  logOut() async {
+    FirebaseAuth.instance.signOut();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('email');
+    Get.offAll(() => const SignIn());
   }
-
-  //  getUserInfo() async {
-  //    DocumentReference<Map<String, dynamic>> getUser =
-  //         FirebaseFirestore.instance.collection("usersInfo")
-  //       .doc(_auth.currentUser?.uid);
-  //      userName?.value =  await getUser.get().then((value) => value.data()?['userName']);
-
-  //       // return getUser;
-  // }
 }
