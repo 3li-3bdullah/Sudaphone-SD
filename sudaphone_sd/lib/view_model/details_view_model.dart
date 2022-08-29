@@ -1,26 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class DetailsViewModel extends GetxController {
-  /// variables
-  // Size size = MediaQuery.of(Get.context!).size;
+// (((((((((((((((((((((((( Variables ))))))))))))))))))))))))
+  Size size = MediaQuery.of(Get.context!).size;
   Rx<PanelController> panelController = PanelController().obs;
-   CollectionReference<Map<String, dynamic>> isSaved = FirebaseFirestore
+   CollectionReference<Map<String, dynamic>> favorite =  FirebaseFirestore
         .instance
-        .collection("posts");
-  FirebaseAuth auth = FirebaseAuth.instance;
+        .collection("favorite");
   String? uid;
 
-  /// Methods
+// ((((((((((((((((((((((((( Methods )))))))))))))))))))))))))
 
   @override
   void onInit() {
-    uid = auth.currentUser!.uid;
+    uid = FirebaseAuth.instance.currentUser!.uid;
     super.onInit();
   }
-
   // To open & close panel
   void togglePanel() {
     panelController.value.isPanelOpen
@@ -34,7 +33,7 @@ class DetailsViewModel extends GetxController {
      * he'll see he has liked before or not.
      */
   handlePhoneLikes({String? docOne, String? collection, snapshot}) async {
-    DocumentReference<Map<String, dynamic>> _likeData = FirebaseFirestore
+    DocumentReference<Map<String, dynamic>> likeData = FirebaseFirestore
         .instance
         .collection("phonesCategory")
         .doc(docOne)
@@ -42,47 +41,86 @@ class DetailsViewModel extends GetxController {
         .doc(snapshot.id);
     
 
-    bool _isHasLiked = await _likeData
+    bool isHasLiked = await likeData
         .get()
         .then((value) => value.data()!['usersLiked']['$uid'] == true);
 
-    if (!_isHasLiked) {
-      int _addLike = snapshot['likesCount'] + 1;
-      await _likeData.update({
-        'likesCount': _addLike.toInt(),
+    if (!isHasLiked) {
+      int addLike = snapshot['likesCount'] + 1;
+      await likeData.update({
+        'likesCount': addLike.toInt(),
         'usersLiked.$uid': true,
       });
      
     } else {
-      int _removeLike = snapshot['likesCount'] - 1;
-      await _likeData.update(
-          {'likesCount': _removeLike.toInt(), 'usersLiked.$uid': false});
+      int removeLike = snapshot['likesCount'] - 1;
+      await likeData.update(
+          {'likesCount': removeLike.toInt(), 'usersLiked.$uid': false});
       
     }
   }
   //To add items at the archivists
-   Future<void> addToArchivists({archivistsSnapshot}) async {
-      DocumentReference<Map<String, dynamic>> archivists = FirebaseFirestore
+   Future<void> addToFavorite({favoriteSnapshot,String? isThereDoc ,String? docId, isAddToFavorte , String? docOne,String? collction, String? docTwo}) async {
+      CollectionReference<Map<String, dynamic>> favorite = FirebaseFirestore
         .instance
-        .collection("posts")
+        .collection("favorite")
         .doc(uid)
-        .collection("archivists")
-        .doc(archivistsSnapshot.id);
-        bool? isThereSavedData = await archivists.get().then((data) => data.data()!['name'] != null);
-        isThereSavedData == null ?  await archivists.set({
-        'name': archivistsSnapshot['name'].toString(),
-        'imageUrl': archivistsSnapshot['imageUrl'].toString(),
-        'likesCount': archivistsSnapshot['likesCount'].toString(),
-        'ram': archivistsSnapshot['ram'].toString(),
-        'storage': archivistsSnapshot['storage'].toString(),
-        'battery': archivistsSnapshot['battery'].toString(),
-        'frontCamera': archivistsSnapshot['frontCamera'].toString(),
-        'rearCamera': archivistsSnapshot['rearCamera'].toString(),
-        'screen': archivistsSnapshot['screen'].toString(),
-        'os': archivistsSnapshot['os'].toString(),
-        'usersLiked': archivistsSnapshot['usersLiked'],
-        'price': archivistsSnapshot['price'].toString(),
-        'cpu': archivistsSnapshot['cpu'].toString(),
-      }) : await archivists.delete();
+        .collection("favorite");
+        if(isThereDoc == null){
+          favorite.doc(docId).set({
+        'name': favoriteSnapshot['name'].toString(),
+        'imageUrl': favoriteSnapshot['imageUrl'].toString(),
+        'likesCount': favoriteSnapshot['likesCount'].toString(),
+        'ram': favoriteSnapshot['ram'].toString(),
+        'storage': favoriteSnapshot['storage'].toString(),
+        'battery': favoriteSnapshot['battery'].toString(),
+        'frontCamera': favoriteSnapshot['frontCamera'].toString(),
+        'rearCamera': favoriteSnapshot['rearCamera'].toString(),
+        'screen': favoriteSnapshot['screen'].toString(),
+        'os': favoriteSnapshot['os'].toString(),
+        'usersLiked': favoriteSnapshot['usersLiked'],
+        'price': favoriteSnapshot['price'].toString(),
+        'cpu': favoriteSnapshot['cpu'].toString(),
+      });
+        }else   {
+          favorite.doc(docId).delete();
+        }
+      //   else if(isAddToFavorte[uid] == false){
+      //    editData.update({'usersLiked.$uid': true});
+      //     favorite.set({
+      //   'name': favoriteSnapshot['name'].toString(),
+      //   'imageUrl': favoriteSnapshot['imageUrl'].toString(),
+      //   'likesCount': favoriteSnapshot['likesCount'].toString(),
+      //   'ram': favoriteSnapshot['ram'].toString(),
+      //   'storage': favoriteSnapshot['storage'].toString(),
+      //   'battery': favoriteSnapshot['battery'].toString(),
+      //   'frontCamera': favoriteSnapshot['frontCamera'].toString(),
+      //   'rearCamera': favoriteSnapshot['rearCamera'].toString(),
+      //   'screen': favoriteSnapshot['screen'].toString(),
+      //   'os': favoriteSnapshot['os'].toString(),
+      //   'usersLiked': favoriteSnapshot['usersLiked'],
+      //   'price': favoriteSnapshot['price'].toString(),
+      //   'cpu': favoriteSnapshot['cpu'].toString(),
+        
+      // });
+      //   }
+      
+
+
+      //   isThereSavedData == null ? archivists.set({
+      //   'name': archivistsSnapshot['name'].toString(),
+      //   'imageUrl': archivistsSnapshot['imageUrl'].toString(),
+      //   'likesCount': archivistsSnapshot['likesCount'].toString(),
+      //   'ram': archivistsSnapshot['ram'].toString(),
+      //   'storage': archivistsSnapshot['storage'].toString(),
+      //   'battery': archivistsSnapshot['battery'].toString(),
+      //   'frontCamera': archivistsSnapshot['frontCamera'].toString(),
+      //   'rearCamera': archivistsSnapshot['rearCamera'].toString(),
+      //   'screen': archivistsSnapshot['screen'].toString(),
+      //   'os': archivistsSnapshot['os'].toString(),
+      //   'usersLiked': archivistsSnapshot['usersLiked'],
+      //   'price': archivistsSnapshot['price'].toString(),
+      //   'cpu': archivistsSnapshot['cpu'].toString(),
+      // }) : await archivists.delete();
     }
 }
