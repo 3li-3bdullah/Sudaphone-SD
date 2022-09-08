@@ -163,7 +163,7 @@ class Screen extends GetWidget<ScreenViewModel> {
                 // Obx(
                 //   () =>
                 SizedBox(
-                    height: size.height / 3,
+                    height: size.height / 2.7,
                     width: size.width,
                     //I've removed Expanded
                     child: Obx(
