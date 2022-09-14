@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
-import 'package:sudaphone_sd/view/widgets/custom_text2.dart';
+import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 
 class PostsViewModel extends GetxController {
   // ((((((((((((((((((((((((((( Declaring Variables )))))))))))))))))))))))))))
