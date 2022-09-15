@@ -31,30 +31,26 @@ class BestGamingPhones extends GetWidget<ScreenViewModel> {
                               phoneDoc: controller
                                   .listBGPhones![index].docId));
                         },
-                        child: Card(
-                          shadowColor: Colors.black,
-                          borderOnForeground: true,
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Image.network(controller
-                                  .listBGPhones![index].image,fit: BoxFit.cover,),
-                              Positioned(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20),
-                                  child: CustomText2(
-                                      text: controller
-                                          .listBGPhones![index]
-                                          .name,
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.normal,
-                                      textAlign: TextAlign.center,
-                                      color: Colors.white),
-                                ),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Image.network(controller
+                                .listBGPhones![index].image,fit: BoxFit.cover,height: 200,),
+                            Positioned(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20),
+                                child: CustomText2(
+                                    text: controller
+                                        .listBGPhones![index]
+                                        .name,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.normal,
+                                    textAlign: TextAlign.center,
+                                    color: Colors.white),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       );
                     },
