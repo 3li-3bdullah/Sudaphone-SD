@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 const kPrimaryColor = Color(0xffd6a659);
 const kSecondaryColor = Color(0xFF59706F);
@@ -27,7 +28,11 @@ TextStyle textButton = const TextStyle(
 
 class Themes {
   static final lightTheme = ThemeData(
-    appBarTheme: const AppBarTheme(backgroundColor: Colors.white),
+    appBarTheme: const AppBarTheme(backgroundColor: Colors.white,
+    systemOverlayStyle: SystemUiOverlayStyle(
+      statusBarColor: Colors.white,
+      statusBarIconBrightness :  Brightness.dark,
+    )),
     scaffoldBackgroundColor: Colors.white,
     colorScheme: const ColorScheme.light(),
     fontFamily: 'Poppins',
@@ -38,7 +43,12 @@ class Themes {
     bottomSheetTheme: const BottomSheetThemeData(backgroundColor: Colors.white)
   );
   static final darkTheme = ThemeData(
-      appBarTheme: const AppBarTheme(backgroundColor: kDarkColor),
+      appBarTheme: const AppBarTheme(backgroundColor: kDarkColor,
+      systemOverlayStyle: SystemUiOverlayStyle(
+      statusBarColor: kDarkColor,
+      statusBarIconBrightness :  Brightness.light,
+    )
+      ),
       scaffoldBackgroundColor: kDarkColor,
       colorScheme: const ColorScheme.dark(),
       fontFamily: 'Poppins',
