@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sudaphone_sd/shared/constants.dart';
 import 'package:sudaphone_sd/view/details/components/custom_text_details.dart';
 import 'package:sudaphone_sd/view/download/download_images.dart';
@@ -31,8 +32,8 @@ class OpenSavedPost extends GetWidget<PostsViewModel> {
           children: [
             ListTile(
               leading: CircleAvatar(
-                backgroundImage: NetworkImage(
-                    "${snapshot.data()!['profileUrl']}"),
+                backgroundImage:
+                    NetworkImage("${snapshot.data()!['profileUrl']}"),
               ),
               title: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,16 +56,15 @@ class OpenSavedPost extends GetWidget<PostsViewModel> {
                   )
                 ],
               ),
-              trailing: snapshot.data()!['ownerUid'] ==
-                      controller.uid
+              trailing: snapshot.data()!['ownerUid'] == controller.uid
                   // FirebaseAuth.instance.currentUser!.uid
-                  ? PopupMenuButton<MenuItems>(
+                  ? PopupMenuButton<SavedItems>(
                       onSelected: (value) {
-                        if (value == MenuItems.save) {
-                          controller.savePost(
+                        if (value == SavedItems.unsave) {
+                          controller.unSavePost(
                             postDoc: snapshot.id,
                           );
-                        } else if (value == MenuItems.edit) {
+                        } else if (value == SavedItems.edit) {
                           Get.defaultDialog(
                             title: "Edit the post",
                             titleStyle: const TextStyle(
@@ -106,7 +106,7 @@ class OpenSavedPost extends GetWidget<PostsViewModel> {
                       },
                       itemBuilder: (context) => [
                         PopupMenuItem(
-                          value: MenuItems.save,
+                          value: SavedItems.unsave,
                           child: CustomText(
                             text: "Save",
                             fontSize: 14,
@@ -115,7 +115,7 @@ class OpenSavedPost extends GetWidget<PostsViewModel> {
                           ),
                         ),
                         PopupMenuItem(
-                          value: MenuItems.edit,
+                          value: SavedItems.edit,
                           child: CustomText(
                             text: "Edit",
                             fontSize: 14,
@@ -124,7 +124,7 @@ class OpenSavedPost extends GetWidget<PostsViewModel> {
                           ),
                         ),
                         PopupMenuItem(
-                          value: MenuItems.delete,
+                          value: SavedItems.delete,
                           child: CustomText(
                             text: "Delete",
                             fontSize: 14,
@@ -134,17 +134,17 @@ class OpenSavedPost extends GetWidget<PostsViewModel> {
                         ),
                       ],
                     )
-                  : PopupMenuButton<MenuItems>(
+                  : PopupMenuButton<SavedItems>(
                       onSelected: (value) {
-                        if (value == MenuItems.save) {
-                          controller.savePost(
+                        if (value == SavedItems.unsave) {
+                          controller.unSavePost(
                             postDoc: snapshot.id,
                           );
                         }
                       },
                       itemBuilder: (context) => const [
                         PopupMenuItem(
-                          value: MenuItems.save,
+                          value: SavedItems.unsave,
                           child: CustomText2(
                             text: "Save",
                             color: kBlackColor,
@@ -175,11 +175,11 @@ class OpenSavedPost extends GetWidget<PostsViewModel> {
                     height: 10,
                   ),
                   snapshot.data()!['isThereImageUrl'] == true
+                      //ToDo: Here i should see if the lottie appear that's nice and if it not i shuold dwonload the lottie as GIF..
                       ? InkWell(
-                          child: Image.network(
-                            "${snapshot.data()!['imageUrl']}",
-                            fit: BoxFit.cover,
-                          ),
+                          child: FadeInImage.assetNetwork(
+                              placeholder: 'assets/lotties/loading.json',
+                              image: "${snapshot.data()!['imageUrl']}"),
                           onTap: () {
                             Get.to(
                                 () => DownloadImages(
@@ -197,99 +197,113 @@ class OpenSavedPost extends GetWidget<PostsViewModel> {
             ),
             Divider(color: Colors.grey.withOpacity(0.2)),
             //============================================================
-            Row(
-              children: [
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      snapshot.data()!['usersLiked']
-                                  [controller.uid] ==
-                              true
-                          ? IconButton(
-                              onPressed: () {
-                                controller.handlePostLikes(
-                                    currentPostDocData: snapshot);
-                              },
-                              icon: const Text(
-                                "💗",
-                                style: TextStyle(
-                                  fontSize: 25,
-                                ),
-                              ))
-                          : IconButton(
-                              onPressed: () {
-                                controller.handlePostLikes(
-                                    currentPostDocData:snapshot);
-                              },
-                              icon: const Icon(
-                                Icons.favorite,
-                                size: 30,
-                                color: Colors.grey,
-                              )),
-                      const SizedBox(width: 20),
-                      InkWell(
-                        child: Text(
-                          snapshot.data()!['likesCount']
-                              .toString(),
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.normal,
-                              color: snapshot.data()!['usersLiked']
+            StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+              stream: controller.postsCollections.doc(snapshot.id).snapshots(),
+              builder: (context, snapshotForLikeCount) => snapshotForLikeCount
+                          .connectionState ==
+                      ConnectionState.waiting
+                  ? const SizedBox()
+                  : Row(
+                      children: [
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              snapshotForLikeCount.data!.data()!['usersLiked']
                                           [controller.uid] ==
                                       true
-                                  ? Colors.pink
-                                  : Colors.grey.shade600),
+                                  ? IconButton(
+                                      onPressed: () {
+                                        controller.handlePostLikes(
+                                            currentPostDocData:
+                                                snapshotForLikeCount.data!);
+                                      },
+                                      icon: Image.asset(
+                                        "assets/icons/favorite.png",
+                                        color: Colors.pink,
+                                      ),
+                                    )
+                                  : IconButton(
+                                      onPressed: () {
+                                        controller.handlePostLikes(
+                                            currentPostDocData:
+                                                snapshotForLikeCount.data!);
+                                      },
+                                      icon: Image.asset(
+                                        "assets/icons/favorite.png",
+                                        color: Colors.brown,
+                                      ),
+                                    ),
+                              const SizedBox(width: 20),
+                              InkWell(
+                                child: Text(
+                                  snapshotForLikeCount.data!
+                                      .data()!['likesCount']
+                                      .toString(),
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.normal,
+                                      color: snapshot.data()!['usersLiked']
+                                                  [controller.uid] ==
+                                              true
+                                          ? Colors.pink
+                                          : Colors.grey.shade600),
+                                ),
+                                onTap: () {
+                                  Get.to(
+                                      () => PeopleHaveLiked(
+                                            peopleWhoLiked: snapshotForLikeCount
+                                                .data!
+                                                .data()!['usersLiked']
+                                                .keys
+                                                .toList(),
+                                            currentDoc: snapshotForLikeCount
+                                                .data!
+                                                .data()!['usersLiked'],
+                                          ),
+                                      transition: Transition.zoom);
+                                },
+                              )
+                            ],
+                          ),
                         ),
-                        onTap: () {
-                          Get.to(
-                              () => PeopleHaveLiked(
-                                    peopleWhoLiked: snapshot.data()!['usersLiked']
-                                        .keys
-                                        .toList(),
-                                    currentDoc: snapshot.data()!['usersLiked'],
-                                  ),
-                              transition: Transition.zoom);
-                        },
-                      )
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Get.to(() => Comments(
-                                firstDocSnapshot: snapshot,
-                              ));
-                        },
-                        icon: const Icon(
-                          Icons.comment_outlined,
-                          color: Colors.green,
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  Get.to(() => Comments(
+                                        firstDocSnapshot: snapshot,
+                                      ));
+                                },
+                                icon: const Icon(
+                                  Icons.comment_outlined,
+                                  color: Colors.green,
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              StreamBuilder<
+                                      QuerySnapshot<Map<String, dynamic>>>(
+                                  stream: FirebaseFirestore.instance
+                                      .collection("posts")
+                                      .doc(snapshot.id)
+                                      .collection("comments")
+                                      .snapshots(),
+                                  builder: (context, snapshot) {
+                                    return CustomText2(
+                                      text: "${snapshot.data?.docs.length}",
+                                      color: Colors.grey,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.normal,
+                                      textAlign: TextAlign.center,
+                                    );
+                                  }),
+                            ],
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 10),
-                      StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                          stream: FirebaseFirestore.instance
-                              .collection("posts")
-                              .doc(snapshot.id)
-                              .collection("comments")
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            return CustomText2(
-                              text: "${snapshot.data?.docs.length}",
-                              color: Colors.grey,
-                              fontSize: 15,
-                              fontWeight: FontWeight.normal,
-                              textAlign: TextAlign.center,
-                            );
-                          }),
-                    ],
-                  ),
-                ),
-              ],
+                      ],
+                    ),
             ),
 
             const Padding(
