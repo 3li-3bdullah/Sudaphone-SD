@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 import 'package:sudaphone_sd/shared/components/phone_list.dart';
+import 'package:sudaphone_sd/view/home/components/search_result.dart';
 
 // ignore: must_be_immutable
 class SearchFutureBuilder extends StatelessWidget {
@@ -18,72 +19,19 @@ class SearchFutureBuilder extends StatelessWidget {
     */
     if (query.toLowerCase().contains("huawei")) {
       query = query.replaceAll("huawei", "Huawei");
-      log(query);
-      return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-          stream: FirebaseFirestore.instance
-              .collection("phonesCategory")
-              .doc("allHuawei")
-              .collection("huawei")
-              .orderBy('name')
-              .startAt([query]).endAt([query + '\uf8ff']).snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                  itemCount: snapshot.data?.docs.length,
-                  itemBuilder: (context, index) {
-                    return PhoneList(
-                      isHasData: snapshot,
-                      collction: "huawei",
-                      snapshot: snapshot.data?.docs[index],
-                      docOne: "allHuawei",
-                    );
-                  });
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: Lottie.asset("assets/lotties/loading.json"),
-              );
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.brown,
-                ),
-              );
-            }
-          });
+      return SearchResult(
+          query: query,
+          collection1: "phonesCategory",
+          doc1: "allHuawei",
+          collection2: "huawei");
     }
     if (query.toLowerCase().contains("honor")) {
       query = query.replaceAll("honor", "Honor");
-      return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-          future: FirebaseFirestore.instance
-              .collection("phonesCategory")
-              .doc("allHuawei")
-              .collection("huawei")
-              .orderBy('name')
-              .startAt([query]).endAt([query + '\uf8ff']).get(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                  itemCount: snapshot.data?.docs.length,
-                  itemBuilder: (context, index) {
-                    return PhoneList(
-                      isHasData: snapshot,
-                      collction: "huawei",
-                      snapshot: snapshot.data?.docs[index],
-                      docOne: "allHuawei",
-                    );
-                  });
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: Lottie.asset("assets/lotties/loading.json"),
-              );
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.brown,
-                ),
-              );
-            }
-          });
+      return SearchResult(
+          query: query,
+          collection1: "phonesCategory",
+          doc1: "allHuawei",
+          collection2: "huawei");
     }
     /* 
     * To see if the query empty or not 
@@ -91,7 +39,7 @@ class SearchFutureBuilder extends StatelessWidget {
     else if (query.isEmpty) {
       return const Center(
         child: CustomText2(
-            text: "What's the phone are looking for!",
+            text: "What's the phone are you looking for!",
             fontSize: 20,
             color: Colors.black,
             fontWeight: FontWeight.bold,
@@ -103,148 +51,44 @@ class SearchFutureBuilder extends StatelessWidget {
     */
     else if (query.toLowerCase().contains("samsung")) {
       query = query.replaceAll("samsung", "Samsung");
-      return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-          future: FirebaseFirestore.instance
-              .collection("phonesCategory")
-              .doc("allSamsung")
-              .collection("samsung")
-              .orderBy('name')
-              .startAt([query]).endAt([query + '\uf8ff']).get(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                  itemCount: snapshot.data?.docs.length,
-                  itemBuilder: (context, index) {
-                    return PhoneList(
-                      isHasData: snapshot,
-                      collction: "samsung",
-                      snapshot: snapshot.data?.docs[index],
-                      docOne: "allSamsung",
-                    );
-                  });
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: Lottie.asset("assets/lotties/loading.json"),
-              );
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.brown,
-                ),
-              );
-            }
-          });
+      return SearchResult(
+          query: query,
+          collection1: "phonesCategory",
+          doc1: "allSamsung",
+          collection2: "samsung");
     }
     /* 
     * Iphone Methods
     */
     else if (query.toLowerCase().contains("iphone")) {
       query = query.replaceAll("iphone", "Iphone");
-      return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-          future: FirebaseFirestore.instance
-              .collection("phonesCategory")
-              .doc("allIphone")
-              .collection("iphone")
-              .orderBy('name')
-              .startAt([query]).endAt([query + '\uf8ff']).get(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                  itemCount: snapshot.data?.docs.length,
-                  itemBuilder: (context, index) {
-                    return PhoneList(
-                      isHasData: snapshot,
-                      collction: "iphone",
-                      snapshot: snapshot.data?.docs[index],
-                      docOne: "allIphone",
-                    );
-                  });
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: Lottie.asset("assets/lotties/loading.json"),
-              );
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.brown,
-                ),
-              );
-            }
-          });
+      return SearchResult(
+          query: query,
+          collection1: "phonesCategory",
+          doc1: "allIphone",
+          collection2: "iphone");
     }
     /* 
     * Vivo Methods
     */
     else if (query.toLowerCase().contains("vivo")) {
       query = query.replaceAll("vivo", "Vivo");
-      return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-          future: FirebaseFirestore.instance
-              .collection("phonesCategory")
-              .doc("allVivo")
-              .collection("vivo")
-              .orderBy('name')
-              .startAt([query]).endAt([query + '\uf8ff']).get(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                  itemCount: snapshot.data?.docs.length,
-                  itemBuilder: (context, index) {
-                    return PhoneList(
-                      isHasData: snapshot,
-                      collction: "vivo",
-                      snapshot: snapshot.data?.docs[index],
-                      docOne: "allVivo",
-                    );
-                  });
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: Lottie.asset("assets/lotties/loading.json"),
-              );
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.brown,
-                ),
-              );
-            }
-          });
+      return SearchResult(
+          query: query,
+          collection1: "phonesCategory",
+          doc1: "allVivo",
+          collection2: "vivo");
     }
     /* 
     * Realme Methods
     */
     else if (query.toLowerCase().contains("realme")) {
       query = query.replaceAll("realme", "Realme");
-      return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-          future: FirebaseFirestore.instance
-              .collection("phonesCategory")
-              .doc("allRealme")
-              .collection("realme")
-              .orderBy('name')
-              .startAt([query]).endAt([query + '\uf8ff']).get(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                  itemCount: snapshot.data?.docs.length,
-                  itemBuilder: (context, index) {
-                    return PhoneList(
-                      isHasData: snapshot,
-                      collction: "realme",
-                      snapshot: snapshot.data?.docs[index],
-                      docOne: "allRealme",
-                    );
-                  });
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: Lottie.asset("assets/lotties/loading.json"),
-              );
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.brown,
-                ),
-              );
-            }
-          });
+      return SearchResult(
+          query: query,
+          collection1: "phonesCategory",
+          doc1: "allRealme",
+          collection2: "realme");
     }
     /* 
     * Xiaomi Methods
@@ -256,194 +100,57 @@ class SearchFutureBuilder extends StatelessWidget {
       } else {
         query = query.replaceAll("poco", "Poco");
       }
-      return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-          future: FirebaseFirestore.instance
-              .collection("phonesCategory")
-              .doc("allXiaomi")
-              .collection("xiaomi")
-              .orderBy('name')
-              .startAt([query]).endAt([query + '\uf8ff']).get(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                  itemCount: snapshot.data?.docs.length,
-                  itemBuilder: (context, index) {
-                    return PhoneList(
-                      isHasData: snapshot,
-                      collction: "xiaomi",
-                      snapshot: snapshot.data?.docs[index],
-                      docOne: "allXiaomi",
-                    );
-                  });
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: Lottie.asset("assets/lotties/loading.json"),
-              );
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.brown,
-                ),
-              );
-            }
-          });
+      return SearchResult(
+          query: query,
+          collection1: "phonesCategory",
+          doc1: "allXiaomi",
+          collection2: "xiaomi");
     }
     /* 
     * Lenovo Methods
     */
     else if (query.toLowerCase().contains("lenovo")) {
       query = query.replaceAll("lenovo", "Lenovo");
-      return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-          future: FirebaseFirestore.instance
-              .collection("phonesCategory")
-              .doc("allLenovo")
-              .collection("lenovo")
-              .orderBy('name')
-              .startAt([query]).endAt([query + '\uf8ff']).get(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                  itemCount: snapshot.data?.docs.length,
-                  itemBuilder: (context, index) {
-                    return PhoneList(
-                      isHasData: snapshot,
-                      collction: "lenovo",
-                      snapshot: snapshot.data?.docs[index],
-                      docOne: "allLenovo",
-                    );
-                  });
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: Lottie.asset("assets/lotties/loading.json"),
-              );
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.brown,
-                ),
-              );
-            }
-          });
+      return SearchResult(
+          query: query,
+          collection1: "phonesCategory",
+          doc1: "allLenovo",
+          collection2: "lenovo");
     }
     /* 
     * Tecno Methods
     */
     else if (query.toLowerCase().contains("tecno")) {
       query = query.replaceAll("tecno", "Tecno");
-      return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-          future: FirebaseFirestore.instance
-              .collection("phonesCategory")
-              .doc("allTecno")
-              .collection("tecno")
-              .orderBy('name')
-              .startAt([query]).endAt([query + '\uf8ff']).get(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                  itemCount: snapshot.data?.docs.length,
-                  itemBuilder: (context, index) {
-                    return PhoneList(
-                      isHasData: snapshot,
-                      collction: "tecno",
-                      snapshot: snapshot.data?.docs[index],
-                      docOne: "allTecno",
-                    );
-                  });
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: Lottie.asset("assets/lotties/loading.json"),
-              );
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.brown,
-                ),
-              );
-            }
-          });
+      return SearchResult(
+          query: query,
+          collection1: "phonesCategory",
+          doc1: "allTecno",
+          collection2: "tecno");
     }
     /* 
     * Nokia Methods
     */
     else if (query.toLowerCase().contains("nokia")) {
       query = query.replaceAll("nokia", "Nokia");
-      return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-          future: FirebaseFirestore.instance
-              .collection("phonesCategory")
-              .doc("allNokia")
-              .collection("nokia")
-              .orderBy('name')
-              .startAt([query]).endAt([query + '\uf8ff']).get(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                  itemCount: snapshot.data?.docs.length,
-                  itemBuilder: (context, index) {
-                    return PhoneList(
-                      isHasData: snapshot,
-                      collction: "nokia",
-                      snapshot: snapshot.data?.docs[index],
-                      docOne: "allNokia",
-                    );
-                  });
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: Lottie.asset("assets/lotties/loading.json"),
-              );
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.brown,
-                ),
-              );
-            }
-          });
+      return SearchResult(
+          query: query,
+          collection1: "phonesCategory",
+          doc1: "allNokia",
+          collection2: "nokia");
     }
     /* 
     * Oppo Methods
     */
     else if (query.toLowerCase().contains("oppo")) {
       query = query.replaceAll("oppo", "Oppo");
-      return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-          future: FirebaseFirestore.instance
-              .collection("phonesCategory")
-              .doc("allOppo")
-              .collection("oppo")
-              .orderBy('name')
-              .startAt([query]).endAt([query + '\uf8ff']).get(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                  itemCount: snapshot.data?.docs.length,
-                  itemBuilder: (context, index) {
-                    return PhoneList(
-                      isHasData: snapshot,
-                      collction: "oppo",
-                      snapshot: snapshot.data?.docs[index],
-                      docOne: "allOppo",
-                    );
-                  });
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: Lottie.asset("assets/lotties/loading.json"),
-              );
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.brown,
-                ),
-              );
-            }
-          });
+      return SearchResult(
+          query: query,
+          collection1: "phonesCategory",
+          doc1: "allOppo",
+          collection2: "oppo");
     } else {
-      return const SizedBox(
-          // child: CustomText(
-          //     text: "Please write the phone's brand first ",
-          //     fontSize: 20,
-          //     fontWeight: FontWeight.bold,
-          //     textAlign: TextAlign.center,
-          //     color: Colors.pink),
-          );
+      return const SizedBox();
     }
   }
 }
