@@ -98,14 +98,14 @@ class PhoneList extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                      flex: 1,
-                      child: isHasData.connectionState !=
-                              ConnectionState.waiting
-                          ? Image(
-                              image: NetworkImage(
-                                  "${snapshot?.data()['imageUrl']}"),
-                              height: MediaQuery.of(context).size.height / 4)
-                          : const SizedBox()),
+                    flex: 1,
+                    child: isHasData.connectionState != ConnectionState.waiting
+                        ? FadeInImage.assetNetwork(
+                            placeholder: "assets/images/loader.gif",
+                            image: "${snapshot?.data()['imageUrl']}",
+                            height: MediaQuery.of(context).size.height / 4)
+                        : const SizedBox(),
+                  ),
                 ],
               ),
             ),
