@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:sudaphone_sd/shared/components/custom_text.dart';
 import 'package:sudaphone_sd/shared/components/leading.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
@@ -72,7 +71,7 @@ class PeopleHaveLiked extends GetWidget<PostsViewModel> {
                   alignment: Alignment.center,
                   height: MediaQuery.of(context).size.height,
                   width: MediaQuery.of(context).size.width,
-                  child: Lottie.asset("assets/lotties/loading.json"),
+                  child: Image.asset('assets/images/loader.gif'),
                 );
               }
             }),
