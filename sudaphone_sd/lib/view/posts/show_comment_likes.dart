@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:sudaphone_sd/shared/components/custom_text.dart';
+import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 import 'package:sudaphone_sd/shared/components/leading.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 
@@ -15,13 +15,19 @@ class ShowCommentLikes extends GetWidget<PostsViewModel> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: CustomText(
-          text: "People who liked",
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-          textAlign: TextAlign.center,
+        title: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 5),
+                decoration:  BoxDecoration(
+                  color: Colors.brown.shade300,
+                  borderRadius: const BorderRadius.all(Radius.circular(10),),),
+          child: const CustomText2(
+            text: "People who liked",
+            fontSize: 20,
+            color:Colors.white,
+            fontWeight: FontWeight.bold,
+            textAlign: TextAlign.center,
+          ),
         ),
-        centerTitle: true,
         elevation: 0,
         leading: const Leading(),
       ),
@@ -61,7 +67,7 @@ class ShowCommentLikes extends GetWidget<PostsViewModel> {
                 alignment: Alignment.center,
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
-                child: Lottie.asset("assets/lotties/loading.json"),);
+                child: Image.asset('assets/images/loader.gif'));
              }
             }),
           );
