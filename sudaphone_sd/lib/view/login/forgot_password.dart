@@ -25,7 +25,7 @@ class ForgotPassword extends GetWidget<LoginViewModel> {
                   onPressed: () {
                     Get.back();
                   },
-                  icon: const Icon(Icons.arrow_back),
+                  icon: const Icon(Icons.arrow_back_ios),
                   color: control.theme == ThemeMode.dark
                       ? Colors.white
                       : Colors.black,
@@ -53,21 +53,25 @@ class ForgotPassword extends GetWidget<LoginViewModel> {
                   key: controller.resetPassKey,
                   child: Column(
                     children: [
-                      CustomTextFormField(customHintText: "E-mail",
+                      CustomTextFormField(
+                        customHintText: "E-mail",
                         obscure: false,
                         validator: (email) =>
                             email != null && !EmailValidator.validate(email)
                                 ? "Enter a valid e-mail"
                                 : null,
                         icon: Icons.email_outlined,
-                        textEditingController: controller.emailForResetPassword!,
+                        textEditingController:
+                            controller.emailForResetPassword!,
                       ),
                       const SizedBox(
                         height: 20,
                       ),
                       PrimaryButton(
                           buttonText: "Reset Password",
-                          ontap: () => controller.resetPassword(controller.resetPassKey,controller.emailForResetPassword!.text.trim()),
+                          ontap: () => controller.resetPassword(
+                              controller.resetPassKey,
+                              controller.emailForResetPassword!.text.trim()),
                           color: Colors.brown)
                     ],
                   ),
