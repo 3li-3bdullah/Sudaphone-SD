@@ -92,57 +92,6 @@ class SignIn extends GetWidget<LoginViewModel> {
                             textAlign: TextAlign.center,
                           ),
                         ),
-                        // const SizedBox(
-                        //   height: 10,
-                        // ),
-                        // Row(
-                        //     mainAxisAlignment: MainAxisAlignment.center,
-                        //     children: const [
-                        //       Divider(color: Colors.brown),
-                        //       Padding(
-                        //         padding: EdgeInsets.all(10.0),
-                        //         child: CustomText2(
-                        //           text: "or sign in with",
-                        //           color: Colors.brown,
-                        //           fontSize: 14,
-                        //           fontWeight: FontWeight.bold,
-                        //           textAlign: TextAlign.center,
-                        //         ),
-                        //       ),
-                        //       Divider(color: Colors.brown),
-                        //     ]),
-                        // const SizedBox(
-                        //   height: 15,
-                        // ),
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.center,
-                        //   children: [
-                        //     CircleAvatar(
-                        //       backgroundColor: Colors.transparent,
-                        //       child: InkWell(
-                        //         radius: 30,
-                        //         onTap: () {},
-                        //         /*
-                        //          * So here i shuold change the path
-                        //          */
-                        //         child: Image.asset(
-                        //             "assets/images/social/google.png"),
-                        //       ),
-                        //     ),
-                        //     const SizedBox(
-                        //       width: 20,
-                        //     ),
-                        //     CircleAvatar(
-                        //       radius: 30,
-                        //       backgroundColor: Colors.transparent,
-                        //       child: InkWell(
-                        //         child: Image.asset(
-                        //             "assets/images/social/facebook.png"),
-                        //         onTap: () {},
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
                         const SizedBox(
                           height: 15,
                         ),
