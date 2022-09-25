@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 import 'package:sudaphone_sd/view/categories/phones/huawei.dart';
 import 'package:sudaphone_sd/view/categories/phones/iphone.dart';
 import 'package:sudaphone_sd/view/categories/phones/lenovo.dart';
@@ -11,8 +12,6 @@ import 'package:sudaphone_sd/view/categories/phones/tecno.dart';
 import 'package:sudaphone_sd/view/categories/phones/vivo.dart';
 import 'package:sudaphone_sd/view/categories/phones/xiaomi.dart';
 import 'package:sudaphone_sd/view/categories/components/categories_card.dart';
-import 'package:sudaphone_sd/shared/components/custom_text.dart';
-import 'package:sudaphone_sd/shared/components/leading.dart';
 
 class Categories extends StatelessWidget {
   const Categories({Key? key}) : super(key: key);
@@ -21,13 +20,20 @@ class Categories extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  CustomText(
-         text: "Categories",
-         textAlign: TextAlign.center,
-         fontSize: 20,
-         fontWeight: FontWeight.normal,
+        title:  Container(
+           padding: const EdgeInsets.symmetric(horizontal: 5),
+                decoration:  BoxDecoration(
+                  color: Colors.brown.shade300,
+                  borderRadius: const BorderRadius.all(Radius.circular(10),),),
+          child: const CustomText2(
+           text: "Categories",
+           textAlign: TextAlign.center,
+           color: Colors.white,
+           fontSize: 20,
+           fontWeight: FontWeight.bold,
+          ),
         ),
-         leading: const Leading(),
+        centerTitle: true,
         elevation: 0,
       ),
       body: Container(
