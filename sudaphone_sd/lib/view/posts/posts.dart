@@ -2,15 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:sudaphone_sd/shared/components/custom_text.dart';
+import 'package:sudaphone_sd/shared/components/custom_text2.dart';
+import 'package:sudaphone_sd/shared/components/custom_text_form_field.dart';
 import 'package:sudaphone_sd/shared/constants.dart';
 import 'package:sudaphone_sd/view/download/download_images.dart';
-import 'package:sudaphone_sd/shared/components/custom_text_form_field.dart';
 import 'package:sudaphone_sd/view/people_have_liked/people_have_liked.dart';
 import 'package:sudaphone_sd/view/posts/comments.dart';
 import 'package:sudaphone_sd/view/posts/write_post.dart';
-import 'package:sudaphone_sd/shared/components/custom_text.dart';
-import 'package:sudaphone_sd/shared/components/custom_text2.dart';
-import 'package:sudaphone_sd/shared/components/leading.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 
 class Posts extends GetWidget<PostsViewModel> {
@@ -20,13 +19,19 @@ class Posts extends GetWidget<PostsViewModel> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: CustomText(
-          text: "Posts",
-          fontSize: 20,
-          fontWeight: FontWeight.normal,
-          textAlign: TextAlign.center,
+        title: Container(
+           padding: const EdgeInsets.symmetric(horizontal: 5),
+                decoration:  BoxDecoration(
+                  color: Colors.brown.shade300,
+                  borderRadius: const BorderRadius.all(Radius.circular(10),),),
+          child: const CustomText2(
+            text: "Posts",
+            fontSize: 20,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            textAlign: TextAlign.center,
+          ),
         ),
-        leading: const Leading(),
         elevation: 0,
       ),
       floatingActionButton: FloatingActionButton(
@@ -175,12 +180,11 @@ class Posts extends GetWidget<PostsViewModel> {
                                       );
                                     }
                                   },
-                                  itemBuilder: (context) => const [
+                                  itemBuilder: (context) => [
                                     PopupMenuItem(
                                       value: MenuItems.save,
-                                      child: CustomText2(
+                                      child: CustomText(
                                         text: "Save",
-                                        color: kBlackColor,
                                         fontSize: 14,
                                         fontWeight: FontWeight.normal,
                                         textAlign: TextAlign.center,
@@ -211,8 +215,11 @@ class Posts extends GetWidget<PostsViewModel> {
                                           .data()['isThereImageUrl'] ==
                                       true
                                   ? InkWell(
-                                      child: Image.network(
-                                        "${snapshot.data!.docs[index].data()['imageUrl']}",
+                                      child: FadeInImage.assetNetwork(
+                                        placeholder:
+                                            'assets/images/loader.gif',
+                                        image:
+                                            "${snapshot.data!.docs[index].data()['imageUrl']}",
                                         fit: BoxFit.cover,
                                       ),
                                       onTap: () {
@@ -220,7 +227,7 @@ class Posts extends GetWidget<PostsViewModel> {
                                             () => DownloadImages(
                                                 image: snapshot
                                                     .data!.docs[index]
-                                                    .data()['imageUrl']),
+                                                    .data()['imageUrl'],),
                                             transition: Transition.zoom,
                                             curve: Curves.easeInExpo);
                                       },
@@ -241,9 +248,7 @@ class Posts extends GetWidget<PostsViewModel> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   snapshot.data!.docs[index]
-                                                  .data()['usersLiked']
-                                              [controller.uid] ==
-                                          true
+                                          .data()['usersLiked'][controller.uid]
                                       ? IconButton(
                                           onPressed: () {
                                             controller.handlePostLikes(
@@ -374,13 +379,13 @@ class Posts extends GetWidget<PostsViewModel> {
                       height: MediaQuery.of(context).size.height,
                       width: MediaQuery.of(context).size.width,
                       alignment: Alignment.center,
-                      child: Lottie.asset("assets/lotties/loading.json"));
+                      child: Image.asset('assets/images/loader.gif'));
                 } else if (snapshot.data!.docs.isEmpty) {
                   return Container(
                     height: controller.size.height,
                     width: controller.size.width,
                     alignment: Alignment.center,
-                    child: Lottie.asset("assets/lotties/no_data.json"),
+                    child: Image.asset('assets/images/loader.gif'),
                   );
                 } else {
                   return const Center(
@@ -397,7 +402,7 @@ class Posts extends GetWidget<PostsViewModel> {
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
                 alignment: Alignment.center,
-                child: Lottie.asset("assets/lotties/loading.json"));
+                child: Image.asset('assets/images/loader.gif'));
           } else if (!snapshot.hasData) {
             return Container(
               color: Colors.white,
