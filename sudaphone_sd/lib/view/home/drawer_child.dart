@@ -71,7 +71,7 @@ class DrawerChild extends GetWidget<ScreenViewModel> {
               );
             } else if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
-                  child: Lottie.asset("assets/lottie/please_wait.json"));
+                  child: Image.asset("assets/images/loader.gif"));
             } else if (!snapshot.hasData) {
               return Center(child: Lottie.asset("assets/images/no_data.json"));
             } else if (snapshot.hasError) {
@@ -87,7 +87,7 @@ class DrawerChild extends GetWidget<ScreenViewModel> {
                     textAlign: TextAlign.center,
                   ),
                   CustomText2(
-                    text: "${snapshot.hasError}",
+                    text: "${snapshot.error}",
                     color: Colors.grey,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,

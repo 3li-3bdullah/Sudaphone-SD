@@ -63,8 +63,9 @@ class Favorite extends GetWidget<ScreenViewModel> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        child: Image.network(
-                            snapshot.data?.docs[i].data()['imageUrl']),
+                        child: FadeInImage.assetNetwork(
+                            placeholder: 'assets/images/loader.gif',
+                            image:  snapshot.data?.docs[i].data()['imageUrl'],)
                       ),
                     ),
                     onTap: () {
