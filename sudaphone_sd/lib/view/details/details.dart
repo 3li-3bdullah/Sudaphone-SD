@@ -1,13 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:sudaphone_sd/shared/components/custom_text.dart';
+import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 import 'package:sudaphone_sd/shared/constants.dart';
 import 'package:sudaphone_sd/view/download/download_images.dart';
 import 'package:sudaphone_sd/view/people_have_liked/people_have_liked.dart';
-import 'package:sudaphone_sd/shared/components/custom_text.dart';
-import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 import 'package:sudaphone_sd/view_model/details_view_model.dart';
 import 'package:sudaphone_sd/view_model/themes_view_model.dart';
 
@@ -61,14 +60,13 @@ class Details extends GetWidget<DetailsViewModel> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           InkWell(
-                            child: Image(
-                              width: double.infinity,
-                              height:
-                                  MediaQuery.of(context).size.height / 2 + 80,
-                              fit: BoxFit.contain,
-                              image: NetworkImage(
-                                  _snapshot.data!.data()!['imageUrl']),
-                            ),
+                            child: FadeInImage.assetNetwork(
+                              image: _snapshot.data!.data()!['imageUrl'],
+                               placeholder: 'assets/images/loader.gif',
+                               height: MediaQuery.of(context).size.height / 2 + 80,
+                                width: double.infinity,
+                                fit: BoxFit.contain,
+                               ),
                             onTap: () {
                               Get.to(() => DownloadImages(
                                   image: _snapshot.data!
@@ -145,13 +143,13 @@ class Details extends GetWidget<DetailsViewModel> {
                               } else if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
                                 return Center(
-                                  child: Lottie.asset(
-                                      "assets/lotties/loading.json"),
+                                  child: Image.asset(
+                                      "assets/images/loader.gif"),
                                 );
                               } else {
                                 return Center(
-                                  child: Lottie.asset(
-                                      "assets/lotties/loading.json"),
+                                  child: Image.asset(
+                                      "assets/images/loader.gif"),
                                 );
                               }
                             },
@@ -244,21 +242,17 @@ class Details extends GetWidget<DetailsViewModel> {
                                         ? _snapshot.data!.data()!['usersLiked']
                                                     [controller.uid] ==
                                                 true
-                                            ? const CustomText2(
-                                                text: "💗",
-                                                fontSize: 30,
-                                                color: Colors.pink,
-                                                fontWeight: FontWeight.normal,
-                                                textAlign: TextAlign.center)
-                                            : const Icon(
-                                                Icons.favorite,
-                                                size: 40,
-                                                color: Colors.grey,
-                                              )
-                                        : const Icon(
-                                            Icons.favorite,
-                                            size: 40,
-                                            color: Colors.grey,
+                                            ? Image.asset(
+                                            "assets/icons/favorite.png",
+                                            color: Colors.pink,
+                                          )
+                                            : Image.asset(
+                                            "assets/icons/favorite.png",
+                                            color: Colors.brown,
+                                          )
+                                        : Image.asset(
+                                            "assets/icons/favorite.png",
+                                            color: Colors.brown,
                                           ),
                                     onPressed: () {
                                       controller.handlePhoneLikes(
@@ -589,7 +583,7 @@ class Details extends GetWidget<DetailsViewModel> {
                 height: size.height,
                 width: size.width,
                 alignment: Alignment.center,
-                child: Lottie.asset("assets/lotties/loading.json"));
+                child: Image.asset("assets/images/loader.gif"),);
           } else if (_snapshot.hasError) {
             return Center(
               child: CustomText(
@@ -599,15 +593,12 @@ class Details extends GetWidget<DetailsViewModel> {
                 fontWeight: FontWeight.normal,
               ),
             );
-            /*
-            * Tomorrow i whould look at save phones at favorite ^_^ 
-            */
           } else {
             return Container(
                 height: size.height,
                 width: size.width,
                 alignment: Alignment.center,
-                child: Lottie.asset("assets/lotties/loading.json"));
+                child: Image.asset("assets/images/loader.gif"),);
           }
         },
       ),
