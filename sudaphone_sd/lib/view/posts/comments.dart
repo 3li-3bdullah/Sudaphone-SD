@@ -1,17 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
-import 'package:sudaphone_sd/shared/constants.dart';
-import 'package:sudaphone_sd/view/download/download_images.dart';
-import 'package:sudaphone_sd/view/posts/show_comment_likes.dart';
 import 'package:sudaphone_sd/shared/components/custom_text.dart';
 import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 import 'package:sudaphone_sd/shared/components/leading.dart';
+import 'package:sudaphone_sd/shared/constants.dart';
+import 'package:sudaphone_sd/view/download/download_images.dart';
+import 'package:sudaphone_sd/view/posts/show_comment_likes.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 import 'package:sudaphone_sd/view_model/themes_view_model.dart';
 
-// ignore: must_be_immutable
+
 class Comments extends GetWidget<PostsViewModel> {
   const Comments({Key? key, required this.firstDocSnapshot}) : super(key: key);
   final firstDocSnapshot;
@@ -19,11 +18,22 @@ class Comments extends GetWidget<PostsViewModel> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: CustomText(
+        title: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 5),
+          decoration: BoxDecoration(
+            color: Colors.brown.shade300,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(10),
+            ),
+          ),
+          child: CustomText2(
             text: "${firstDocSnapshot.data()['userName']}'s post",
             fontSize: 20,
             fontWeight: FontWeight.normal,
-            textAlign: TextAlign.center),
+            textAlign: TextAlign.center,
+            color: Colors.white,
+          ),
+        ),
         centerTitle: true,
         elevation: 0,
         leading: const Leading(),
@@ -66,7 +76,7 @@ class Comments extends GetWidget<PostsViewModel> {
                                         MediaQuery.of(context).size.width / 2,
                                     decoration: BoxDecoration(
                                       borderRadius: const BorderRadius.all(
-                                        Radius.circular(20),
+                                        Radius.circular(10),
                                       ),
                                       color: Colors.grey.shade200,
                                     ),
@@ -103,19 +113,18 @@ class Comments extends GetWidget<PostsViewModel> {
                                             transition: Transition.zoom,
                                             curve: Curves.easeInExpo);
                                       },
-                                      child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                3,
-                                        decoration: const BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(30),
+                                      child: SizedBox(
+                                        width:MediaQuery.of(context).size.width /2.5,
+                                        child: ClipRRect(
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(10)),
+                                          child: FadeInImage.assetNetwork(
+                                            placeholder:
+                                                'assets/images/loader.gif',
+                                            image: snapshot.data!.docs[index]
+                                                ['imageUrl'],
+                                            fit: BoxFit.fill,
                                           ),
-                                        ),
-                                        child: Image.network(
-                                          snapshot.data!.docs[index]['imageUrl']
-                                              .toString(),
-                                          fit: BoxFit.fill,
                                         ),
                                       ),
                                     )
@@ -343,7 +352,7 @@ class Comments extends GetWidget<PostsViewModel> {
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
                 alignment: Alignment.center,
-                child: Lottie.asset("assets/lotties/loading.json"),
+                child: Image.asset('assets/images/loader.gif'),
               );
             } else if (snapshot.hasError) {
               return Column(
@@ -363,11 +372,10 @@ class Comments extends GetWidget<PostsViewModel> {
               );
             } else {
               return Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                alignment: Alignment.center,
-                child: Lottie.asset("assets/lotties/loading.json"),
-              );
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  alignment: Alignment.center,
+                  child: Image.asset('assets/images/loader.gif'));
             }
           },
         ),
