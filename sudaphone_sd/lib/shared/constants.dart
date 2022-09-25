@@ -62,4 +62,4 @@ class Themes {
 
 enum MenuItems { save, edit, delete }
 
-enum SavedItems { unsave, viewPost }
+enum SavedItems { unsave, viewPost ,delete,edit }
