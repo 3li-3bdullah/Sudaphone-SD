@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:sudaphone_sd/view/details/details.dart';
 
 class PhoneList extends StatelessWidget {
@@ -125,13 +124,13 @@ class PhoneList extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Lottie.asset("assets/lotties/loading.json"),
+            Image.asset("assets/images/loader.gif"),
           ],
         ),
       );
     } else {
       return Center(
-        child: Lottie.asset("assets/lotties/loading.json"),
+        child:  Image.asset("assets/images/loader.gif"),
       );
     }
   }
