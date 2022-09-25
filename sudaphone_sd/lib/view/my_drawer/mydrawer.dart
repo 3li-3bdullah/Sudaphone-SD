@@ -6,7 +6,7 @@ import 'package:sudaphone_sd/view/about_app/aboutapp.dart';
 import 'package:sudaphone_sd/view/bottom_nav_bar/bottom_navigation.dart';
 import 'package:sudaphone_sd/view/categories/categories.dart';
 import 'package:sudaphone_sd/view/feedback/feedbacks.dart';
-import 'package:sudaphone_sd/view/my_drawer_widgets/build_listtile.dart';
+import 'package:sudaphone_sd/view/my_drawer/components/build_listtile.dart';
 import 'package:sudaphone_sd/view/no_internet_connection/no_internet_connection.dart';
 import 'package:sudaphone_sd/view/posts/posts.dart';
 import 'package:sudaphone_sd/view/posts/saved.dart';
@@ -16,7 +16,7 @@ import 'package:sudaphone_sd/view_model/mydrawer_view_model.dart';
 import 'package:sudaphone_sd/view_model/public_data.dart';
 import 'package:sudaphone_sd/view_model/themes_view_model.dart';
 
-// ignore: must_be_immutable
+
 class MyDrawer extends GetWidget<MyDrawerViewModel> {
    const MyDrawer({Key? key}) : super(key: key);
 
