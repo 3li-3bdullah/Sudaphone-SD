@@ -6,6 +6,8 @@ import 'package:sudaphone_sd/shared/components/leading.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 import 'package:sudaphone_sd/view_model/public_data.dart';
 
+import '../../shared/components/custom_text2.dart';
+
 class WritePost extends GetWidget<PostsViewModel> {
   const WritePost({Key? key}) : super(key: key);
 
@@ -13,11 +15,21 @@ class WritePost extends GetWidget<PostsViewModel> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: CustomText(
-          text: "Create Post",
-          fontSize: 20,
-          fontWeight: FontWeight.normal,
-          textAlign: TextAlign.center,
+        title: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 5),
+          decoration: BoxDecoration(
+            color: Colors.brown.shade300,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(10),
+            ),
+          ),
+          child: const CustomText2(
+            text: "Create Post",
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            textAlign: TextAlign.center,
+          ),
         ),
         leading: const Leading(),
         elevation: 0,
