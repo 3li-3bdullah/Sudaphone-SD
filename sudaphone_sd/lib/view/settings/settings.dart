@@ -25,15 +25,24 @@ class Setting extends GetWidget<SettingsViewModel> {
     return Scaffold(
       appBar: AppBar(
         title: GetBuilder<ThemesViewModel>(
-          builder: (contorller) => CustomText(
-            text: 'Settings',
-            textAlign: TextAlign.center,
-            fontSize: 20,
-            fontWeight: FontWeight.normal,
+          builder: (contorller) => Container(
+            padding: const EdgeInsets.symmetric(horizontal: 5),
+            decoration: BoxDecoration(
+              color: Colors.brown.shade300,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(10),
+              ),
+            ),
+            child: const CustomText2(
+              text: 'Settings',
+              color: Colors.white,
+              textAlign: TextAlign.center,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
         elevation: 0,
-        leading: const Leading(),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -122,7 +131,7 @@ class Setting extends GetWidget<SettingsViewModel> {
                         ],
                       );
                     } else {
-                      return Lottie.asset("assets/lotties/loading.json");
+                      return Image.asset("assets/images/loader.gif");
                     }
                   }),
             ),
@@ -300,19 +309,16 @@ class Setting extends GetWidget<SettingsViewModel> {
                       const SizedBox(
                         width: 20,
                       ),
-                      controll.theme == ThemeMode.dark
-                          ? CustomText(
-                              text: "Dark Mode",
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
-                              textAlign: TextAlign.center,
-                            )
-                          : CustomText(
-                              text: "Light Mode",
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
-                              textAlign: TextAlign.center,
-                            ),
+                      Text(
+                        controll.theme == ThemeMode.dark
+                            ? "Dark Mode"
+                            : "Light Mode",
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
                       const Spacer(),
                       const Icon(Icons.arrow_forward_ios)
                     ],
