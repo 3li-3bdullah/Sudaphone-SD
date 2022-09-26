@@ -14,15 +14,12 @@ class BuildImagesCarousel extends StatelessWidget {
       builder: (controller) => Container(
         margin: const EdgeInsets.symmetric(horizontal: 5),
         color: controller.theme == ThemeMode.dark ? kDarkColor : Colors.white,
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            image: DecorationImage(
-              image: NetworkImage(
-                imagesCarousel,
-              ),
-              fit: BoxFit.cover,
-            ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: FadeInImage.assetNetwork(
+            placeholder: 'assets/images/loader.gif',
+            image: imagesCarousel,
+            fit: BoxFit.cover,
           ),
         ),
       ),
