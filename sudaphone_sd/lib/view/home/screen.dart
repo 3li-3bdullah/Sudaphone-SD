@@ -3,9 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elastic_drawer/elastic_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
+import 'package:sudaphone_sd/shared/components/custom_text.dart';
+import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 import 'package:sudaphone_sd/view/categories/categories.dart';
 import 'package:sudaphone_sd/view/categories/phones/huawei.dart';
 import 'package:sudaphone_sd/view/categories/phones/iphone.dart';
@@ -19,20 +20,20 @@ import 'package:sudaphone_sd/view/categories/phones/vivo.dart';
 import 'package:sudaphone_sd/view/categories/phones/xiaomi.dart';
 import 'package:sudaphone_sd/view/details/last_product_details.dart';
 import 'package:sudaphone_sd/view/home/best_gaming_phones.dart';
-import 'package:sudaphone_sd/view/home/data_search.dart';
-import 'package:sudaphone_sd/view/home/favorite.dart';
 import 'package:sudaphone_sd/view/home/components/build_images_carousel.dart';
 import 'package:sudaphone_sd/view/home/components/build_indicator_carousel.dart';
 import 'package:sudaphone_sd/view/home/components/categories_title.dart';
 import 'package:sudaphone_sd/view/home/components/custom_listtile.dart';
-import 'package:sudaphone_sd/shared/components/custom_text.dart';
-import 'package:sudaphone_sd/shared/components/custom_text2.dart';
+import 'package:sudaphone_sd/view/home/data_search.dart';
+import 'package:sudaphone_sd/view/home/favorite.dart';
 import 'package:sudaphone_sd/view_model/mydrawer_view_model.dart';
+import 'package:sudaphone_sd/view_model/public_data.dart';
 import 'package:sudaphone_sd/view_model/screen_view_model.dart';
 import 'package:sudaphone_sd/view_model/themes_view_model.dart';
 
 class Screen extends GetWidget<ScreenViewModel> {
-  const Screen({Key? key}) : super(key: key);
+   Screen({Key? key}) : super(key: key);
+  final PublicData public_data = Get.find<PublicData>();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -45,13 +46,18 @@ class Screen extends GetWidget<ScreenViewModel> {
           floatHeaderSlivers: true,
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             SliverAppBar(
-              title: Align(
-                alignment: Alignment.centerLeft,
-                child: CustomText(
+              title: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                decoration:  BoxDecoration(
+                  color: Colors.brown.shade300,
+                  borderRadius: const BorderRadius.all(Radius.circular(10))
+                ),
+                child: const CustomText2(
                   text: "Sudaphone SD",
+                  color: Colors.white,
                   fontSize: 20,
                   textAlign: TextAlign.center,
-                  fontWeight: FontWeight.normal,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               elevation: 0,
@@ -63,8 +69,8 @@ class Screen extends GetWidget<ScreenViewModel> {
                       icon: Image(
                         image:
                             const AssetImage("assets/images/icons/search.png"),
-                        height: 22,
-                        width: 22,
+                        height: 28,
+                        width: 28,
                         color: control.theme == ThemeMode.dark
                             ? Colors.white
                             : Colors.black,
@@ -82,7 +88,7 @@ class Screen extends GetWidget<ScreenViewModel> {
                     return controller.value.value == 0.0
                         ? controller.valueOne()
                         : controller.valueZero();
-                  },
+                  },iconSize: 30,
                   icon: controller.value.value == 0.0
                       ? GetBuilder<ThemesViewModel>(
                           builder: (control) => Icon(
@@ -108,13 +114,14 @@ class Screen extends GetWidget<ScreenViewModel> {
           body: SingleChildScrollView(
             child: Column(
               children: [
+                const SizedBox(height: 20,),
                 SizedBox(
                   height: MediaQuery.of(context).size.height / 2,
                   width: MediaQuery.of(context).size.width,
                   child: Obx(
                     () => controller.isMainCarouselHasData.value
                         ? Center(
-                            child: Lottie.asset("assets/lotties/loading.json"),
+                            child: Image.asset("assets/images/loader.gif"),
                           )
                         : GridTile(
                             footer: Container(
@@ -162,7 +169,7 @@ class Screen extends GetWidget<ScreenViewModel> {
                 /// Here i should remove the comment and see what's wrong
                 // Obx(
                 //   () =>
-                SizedBox(
+               SizedBox(
                     height: size.height / 2.7,
                     width: size.width,
                     //I've removed Expanded
@@ -170,95 +177,99 @@ class Screen extends GetWidget<ScreenViewModel> {
                       () => controller.isCateHasData.value
                           ? Center(
                               child:
-                                  Lottie.asset("assets/lotties/loading.json"),
+                                  Image.asset("assets/images/loader.gif"),
                             )
                           : ListView.builder(
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
                               itemCount: controller.listCategories!.length,
                               itemBuilder: (context, index) {
-                                return CustomListTile(
-                                  logo: controller.listCategories![index].logo,
-                                  videoUrl: controller
-                                      .listCategories![index].videoUrl,
-                                  thumbinalUrl: controller
-                                      .listCategories![index].thumbinalUrl,
-                                  onTap: () {
-                                    switch (controller
-                                        .listCategories![index].name) {
-                                      case "Samsung":
-                                        Get.to(() => const Samsung(),
-                                            duration: const Duration(
-                                                milliseconds: 50),
-                                            transition: Transition.zoom);
-                                        break;
-                                      case "Huawei":
-                                        Get.to(() => const Huawei(),
-                                            duration: const Duration(
-                                                milliseconds: 50),
-                                            transition: Transition.zoom);
-                                        break;
-                                      case "Iphone":
-                                        Get.to(() => const Iphone(),
-                                            duration: const Duration(
-                                                milliseconds: 50),
-                                            transition: Transition.zoom);
-                                        break;
-                                      case "Realme":
-                                        Get.to(() => const Realme(),
-                                            duration: const Duration(
-                                                milliseconds: 50),
-                                            transition: Transition.zoom);
-                                        break;
-                                      case "Oppo":
-                                        Get.to(() => const Oppo(),
-                                            duration: const Duration(
-                                                milliseconds: 50),
-                                            transition: Transition.zoom);
-                                        break;
-                                      case "Xiaomi":
-                                        Get.to(() => const Xiaomi(),
-                                            duration: const Duration(
-                                                milliseconds: 50),
-                                            transition: Transition.zoom);
-                                        break;
-                                      case "Lenovo":
-                                        Get.to(() => const Lenovo(),
-                                            duration: const Duration(
-                                                milliseconds: 50),
-                                            transition: Transition.zoom);
-                                        break;
-                                      case "Tecno":
-                                        Get.to(() => const Tecno(),
-                                            duration: const Duration(
-                                                milliseconds: 50),
-                                            transition: Transition.zoom);
-                                        break;
-                                      case "Nokia":
-                                        Get.to(() => const Nokia(),
-                                            duration: const Duration(
-                                                milliseconds: 50),
-                                            transition: Transition.zoom);
-                                        break;
-                                      case "Vivo":
-                                        Get.to(() => const Vivo(),
-                                            duration: const Duration(
-                                                milliseconds: 50),
-                                            transition: Transition.zoom);
-                                        break;
-                                      default:
-                                        Get.to(() => const Categories());
-                                    }
-                                  },
-                                  text: controller.listCategories![index].name,
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal:6),
+                                  child: CustomListTile(
+                                    logo: controller.listCategories![index].logo,
+                                    videoUrl: controller
+                                        .listCategories![index].videoUrl,
+                                    thumbinalUrl: controller
+                                        .listCategories![index].thumbinalUrl,
+                                    onTap: () {
+                                      switch (controller
+                                          .listCategories![index].name) {
+                                        case "Samsung":
+                                          Get.to(() => const Samsung(),
+                                              duration: const Duration(
+                                                  milliseconds: 50),
+                                              transition: Transition.zoom);
+                                          break;
+                                        case "Huawei":
+                                          Get.to(() => const Huawei(),
+                                              duration: const Duration(
+                                                  milliseconds: 50),
+                                              transition: Transition.zoom);
+                                          break;
+                                        case "Iphone":
+                                          Get.to(() => const Iphone(),
+                                              duration: const Duration(
+                                                  milliseconds: 50),
+                                              transition: Transition.zoom);
+                                          break;
+                                        case "Realme":
+                                          Get.to(() => const Realme(),
+                                              duration: const Duration(
+                                                  milliseconds: 50),
+                                              transition: Transition.zoom);
+                                          break;
+                                        case "Oppo":
+                                          Get.to(() => const Oppo(),
+                                              duration: const Duration(
+                                                  milliseconds: 50),
+                                              transition: Transition.zoom);
+                                          break;
+                                        case "Xiaomi":
+                                          Get.to(() => const Xiaomi(),
+                                              duration: const Duration(
+                                                  milliseconds: 50),
+                                              transition: Transition.zoom);
+                                          break;
+                                        case "Lenovo":
+                                          Get.to(() => const Lenovo(),
+                                              duration: const Duration(
+                                                  milliseconds: 50),
+                                              transition: Transition.zoom);
+                                          break;
+                                        case "Tecno":
+                                          Get.to(() => const Tecno(),
+                                              duration: const Duration(
+                                                  milliseconds: 50),
+                                              transition: Transition.zoom);
+                                          break;
+                                        case "Nokia":
+                                          Get.to(() => const Nokia(),
+                                              duration: const Duration(
+                                                  milliseconds: 50),
+                                              transition: Transition.zoom);
+                                          break;
+                                        case "Vivo":
+                                          Get.to(() => const Vivo(),
+                                              duration: const Duration(
+                                                  milliseconds: 50),
+                                              transition: Transition.zoom);
+                                          break;
+                                        default:
+                                          Get.to(() => const Categories());
+                                      }
+                                    },
+                                    text: controller.listCategories![index].name,
+                                  ),
                                 );
-                              }),
-                    )),
+                              },),
+                    ),),
+              
                 // ),
                 CategoriesTitle(text: "Popular", press: () {}),
-                const SizedBox(
-                  height: 10,
-                ),
+                // const SizedBox(
+                //   height: 10,
+                // ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height / 3,
                   width: MediaQuery.of(context).size.width,
@@ -276,25 +287,23 @@ class Screen extends GetWidget<ScreenViewModel> {
                             return Container(
                               width: MediaQuery.of(context).size.width,
                               margin: const EdgeInsets.all(5.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                image: DecorationImage(
-                                    image: NetworkImage(snapshot
-                                        .data?.docs[index]
-                                        .data()['imageUrl']),
-                                    fit: BoxFit.cover),
-                              ),
-                              child: Container(
+                              child: Stack(
                                 alignment: Alignment.center,
-                                padding: const EdgeInsets.all(5.0),
-                                child: Text(
+                                children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: FadeInImage.assetNetwork(placeholder: 'assets/images/loader.gif', image: snapshot
+                                          .data?.docs[index]
+                                          .data()['imageUrl'],fit: BoxFit.cover,),
+                                ),
+                                        Text(
                                   "${snapshot.data!.docs[index].data()['name']}",
                                   style: const TextStyle(
                                     fontSize: 18,
                                     color: Colors.white,
                                   ),
                                 ),
-                              ),
+                              ]),
                             );
                           },
                           options: CarouselOptions(
@@ -313,7 +322,7 @@ class Screen extends GetWidget<ScreenViewModel> {
                       } else if (snapshot.connectionState ==
                           ConnectionState.waiting) {
                         return Center(
-                          child: Lottie.asset("assets/lotties/loading.json"),
+                          child: Image.asset("assets/images/loader.gif"),
                         );
                       } else if (snapshot.hasError) {
                         return Column(
@@ -347,9 +356,9 @@ class Screen extends GetWidget<ScreenViewModel> {
                     },
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+                // const SizedBox(
+                //   height: 10,
+                // ),
                 CategoriesTitle(
                     text: "Best Gaming Phones",
                     press: () {
@@ -378,7 +387,7 @@ class Screen extends GetWidget<ScreenViewModel> {
                               child: Container(
                                 width: MediaQuery.of(context).size.width,
                                 margin: const EdgeInsets.all(5.0),
-                                decoration: BoxDecoration(
+                                decoration: BoxDecoration(//ToDo : Here i should added FadeImage......
                                   borderRadius: BorderRadius.circular(10),
                                   image: DecorationImage(
                                       image: NetworkImage(snapshot
@@ -440,7 +449,7 @@ class Screen extends GetWidget<ScreenViewModel> {
                       } else if (snapshot.connectionState ==
                           ConnectionState.waiting) {
                         return Center(
-                          child: Lottie.asset("assets/lotties/loading.json"),
+                          child: Image.asset("assets/images/loader.gif"),
                         );
                       } else if (snapshot.hasError) {
                         return Column(
@@ -513,7 +522,7 @@ class Screen extends GetWidget<ScreenViewModel> {
                   child: Obx(
                     () => controller.loading.value
                         ? Center(
-                            child: Lottie.asset("assets/lotties/loading.json"),
+                            child: Image.asset("assets/images/loader.gif"),
                           )
                         : StaggeredGridView.countBuilder(
                             crossAxisCount: 2,
