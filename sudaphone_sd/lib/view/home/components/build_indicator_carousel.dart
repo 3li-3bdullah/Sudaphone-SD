@@ -29,11 +29,11 @@ class BuildIndicatorCarousel extends GetWidget<ScreenViewModel> {
         dotDecoration: const DotDecoration(
           width: 24,
           height: 12,
-          color: Colors.grey,
+          color: Colors.white,
           dotBorder: DotBorder(
             padding: 2,
             width: 2,
-            color: Colors.grey,
+            color: Colors.black26,
           ),
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(2),
