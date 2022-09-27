@@ -13,7 +13,10 @@ class BuildImagesCarousel extends StatelessWidget {
     return GetBuilder<ThemesViewModel>(
       builder: (controller) => Container(
         margin: const EdgeInsets.symmetric(horizontal: 5),
-        color: controller.theme == ThemeMode.dark ? kDarkColor : Colors.white,
+        decoration: BoxDecoration(
+          color: controller.theme == ThemeMode.dark ? kDarkColor : kBackgroundColor,
+          borderRadius: const BorderRadius.all(Radius.circular(10))
+        ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: FadeInImage.assetNetwork(
