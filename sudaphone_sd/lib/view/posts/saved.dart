@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 import 'package:sudaphone_sd/shared/constants.dart';
 import 'package:sudaphone_sd/view/posts/open_saved_post.dart';
 import 'package:sudaphone_sd/shared/components/custom_text.dart';
@@ -18,11 +19,18 @@ class Saved extends GetWidget<PostsViewModel> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: CustomText(
-          text: "Saved",
-          fontSize: 20,
-          fontWeight: FontWeight.normal,
-          textAlign: TextAlign.center,
+        title: Container(
+           padding: const EdgeInsets.symmetric(horizontal: 5),
+                decoration:  BoxDecoration(
+                  color: Colors.brown.shade300,
+                  borderRadius: const BorderRadius.all(Radius.circular(10),),),
+          child:const CustomText2(
+            text: "Saved",
+            fontSize: 20,
+            color: Colors.white,
+            fontWeight: FontWeight.normal,
+            textAlign: TextAlign.center,
+          ),
         ),
         leading: const Leading(),
         elevation: 0,
