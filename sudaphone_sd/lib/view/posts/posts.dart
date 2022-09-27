@@ -256,15 +256,9 @@ class Posts extends GetWidget<PostsViewModel> {
                                                     snapshot.data!.docs[index]);
                                           },
                                           icon: Image.asset(
-                                            "assets/icons/favorite.png",
+                                            "assets/images/like.png",
                                             color: Colors.pink,
                                           ),
-                                          //  const Text(
-                                          //   "💗",
-                                          //   style: TextStyle(
-                                          //     fontSize: 25,
-                                          //   ),
-                                          // ),
                                         )
                                       : IconButton(
                                           onPressed: () {
@@ -273,7 +267,7 @@ class Posts extends GetWidget<PostsViewModel> {
                                                     snapshot.data!.docs[index]);
                                           },
                                           icon: Image.asset(
-                                            "assets/icons/favorite.png",
+                                            "assets/images/like.png",
                                             color: Colors.brown,
                                           ),
                                         ),
