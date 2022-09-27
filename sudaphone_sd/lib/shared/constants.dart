@@ -11,8 +11,7 @@ const kBlackColor = Color.fromARGB(255, 0, 0, 0);
 const kDarkColor = Color(0xff202020);
 const kTextFieldColor = Color(0xFF979797);
 
-Color topLogin = const Color(0xff3b247e);
-Color bottomLogin = const Color(0xff09fbd3);
+const Color kBackgroundColor = Color.fromRGBO(239, 235, 233, 1);
 
 const kDefaultPadding = EdgeInsets.symmetric(horizontal: 30);
 
@@ -28,20 +27,22 @@ TextStyle textButton = const TextStyle(
 
 class Themes {
   static final lightTheme = ThemeData(
-    appBarTheme: const AppBarTheme(backgroundColor: Colors.white,
+    appBarTheme: const AppBarTheme(backgroundColor: kBackgroundColor,
     systemOverlayStyle: SystemUiOverlayStyle(
-      statusBarColor: Colors.white,
+      statusBarColor: kBackgroundColor,
       statusBarIconBrightness :  Brightness.dark,
     )),
-    scaffoldBackgroundColor: Colors.white,
+    scaffoldBackgroundColor: kBackgroundColor,
     colorScheme: const ColorScheme.light(),
     fontFamily: 'Poppins',
     primaryColor: Colors.black,
-    cardColor: Colors.white,
+    cardColor: kBackgroundColor,
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(backgroundColor: kBackgroundColor),
     iconTheme: const IconThemeData(color: kDarkColor),
-    popupMenuTheme: const PopupMenuThemeData(color: Colors.white),
-    bottomSheetTheme: const BottomSheetThemeData(backgroundColor: Colors.white)
+    popupMenuTheme: const PopupMenuThemeData(color: kBackgroundColor),
+    bottomSheetTheme: const BottomSheetThemeData(backgroundColor: kBackgroundColor)
   );
+  //Dark Theme
   static final darkTheme = ThemeData(
       appBarTheme: const AppBarTheme(backgroundColor: kDarkColor,
       systemOverlayStyle: SystemUiOverlayStyle(
@@ -49,13 +50,14 @@ class Themes {
       statusBarIconBrightness :  Brightness.light,
     )
       ),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(backgroundColor: kDarkColor),
       scaffoldBackgroundColor: kDarkColor,
       colorScheme: const ColorScheme.dark(),
       fontFamily: 'Poppins',
       primaryColor: Colors.white,
       iconTheme: const IconThemeData(color: Colors.white),
       popupMenuTheme: const PopupMenuThemeData(color: Colors.brown),
-      cardColor: Colors.grey[900],
+      cardColor: kDarkColor,
       bottomSheetTheme: const BottomSheetThemeData(backgroundColor: kDarkColor)
       );
 }
