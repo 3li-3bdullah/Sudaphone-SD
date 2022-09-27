@@ -33,7 +33,6 @@ class Categories extends StatelessWidget {
            fontWeight: FontWeight.bold,
           ),
         ),
-        centerTitle: true,
         elevation: 0,
       ),
       body: Container(
