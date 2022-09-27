@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sudaphone_sd/model/screen_model.dart';
+import 'package:sudaphone_sd/model/home/screen_model.dart';
 
 class ScreenViewModel extends GetxController {
   /*
@@ -37,14 +37,14 @@ class ScreenViewModel extends GetxController {
   RxBool isMainCarouselHasData = true.obs;
   RxBool loading = true.obs;
 
-  final List<MaterialColor> colors = const [
-    Colors.green,
-    Colors.red,
-    Colors.indigo,
-    Colors.pink,
-    Colors.blue,
-    Colors.amber,
-    Colors.purple,
+  final List<Color> colors = const [
+    Colors.brown,
+    Colors.brown,
+    Colors.brown,
+    Colors.brown,
+    Colors.brown,
+    Colors.brown,
+    Colors.brown,
     Colors.brown,
   ];
   /* 
