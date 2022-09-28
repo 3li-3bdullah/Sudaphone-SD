@@ -24,8 +24,7 @@ class Setting extends GetWidget<SettingsViewModel> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: GetBuilder<ThemesViewModel>(
-          builder: (contorller) => Container(
+        title: Container(
             padding: const EdgeInsets.symmetric(horizontal: 5),
             decoration: BoxDecoration(
               color: Colors.brown.shade300,
@@ -41,7 +40,6 @@ class Setting extends GetWidget<SettingsViewModel> {
               fontWeight: FontWeight.bold,
             ),
           ),
-        ),
         elevation: 0,
       ),
       body: SingleChildScrollView(
