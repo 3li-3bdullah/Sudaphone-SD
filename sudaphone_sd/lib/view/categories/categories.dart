@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudaphone_sd/shared/components/custom_text2.dart';
+import 'package:sudaphone_sd/shared/components/custom_title.dart';
 import 'package:sudaphone_sd/view/categories/phones/huawei.dart';
 import 'package:sudaphone_sd/view/categories/phones/iphone.dart';
 import 'package:sudaphone_sd/view/categories/phones/lenovo.dart';
@@ -20,19 +21,7 @@ class Categories extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Container(
-           padding: const EdgeInsets.symmetric(horizontal: 5),
-                decoration:  BoxDecoration(
-                  color: Colors.brown.shade300,
-                  borderRadius: const BorderRadius.all(Radius.circular(10),),),
-          child: const CustomText2(
-           text: "Categories",
-           textAlign: TextAlign.center,
-           color: Colors.white,
-           fontSize: 20,
-           fontWeight: FontWeight.bold,
-          ),
-        ),
+        title: const CustomTitle(text: "Categories", underLineWidget: 70),
         elevation: 0,
       ),
       body: Container(
