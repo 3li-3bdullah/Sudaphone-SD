@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudaphone_sd/shared/components/custom_text.dart';
 import 'package:sudaphone_sd/shared/components/custom_text2.dart';
+import 'package:sudaphone_sd/shared/components/custom_title.dart';
 import 'package:sudaphone_sd/shared/components/leading.dart';
 import 'package:sudaphone_sd/shared/constants.dart';
 import 'package:sudaphone_sd/view/download/download_images.dart';
@@ -18,22 +19,7 @@ class Comments extends GetWidget<PostsViewModel> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 5),
-          decoration: BoxDecoration(
-            color: Colors.brown.shade300,
-            borderRadius: const BorderRadius.all(
-              Radius.circular(10),
-            ),
-          ),
-          child: CustomText2(
-            text: "${firstDocSnapshot.data()['userName']}'s post",
-            fontSize: 20,
-            fontWeight: FontWeight.normal,
-            textAlign: TextAlign.center,
-            color: Colors.white,
-          ),
-        ),
+        title: CustomTitle(text: "${firstDocSnapshot.data()['userName']}'s post", underLineWidget: 80),
         centerTitle: true,
         elevation: 0,
         leading: const Leading(),
@@ -291,7 +277,7 @@ class Comments extends GetWidget<PostsViewModel> {
                                                 ? Colors.black
                                                 : Colors.white),
                                         filled: true,
-                                        fillColor: Colors.grey.shade200,
+                                        fillColor: Colors.brown[200],
                                         suffixIcon: FutureBuilder<
                                             DocumentSnapshot<
                                                 Map<String, dynamic>>>(
