@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sudaphone_sd/shared/constants.dart';
-import 'package:sudaphone_sd/shared/components/custom_text.dart';
+import 'package:sudaphone_sd/shared/components/custom_title.dart';
 import 'package:sudaphone_sd/shared/components/leading.dart';
+import 'package:sudaphone_sd/shared/constants.dart';
+import 'package:sudaphone_sd/view/posts/components/choose_image_icon.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 import 'package:sudaphone_sd/view_model/public_data.dart';
-
-import '../../shared/components/custom_text2.dart';
 
 class WritePost extends GetWidget<PostsViewModel> {
   const WritePost({Key? key}) : super(key: key);
@@ -15,22 +14,7 @@ class WritePost extends GetWidget<PostsViewModel> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 5),
-          decoration: BoxDecoration(
-            color: Colors.brown.shade300,
-            borderRadius: const BorderRadius.all(
-              Radius.circular(10),
-            ),
-          ),
-          child: const CustomText2(
-            text: "Create Post",
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            textAlign: TextAlign.center,
-          ),
-        ),
+        title: const CustomTitle(text: "Create Post", underLineWidget: 70),
         leading: const Leading(),
         elevation: 0,
       ),
@@ -54,11 +38,13 @@ class WritePost extends GetWidget<PostsViewModel> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 15),
-                      child: Text(control.getUserName.toString(),
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          )),
+                      child: Text(
+                        control.getUserName.toString(),
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -94,45 +80,18 @@ class WritePost extends GetWidget<PostsViewModel> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      InkWell(
-                        child: Row(
-                          children: const [
-                            Icon(Icons.camera_alt_outlined,
-                                color: Colors.pink, size: 25),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              "From Camera",
-                              style:
-                                  TextStyle(fontSize: 15, color: Colors.grey),
-                            ),
-                          ],
-                        ),
-                        onTap: () {
-                          controller.uploadImage("camera");
-                        },
+                      ChooseImageIcon(
+                        text: "From Camera",
+                        icon: Icons.camera_alt_outlined,
+                        color: Colors.pink,
+                        ontap: () => controller.uploadImage("camera"),
                       ),
                       const SizedBox(height: 5),
-                      InkWell(
-                        child: Row(
-                          children: const [
-                            Icon(Icons.photo_outlined,
-                                color: Colors.green, size: 25),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              "From Gallery",
-                              style:
-                                  TextStyle(fontSize: 15, color: Colors.grey),
-                            ),
-                          ],
-                        ),
-                        onTap: () {
-                          controller.uploadImage("gallery");
-                        },
-                      ),
+                      ChooseImageIcon(
+                          text: "From Gallery",
+                          ontap: () => controller.uploadImage("gallery"),
+                          icon: Icons.photo_outlined,
+                          color: Colors.green),
                       const SizedBox(height: 15),
                       GetBuilder<PublicData>(
                         builder: (control) => InkWell(
