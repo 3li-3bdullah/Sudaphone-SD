@@ -1,63 +1,80 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
-import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
-import 'package:sudaphone_sd/view/details/last_product_details.dart';
 import 'package:sudaphone_sd/shared/components/custom_text2.dart';
+import 'package:sudaphone_sd/view/details/last_product_details.dart';
 import 'package:sudaphone_sd/view_model/screen_view_model.dart';
+import 'package:sudaphone_sd/view_model/themes_view_model.dart';
 
 class BestGamingPhones extends GetWidget<ScreenViewModel> {
   const BestGamingPhones({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       body: SafeArea(
-        child: Container(
-          padding: const EdgeInsets.only(top: 10),
-          height: controller.size.height,
-          width: controller.size.width,
-          alignment: Alignment.center,
-          child: StaggeredGridView.countBuilder(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 15,
-                    mainAxisSpacing: 15,
-                    itemCount: controller.listBGPhones!.length,
-                    itemBuilder: (context, index) {
-                      return InkWell(
+        child: ListView.builder(
+            itemCount: controller.listBGPhones!.length,
+            itemBuilder: (context, index) {
+              return Container(
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                child: GetBuilder<ThemesViewModel>(
+                  builder: (control) => Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                            color: control.theme == ThemeMode.dark
+                                ? Colors.black38
+                                : Colors.black12,
+                            blurRadius: 15.0,
+                            offset: const Offset(12, 12)),
+                        BoxShadow(
+                            color: control.theme == ThemeMode.dark
+                                ? Colors.transparent
+                                : Colors.transparent,
+                            blurRadius: 15.0,
+                            offset: const Offset(-12, -12)),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      child: InkWell(
                         onTap: () {
                           Get.to(() => LastProducDetails(
-                            collection: "forGames",
-                              phoneDoc: controller
-                                  .listBGPhones![index].docId));
+                              collection: "forGames",
+                              phoneDoc: controller.listBGPhones![index].docId));
                         },
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Image.network(controller
-                                .listBGPhones![index].image,fit: BoxFit.cover,height: 200,),
-                            Positioned(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20),
-                                child: CustomText2(
-                                    text: controller
-                                        .listBGPhones![index]
-                                        .name,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.normal,
-                                    textAlign: TextAlign.center,
-                                    color: Colors.white),
+                        child: GetBuilder<ThemesViewModel>(
+                          builder: (control) => Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              FadeInImage.assetNetwork(
+                                image: controller.listBGPhones![index].image,
+                                fit: BoxFit.cover,
+                                placeholder: 'assets/images/loader.gif',
                               ),
-                            ),
-                          ],
+                              Positioned(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  child: CustomText2(
+                                      text:
+                                          controller.listBGPhones![index].name,
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.normal,
+                                      textAlign: TextAlign.center,
+                                      color: Colors.white),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      );
-                    },
-                    staggeredTileBuilder: (index) =>
-                        const StaggeredTile.fit(1),
+                      ),
+                    ),
                   ),
-        ),
+                ),
+              );
+            }),
       ),
     );
   }
