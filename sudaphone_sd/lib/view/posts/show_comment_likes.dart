@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudaphone_sd/shared/components/custom_text.dart';
-import 'package:sudaphone_sd/shared/components/custom_text2.dart';
+import 'package:sudaphone_sd/shared/components/custom_title.dart';
 import 'package:sudaphone_sd/shared/components/leading.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 
@@ -15,19 +15,7 @@ class ShowCommentLikes extends GetWidget<PostsViewModel> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 5),
-                decoration:  BoxDecoration(
-                  color: Colors.brown.shade300,
-                  borderRadius: const BorderRadius.all(Radius.circular(10),),),
-          child: const CustomText2(
-            text: "People who liked",
-            fontSize: 20,
-            color:Colors.white,
-            fontWeight: FontWeight.bold,
-            textAlign: TextAlign.center,
-          ),
-        ),
+        title: const CustomTitle(text: "People who liked", underLineWidget: 80),
         elevation: 0,
         leading: const Leading(),
       ),
