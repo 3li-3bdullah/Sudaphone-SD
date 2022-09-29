@@ -51,46 +51,49 @@ class Screen extends GetWidget<ScreenViewModel> {
                 children: [
                   Row(
                     children: [
-                      Container(
-                        height: 7,
-                        width: 30,
-                        decoration: const BoxDecoration(
-                          color: Colors.brown,
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                      GetBuilder<ThemesViewModel>(
+                  builder: (control) => Container(
+                          height: 4,
+                          width: 30,
+                          decoration:  BoxDecoration(
+                            color: control.theme == ThemeMode.dark ? Colors.grey : Colors.grey,
+                            borderRadius: const BorderRadius.all(Radius.circular(10)),
+                          ),
                         ),
                       ),
                       const SizedBox(width: 5,),
-                      const CustomText2(
+                       CustomText(
                         text: "Sudaphone SD",
-                        color: Colors.black,
                         fontSize: 20,
                         textAlign: TextAlign.center,
                         fontWeight: FontWeight.bold,
                       ),
                       const SizedBox(width: 5,),
-                      Container(
-                        height: 7,
-                        width: 30,
-                        decoration: const BoxDecoration(
-                          color: Colors.brown,
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                     GetBuilder<ThemesViewModel>(
+                  builder: (control) => Container(
+                          height: 4,
+                          width: 30,
+                          decoration: BoxDecoration(
+                            color: control.theme == ThemeMode.dark ? Colors.grey : Colors.grey,
+                            borderRadius: const BorderRadius.all(Radius.circular(10)),
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 1,),
+                  // const SizedBox(height: 1,),
                   // Align(
                   //   alignment: Alignment.centerLeft,
                   //   child:
-                    //  Container(
-                    //   height: 5,
-                    //   width: 70,
-                    //   margin: const EdgeInsets.only(left: 60),
-                    //   decoration: const BoxDecoration(
-                    //     color: Colors.brown,
-                    //     borderRadius: BorderRadius.all(Radius.circular(10))
-                    //   ),
-                    // ),
+                  //    Container(
+                  //     height: 4,
+                  //     width: 70,
+                  //     margin: const EdgeInsets.only(left: 60),
+                  //     decoration: const BoxDecoration(
+                  //       color: Colors.brown,
+                  //       borderRadius: BorderRadius.all(Radius.circular(10))
+                  //     ),
+                  //   ),
                   // )
                 ],
               ),
@@ -101,9 +104,9 @@ class Screen extends GetWidget<ScreenViewModel> {
                     padding: const EdgeInsets.only(right: 18.0),
                     child: IconButton(
                       icon: Image(
-                        image: const AssetImage("assets/images/search.png"),
-                        height: 28,
-                        width: 28,
+                        image: const AssetImage("assets/images/search1.png"),
+                        height: 45,
+                        width: 45,
                         color: control.theme == ThemeMode.dark
                             ? Colors.white
                             : Colors.black,
@@ -151,43 +154,43 @@ class Screen extends GetWidget<ScreenViewModel> {
                 const SizedBox(
                   height: 20,
                 ),
-                Column(
-                  children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height / 2,
-                      width: MediaQuery.of(context).size.width,
-                      child: Obx(
-                        () => controller.isMainCarouselHasData.value
-                            ? Center(
-                                child: Image.asset("assets/images/loader.gif"),
-                              )
-                            : PageView.builder(
-                                scrollDirection: Axis.horizontal,
-                                allowImplicitScrolling: true,
-                                controller: controller.controllerCarousel,
-                                itemCount: controller.listMainCarousel!.length,
-                                itemBuilder: (context, index) {
-                                  return SizedBox(
-                                    height: halfheight,
-                                    width: size.width,
-                                    child: BuildImagesCarousel(
-                                        imagesCarousel: controller
-                                            .listMainCarousel![index].imageUrl),
-                                  );
-                                },
-                              ),
+                Obx(
+                  () => controller.isMainCarouselHasData.value ? SizedBox(
+                    height: MediaQuery.of(context).size.height / 2,
+                        width: MediaQuery.of(context).size.width,
+                        child: Image.asset('assets/images/loader.gif'),
+                  ) : Column(
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height / 2,
+                        width: MediaQuery.of(context).size.width,
+                        child: PageView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  allowImplicitScrolling: true,
+                                  controller: controller.controllerCarousel,
+                                  itemCount: controller.listMainCarousel!.length,
+                                  itemBuilder: (context, index) {
+                                    return SizedBox(
+                                      height: halfheight,
+                                      width: size.width,
+                                      child: BuildImagesCarousel(
+                                          imagesCarousel: controller
+                                              .listMainCarousel![index].imageUrl),
+                                    );
+                                  },
+                                ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: BuildIndicatorCarousel(
-                        imageLength: controller.listMainCarousel!.length,
+                      const SizedBox(
+                        height: 10,
                       ),
-                    ),
-                  ],
+                      Align(
+                        alignment: Alignment.center,
+                        child: BuildIndicatorCarousel(
+                          imageLength: controller.listMainCarousel!.length,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 20),
                 CategoriesTitle(
@@ -201,7 +204,7 @@ class Screen extends GetWidget<ScreenViewModel> {
                 ),
                 const SizedBox(height: 10),
                  SizedBox(
-                      height: size.height / 2.7,
+                      height: size.height / 2.53,
                       width: size.width,
                       child: Obx(
                         () => controller.isCateHasData.value
@@ -215,7 +218,7 @@ class Screen extends GetWidget<ScreenViewModel> {
                                 itemCount: controller.listCategories!.length,
                                 itemBuilder: (context, index) {
                                   return Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal:6),
+                                    padding: const EdgeInsets.symmetric(horizontal:13,vertical: 9),
                                     child: CustomListTile(
                                       logo: controller.listCategories![index].logo,
                                       videoUrl: controller
@@ -315,7 +318,6 @@ class Screen extends GetWidget<ScreenViewModel> {
                               height: size.height / 4,
                               child: Column(children: [
                                 Expanded(
-                                  flex: 6,
                                   child: ClipRRect(
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(10)),
@@ -327,16 +329,13 @@ class Screen extends GetWidget<ScreenViewModel> {
                                     ),
                                   ),
                                 ),
-                                Expanded(
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      "${snapshot.data!.docs[index].data()['name']}",
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black,
-                                      ),
-                                    ),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: CustomText(
+                                   text: "${snapshot.data!.docs[index].data()['name']}",
+                                    fontWeight: FontWeight.normal,
+                                    textAlign: TextAlign.end,
+                                      fontSize: 16,
                                   ),
                                 ),
                               ]),
@@ -392,9 +391,6 @@ class Screen extends GetWidget<ScreenViewModel> {
                     },
                   ),
                 ),
-                // const SizedBox(
-                //   height: 10,
-                // ),
                 CategoriesTitle(
                     text: "Best Gaming Phones",
                     underLineWidget: 160,
@@ -531,24 +527,25 @@ class Screen extends GetWidget<ScreenViewModel> {
                       children: [
                         Column(
                           children: [
-                            const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 8.0),
-                              child: CustomText2(
+                             Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: CustomText(
                                 text: "Last Products",
                                 fontSize: 18,
-                                color: Colors.black,
                                 fontWeight: FontWeight.bold,
                                 textAlign: TextAlign.center,
                               ),
                             ),
-                            Container(
-                              height: 4,
-                              width: 100,
-                              alignment: Alignment.centerLeft,
-                              decoration: const BoxDecoration(
-                                  color: Colors.brown,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5))),
+                             GetBuilder<ThemesViewModel>(
+                  builder: (control) =>  Container(
+                                height: 4,
+                                width: 100,
+                                alignment: Alignment.centerLeft,
+                                decoration: BoxDecoration(
+                                    color: control.theme == ThemeMode.dark ? Colors.grey : Colors.brown,
+                                    borderRadius:
+                                       const BorderRadius.all(Radius.circular(5))),
+                              ),
                             )
                           ],
                         ),
