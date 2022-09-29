@@ -1,15 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
+import 'package:sudaphone_sd/shared/components/custom_text.dart';
+import 'package:sudaphone_sd/shared/components/custom_text_form_field.dart';
+import 'package:sudaphone_sd/shared/components/custom_title.dart';
+import 'package:sudaphone_sd/shared/components/leading.dart';
 import 'package:sudaphone_sd/shared/constants.dart';
 import 'package:sudaphone_sd/view/details/components/custom_text_details.dart';
 import 'package:sudaphone_sd/view/download/download_images.dart';
-import 'package:sudaphone_sd/shared/components/custom_text_form_field.dart';
 import 'package:sudaphone_sd/view/people_have_liked/people_have_liked.dart';
 import 'package:sudaphone_sd/view/posts/comments.dart';
-import 'package:sudaphone_sd/shared/components/custom_text.dart';
-import 'package:sudaphone_sd/shared/components/leading.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 
 class OpenSavedPost extends GetWidget<PostsViewModel> {
@@ -20,18 +20,7 @@ class OpenSavedPost extends GetWidget<PostsViewModel> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Container(
-             padding: const EdgeInsets.symmetric(horizontal: 5),
-                decoration:  BoxDecoration(
-                  color: Colors.brown.shade300,
-                  borderRadius: const BorderRadius.all(Radius.circular(10),),),
-            child: CustomText2(
-              color: Colors.white,
-                text: "${snapshot.data()!['userName']}'s post",
-                fontSize: 18,
-                fontWeight: FontWeight.normal,
-                textAlign: TextAlign.center),
-          ),
+          title: CustomTitle(text: "${snapshot.data()!['userName']}'s post", underLineWidget: 80),
           elevation: 0,
           leading: const Leading(),
         ),
@@ -241,7 +230,7 @@ class OpenSavedPost extends GetWidget<PostsViewModel> {
                                                           .data!);
                                             },
                                             icon: Image.asset(
-                                              "assets/icons/favorite.png",
+                                               "assets/images/like.png",
                                               color: Colors.pink,
                                             ),
                                           )
@@ -253,7 +242,7 @@ class OpenSavedPost extends GetWidget<PostsViewModel> {
                                                           .data!);
                                             },
                                             icon: Image.asset(
-                                              "assets/icons/favorite.png",
+                                              "assets/images/like.png",
                                               color: Colors.brown,
                                             ),
                                           ),
