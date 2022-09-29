@@ -1,11 +1,12 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sudaphone_sd/shared/components/custom_text_form_field.dart';
 import 'package:sudaphone_sd/shared/components/custom_text.dart';
+import 'package:sudaphone_sd/shared/components/custom_text_form_field.dart';
+import 'package:sudaphone_sd/shared/components/custom_title.dart';
+import 'package:sudaphone_sd/shared/components/leading.dart';
 import 'package:sudaphone_sd/shared/components/primary_button.dart';
 import 'package:sudaphone_sd/view_model/login_view_model.dart';
-import 'package:sudaphone_sd/view_model/themes_view_model.dart';
 
 class ForgotPassword extends GetWidget<LoginViewModel> {
   const ForgotPassword({Key? key}) : super(key: key);
@@ -14,22 +15,8 @@ class ForgotPassword extends GetWidget<LoginViewModel> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: CustomText(
-          text: "Forgot Password",
-          textAlign: TextAlign.center,
-          fontWeight: FontWeight.normal,
-          fontSize: 20,
-        ),
-        leading: GetBuilder<ThemesViewModel>(
-            builder: (control) => IconButton(
-                  onPressed: () {
-                    Get.back();
-                  },
-                  icon: const Icon(Icons.arrow_back_ios),
-                  color: control.theme == ThemeMode.dark
-                      ? Colors.white
-                      : Colors.black,
-                )),
+        title: const CustomTitle(text: "Forgot Password", underLineWidget: 60),
+        leading: const Leading(),
         elevation: 0,
       ),
       body: Container(
