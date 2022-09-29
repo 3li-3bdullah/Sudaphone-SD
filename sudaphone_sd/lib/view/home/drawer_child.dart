@@ -3,9 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:sudaphone_sd/view/details/details.dart';
+import 'package:sudaphone_sd/shared/components/custom_title.dart';
 import 'package:sudaphone_sd/view/details/components/custom_text_details.dart';
-import 'package:sudaphone_sd/shared/components/custom_text.dart';
+import 'package:sudaphone_sd/view/details/details.dart';
 import 'package:sudaphone_sd/view_model/screen_view_model.dart';
 
 class DrawerChild extends GetWidget<ScreenViewModel> {
@@ -15,11 +15,7 @@ class DrawerChild extends GetWidget<ScreenViewModel> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: CustomText(
-            text: "Favorite",
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            textAlign: TextAlign.center),
+        title: const CustomTitle(text: "Favorite", underLineWidget: 50),
         backgroundColor: Colors.white,
         centerTitle: true,
         elevation: 0,
