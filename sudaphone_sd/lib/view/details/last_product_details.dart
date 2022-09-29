@@ -6,6 +6,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:sudaphone_sd/shared/components/custom_title.dart';
 import 'package:sudaphone_sd/shared/components/leading.dart';
 import 'package:sudaphone_sd/shared/constants.dart';
+import 'package:sudaphone_sd/view/details/components/details_text.dart';
 import 'package:sudaphone_sd/view/download/download_images.dart';
 import 'package:sudaphone_sd/shared/components/custom_text.dart';
 import 'package:sudaphone_sd/shared/components/custom_text2.dart';
@@ -48,303 +49,60 @@ class LastProducDetails extends GetWidget<DetailsViewModel> {
                         image: _snapshot.data!.data()!['imageUrl'].toString()));
                   },
                 ),
-                const SizedBox(height: 10,),
-                GetBuilder<ThemesViewModel>(
-                  builder: (control) => Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      CustomText(
-                          text: "${_snapshot.data?['name']}",
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          textAlign: TextAlign.start),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          CustomText2(
-                              text:
-                                  "Price : \$ ${_snapshot.data?['price']}",
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.pink,
-                              textAlign: TextAlign.left),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const CustomText2(
-                                  text: "⚫️ ",
-                                  color: Colors.green,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.normal,
-                                  textAlign: TextAlign.center,
-                                ),
-                                const SizedBox(width: 5),
-                                CustomText(
-                                  text: "Ram :",
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(width: 5),
-                          CustomText(
-                            text: "${_snapshot.data?['ram']}",
-                            fontSize: 14,
-                            fontWeight: FontWeight.normal,
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                      Divider(color: Colors.black.withOpacity(0.3)),
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const CustomText2(
-                                  text: "⚫️ ",
-                                  color: Colors.green,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.normal,
-                                  textAlign: TextAlign.center,
-                                ),
-                                const SizedBox(width: 5),
-                                CustomText(
-                                  text: "Storage :",
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          ),
-                          CustomText(
-                            text: "${_snapshot.data?['storage']}",
-                            fontSize: 14,
-                            fontWeight: FontWeight.normal,
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                      Divider(color: Colors.black.withOpacity(0.3)),
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const CustomText2(
-                                  text: "⚫️ ",
-                                  color: Colors.green,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.normal,
-                                  textAlign: TextAlign.center,
-                                ),
-                                const SizedBox(width: 5),
-                                CustomText(
-                                  text: "CPU :",
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: CustomText(
-                              text: "${_snapshot.data?['cpu']}",
-                              fontSize: 14,
-                              fontWeight: FontWeight.normal,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Divider(color: Colors.black.withOpacity(0.3)),
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const CustomText2(
-                                  text: "⚫️ ",
-                                  color: Colors.green,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.normal,
-                                  textAlign: TextAlign.center,
-                                ),
-                                const SizedBox(width: 5),
-                                CustomText(
-                                  text: "Rear Camera :",
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          ),
-                          CustomText(
-                            text: "${_snapshot.data?['rearCamera']}",
-                            fontSize: 14,
-                            fontWeight: FontWeight.normal,
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                      Divider(color: Colors.black.withOpacity(0.3)),
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const CustomText2(
-                                  text: "⚫️ ",
-                                  color: Colors.green,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.normal,
-                                  textAlign: TextAlign.center,
-                                ),
-                                const SizedBox(width: 5),
-                                CustomText(
-                                  text: "Front Camera :",
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          ),
-                          CustomText(
-                            text: "${_snapshot.data?['frontCamera']}",
-                            fontSize: 14,
-                            fontWeight: FontWeight.normal,
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                      Divider(color: Colors.black.withOpacity(0.3)),
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const CustomText2(
-                                  text: "⚫️ ",
-                                  color: Colors.green,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.normal,
-                                  textAlign: TextAlign.center,
-                                ),
-                                const SizedBox(width: 5),
-                                CustomText(
-                                  text: "Battery :",
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          ),
-                          CustomText(
-                            text: "${_snapshot.data?['battery']}",
-                            fontSize: 14,
-                            fontWeight: FontWeight.normal,
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                      Divider(color: Colors.black.withOpacity(0.3)),
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const CustomText2(
-                                  text: "⚫️ ",
-                                  color: Colors.green,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.normal,
-                                  textAlign: TextAlign.center,
-                                ),
-                                const SizedBox(width: 5),
-                                CustomText(
-                                  text: "Display :",
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          ),
-                          CustomText(
-                            text: "${_snapshot.data?['screen']}",
-                            fontSize: 14,
-                            fontWeight: FontWeight.normal,
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                      Divider(color: Colors.black.withOpacity(0.3)),
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const CustomText2(
-                                  text: "⚫️ ",
-                                  color: Colors.green,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.normal,
-                                  textAlign: TextAlign.center,
-                                ),
-                                const SizedBox(width: 5),
-                                CustomText(
-                                  text: "Operating System :",
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          ),
-                          CustomText(
-                            text: "${_snapshot.data?['os']}",
-                            fontSize: 14,
-                            fontWeight: FontWeight.normal,
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                      Divider(color: Colors.black.withOpacity(0.3)),
-                    ],
-                  ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    CustomText(
+                        text: "${_snapshot.data?['name']}",
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        textAlign: TextAlign.start),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    CustomText2(
+                        text: "Price : \$ ${_snapshot.data?['price']}",
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.pink,
+                        textAlign: TextAlign.left),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    DetailsText(
+                        detail: "Ram", text: "${_snapshot.data?['ram']}"),
+                    Divider(color: Colors.black.withOpacity(0.3)),
+                    DetailsText(
+                        detail: "Storage",
+                        text: "${_snapshot.data?['storage']}"),
+                    Divider(color: Colors.black.withOpacity(0.3)),
+                    DetailsText(
+                        detail: "CPU", text: "${_snapshot.data?['cpu']}"),
+                    Divider(color: Colors.black.withOpacity(0.3)),
+                    DetailsText(
+                        detail: "Rear Camera",
+                        text: "${_snapshot.data?['rearCamera']}"),
+                    Divider(color: Colors.black.withOpacity(0.3)),
+                    DetailsText(
+                        detail: "Front Camera",
+                        text: "${_snapshot.data?['frontCamera']}"),
+                    Divider(color: Colors.black.withOpacity(0.3)),
+                    DetailsText(
+                        detail: "Battery",
+                        text: "${_snapshot.data?['battery']}"),
+                    Divider(color: Colors.black.withOpacity(0.3)),
+                    DetailsText(
+                        detail: "Display",
+                        text: "${_snapshot.data?['screen']}"),
+                    Divider(color: Colors.black.withOpacity(0.3)),
+                    DetailsText(
+                        detail: "Operating System",
+                        text: "${_snapshot.data?['os']}"),
+                    Divider(color: Colors.black.withOpacity(0.3)),
+                  ],
                 ),
               ]),
             );
