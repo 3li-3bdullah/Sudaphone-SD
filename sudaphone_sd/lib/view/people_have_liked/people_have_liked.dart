@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudaphone_sd/shared/components/custom_text.dart';
+import 'package:sudaphone_sd/shared/components/custom_title.dart';
 import 'package:sudaphone_sd/shared/components/leading.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 
@@ -15,12 +16,7 @@ class PeopleHaveLiked extends GetWidget<PostsViewModel> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: CustomText(
-          text: "People who liked",
-          fontSize: 20,
-          fontWeight: FontWeight.normal,
-          textAlign: TextAlign.center,
-        ),
+        title: const CustomTitle(text: "People who liked", underLineWidget: 100),
         elevation: 0,
         leading: const Leading(),
       ),
