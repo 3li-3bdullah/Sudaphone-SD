@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sudaphone_sd/shared/constants.dart';
-import 'package:sudaphone_sd/shared/components/custom_text.dart';
+import 'package:sudaphone_sd/shared/components/custom_title.dart';
+import 'package:sudaphone_sd/shared/components/leading.dart';
 import 'package:sudaphone_sd/shared/components/primary_button.dart';
+import 'package:sudaphone_sd/shared/constants.dart';
 import 'package:sudaphone_sd/view_model/feedback_view_model.dart';
 import 'package:sudaphone_sd/view_model/public_data.dart';
-import 'package:sudaphone_sd/view_model/themes_view_model.dart';
 
 class Feedbacks extends GetWidget<FeedbackViewModel> {
   const Feedbacks({Key? key}) : super(key: key);
@@ -15,22 +15,8 @@ class Feedbacks extends GetWidget<FeedbackViewModel> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: CustomText(
-          text: "Feedback",
-          fontSize: 20,
-          fontWeight: FontWeight.normal,
-          textAlign: TextAlign.center,
-        ),
-        leading: GetBuilder<ThemesViewModel>(
-            builder: (control) => IconButton(
-                  onPressed: () {
-                    Get.back();
-                  },
-                  icon: const Icon(Icons.arrow_back),
-                  color: control.theme == ThemeMode.dark
-                      ? Colors.white
-                      : Colors.black,
-                )),
+        title: const CustomTitle(text: "Feedback", underLineWidget: 50),
+        leading: const Leading(),
         elevation: 0,
       ),
       body: Container(
@@ -40,7 +26,6 @@ class Feedbacks extends GetWidget<FeedbackViewModel> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              // const SizedBox(height: 30),
               Padding(
                 padding: EdgeInsets.only(left: size.width / 4.7),
                 child: Image.asset(
@@ -107,12 +92,6 @@ class Feedbacks extends GetWidget<FeedbackViewModel> {
               const SizedBox(
                 height: 40,
               ),
-              // controller.showLoading.value
-              //     ? Loading(
-              //         height: MediaQuery.of(context).size.width / 3,
-              //         width: MediaQuery.of(context).size.width,
-              //         lotHeight: MediaQuery.of(context).size.width / 3)
-              //     : 
                   GetBuilder<PublicData>(
                       builder: (control) => PrimaryButton(
                         buttonText: "Send Feedback",
