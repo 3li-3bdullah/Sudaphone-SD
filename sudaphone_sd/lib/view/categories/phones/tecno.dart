@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sudaphone_sd/shared/components/custom_text.dart';
+import 'package:sudaphone_sd/shared/components/custom_title.dart';
 import 'package:sudaphone_sd/shared/components/leading.dart';
 import 'package:sudaphone_sd/shared/components/phone_list.dart';
 import 'package:sudaphone_sd/view_model/categories_view_model.dart';
@@ -14,11 +14,7 @@ class Tecno extends GetWidget<CategoriesViewModel> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title:  CustomText(
-            text: "Tecno",
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            textAlign: TextAlign.center),
+        title: const CustomTitle(text: "Tecno", underLineWidget: 40),
               leading:  const Leading(),
       ),
       body: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
