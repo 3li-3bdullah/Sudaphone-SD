@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sudaphone_sd/view/home/play_video_page.dart';
 import 'package:sudaphone_sd/shared/components/custom_text.dart';
+import 'package:sudaphone_sd/view/home/play_video_page.dart';
 import 'package:sudaphone_sd/view_model/screen_view_model.dart';
 import 'package:sudaphone_sd/view_model/themes_view_model.dart';
 
@@ -26,9 +26,17 @@ class CustomListTile extends GetWidget<ScreenViewModel> {
         decoration: BoxDecoration(boxShadow: [
           BoxShadow(
             color: control.theme == ThemeMode.dark
-                ? Colors.white12
+                ? Colors.black26
                 : Colors.black12,
-            blurRadius: 3.0,
+            blurRadius: 8.0,
+            offset: const Offset(8, 8)
+          ),
+          BoxShadow(
+            color: control.theme == ThemeMode.dark
+                ? Colors.transparent
+                : Colors.transparent,
+            blurRadius: 8.0,
+            offset: const Offset(-8, -8)
           ),
         ], borderRadius: const BorderRadius.all(Radius.circular(20))),
         // margin: const EdgeInsets.all(3.0),
@@ -50,7 +58,7 @@ class CustomListTile extends GetWidget<ScreenViewModel> {
                       children: [
                         SizedBox(
                           height: MediaQuery.of(context).size.height / 5,
-                          width: MediaQuery.of(context).size.width / 2.5,
+                          width: MediaQuery.of(context).size.width / 2.6,
                           child: ClipRRect(
                             borderRadius: const BorderRadius.all(
                               Radius.circular(20),
