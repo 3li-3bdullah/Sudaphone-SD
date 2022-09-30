@@ -22,16 +22,16 @@ class BottomNavigation extends GetWidget<ScreenViewModel> {
   ];
   @override
   Widget build(BuildContext context) {
-    return GetX<ScreenViewModel>(
+    return GetBuilder<ScreenViewModel>(
       init: ScreenViewModel(),
       builder: (controller) => Scaffold(
         bottomNavigationBar: GetBuilder<ThemesViewModel>(
           builder:(control) => BottomNavyBar(
-            selectedIndex: controller.activeIndex.value,
+            selectedIndex: controller.activeIndex,
             showElevation: true,
             backgroundColor: control.theme == ThemeMode.dark ? kDarkColor : kBackgroundColor,
             onItemSelected: (index) {
-              controller.activeIndex.value = index;
+              controller.onSelectedItem(index);
             },
             items: [
               BottomNavyBarItem(
@@ -73,7 +73,7 @@ class BottomNavigation extends GetWidget<ScreenViewModel> {
             ],
           ),
         ),
-        body: screens[controller.activeIndex.value],
+        body: screens[controller.activeIndex],
       ),
     );
   }
