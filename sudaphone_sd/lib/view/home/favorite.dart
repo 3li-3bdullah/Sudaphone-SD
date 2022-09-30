@@ -3,11 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:sudaphone_sd/view/details/details.dart';
 import 'package:sudaphone_sd/shared/components/custom_text.dart';
 import 'package:sudaphone_sd/shared/components/custom_text2.dart';
+import 'package:sudaphone_sd/shared/components/custom_title.dart';
+import 'package:sudaphone_sd/view/details/details.dart';
 import 'package:sudaphone_sd/view_model/screen_view_model.dart';
-import 'package:sudaphone_sd/view_model/themes_view_model.dart';
 
 class Favorite extends GetWidget<ScreenViewModel> {
   const Favorite({Key? key}) : super(key: key);
@@ -16,23 +16,8 @@ class Favorite extends GetWidget<ScreenViewModel> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: CustomText(
-            text: "Favorite",
-            fontSize: 22,
-            fontWeight: FontWeight.normal,
-            textAlign: TextAlign.center),
+        title: const CustomTitle(text:"Favorite",underLineWidget: 50),
         elevation: 0,
-        leading: GetBuilder<ThemesViewModel>(
-            builder: (controller) => IconButton(
-                onPressed: () {
-                  Get.back();
-                },
-                icon: Icon(
-                  Icons.arrow_back,
-                  color: controller.theme == ThemeMode.dark
-                      ? Colors.white
-                      : Colors.black,
-                ))),
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
           stream: controller.favorite
@@ -119,47 +104,3 @@ class Favorite extends GetWidget<ScreenViewModel> {
     );
   }
 }
-/*
-   return StaggeredGridView.countBuilder(
-                      shrinkWrap: true,
-                      crossAxisCount: 3,
-                      crossAxisSpacing: 5,
-                      mainAxisSpacing: 15,
-                      itemBuilder: (context, i) {
-                        return InkWell(
-                          child: Container(
-                            padding: const EdgeInsets.all(5),
-                            width: double.infinity,
-                            height: MediaQuery.of(context).size.height / 3,
-                            color: Colors.grey[100],
-                            child: Column(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(5),
-                                  child: Image.network(
-                                    snapshot.data?.docs[index]['imageUrl'],
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                Container(
-                                  color: Colors.grey[100],
-                                  child: CustomText(
-                                    text: "${snapshot.data?.docs[index]['name']}",
-                                    textAlign: TextAlign.center,
-                                    color: Colors.black,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          onTap: (){
-                            Get.to(() => Details(snapshot: snapshot, docOne: controller.uid.toString(), collction: "favorite"));
-                          },
-                        );
-                      },
-                      staggeredTileBuilder: (indexo) =>
-                          const StaggeredTile.fit(1),
-                    ); 
-*/
