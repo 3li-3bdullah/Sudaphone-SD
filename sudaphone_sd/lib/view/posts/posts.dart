@@ -2,14 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:sudaphone_sd/shared/components/custom_text.dart';
 import 'package:sudaphone_sd/shared/components/custom_text2.dart';
-import 'package:sudaphone_sd/shared/components/custom_text_form_field.dart';
 import 'package:sudaphone_sd/shared/components/custom_title.dart';
-import 'package:sudaphone_sd/shared/constants.dart';
-import 'package:sudaphone_sd/view/download/download_images.dart';
 import 'package:sudaphone_sd/view/people_have_liked/people_have_liked.dart';
-import 'package:sudaphone_sd/view/posts/comments.dart';
+import 'package:sudaphone_sd/view/posts/components/comment_button.dart';
 import 'package:sudaphone_sd/view/posts/components/custom_popup_menu.dart';
 import 'package:sudaphone_sd/view/posts/components/post_subtitle.dart';
 import 'package:sudaphone_sd/view/posts/components/post_title.dart';
@@ -57,12 +53,14 @@ class Posts extends GetWidget<PostsViewModel> {
                             backgroundImage: NetworkImage(
                                 "${snapshot.data!.docs[index].data()['profileUrl']}"),
                           ),
-                          title: PostTitle(currentDoc: snapshot.data!.docs[index]),
+                          title:
+                              PostTitle(currentDoc: snapshot.data!.docs[index]),
                           trailing: CustomPopupMenu(
                               ownerUid:
                                   snapshot.data!.docs[index].data()['ownerUid'],
                               currentDocUid: snapshot.data!.docs[index].id),
-                          subtitle: PostSubtitle(currentDoc: snapshot.data!.docs[index]),
+                          subtitle: PostSubtitle(
+                              currentDoc: snapshot.data!.docs[index]),
                         ),
                         Divider(color: Colors.grey.withOpacity(0.2)),
                         Row(
@@ -71,30 +69,27 @@ class Posts extends GetWidget<PostsViewModel> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  snapshot.data!.docs[index]
-                                          .data()['usersLiked'][controller.uid]
-                                      ? IconButton(
-                                          onPressed: () {
-                                            controller.handlePostLikes(
-                                                currentPostDocData:
-                                                    snapshot.data!.docs[index]);
-                                          },
-                                          icon: Image.asset(
-                                            "assets/images/like.png",
-                                            color: Colors.pink,
-                                          ),
-                                        )
-                                      : IconButton(
-                                          onPressed: () {
-                                            controller.handlePostLikes(
-                                                currentPostDocData:
-                                                    snapshot.data!.docs[index]);
-                                          },
-                                          icon: Image.asset(
-                                            "assets/images/like.png",
-                                            color: Colors.brown,
-                                          ),
-                                        ),
+                                  IconButton(
+                                    onPressed: () {
+                                      snapshot.data!.docs[index]
+                                                  .data()['usersLiked']
+                                              [controller.uid]
+                                          ? controller.handlePostLikes(
+                                              currentPostDocData:
+                                                  snapshot.data!.docs[index])
+                                          : controller.handlePostLikes(
+                                              currentPostDocData:
+                                                  snapshot.data!.docs[index]);
+                                    },
+                                    icon: Image.asset(
+                                      "assets/images/like.png",
+                                      color: snapshot.data!.docs[index]
+                                                  .data()['usersLiked']
+                                              [controller.uid]
+                                          ? Colors.pink
+                                          : Colors.brown,
+                                    ),
+                                  ),
                                   const SizedBox(width: 20),
                                   InkWell(
                                     child: AnimatedSwitcher(
@@ -146,45 +141,10 @@ class Posts extends GetWidget<PostsViewModel> {
                                 ],
                               ),
                             ),
-                            Expanded(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  IconButton(
-                                    onPressed: () {
-                                      Get.to(() => Comments(
-                                            firstDocSnapshot:
-                                                snapshot.data!.docs[index],
-                                          ));
-                                    },
-                                    icon: Image.asset(
-                                        "assets/icons/comment1.png",
-                                        color: Colors.green),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  StreamBuilder<
-                                      QuerySnapshot<Map<String, dynamic>>>(
-                                    stream: FirebaseFirestore.instance
-                                        .collection("posts")
-                                        .doc(snapshot.data!.docs[index].id)
-                                        .collection("comments")
-                                        .snapshots(),
-                                    builder: (context, snapshot) {
-                                      return CustomText2(
-                                        text: "${snapshot.data?.docs.length}",
-                                        color: Colors.grey,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.normal,
-                                        textAlign: TextAlign.center,
-                                      );
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
+                            CommentButton(
+                                currentDoc: snapshot.data!.docs[index]),
                           ],
                         ),
-
                         const Padding(
                           padding: EdgeInsets.only(top: 5),
                         ),
