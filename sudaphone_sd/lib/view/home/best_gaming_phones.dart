@@ -18,22 +18,17 @@ class BestGamingPhones extends GetWidget<ScreenViewModel> {
               return Container(
                 margin:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                child: GetBuilder<ThemesViewModel>(
-                  builder: (control) => Container(
-                    decoration: BoxDecoration(
+                child: Container(
+                    decoration: const BoxDecoration(
                       boxShadow: [
                         BoxShadow(
-                            color: control.theme == ThemeMode.dark
-                                ? Colors.black38
-                                : Colors.black12,
+                            color:Colors.black38,
                             blurRadius: 15.0,
-                            offset: const Offset(12, 12)),
+                            offset: Offset(12, 12)),
                         BoxShadow(
-                            color: control.theme == ThemeMode.dark
-                                ? Colors.transparent
-                                : Colors.transparent,
+                            color:Colors.transparent,
                             blurRadius: 15.0,
-                            offset: const Offset(-12, -12)),
+                            offset: Offset(-12, -12)),
                       ],
                     ),
                     child: ClipRRect(
@@ -72,7 +67,6 @@ class BestGamingPhones extends GetWidget<ScreenViewModel> {
                       ),
                     ),
                   ),
-                ),
               );
             }),
       ),
