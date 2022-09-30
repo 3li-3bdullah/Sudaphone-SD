@@ -7,6 +7,7 @@ import 'package:sudaphone_sd/view/bottom_nav_bar/bottom_navigation.dart';
 import 'package:sudaphone_sd/view/categories/categories.dart';
 import 'package:sudaphone_sd/view/feedback/feedbacks.dart';
 import 'package:sudaphone_sd/view/my_drawer/components/build_listtile.dart';
+import 'package:sudaphone_sd/view/my_drawer/components/custom_divider.dart';
 import 'package:sudaphone_sd/view/no_internet_connection/no_internet_connection.dart';
 import 'package:sudaphone_sd/view/posts/posts.dart';
 import 'package:sudaphone_sd/view/posts/saved.dart';
@@ -100,27 +101,13 @@ class MyDrawer extends GetWidget<MyDrawerViewModel> {
                                       fontWeight: FontWeight.normal),
                                 ],
                               ),
-
                               const SizedBox(height: 15),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10),
-                                child: Divider(
-                                  color: Colors.white,
-                                ),
-                              ),
+                              const CustomDivider(),
                               BuildListTile(
                                   text: "Home",
-                                  onTap: () {
-                                    // Get.offAll(() => const MyDrawer(),
-                                    //     transition: Transition.rightToLeftWithFade);
-                                  },
+                                  onTap: () => controller.valueZero(),
                                   icon: "assets/images/icons/home.png"),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10),
-                                child: Divider(
-                                  color: Colors.white,
-                                ),
-                              ),
+                              const CustomDivider(),
                               BuildListTile(
                                 text: "Categories",
                                 onTap: () {
@@ -129,12 +116,7 @@ class MyDrawer extends GetWidget<MyDrawerViewModel> {
                                 },
                                 icon: "assets/images/icons/category.png",
                               ),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10),
-                                child: Divider(
-                                  color: Colors.white,
-                                ),
-                              ),
+                              const CustomDivider(),
                               BuildListTile(
                                 text: "Posts",
                                 onTap: () {
@@ -144,12 +126,7 @@ class MyDrawer extends GetWidget<MyDrawerViewModel> {
                                 },
                                 icon: "assets/images/icons/add.png",
                               ),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10),
-                                child: Divider(
-                                  color: Colors.white,
-                                ),
-                              ),
+                              const CustomDivider(),
                               BuildListTile(
                                 text: "Saved",
                                 onTap: () {
@@ -158,12 +135,7 @@ class MyDrawer extends GetWidget<MyDrawerViewModel> {
                                 },
                                 icon: "assets/images/icons/saved.png",
                               ),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10),
-                                child: Divider(
-                                  color: Colors.white,
-                                ),
-                              ),
+                              const CustomDivider(),
                               BuildListTile(
                                 text: "About",
                                 onTap: () {
@@ -172,12 +144,7 @@ class MyDrawer extends GetWidget<MyDrawerViewModel> {
                                 },
                                 icon: "assets/images/icons/info.png",
                               ),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10),
-                                child: Divider(
-                                  color: Colors.white,
-                                ),
-                              ),
+                              const CustomDivider(),
                               BuildListTile(
                                 text: "Settings",
                                 onTap: () {
@@ -186,12 +153,7 @@ class MyDrawer extends GetWidget<MyDrawerViewModel> {
                                 },
                                 icon: "assets/images/icons/settings.png",
                               ),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10),
-                                child: Divider(
-                                  color: Colors.white,
-                                ),
-                              ),
+                              const CustomDivider(),
                               BuildListTile(
                                 text: "Feedback",
                                 onTap: () {
@@ -200,14 +162,7 @@ class MyDrawer extends GetWidget<MyDrawerViewModel> {
                                 },
                                 icon: "assets/images/icons/feedback.png",
                               ),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10),
-                                child: Divider(
-                                  color: Colors.white,
-                                ),
-                              ),
-
-                              /// i will Start this when i will try use firebase-------
+                              const CustomDivider(),
                               BuildListTile(
                                 text: "Logout",
                                 onTap: () {
@@ -243,10 +198,9 @@ class MyDrawer extends GetWidget<MyDrawerViewModel> {
                       ),
                     ),
                   ),
-                  GetX<MyDrawerViewModel>(
+                  GetBuilder<MyDrawerViewModel>(
                     builder: (controller) => TweenAnimationBuilder(
-                      tween: Tween<double>(
-                          begin: 0.0, end: controller.value.value),
+                      tween: Tween<double>(begin: 0.0, end: controller.value),
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.easeIn,
                       builder: (_, double val, __) {
