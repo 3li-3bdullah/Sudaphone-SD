@@ -5,6 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:sudaphone_sd/shared/components/custom_text.dart';
 import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 import 'package:sudaphone_sd/shared/components/custom_text_form_field.dart';
+import 'package:sudaphone_sd/shared/components/custom_title.dart';
 import 'package:sudaphone_sd/shared/constants.dart';
 import 'package:sudaphone_sd/view/download/download_images.dart';
 import 'package:sudaphone_sd/view/people_have_liked/people_have_liked.dart';
@@ -19,19 +20,7 @@ class Posts extends GetWidget<PostsViewModel> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Container(
-           padding: const EdgeInsets.symmetric(horizontal: 5),
-                decoration:  BoxDecoration(
-                  color: Colors.brown.shade300,
-                  borderRadius: const BorderRadius.all(Radius.circular(10),),),
-          child: const CustomText2(
-            text: "Posts",
-            fontSize: 20,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            textAlign: TextAlign.center,
-          ),
-        ),
+        title: const CustomTitle(text: "Posts", underLineWidget: 40),
         elevation: 0,
       ),
       floatingActionButton: FloatingActionButton(
@@ -216,8 +205,7 @@ class Posts extends GetWidget<PostsViewModel> {
                                       true
                                   ? InkWell(
                                       child: FadeInImage.assetNetwork(
-                                        placeholder:
-                                            'assets/images/loader.gif',
+                                        placeholder: 'assets/images/loader.gif',
                                         image:
                                             "${snapshot.data!.docs[index].data()['imageUrl']}",
                                         fit: BoxFit.cover,
@@ -225,9 +213,10 @@ class Posts extends GetWidget<PostsViewModel> {
                                       onTap: () {
                                         Get.to(
                                             () => DownloadImages(
-                                                image: snapshot
-                                                    .data!.docs[index]
-                                                    .data()['imageUrl'],),
+                                                  image: snapshot
+                                                      .data!.docs[index]
+                                                      .data()['imageUrl'],
+                                                ),
                                             transition: Transition.zoom,
                                             curve: Curves.easeInExpo);
                                       },
@@ -390,7 +379,14 @@ class Posts extends GetWidget<PostsViewModel> {
               },
             );
           } else if (snapshot.hasError) {
-            return Center(child: Text("${snapshot.error}"));
+            return Center(
+                child: CustomText2(
+              text: "${snapshot.error}",
+              color: Colors.green,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              textAlign: TextAlign.center,
+            ));
           } else if (snapshot.connectionState == ConnectionState.waiting) {
             return Container(
                 height: MediaQuery.of(context).size.height,
