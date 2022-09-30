@@ -11,6 +11,7 @@ import 'package:sudaphone_sd/view/download/download_images.dart';
 import 'package:sudaphone_sd/view/people_have_liked/people_have_liked.dart';
 import 'package:sudaphone_sd/view/posts/comments.dart';
 import 'package:sudaphone_sd/view/posts/components/custom_popup_menu.dart';
+import 'package:sudaphone_sd/view/posts/components/post_title.dart';
 import 'package:sudaphone_sd/view/posts/write_post.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 
@@ -47,7 +48,6 @@ class Posts extends GetWidget<PostsViewModel> {
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) {
                 if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
-                  // return CardView(data: snapshot.data!.docs[index]);
                   return Card(
                     child: Column(
                       children: [
@@ -56,29 +56,7 @@ class Posts extends GetWidget<PostsViewModel> {
                             backgroundImage: NetworkImage(
                                 "${snapshot.data!.docs[index].data()['profileUrl']}"),
                           ),
-                          title: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.only(top: 10),
-                                child: CustomText(
-                                  text:
-                                      "${snapshot.data!.docs[index].data()['userName']}",
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                  textAlign: TextAlign.right,
-                                ),
-                              ),
-                              CustomText2(
-                                text: snapshot.data!.docs[index]
-                                    .data()['dateTime'],
-                                fontSize: 13,
-                                fontWeight: FontWeight.normal,
-                                color: Colors.grey,
-                                textAlign: TextAlign.right,
-                              )
-                            ],
-                          ),
+                          title: PostTitle(currentDoc: snapshot.data!.docs[index]),
                           trailing: CustomPopupMenu(
                               ownerUid:
                                   snapshot.data!.docs[index].data()['ownerUid'],
