@@ -20,13 +20,16 @@ import 'package:sudaphone_sd/view/categories/phones/tecno.dart';
 import 'package:sudaphone_sd/view/categories/phones/vivo.dart';
 import 'package:sudaphone_sd/view/categories/phones/xiaomi.dart';
 import 'package:sudaphone_sd/view/details/last_product_details.dart';
+import 'package:sudaphone_sd/view/home/components/best_gaming_carousel.dart';
 import 'package:sudaphone_sd/view/home/best_gaming_phones.dart';
+import 'package:sudaphone_sd/view/home/components/categories_advertising.dart';
 import 'package:sudaphone_sd/view/home/components/build_images_carousel.dart';
 import 'package:sudaphone_sd/view/home/components/build_indicator_carousel.dart';
 import 'package:sudaphone_sd/view/home/components/categories_title.dart';
 import 'package:sudaphone_sd/view/home/components/custom_listtile.dart';
 import 'package:sudaphone_sd/view/home/data_search.dart';
 import 'package:sudaphone_sd/view/home/favorite.dart';
+import 'package:sudaphone_sd/view/home/components/popular_carousel.dart';
 import 'package:sudaphone_sd/view_model/mydrawer_view_model.dart';
 import 'package:sudaphone_sd/view_model/public_data.dart';
 import 'package:sudaphone_sd/view_model/screen_view_model.dart';
@@ -52,49 +55,45 @@ class Screen extends GetWidget<ScreenViewModel> {
                   Row(
                     children: [
                       GetBuilder<ThemesViewModel>(
-                  builder: (control) => Container(
+                        builder: (control) => Container(
                           height: 4,
                           width: 30,
-                          decoration:  BoxDecoration(
-                            color: control.theme == ThemeMode.dark ? Colors.grey : Colors.grey,
-                            borderRadius: const BorderRadius.all(Radius.circular(10)),
+                          decoration: BoxDecoration(
+                            color: control.theme == ThemeMode.dark
+                                ? Colors.grey
+                                : Colors.brown,
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10)),
                           ),
                         ),
                       ),
-                      const SizedBox(width: 5,),
-                       CustomText(
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      CustomText(
                         text: "Sudaphone SD",
                         fontSize: 20,
                         textAlign: TextAlign.center,
                         fontWeight: FontWeight.bold,
                       ),
-                      const SizedBox(width: 5,),
-                     GetBuilder<ThemesViewModel>(
-                  builder: (control) => Container(
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      GetBuilder<ThemesViewModel>(
+                        builder: (control) => Container(
                           height: 4,
                           width: 30,
                           decoration: BoxDecoration(
-                            color: control.theme == ThemeMode.dark ? Colors.grey : Colors.grey,
-                            borderRadius: const BorderRadius.all(Radius.circular(10)),
+                            color: control.theme == ThemeMode.dark
+                                ? Colors.grey
+                                : Colors.brown,
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10)),
                           ),
                         ),
                       ),
                     ],
                   ),
-                  // const SizedBox(height: 1,),
-                  // Align(
-                  //   alignment: Alignment.centerLeft,
-                  //   child:
-                  //    Container(
-                  //     height: 4,
-                  //     width: 70,
-                  //     margin: const EdgeInsets.only(left: 60),
-                  //     decoration: const BoxDecoration(
-                  //       color: Colors.brown,
-                  //       borderRadius: BorderRadius.all(Radius.circular(10))
-                  //     ),
-                  //   ),
-                  // )
                 ],
               ),
               elevation: 0,
@@ -111,9 +110,7 @@ class Screen extends GetWidget<ScreenViewModel> {
                             ? Colors.white
                             : Colors.black,
                       ),
-                      onPressed: () {
-                        showSearch(context: context, delegate: DataSearch());
-                      },
+                      onPressed: () => showSearch(context: context, delegate: DataSearch()),
                     ),
                   ),
                 ),
@@ -155,42 +152,45 @@ class Screen extends GetWidget<ScreenViewModel> {
                   height: 20,
                 ),
                 Obx(
-                  () => controller.isMainCarouselHasData.value ? SizedBox(
-                    height: MediaQuery.of(context).size.height / 2,
-                        width: MediaQuery.of(context).size.width,
-                        child: Image.asset('assets/images/loader.gif'),
-                  ) : Column(
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height / 2,
-                        width: MediaQuery.of(context).size.width,
-                        child: PageView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  allowImplicitScrolling: true,
-                                  controller: controller.controllerCarousel,
-                                  itemCount: controller.listMainCarousel!.length,
-                                  itemBuilder: (context, index) {
-                                    return SizedBox(
-                                      height: halfheight,
-                                      width: size.width,
-                                      child: BuildImagesCarousel(
-                                          imagesCarousel: controller
-                                              .listMainCarousel![index].imageUrl),
-                                    );
-                                  },
-                                ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: BuildIndicatorCarousel(
-                          imageLength: controller.listMainCarousel!.length,
+                  () => controller.isMainCarouselHasData.value
+                      ? SizedBox(
+                          height: MediaQuery.of(context).size.height / 2,
+                          width: MediaQuery.of(context).size.width,
+                          child: Image.asset('assets/images/loader.gif'),
+                        )
+                      : Column(
+                          children: [
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height / 2,
+                              width: MediaQuery.of(context).size.width,
+                              child: PageView.builder(
+                                scrollDirection: Axis.horizontal,
+                                allowImplicitScrolling: true,
+                                controller: controller.controllerCarousel,
+                                itemCount: controller.listMainCarousel!.length,
+                                itemBuilder: (context, index) {
+                                  return SizedBox(
+                                    height: halfheight,
+                                    width: size.width,
+                                    child: BuildImagesCarousel(
+                                        imagesCarousel: controller
+                                            .listMainCarousel![index].imageUrl),
+                                  );
+                                },
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Align(
+                              alignment: Alignment.center,
+                              child: BuildIndicatorCarousel(
+                                imageLength:
+                                    controller.listMainCarousel!.length,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
                 ),
                 const SizedBox(height: 20),
                 CategoriesTitle(
@@ -203,195 +203,11 @@ class Screen extends GetWidget<ScreenViewModel> {
                   },
                 ),
                 const SizedBox(height: 10),
-                 SizedBox(
-                      height: size.height / 2.53,
-                      width: size.width,
-                      child: Obx(
-                        () => controller.isCateHasData.value
-                            ? Center(
-                                child:
-                                    Image.asset("assets/images/loader.gif"),
-                              )
-                            : ListView.builder(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: controller.listCategories!.length,
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal:13,vertical: 9),
-                                    child: CustomListTile(
-                                      logo: controller.listCategories![index].logo,
-                                      videoUrl: controller
-                                          .listCategories![index].videoUrl,
-                                      thumbinalUrl: controller
-                                          .listCategories![index].thumbinalUrl,
-                                      onTap: () {
-                                        switch (controller
-                                            .listCategories![index].name) {
-                                          case "Samsung":
-                                            Get.to(() => const Samsung(),
-                                                duration: const Duration(
-                                                    milliseconds: 50),
-                                                transition: Transition.zoom);
-                                            break;
-                                          case "Huawei":
-                                            Get.to(() => const Huawei(),
-                                                duration: const Duration(
-                                                    milliseconds: 50),
-                                                transition: Transition.zoom);
-                                            break;
-                                          case "Iphone":
-                                            Get.to(() => const Iphone(),
-                                                duration: const Duration(
-                                                    milliseconds: 50),
-                                                transition: Transition.zoom);
-                                            break;
-                                          case "Realme":
-                                            Get.to(() => const Realme(),
-                                                duration: const Duration(
-                                                    milliseconds: 50),
-                                                transition: Transition.zoom);
-                                            break;
-                                          case "Oppo":
-                                            Get.to(() => const Oppo(),
-                                                duration: const Duration(
-                                                    milliseconds: 50),
-                                                transition: Transition.zoom);
-                                            break;
-                                          case "Xiaomi":
-                                            Get.to(() => const Xiaomi(),
-                                                duration: const Duration(
-                                                    milliseconds: 50),
-                                                transition: Transition.zoom);
-                                            break;
-                                          case "Lenovo":
-                                            Get.to(() => const Lenovo(),
-                                                duration: const Duration(
-                                                    milliseconds: 50),
-                                                transition: Transition.zoom);
-                                            break;
-                                          case "Tecno":
-                                            Get.to(() => const Tecno(),
-                                                duration: const Duration(
-                                                    milliseconds: 50),
-                                                transition: Transition.zoom);
-                                            break;
-                                          case "Nokia":
-                                            Get.to(() => const Nokia(),
-                                                duration: const Duration(
-                                                    milliseconds: 50),
-                                                transition: Transition.zoom);
-                                            break;
-                                          case "Vivo":
-                                            Get.to(() => const Vivo(),
-                                                duration: const Duration(
-                                                    milliseconds: 50),
-                                                transition: Transition.zoom);
-                                            break;
-                                          default:
-                                            Get.to(() => const Categories());
-                                        }
-                                      },
-                                      text: controller.listCategories![index].name,
-                                    ),
-                                  );
-                                },),
-                      ),),
-                CategoriesTitle(
+                const CategoriesAdvertising(),
+                 CategoriesTitle(
                     text: "Popular", press: () {}, underLineWidget: 50),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height / 3,
-                  width: MediaQuery.of(context).size.width,
-                  child: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                    future: FirebaseFirestore.instance
-                        .collection("carousel")
-                        .doc("popular")
-                        .collection("carousel")
-                        .get(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return CarouselSlider.builder(
-                          itemCount: snapshot.data!.docs.length,
-                          itemBuilder: (context, index, __) {
-                            return SizedBox(
-                              width: size.width,
-                              height: size.height / 4,
-                              child: Column(children: [
-                                Expanded(
-                                  child: ClipRRect(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(10)),
-                                    child: FadeInImage.assetNetwork(
-                                      placeholder: 'assets/images/loader.gif',
-                                      image: snapshot.data?.docs[index]
-                                          .data()['imageUrl'],
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: CustomText(
-                                   text: "${snapshot.data!.docs[index].data()['name']}",
-                                    fontWeight: FontWeight.normal,
-                                    textAlign: TextAlign.end,
-                                      fontSize: 16,
-                                  ),
-                                ),
-                              ]),
-                            );
-                          },
-                          options: CarouselOptions(
-                            initialPage: 0,
-                            autoPlay: true,
-                            scrollDirection: Axis.horizontal,
-                            enableInfiniteScroll: true,
-                            enlargeCenterPage: true,
-                            aspectRatio: 16 / 9,
-                            viewportFraction: 0.8,
-                            autoPlayCurve: Curves.fastOutSlowIn,
-                            autoPlayAnimationDuration:
-                                const Duration(milliseconds: 200),
-                          ),
-                        );
-                      } else if (snapshot.connectionState ==
-                          ConnectionState.waiting) {
-                        return Center(
-                          child: Image.asset("assets/images/loader.gif"),
-                        );
-                      } else if (snapshot.hasError) {
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            CustomText(
-                              text: "Oops!",
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              textAlign: TextAlign.center,
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            CustomText(
-                              text: snapshot.error.toString(),
-                              fontSize: 15,
-                              fontWeight: FontWeight.normal,
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
-                        );
-                      } else {
-                        return const Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.red,
-                          ),
-                        );
-                      }
-                    },
-                  ),
-                ),
-                CategoriesTitle(
+                    const PopularCarousel(),
+                    CategoriesTitle(
                     text: "Best Gaming Phones",
                     underLineWidget: 160,
                     press: () {
@@ -400,123 +216,7 @@ class Screen extends GetWidget<ScreenViewModel> {
                 const SizedBox(
                   height: 10,
                 ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height / 3,
-                  width: MediaQuery.of(context).size.width,
-                  child: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                    future:
-                        FirebaseFirestore.instance.collection("forGames").get(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return CarouselSlider.builder(
-                          itemCount: snapshot.data!.docs.length,
-                          itemBuilder: (context, index, __) {
-                            return InkWell(
-                              onTap: () {
-                                Get.to(() => LastProducDetails(
-                                    collection: "forGames",
-                                    phoneDoc: snapshot.data!.docs[index].id));
-                              },
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                margin: const EdgeInsets.all(5.0),
-                                decoration: BoxDecoration(
-                                  //ToDo : Here i should added FadeImage......
-                                  borderRadius: BorderRadius.circular(10),
-                                  image: DecorationImage(
-                                      image: NetworkImage(snapshot
-                                          .data?.docs[index]
-                                          .data()['imageUrl']),
-                                      fit: BoxFit.cover),
-                                ),
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      CustomText2(
-                                        text:
-                                            "${snapshot.data!.docs[index].data()['name']}",
-                                        fontSize: 18,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.normal,
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      const SizedBox(height: 5),
-                                      CustomText2(
-                                        text:
-                                            "${snapshot.data!.docs[index].data()['ram']}",
-                                        fontSize: 18,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.normal,
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      const SizedBox(height: 5),
-                                      CustomText2(
-                                        text:
-                                            "${snapshot.data!.docs[index].data()['battery']}",
-                                        fontSize: 18,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.normal,
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                          options: CarouselOptions(
-                            initialPage: 0,
-                            autoPlay: true,
-                            scrollDirection: Axis.horizontal,
-                            enableInfiniteScroll: true,
-                            enlargeCenterPage: true,
-                            aspectRatio: 16 / 9,
-                            viewportFraction: 0.8,
-                            autoPlayCurve: Curves.fastOutSlowIn,
-                            autoPlayAnimationDuration:
-                                const Duration(milliseconds: 200),
-                          ),
-                        );
-                      } else if (snapshot.connectionState ==
-                          ConnectionState.waiting) {
-                        return Center(
-                          child: Image.asset("assets/images/loader.gif"),
-                        );
-                      } else if (snapshot.hasError) {
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            CustomText(
-                              text: "Oops!",
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              textAlign: TextAlign.center,
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            CustomText(
-                              text: snapshot.error.toString(),
-                              fontSize: 15,
-                              fontWeight: FontWeight.normal,
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
-                        );
-                      } else {
-                        return const Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.red,
-                          ),
-                        );
-                      }
-                    },
-                  ),
-                ),
+                const BestGamingCarousel(),
                 const SizedBox(
                   height: 5,
                 ),
@@ -527,8 +227,9 @@ class Screen extends GetWidget<ScreenViewModel> {
                       children: [
                         Column(
                           children: [
-                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
                               child: CustomText(
                                 text: "Last Products",
                                 fontSize: 18,
@@ -536,15 +237,17 @@ class Screen extends GetWidget<ScreenViewModel> {
                                 textAlign: TextAlign.center,
                               ),
                             ),
-                             GetBuilder<ThemesViewModel>(
-                  builder: (control) =>  Container(
+                            GetBuilder<ThemesViewModel>(
+                              builder: (control) => Container(
                                 height: 4,
                                 width: 100,
                                 alignment: Alignment.centerLeft,
                                 decoration: BoxDecoration(
-                                    color: control.theme == ThemeMode.dark ? Colors.grey : Colors.brown,
-                                    borderRadius:
-                                       const BorderRadius.all(Radius.circular(5))),
+                                    color: control.theme == ThemeMode.dark
+                                        ? Colors.grey
+                                        : Colors.brown,
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(5))),
                               ),
                             )
                           ],
