@@ -10,6 +10,7 @@ import 'package:sudaphone_sd/shared/constants.dart';
 import 'package:sudaphone_sd/view/download/download_images.dart';
 import 'package:sudaphone_sd/view/people_have_liked/people_have_liked.dart';
 import 'package:sudaphone_sd/view/posts/comments.dart';
+import 'package:sudaphone_sd/view/posts/components/custom_popup_menu.dart';
 import 'package:sudaphone_sd/view/posts/write_post.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 
@@ -78,111 +79,10 @@ class Posts extends GetWidget<PostsViewModel> {
                               )
                             ],
                           ),
-                          trailing: snapshot.data!.docs[index]
-                                      .data()['ownerUid'] ==
-                                  controller.uid
-                              ? PopupMenuButton<MenuItems>(
-                                  onSelected: (value) {
-                                    if (value == MenuItems.save) {
-                                      controller.savePost(
-                                        postDoc: snapshot.data!.docs[index].id,
-                                      );
-                                    } else if (value == MenuItems.edit) {
-                                      Get.defaultDialog(
-                                        title: "Edit the post",
-                                        titleStyle: const TextStyle(
-                                            color: Colors.brown,
-                                            fontWeight: FontWeight.bold),
-                                        content: Form(
-                                          key: controller.editingPostKey,
-                                          child: CustomTextFormField(
-                                              obscure: false,
-                                              validator: (String name) {
-                                                if (name.trim().isEmpty) {
-                                                  return "The field is empty";
-                                                }
-                                              },
-                                              icon: Icons.edit,
-                                              textEditingController: controller
-                                                  .editingPostController),
-                                        ),
-                                        textConfirm: "Edit",
-                                        textCancel: "Cancel",
-                                        cancelTextColor: Colors.brown,
-                                        confirmTextColor: Colors.white,
-                                        buttonColor: Colors.brown,
-                                        radius: 20.0,
-                                        onConfirm: () {
-                                          controller.editingPost(
-                                              editKey:
-                                                  controller.editingPostKey,
-                                              postDoc:
-                                                  snapshot.data!.docs[index].id,
-                                              text: controller
-                                                  .editingPostController.text);
-                                          Get.back();
-                                        },
-                                        onCancel: () {
-                                          Get.back();
-                                        },
-                                      );
-                                    } else {
-                                      controller.deletePost(
-                                          snapshot.data!.docs[index].id);
-                                    }
-                                  },
-                                  itemBuilder: (context) => [
-                                    PopupMenuItem(
-                                      value: MenuItems.save,
-                                      child: CustomText(
-                                        text: "Save",
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.normal,
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                    PopupMenuItem(
-                                      value: MenuItems.edit,
-                                      child: CustomText(
-                                        text: "Edit",
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.normal,
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                    PopupMenuItem(
-                                      value: MenuItems.delete,
-                                      child: CustomText(
-                                        text: "Delete",
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.normal,
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              : PopupMenuButton<MenuItems>(
-                                  onSelected: (value) {
-                                    if (value == MenuItems.save) {
-                                      controller.savePost(
-                                        postDoc: snapshot.data!.docs[index].id,
-                                      );
-                                    }
-                                  },
-                                  itemBuilder: (context) => [
-                                    PopupMenuItem(
-                                      value: MenuItems.save,
-                                      child: CustomText(
-                                        text: "Save",
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.normal,
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-
-                          // isThreeLine: true,
+                          trailing: CustomPopupMenu(
+                              ownerUid:
+                                  snapshot.data!.docs[index].data()['ownerUid'],
+                              currentDocUid: snapshot.data!.docs[index].id),
                           subtitle: Column(
                             children: [
                               const SizedBox(
