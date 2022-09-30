@@ -11,6 +11,7 @@ import 'package:sudaphone_sd/view/download/download_images.dart';
 import 'package:sudaphone_sd/view/people_have_liked/people_have_liked.dart';
 import 'package:sudaphone_sd/view/posts/comments.dart';
 import 'package:sudaphone_sd/view/posts/components/custom_popup_menu.dart';
+import 'package:sudaphone_sd/view/posts/components/post_subtitle.dart';
 import 'package:sudaphone_sd/view/posts/components/post_title.dart';
 import 'package:sudaphone_sd/view/posts/write_post.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
@@ -61,53 +62,9 @@ class Posts extends GetWidget<PostsViewModel> {
                               ownerUid:
                                   snapshot.data!.docs[index].data()['ownerUid'],
                               currentDocUid: snapshot.data!.docs[index].id),
-                          subtitle: Column(
-                            children: [
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              CustomText(
-                                text: snapshot.data!.docs[index].data()['text'],
-                                fontSize: 17,
-                                fontWeight: FontWeight.normal,
-                                textAlign: TextAlign.center,
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              snapshot.data!.docs[index]
-                                          .data()['isThereImageUrl'] ==
-                                      true
-                                  ? InkWell(
-                                      child: FadeInImage.assetNetwork(
-                                        placeholder: 'assets/images/loader.gif',
-                                        image:
-                                            "${snapshot.data!.docs[index].data()['imageUrl']}",
-                                        fit: BoxFit.cover,
-                                      ),
-                                      onTap: () {
-                                        Get.to(
-                                            () => DownloadImages(
-                                                  image: snapshot
-                                                      .data!.docs[index]
-                                                      .data()['imageUrl'],
-                                                ),
-                                            transition: Transition.zoom,
-                                            curve: Curves.easeInExpo);
-                                      },
-                                    )
-                                  : const SizedBox(
-                                      height: 0.0,
-                                      width: 0.0,
-                                    ),
-                            ],
-                          ),
+                          subtitle: PostSubtitle(currentDoc: snapshot.data!.docs[index]),
                         ),
                         Divider(color: Colors.grey.withOpacity(0.2)),
-                        //============================================================
                         Row(
                           children: [
                             Expanded(
