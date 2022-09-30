@@ -9,7 +9,7 @@ class ScreenViewModel extends GetxController {
   /*
   * (((((((((((((((((((( Declaring Variables )))))))))))))))))))))))
   */
-  RxInt activeIndex = 0.obs;
+  int activeIndex = 0;
   RxDouble value = 0.0.obs;
   String? uid;
   CollectionReference<Map<String, dynamic>> favorite =
@@ -68,6 +68,11 @@ class ScreenViewModel extends GetxController {
 
   void valueZero() {
     value(0.0);
+  }
+
+  void onSelectedItem(int index){
+    activeIndex = index;
+    update();
   }
 
   Future<void> initialPlayer() async {
