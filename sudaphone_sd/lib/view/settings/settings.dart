@@ -66,7 +66,6 @@ class Setting extends GetWidget<SettingsViewModel> {
                 },
               ),
             ),
-            //ToDo: Just here i should make it separated.......
             InkWell(
               onTap: () {
                 Get.bottomSheet(
@@ -177,9 +176,10 @@ class Setting extends GetWidget<SettingsViewModel> {
                   builder: (controll) => Row(
                     children: [
                       SizedBox(
-                        height: size.height / 20,
-                        child: Image.asset(controll.theme == ThemeMode.dark ? "assets/icons/moon.png" : "assets/icons/sun.png")
-                      ),
+                          height: size.height / 20,
+                          child: Image.asset(controll.theme == ThemeMode.dark
+                              ? "assets/icons/moon.png"
+                              : "assets/icons/sun.png")),
                       const SizedBox(
                         width: 20,
                       ),
