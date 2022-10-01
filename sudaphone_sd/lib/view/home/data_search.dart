@@ -22,7 +22,7 @@ class DataSearch extends SearchDelegate<String> {
     // Icon Leading
     return IconButton(
       onPressed: () {
-        Get.back(closeOverlays: true);
+        Navigator.pop(context);
       },
       icon: const Icon(Icons.arrow_back_ios),
     );
@@ -56,7 +56,7 @@ class DataSearch extends SearchDelegate<String> {
                 ),
               ],
             ),
-            Lottie.asset("assets/images/bf_search.json"),
+            Lottie.asset("assets/lotties/bf_search.json"),
             const SizedBox(height: 40),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
