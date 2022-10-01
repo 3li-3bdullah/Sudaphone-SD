@@ -7,6 +7,7 @@ import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 import 'package:sudaphone_sd/shared/components/custom_text_form_field.dart';
 import 'package:sudaphone_sd/shared/components/custom_title.dart';
 import 'package:sudaphone_sd/view/login/signin.dart';
+import 'package:sudaphone_sd/view/settings/components/custom_row.dart';
 import 'package:sudaphone_sd/view/settings/components/settings_profile.dart';
 import 'package:sudaphone_sd/view_model/public_data.dart';
 import 'package:sudaphone_sd/view_model/settings_view_model.dart';
@@ -30,62 +31,42 @@ class Setting extends GetWidget<SettingsViewModel> {
         child: Column(
           children: [
             const SettingsProfile(),
-            InkWell(
-              onTap: () {
-                Get.defaultDialog(
-                  title: "Edit your name",
-                  titleStyle: const TextStyle(
-                      color: Colors.brown, fontWeight: FontWeight.bold),
-                  content: Form(
-                    key: controller.editingKey,
-                    child: CustomTextFormField(
-                        obscure: false,
-                        validator: (String name) {
-                          if (name.trim().isEmpty) {
-                            return "The field is empty";
-                          }
-                        },
-                        icon: Icons.person,
-                        textEditingController: controller.textEditing!),
-                  ),
-                  textConfirm: "Update",
-                  textCancel: "Cancel",
-                  cancelTextColor: Colors.brown,
-                  confirmTextColor: Colors.white,
-                  buttonColor: Colors.brown,
-                  radius: 20.0,
-                  onConfirm: () async {
-                    await controller.modifyUserName(
-                        name: controller.textEditing!.text,
-                        textKey: controller.editingKey);
-                  },
-                  onCancel: () {
-                    Get.back();
-                  },
-                );
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    SizedBox(
-                        height: size.height / 20,
-                        child: Image.asset("assets/icons/write.png")),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    CustomText(
-                      text: "Edit Name",
-                      fontSize: 18,
-                      fontWeight: FontWeight.normal,
-                      textAlign: TextAlign.center,
-                    ),
-                    const Spacer(),
-                    const Icon(Icons.arrow_forward_ios)
-                  ],
+            CustomRow(
+              name: "Edit Name",
+              imagePath: "assets/icons/write.png",
+              onTap: () => Get.defaultDialog(
+                title: "Edit your name",
+                titleStyle: const TextStyle(
+                    color: Colors.brown, fontWeight: FontWeight.bold),
+                content: Form(
+                  key: controller.editingKey,
+                  child: CustomTextFormField(
+                      obscure: false,
+                      validator: (String name) {
+                        if (name.trim().isEmpty) {
+                          return "The field is empty";
+                        }
+                      },
+                      icon: Icons.person,
+                      textEditingController: controller.textEditing!),
                 ),
+                textConfirm: "Update",
+                textCancel: "Cancel",
+                cancelTextColor: Colors.brown,
+                confirmTextColor: Colors.white,
+                buttonColor: Colors.brown,
+                radius: 20.0,
+                onConfirm: () async {
+                  await controller.modifyUserName(
+                      name: controller.textEditing!.text,
+                      textKey: controller.editingKey);
+                },
+                onCancel: () {
+                  Get.back();
+                },
               ),
             ),
+            //ToDo: Just here i should make it separated.......
             InkWell(
               onTap: () {
                 Get.bottomSheet(
@@ -197,9 +178,7 @@ class Setting extends GetWidget<SettingsViewModel> {
                     children: [
                       SizedBox(
                         height: size.height / 20,
-                        child: controll.theme == ThemeMode.dark
-                            ? Image.asset("assets/icons/moon.png")
-                            : Image.asset("assets/icons/sun.png"),
+                        child: Image.asset(controll.theme == ThemeMode.dark ? "assets/icons/moon.png" : "assets/icons/sun.png")
                       ),
                       const SizedBox(
                         width: 20,
@@ -221,145 +200,82 @@ class Setting extends GetWidget<SettingsViewModel> {
                 ),
               ),
             ),
-            InkWell(
-              onTap: () {
-                Get.defaultDialog(
-                  content: const CustomText2(
-                    text: "Upload an image from : ",
-                    textAlign: TextAlign.center,
-                    color: Colors.brown,
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal,
-                  ),
-                  title: "",
-                  textCancel: "Gallery",
-                  textConfirm: "Camera",
-                  onCancel: () {
-                    controller.uploadProfilePic(source: "gallery");
-                  },
-                  onConfirm: () {
-                    controller.uploadProfilePic(source: "camera");
-                  },
-                  confirmTextColor: Colors.white,
-                  cancelTextColor: Colors.brown,
-                  buttonColor: Colors.brown,
-                );
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    SizedBox(
-                        height: size.height / 20,
-                        child: Image.asset("assets/icons/gallery1.png")),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    CustomText(
-                      text: "Upload Image",
-                      fontSize: 18,
-                      fontWeight: FontWeight.normal,
-                      textAlign: TextAlign.center,
-                    ),
-                    const Spacer(),
-                    const Icon(Icons.arrow_forward_ios)
-                  ],
-                ),
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                Get.defaultDialog(
-                  content: const CustomText2(
-                    text: "Are you sure ?",
-                    textAlign: TextAlign.center,
-                    color: Colors.brown,
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal,
-                  ),
-                  title: "",
-                  textCancel: "No",
-                  textConfirm: "Yes",
-                  onCancel: () {
-                    Get.back();
-                  },
-                  onConfirm: () async {
-                    await FirebaseAuth.instance.signOut().then((_) => Get.offAll(() => const SignIn()));
-                  },
-                  confirmTextColor: Colors.white,
-                  cancelTextColor: Colors.brown,
-                  buttonColor: Colors.brown,
-                );
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    SizedBox(
-                        height: size.height / 20,
-                        child: Image.asset("assets/icons/exit.png")),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    CustomText(
-                      text: "Log Out",
-                      fontSize: 18,
-                      fontWeight: FontWeight.normal,
-                      textAlign: TextAlign.center,
-                    ),
-                    const Spacer(),
-                    const Icon(Icons.arrow_forward_ios)
-                  ],
-                ),
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                Get.defaultDialog(
-                  content: const CustomText2(
-                    text: "Are you sure dude 😦?",
-                    textAlign: TextAlign.center,
-                    color: Colors.brown,
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal,
-                  ),
-                  title: "",
-                  textCancel: "No😜",
-                  textConfirm: "Yes😞",
-                  onCancel: () {
-                    Get.back();
-                  },
-                  onConfirm: () async {
-                    await FirebaseAuth.instance.currentUser!.delete();
-                    Get.off(() => const SignIn(), transition: Transition.zoom);
-                  },
-                  confirmTextColor: Colors.white,
-                  cancelTextColor: Colors.brown,
-                  buttonColor: Colors.brown,
-                );
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    SizedBox(
-                        height: size.height / 22,
-                        child: Image.asset("assets/icons/trash.png")),
-                    const SizedBox(
-                      width: 18,
-                    ),
-                    CustomText(
-                      text: "Delete Acount",
-                      fontSize: 18,
-                      fontWeight: FontWeight.normal,
-                      textAlign: TextAlign.center,
-                    ),
-                    const Spacer(),
-                    const Icon(Icons.arrow_forward_ios)
-                  ],
-                ),
-              ),
-            ),
+            CustomRow(
+                name: "Upload Image",
+                imagePath: "assets/icons/gallery1.png",
+                onTap: () => Get.defaultDialog(
+                      content: const CustomText2(
+                        text: "Upload an image from : ",
+                        textAlign: TextAlign.center,
+                        color: Colors.brown,
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal,
+                      ),
+                      title: "",
+                      textCancel: "Gallery",
+                      textConfirm: "Camera",
+                      onCancel: () {
+                        controller.uploadProfilePic(source: "gallery");
+                      },
+                      onConfirm: () {
+                        controller.uploadProfilePic(source: "camera");
+                      },
+                      confirmTextColor: Colors.white,
+                      cancelTextColor: Colors.brown,
+                      buttonColor: Colors.brown,
+                    )),
+            CustomRow(
+                name: "Log Out",
+                imagePath: "assets/icons/exit.png",
+                onTap: () => Get.defaultDialog(
+                      content: const CustomText2(
+                        text: "Are you sure ?",
+                        textAlign: TextAlign.center,
+                        color: Colors.brown,
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal,
+                      ),
+                      title: "",
+                      textCancel: "No",
+                      textConfirm: "Yes",
+                      onCancel: () {
+                        Get.back();
+                      },
+                      onConfirm: () async {
+                        await FirebaseAuth.instance
+                            .signOut()
+                            .then((_) => Get.offAll(() => const SignIn()));
+                      },
+                      confirmTextColor: Colors.white,
+                      cancelTextColor: Colors.brown,
+                      buttonColor: Colors.brown,
+                    )),
+            CustomRow(
+                name: "Delete Acount",
+                imagePath: "assets/icons/trash.png",
+                onTap: () => Get.defaultDialog(
+                      content: const CustomText2(
+                        text: "Are you sure dude 😦?",
+                        textAlign: TextAlign.center,
+                        color: Colors.brown,
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal,
+                      ),
+                      title: "",
+                      textCancel: "No😜",
+                      textConfirm: "Yes😞",
+                      onCancel: () {
+                        Get.back();
+                      },
+                      onConfirm: () async {
+                        await FirebaseAuth.instance.currentUser!.delete();
+                        Get.off(() => const SignIn(),
+                            transition: Transition.zoom);
+                      },
+                      confirmTextColor: Colors.white,
+                      cancelTextColor: Colors.brown,
+                      buttonColor: Colors.brown,
+                    )),
           ],
         ),
       ),
