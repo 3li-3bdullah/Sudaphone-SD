@@ -2,13 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sudaphone_sd/shared/components/custom_text_form_field.dart';
-import 'package:sudaphone_sd/view/login/signin.dart';
 import 'package:sudaphone_sd/shared/components/custom_text.dart';
 import 'package:sudaphone_sd/shared/components/custom_text2.dart';
-import 'package:sudaphone_sd/shared/components/leading.dart';
+import 'package:sudaphone_sd/shared/components/custom_text_form_field.dart';
+import 'package:sudaphone_sd/shared/components/custom_title.dart';
+import 'package:sudaphone_sd/view/login/signin.dart';
 import 'package:sudaphone_sd/view_model/public_data.dart';
 import 'package:sudaphone_sd/view_model/settings_view_model.dart';
 import 'package:sudaphone_sd/view_model/themes_view_model.dart';
@@ -24,22 +22,7 @@ class Setting extends GetWidget<SettingsViewModel> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 5),
-            decoration: BoxDecoration(
-              color: Colors.brown.shade300,
-              borderRadius: const BorderRadius.all(
-                Radius.circular(10),
-              ),
-            ),
-            child: const CustomText2(
-              text: 'Settings',
-              color: Colors.white,
-              textAlign: TextAlign.center,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+        title: const CustomTitle(text: "Settings", underLineWidget: 50),
         elevation: 0,
       ),
       body: SingleChildScrollView(
@@ -387,11 +370,7 @@ class Setting extends GetWidget<SettingsViewModel> {
                     Get.back();
                   },
                   onConfirm: () async {
-                    await FirebaseAuth.instance.signOut();
-                    SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    prefs.remove('email');
-                    Get.offAll(() => const SignIn());
+                    await FirebaseAuth.instance.signOut().then((_) => Get.offAll(() => const SignIn()));
                   },
                   confirmTextColor: Colors.white,
                   cancelTextColor: Colors.brown,
@@ -438,9 +417,6 @@ class Setting extends GetWidget<SettingsViewModel> {
                   },
                   onConfirm: () async {
                     await FirebaseAuth.instance.currentUser!.delete();
-                    SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    prefs.remove('email');
                     Get.off(() => const SignIn(), transition: Transition.zoom);
                   },
                   confirmTextColor: Colors.white,
