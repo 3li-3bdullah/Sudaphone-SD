@@ -35,40 +35,26 @@ class NoInternetConnection extends StatelessWidget {
                       ? Colors.white
                       : Colors.black,
                 ),
-                onPressed: ()  {
-                  // SharedPreferences prefs = await SharedPreferences.getInstance();
-                  // prefs.remove('email');
-                  // prefs.remove('uid');
-                  // Get.offAll(()=> const SignIn());
-                },
+                onPressed: () {},
               ),
             ),
           ),
         ],
-        leading: GetX<MyDrawerViewModel>(
+        leading: GetBuilder<MyDrawerViewModel>(
           builder: (controller) => IconButton(
             onPressed: () {
-              return controller.value.value == 0.0
+              return controller.value == 0.0
                   ? controller.valueOne()
                   : controller.valueZero();
             },
-            icon: controller.value.value == 0.0
-                ? GetBuilder<ThemesViewModel>(
-                    builder: (control) => Icon(
-                      Icons.menu,
-                      color: control.theme == ThemeMode.dark
-                          ? Colors.white
-                          : Colors.black,
-                    ),
-                  )
-                : GetBuilder<ThemesViewModel>(
-                    builder: (control) => Icon(
-                      Icons.menu_open_outlined,
-                      color: control.theme == ThemeMode.dark
-                          ? Colors.white
-                          : Colors.black,
-                    ),
-                  ),
+            icon: GetBuilder<ThemesViewModel>(
+              builder: (control) => Icon(
+                controller.value == 0.0 ? Icons.menu : Icons.menu_open_outlined,
+                color: control.theme == ThemeMode.dark
+                    ? Colors.white
+                    : Colors.black,
+              ),
+            ),
           ),
         ),
       ),
