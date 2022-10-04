@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sudaphone_sd/shared/constants.dart';
 
 class CustomTextFormField extends StatelessWidget {
-  // ignore: use_key_in_widget_constructors
   const CustomTextFormField(
       {required this.obscure,
       this.istrue = false,
@@ -27,6 +26,7 @@ class CustomTextFormField extends StatelessWidget {
         return validator(value);
       },
       cursorColor: Colors.brown,
+      style: const TextStyle(color: Colors.white),
       decoration: InputDecoration(
         hintStyle: const TextStyle(color: kTextFieldColor),
         focusedBorder: const UnderlineInputBorder(
