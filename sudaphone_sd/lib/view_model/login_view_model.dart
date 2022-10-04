@@ -10,7 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sudaphone_sd/view/mydrawer.dart';
+import 'package:sudaphone_sd/view/my_drawer/mydrawer.dart';
 
 class LoginViewModel extends GetxController {
 // ((((((((((((((((((((((((((((((( VARIABLES )))))))))))))))))))))))))))))))
@@ -35,6 +35,7 @@ class LoginViewModel extends GetxController {
   RxBool showsignin = true.obs;
   Size size = MediaQuery.of(Get.context!).size;
   String? email;
+  String? imageUrl;
   RxBool isObSecureSignin = true.obs;
   RxBool isObSecureSignup = true.obs;
 
@@ -127,6 +128,13 @@ class LoginViewModel extends GetxController {
     }
   }
 
+  Future<void> uploadImageToFirebaseStorage() async {
+    Reference reference =
+        FirebaseStorage.instance.ref("login_profile").child(_fileName!);
+    UploadTask uploadTask = reference.putFile(imageFile!);
+    imageUrl = await (await uploadTask).ref.getDownloadURL();
+  }
+
   /// SignUp With Username & Email & Password
   Future<void> signUpWithEmailAndPassword(String username, String email,
       String password, GlobalKey<FormState> signUpKey) async {
@@ -137,32 +145,33 @@ class LoginViewModel extends GetxController {
           barrierDismissible: false,
           context: Get.context!,
           builder: (BuildContext context) => Center(
-            child: Lottie.asset("assets/lotties/loading.json"),
+            child: Image.asset("assets/images/loader.gif"),
           ),
         );
         signUpKey.currentState!.save();
         final formattedDate =
             DateFormat('M/d/y - kk:mm').format(DateTime.now());
-
-        FirebaseAuth.instance
-            .createUserWithEmailAndPassword(email: email, password: password);
-        Reference reference =
-            FirebaseStorage.instance.ref("login_profile").child(_fileName!);
-        UploadTask uploadTask = reference.putFile(imageFile!);
-        String imageUrl = await (await uploadTask).ref.getDownloadURL();
+        imageUrl != null ? uploadImageToFirebaseStorage() : null;
         prefs.setString('email', email);
-        FirebaseFirestore.instance
-            .collection("usersInfo")
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .set({
-          "userName": username.toString(),
-          "email": email.toString(),
-          "password": password.toString(),
-          "ownerUid": FirebaseAuth.instance.currentUser!.uid.toString(),
-          "registerTime": formattedDate.toString(),
-          "profileUrl": imageUrl.toString()
-        }).whenComplete(() {
-          Get.offAll(() => const MyDrawer());
+        FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: email, password: password)
+            .whenComplete(() {
+          FirebaseFirestore.instance
+              .collection("usersInfo")
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .set({
+            "userName": username.toString(),
+            "email": email.toString(),
+            "password": password.toString(),
+            "ownerUid": FirebaseAuth.instance.currentUser!.uid.toString(),
+            "registerTime": formattedDate.toString(),
+            "profileUrl": imageUrl != null
+                ? imageUrl.toString()
+                : "https://firebasestorage.googleapis.com/v0/b/sudaphone-sd3.appspot.com/o/profile%2Fperson.png?alt=media&token=5afd3c19-bc69-4ce7-8d10-22529bfcbf1a",
+          });
+          Get.offAll(
+            () => const MyDrawer(),
+          );
           Get.back(closeOverlays: true);
           Get.snackbar("", "You've resgistered successfully",
               snackPosition: SnackPosition.BOTTOM,
@@ -188,7 +197,7 @@ class LoginViewModel extends GetxController {
           barrierDismissible: false,
           context: Get.context!,
           builder: (BuildContext context) => Center(
-            child: Lottie.asset("assets/lotties/loading.json"),
+            child: Image.asset("assets/images/loader.gif"),
           ),
         );
         await FirebaseAuth.instance
