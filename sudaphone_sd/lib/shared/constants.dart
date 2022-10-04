@@ -10,7 +10,8 @@ const kZambeziColor = Color(0xFF5B5B5B);
 const kBlackColor = Color.fromARGB(255, 0, 0, 0);
 const kDarkColor = Color(0xff202020);
 const kTextFieldColor = Color(0xFF979797);
-
+const Color customBlack = Color.fromARGB(255,53,53,53);
+const Color customWhite = Color.fromARGB(255,237,237,237);
 const Color kBackgroundColor = Color.fromRGBO(239, 235, 233, 1);
 
 const kDefaultPadding = EdgeInsets.symmetric(horizontal: 30);
