@@ -11,21 +11,24 @@ class ChooseImageIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      child: Row(
-        children: [
-         Icon(icon, color: color, size: 25),
-         const SizedBox(
-            width: 10,
-          ),
-          CustomText(
-            text: text,
-            fontSize: 15,
-            fontWeight: FontWeight.normal,
-            textAlign: TextAlign.center,
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+           Icon(icon, color: color, size: 25),
+           const SizedBox(
+              width: 10,
+            ),
+            CustomText(
+              text: text,
+              fontSize: 15,
+              fontWeight: FontWeight.normal,
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
       ),
-      onTap: () {ontap(build(context));},
+      onTap: () {ontap();},
     );
   }
 }
