@@ -20,7 +20,6 @@ class Comments extends GetWidget<PostsViewModel> {
     return Scaffold(
       appBar: AppBar(
         title: CustomTitle(text: "${firstDocSnapshot.data()['userName']}'s post", underLineWidget: 80),
-        centerTitle: true,
         elevation: 0,
         leading: const Leading(),
       ),
@@ -64,7 +63,7 @@ class Comments extends GetWidget<PostsViewModel> {
                                       borderRadius: const BorderRadius.all(
                                         Radius.circular(10),
                                       ),
-                                      color: Colors.grey.shade200,
+                                      color: Colors.grey.shade300,
                                     ),
                                     child: ListTile(
                                       title: CustomText2(
