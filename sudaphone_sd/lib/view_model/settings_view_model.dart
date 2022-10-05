@@ -116,12 +116,45 @@ class SettingsViewModel extends GetxController {
           snackPosition: SnackPosition.BOTTOM);
     }
   }
-
-  modifyInEachPost(String? doc) {
-    FirebaseFirestore.instance
+   getOldPicAndUpdate({required String imageUrl}) async {
+    //========= Get All Post Has The Old Pic =================
+    Future<QuerySnapshot<Map<String, dynamic>>> postsDocs = FirebaseFirestore
+        .instance
         .collection("posts")
-        .doc(doc)
-        .update({"userName": textEditing!.text});
+        .where('ownerUid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    await postsDocs.then((value) =>
+        value.docs.forEach((element) => postsDocsYouPosted.add(element.data()['profileUrl'])));
+    //========= Get All Posts ID ===============================
+    Future<QuerySnapshot<Map<String, dynamic>>> getAllPostsDocs =
+        FirebaseFirestore.instance.collection("posts").get();
+    await getAllPostsDocs.then((querySnapshot) =>
+        querySnapshot.docs.forEach((element) => allPostsDocs.add(element.id)));
+    //========= Get All Comments Has The Old Name ===============
+    for (var i = 0; i < allPostsDocs.length; i++) {
+      await FirebaseFirestore.instance
+          .collection("posts")
+          .doc(allPostsDocs[i])
+          .collection("comments")
+          .where('ownerUid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .get()
+          .then((querySnapshot) => querySnapshot.docs.forEach((element) {
+                commentsDocsYouCommented.add(element.data()['profileUrl']);
+                postsDocsYouCommentedAt.add(allPostsDocs[i]);
+              }));
+    }
+    // For Loop To Change The Old Pic At All Posts If He Posted
+    for (var i = 0; i < postsDocsYouPosted.length; i++) {
+      postsCollection.doc(postsDocsYouPosted[i]).update({"profileUrl": imageUrl});
+    }
+    // For Loop To Change The Old Pic At All Posts You've commented
+    for (var i = 0; i < commentsDocsYouCommented.length; i++) {
+      postsCollection
+          .doc(postsDocsYouCommentedAt[i])
+          .collection("comments")
+          .doc(commentsDocsYouCommented[i])
+          .update({"profileUrl": imageUrl});
+    }
   }
 
   uploadProfilePic({String? source}) async {
@@ -147,6 +180,7 @@ class SettingsViewModel extends GetxController {
         "profileUrl": imageUrl.toString(),
         "modifyingDate": formattedDate.toString()
       }, SetOptions(merge: true));
+      
     }
   }
 }
