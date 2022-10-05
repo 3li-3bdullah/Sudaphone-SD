@@ -5,11 +5,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sudaphone_sd/view/signin.dart';
+import 'package:sudaphone_sd/view/login/signin.dart';
 
 class MyDrawerViewModel extends GetxController {
   // ((((((((((((((((((((((((((( Declaring Variables )))))))))))))))))))))))))))
-  RxDouble value = 0.0.obs;
+  double value = 0.0;
   CollectionReference<Map<String, dynamic>> userInfo =
       FirebaseFirestore.instance.collection("usersInfo");
   RxInt internetConnectionChecker = 0.obs;
@@ -40,11 +40,13 @@ class MyDrawerViewModel extends GetxController {
   }
 
   void valueOne() {
-    value(1.0);
+    value = 1.0;
+    update();
   }
 
   void valueZero() {
-    value(0.0);
+    value = 0.0;
+    update();
   }
 
   logOut() async {
