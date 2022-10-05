@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -13,8 +13,6 @@ class SettingsViewModel extends GetxController {
 // (((((((((((((((((((((((((( Declaring Variables ))))))))))))))))))))))))))
   CollectionReference<Map<String, dynamic>> getUserData =
       FirebaseFirestore.instance.collection("usersInfo");
-  CollectionReference<Map<String, dynamic>> updateNameAtAllPosts =
-      FirebaseFirestore.instance.collection("posts");
   XFile? pickImage;
   String? photoName;
   File? imageFile;
@@ -22,36 +20,80 @@ class SettingsViewModel extends GetxController {
       DateFormat('M/d/y - kk:mm').format(DateTime.now());
   GlobalKey<FormState> editingKey = GlobalKey<FormState>();
   TextEditingController? textEditing = TextEditingController();
+  CollectionReference<Map<String, dynamic>> postsCollection =
+      FirebaseFirestore.instance.collection("posts");
   final String light = "light";
   final String dark = "dark";
   String groupValue = "mode";
   RxBool isDarkMode = false.obs;
+  String? uid;
+  List<String> commentsDocsYouCommented = [];
+  List<String> allPostsDocs = [];
+  List<String> postsDocsYouPosted = [];
+  List<String> postsDocsYouCommentedAt = [];
 
 // ((((((((((((((((((((((( Declaring Methods )))))))))))))))))))))))
   @override
   void onInit() {
     textEditing = TextEditingController();
+    uid = FirebaseAuth.instance.currentUser!.uid;
+    // getOldName();
     super.onInit();
   }
 
   @override
   void onClose() {
-    textEditing!.dispose();
+    textEditing!.clear();
     super.onClose();
   }
 
+  getOldNameAndUpdate({required String userName}) async {
+    //========= Get All Post Has The Old Name =================
+    Future<QuerySnapshot<Map<String, dynamic>>> postsDocs = FirebaseFirestore
+        .instance
+        .collection("posts")
+        .where('ownerUid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    await postsDocs.then((value) =>
+        value.docs.forEach((element) => postsDocsYouPosted.add(element.id)));
+    //========= Get All Posts ID ===============================
+    Future<QuerySnapshot<Map<String, dynamic>>> getAllPostsDocs =
+        FirebaseFirestore.instance.collection("posts").get();
+    await getAllPostsDocs.then((querySnapshot) =>
+        querySnapshot.docs.forEach((element) => allPostsDocs.add(element.id)));
+    //========= Get All Comments Has The Old Name ===============
+    for (var i = 0; i < allPostsDocs.length; i++) {
+      await FirebaseFirestore.instance
+          .collection("posts")
+          .doc(allPostsDocs[i])
+          .collection("comments")
+          .where('ownerUid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .get()
+          .then(
+            (querySnapshot) => querySnapshot.docs.forEach(
+              (element) {
+                commentsDocsYouCommented.add(element.id);
+                postsDocsYouCommentedAt.add(allPostsDocs[i]);
+              },
+            ),
+          );
+    }
+  }
+
   Future<void> modifyUserName(
-      {String? name, GlobalKey<FormState>? textKey, String? oldName}) async {
+      {required String name,
+      GlobalKey<FormState>? textKey,
+      String? oldName}) async {
     if (textKey!.currentState!.validate()) {
       textKey.currentState!.save();
       await FirebaseFirestore.instance
           .collection("usersInfo")
           .doc(FirebaseAuth.instance.currentUser!.uid)
-          .update({
-        "userName": name.toString(),
-      }).whenComplete(() => Get.snackbar("", "Modifiying has done successfully",
-              duration: const Duration(seconds: 5),
-              snackPosition: SnackPosition.BOTTOM));
+          .update(
+        {
+          "userName": name.toString(),
+        },
+      );
     }
   }
 
