@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:sudaphone_sd/shared/components/custom_text.dart';
 import 'package:sudaphone_sd/shared/components/custom_text2.dart';
+import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 
-class PostTitle extends StatelessWidget {
+class PostTitle extends GetWidget<PostsViewModel> {
   const PostTitle({Key? key, required this.currentDoc}) : super(key: key);
   final QueryDocumentSnapshot<Map<String, dynamic>> currentDoc;
 
@@ -22,7 +25,7 @@ class PostTitle extends StatelessWidget {
           ),
         ),
         CustomText2(
-          text: currentDoc.data()['dateTime'],
+          text: controller.handleDate(currentDoc.data()['dateTime']),
           fontSize: 13,
           fontWeight: FontWeight.normal,
           color: Colors.grey,
