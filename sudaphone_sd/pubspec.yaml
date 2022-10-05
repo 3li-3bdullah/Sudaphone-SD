@@ -34,7 +34,6 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  # get
   get: ^4.6.1
   permission_handler: ^9.1.0
   gallery_saver: ^2.3.2
@@ -54,14 +53,21 @@ dependencies:
   staggered_grid_view_flutter: ^0.0.4
   avatar_glow: ^2.0.2
   get_storage: ^2.0.3
-  like_button: ^2.0.4
   email_validator: ^2.0.1
-  shared_preferences: ^2.0.15
   better_player: ^0.0.67
   internet_connection_checker: ^0.0.1+4
+  shared_preferences: ^2.0.15
+  url_launcher: ^6.1.6
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.10.0"
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/logo/SudaphoneSD-logo.png"
+  min_sdk_android: 21
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -85,11 +91,8 @@ flutter:
   assets:
     - assets/images/category/
     - assets/images/logo/
-    - assets/images/product/
-    - assets/images/slider/
     - assets/images/social/
     - assets/images/login/
-    - assets/images/carousel/
     - assets/images/icons/
     - assets/images/
     - assets/icons/
