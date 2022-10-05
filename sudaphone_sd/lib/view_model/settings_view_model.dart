@@ -85,6 +85,19 @@ class SettingsViewModel extends GetxController {
               duration: Duration(seconds:4),
               snackPosition: SnackPosition.BOTTOM));
     }
+    // For Loop To Change The Old Name At All Posts You've commented
+    for (var i = 0; i < commentsDocsYouCommented.length; i++) {
+      postsCollection
+          .doc(postsDocsYouCommentedAt[i])
+          .collection("comments")
+          .doc(commentsDocsYouCommented[i])
+          .update({"userName": userName}).whenComplete(() => Get.snackbar(
+              "Done", "Your name has changed at all your comments successflly.",
+              backgroundColor: Colors.green[200],
+              colorText: Colors.white,
+              duration: Duration(seconds:4),
+              snackPosition: SnackPosition.BOTTOM));
+    }
   }
   Future<void> modifyUserName(
       {required String name,
