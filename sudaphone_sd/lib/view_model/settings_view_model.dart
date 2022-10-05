@@ -167,6 +167,13 @@ class SettingsViewModel extends GetxController {
     if (pickImage!.path.isEmpty) {
       return;
     } else {
+      showDialog(
+        barrierDismissible: false,
+        context: Get.context!,
+        builder: (BuildContext context) => Center(
+          child: Image.asset("assets/images/loader.gif"),
+        ),
+      );
       TaskSnapshot uploadImage = await FirebaseStorage.instance
           .ref("profile")
           .child(photoName!.toString())
@@ -180,7 +187,7 @@ class SettingsViewModel extends GetxController {
         "profileUrl": imageUrl.toString(),
         "modifyingDate": formattedDate.toString()
       }, SetOptions(merge: true));
-      
+      getOldPicAndUpdate(imageUrl: imageUrl);
     }
   }
 }
