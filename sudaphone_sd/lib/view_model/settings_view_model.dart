@@ -124,7 +124,7 @@ class SettingsViewModel extends GetxController {
         .where('ownerUid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .get();
     await postsDocs.then((value) =>
-        value.docs.forEach((element) => postsDocsYouPosted.add(element.data()['profileUrl'])));
+        value.docs.forEach((element) => postsDocsYouPosted.add(element.id)));
     //========= Get All Posts ID ===============================
     Future<QuerySnapshot<Map<String, dynamic>>> getAllPostsDocs =
         FirebaseFirestore.instance.collection("posts").get();
@@ -139,7 +139,7 @@ class SettingsViewModel extends GetxController {
           .where('ownerUid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
           .get()
           .then((querySnapshot) => querySnapshot.docs.forEach((element) {
-                commentsDocsYouCommented.add(element.data()['profileUrl']);
+                commentsDocsYouCommented.add(element.id);
                 postsDocsYouCommentedAt.add(allPostsDocs[i]);
               }));
     }
@@ -180,7 +180,7 @@ class SettingsViewModel extends GetxController {
           .putFile(imageFile!);
       String imageUrl = await uploadImage.ref.getDownloadURL();
 
-      FirebaseFirestore.instance
+     await FirebaseFirestore.instance
           .collection("usersInfo")
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .set({
