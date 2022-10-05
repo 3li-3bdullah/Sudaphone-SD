@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:lottie/lottie.dart';
 
 class FeedbackViewModel extends GetxController {
 // ((((((((((((((((((((((( Variables )))))))))))))))))))))))
@@ -36,7 +35,7 @@ class FeedbackViewModel extends GetxController {
       barrierDismissible: false,
       context: Get.context!,
       builder: (BuildContext context) => Center(
-        child: Lottie.asset("assets/lotties/loading.json"),
+        child: Image.asset("assets/images/loader.gif"),
       ),
     );
     await FirebaseFirestore.instance.collection("Feedbacks").add({
@@ -46,9 +45,9 @@ class FeedbackViewModel extends GetxController {
       "Time": date.toString(),
       "profileUrl": profileUrl.toString()
     }).whenComplete(() => Get.back());
-    Get.snackbar("", "Your Feedback Has sent successfully",
+    Get.snackbar("", "Your Feedback Has Sent Successfully, Thanks 😉..",
         duration: const Duration(seconds: 4),
-        backgroundColor: Colors.greenAccent,
+        backgroundColor: Colors.brown,
         snackPosition: SnackPosition.BOTTOM,
         colorText: Colors.white);
     textEditingController.clear();
