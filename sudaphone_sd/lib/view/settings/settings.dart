@@ -1,8 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sudaphone_sd/shared/components/custom_text.dart';
 import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 import 'package:sudaphone_sd/shared/components/custom_text_form_field.dart';
 import 'package:sudaphone_sd/shared/components/custom_title.dart';
@@ -31,39 +29,44 @@ class Setting extends GetWidget<SettingsViewModel> {
         child: Column(
           children: [
             const SettingsProfile(),
-            CustomRow(
-              name: "Edit Name",
-              imagePath: "assets/icons/write.png",
-              onTap: () => Get.defaultDialog(
-                title: "Edit your name",
-                titleStyle: const TextStyle(
-                    color: Colors.brown, fontWeight: FontWeight.bold),
-                content: Form(
-                  key: controller.editingKey,
-                  child: CustomTextFormField(
-                      obscure: false,
-                      validator: (String name) {
-                        if (name.trim().isEmpty) {
-                          return "The field is empty";
-                        }
-                      },
-                      icon: Icons.person,
-                      textEditingController: controller.textEditing!),
+            GetBuilder<PublicData>(
+              builder:(control) => CustomRow(
+                name: "Edit Name",
+                imagePath: "assets/icons/write.png",
+                onTap: () => Get.defaultDialog(
+                  title: "Edit your name",
+                  titleStyle: const TextStyle(
+                      color: Colors.brown, fontWeight: FontWeight.bold),
+                  content: Form(
+                    key: controller.editingKey,
+                    child: CustomTextFormField(
+                        obscure: false,
+                        validator: (String name) {
+                          if (name.trim().isEmpty) {
+                            return "The field is empty";
+                          }
+                        },
+                        icon: Icons.person,
+                        textEditingController: controller.textEditing!),
+                  ),
+                  textConfirm: "Update",
+                  textCancel: "Cancel",
+                  cancelTextColor: Colors.brown,
+                  confirmTextColor: Colors.white,
+                  buttonColor: Colors.brown,
+                  radius: 20.0,
+                  onConfirm: () async {
+                    await controller.modifyUserName(
+                        name: controller.textEditing!.text,
+                        textKey: controller.editingKey);
+                        Navigator.of(context).pop();
+                        control.userInfo();
+                        
+                  },
+                  onCancel: () {
+                    Get.back();
+                  },
                 ),
-                textConfirm: "Update",
-                textCancel: "Cancel",
-                cancelTextColor: Colors.brown,
-                confirmTextColor: Colors.white,
-                buttonColor: Colors.brown,
-                radius: 20.0,
-                onConfirm: () async {
-                  await controller.modifyUserName(
-                      name: controller.textEditing!.text,
-                      textKey: controller.editingKey);
-                },
-                onCancel: () {
-                  Get.back();
-                },
               ),
             ),
             InkWell(
