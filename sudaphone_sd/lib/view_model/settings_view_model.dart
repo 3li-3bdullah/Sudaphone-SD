@@ -53,8 +53,8 @@ class SettingsViewModel extends GetxController {
         .collection("posts")
         .where('ownerUid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .get();
-    await postsDocs.then((value) => value.docs
-        .forEach((element) => postsDocsYouPosted.add(element.id)));
+    await postsDocs.then((value) =>
+        value.docs.forEach((element) => postsDocsYouPosted.add(element.id)));
     //========= Get All Posts ID ===============================
     Future<QuerySnapshot<Map<String, dynamic>>> getAllPostsDocs =
         FirebaseFirestore.instance.collection("posts").get();
@@ -75,14 +75,7 @@ class SettingsViewModel extends GetxController {
     }
     // For Loop To Change The Old Name At All Posts If He Posted
     for (var i = 0; i < postsDocsYouPosted.length; i++) {
-      postsCollection
-          .doc(postsDocsYouPosted[i])
-          .update({"userName": userName}).whenComplete(() => Get.snackbar(
-              "Done", "Your name has changed at all your posts successflly.",
-              backgroundColor: Colors.green[200],
-              colorText: Colors.white,
-              duration: Duration(seconds:4),
-              snackPosition: SnackPosition.BOTTOM));
+      postsCollection.doc(postsDocsYouPosted[i]).update({"userName": userName});
     }
     // For Loop To Change The Old Name At All Posts You've commented
     for (var i = 0; i < commentsDocsYouCommented.length; i++) {
@@ -90,14 +83,10 @@ class SettingsViewModel extends GetxController {
           .doc(postsDocsYouCommentedAt[i])
           .collection("comments")
           .doc(commentsDocsYouCommented[i])
-          .update({"userName": userName}).whenComplete(() => Get.snackbar(
-              "Done", "Your name has changed at all your comments successflly.",
-              backgroundColor: Colors.green[200],
-              colorText: Colors.white,
-              duration: Duration(seconds:4),
-              snackPosition: SnackPosition.BOTTOM));
+          .update({"userName": userName});
     }
   }
+
   Future<void> modifyUserName(
       {required String name,
       GlobalKey<FormState>? textKey,
@@ -105,12 +94,12 @@ class SettingsViewModel extends GetxController {
     if (textKey!.currentState!.validate()) {
       textKey.currentState!.save();
       showDialog(
-          barrierDismissible: false,
-          context: Get.context!,
-          builder: (BuildContext context) => Center(
-            child: Image.asset("assets/images/loader.gif"),
-          ),
-        );
+        barrierDismissible: false,
+        context: Get.context!,
+        builder: (BuildContext context) => Center(
+          child: Image.asset("assets/images/loader.gif"),
+        ),
+      );
       await FirebaseFirestore.instance
           .collection("usersInfo")
           .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -120,6 +109,11 @@ class SettingsViewModel extends GetxController {
       getOldNameAndUpdate(userName: name);
       textEditing!.clear();
       Get.back();
+      Get.snackbar("Done", "Your name has changed successflly.",
+          backgroundColor: Colors.green[200],
+          colorText: Colors.white,
+          duration: Duration(seconds: 4),
+          snackPosition: SnackPosition.BOTTOM);
     }
   }
 
