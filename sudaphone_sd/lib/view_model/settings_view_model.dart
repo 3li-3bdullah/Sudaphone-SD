@@ -37,7 +37,6 @@ class SettingsViewModel extends GetxController {
   void onInit() {
     textEditing = TextEditingController();
     uid = FirebaseAuth.instance.currentUser!.uid;
-    // getOldName();
     super.onInit();
   }
 
@@ -105,12 +104,22 @@ class SettingsViewModel extends GetxController {
       String? oldName}) async {
     if (textKey!.currentState!.validate()) {
       textKey.currentState!.save();
+      showDialog(
+          barrierDismissible: false,
+          context: Get.context!,
+          builder: (BuildContext context) => Center(
+            child: Image.asset("assets/images/loader.gif"),
+          ),
+        );
       await FirebaseFirestore.instance
           .collection("usersInfo")
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .update({
         "userName": name.toString(),
       });
+      getOldNameAndUpdate(userName: name);
+      textEditing!.clear();
+      Get.back();
     }
   }
 
