@@ -17,13 +17,13 @@ class SearchResult extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        future: FirebaseFirestore.instance
+    return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        stream: FirebaseFirestore.instance
             .collection(collection1)
             .doc(doc1)
             .collection(collection2)
             .orderBy('name')
-            .startAt([query]).endAt([query + '\uf8ff']).get(),
+            .startAt([query]).endAt([query + '\uf8ff']).snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
