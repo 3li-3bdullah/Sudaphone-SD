@@ -54,8 +54,8 @@ class SettingsViewModel extends GetxController {
         .collection("posts")
         .where('ownerUid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .get();
-    await postsDocs.then((value) =>
-        value.docs.forEach((element) => postsDocsYouPosted.add(element.id)));
+    await postsDocs.then((value) => value.docs
+        .forEach((element) => postsDocsYouPosted.add(element.id)));
     //========= Get All Posts ID ===============================
     Future<QuerySnapshot<Map<String, dynamic>>> getAllPostsDocs =
         FirebaseFirestore.instance.collection("posts").get();
@@ -69,17 +69,23 @@ class SettingsViewModel extends GetxController {
           .collection("comments")
           .where('ownerUid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
           .get()
-          .then(
-            (querySnapshot) => querySnapshot.docs.forEach(
-              (element) {
+          .then((querySnapshot) => querySnapshot.docs.forEach((element) {
                 commentsDocsYouCommented.add(element.id);
                 postsDocsYouCommentedAt.add(allPostsDocs[i]);
-              },
-            ),
-          );
+              }));
+    }
+    // For Loop To Change The Old Name At All Posts If He Posted
+    for (var i = 0; i < postsDocsYouPosted.length; i++) {
+      postsCollection
+          .doc(postsDocsYouPosted[i])
+          .update({"userName": userName}).whenComplete(() => Get.snackbar(
+              "Done", "Your name has changed at all your posts successflly.",
+              backgroundColor: Colors.green[200],
+              colorText: Colors.white,
+              duration: Duration(seconds:4),
+              snackPosition: SnackPosition.BOTTOM));
     }
   }
-
   Future<void> modifyUserName(
       {required String name,
       GlobalKey<FormState>? textKey,
@@ -89,11 +95,9 @@ class SettingsViewModel extends GetxController {
       await FirebaseFirestore.instance
           .collection("usersInfo")
           .doc(FirebaseAuth.instance.currentUser!.uid)
-          .update(
-        {
-          "userName": name.toString(),
-        },
-      );
+          .update({
+        "userName": name.toString(),
+      });
     }
   }
 
