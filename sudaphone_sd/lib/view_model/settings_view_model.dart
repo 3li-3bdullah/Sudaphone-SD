@@ -188,6 +188,12 @@ class SettingsViewModel extends GetxController {
         "modifyingDate": formattedDate.toString()
       }, SetOptions(merge: true));
       getOldPicAndUpdate(imageUrl: imageUrl);
+      Get.back();
+      Get.snackbar("Done", "Your picture has changed successflly.",
+          backgroundColor: Colors.green[200],
+          colorText: Colors.white,
+          duration: Duration(seconds: 4),
+          snackPosition: SnackPosition.BOTTOM);
     }
   }
 }
