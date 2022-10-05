@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:lottie/lottie.dart';
 import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 
 class PostsViewModel extends GetxController {
@@ -46,6 +45,7 @@ class PostsViewModel extends GetxController {
   String? uid;
   RxBool selected = false.obs;
   List<String>? listOfSavedPosts;
+  RxList isSavedPostHasData = [].obs;
 
   // ((((((((((((((((((((((((((( Declaring Methods )))))))))))))))))))))))))))
 
@@ -60,15 +60,21 @@ class PostsViewModel extends GetxController {
   @override
   void onClose() {
     super.onClose();
-    commentController.dispose();
-    textController!.dispose();
+    commentController.clear();
+    textController!.clear();
+  }
+  //Handle DateTime
+  handleDate(date){
+    DateTime dateTime = (date as Timestamp).toDate();
+    String handleDateTime = DateFormat('MM/dd/yyyy, hh:mm a').format(dateTime);
+    return handleDateTime;
   }
 
   // Upload Image From Camera or Gallery ...
   Future<bool?> uploadImage(String? source) async {
     final picker = ImagePicker();
     pickedImage = await picker.pickImage(
-        source: source == "camera" ? ImageSource.camera : ImageSource.gallery);
+        source: source == "camera" ? ImageSource.camera : ImageSource.gallery,imageQuality: 1);
     int rand = Random().nextInt(1000000);
     _fileName = rand.toString() + pickedImage!.name;
     _imageFile = File(pickedImage!.path);
@@ -92,11 +98,12 @@ class PostsViewModel extends GetxController {
           barrierDismissible: false,
           context: Get.context!,
           builder: (BuildContext context) => Center(
-            child: Lottie.asset("assets/lotties/loading.json"),
+            child: Image.asset("assets/images/loader.gif"),
           ),
         );
       formState.save();
-      final formattedDate = DateFormat('M/d/y - kk:mm').format(DateTime.now());
+      // final formattedDate = DateFormat('M/d/y - kk:mm').format(DateTime.now());
+      final dateTime = DateTime.now();
       try {
         if (isPicked!.value) {
           TaskSnapshot uploadToStorage = await FirebaseStorage.instance
@@ -112,7 +119,7 @@ class PostsViewModel extends GetxController {
                 "userName": username.toString(),
                 "text": text!,
                 "imageUrl": imageUrl.toString(),
-                "dateTime": formattedDate.toString(),
+                "dateTime": dateTime,
                 "ownerUid": uid.toString(),
                 "isThereImageUrl": true,
                 "likesCount": 0,
@@ -124,7 +131,8 @@ class PostsViewModel extends GetxController {
           }).whenComplete( () {
             clearEditingControllers();
             Get.back(closeOverlays: true);
-            // showLoading.value = false;
+            Get.back();
+            showLoading.value = false;
             return Get.showSnackbar(const GetSnackBar(
               messageText: CustomText2(
                 text: "Uploaded Post Successfully ...",
@@ -145,7 +153,7 @@ class PostsViewModel extends GetxController {
             "userName": username.toString(),
             "text": text!,
             "imageUrl": "null",
-            "dateTime": formattedDate.toString(),
+            "dateTime": dateTime,
             "ownerUid": uid.toString(),
             "isThereImageUrl": false,
             "likesCount": 0,
@@ -156,6 +164,7 @@ class PostsViewModel extends GetxController {
           }).whenComplete( () {
             clearEditingControllers();
             Get.back(closeOverlays: true);
+            Get.back();
             showLoading.value = false;
             return Get.showSnackbar(const GetSnackBar(
               messageText: CustomText2(
@@ -264,9 +273,6 @@ class PostsViewModel extends GetxController {
      * he'll see he has liked before or not.
      */
     bool? isHasLiked = currentPostDocData.data()['usersLiked'][uid];
-    //  bool _isHasLiked = await _likeData
-    //       .get()
-    //       .then((value) => value.data()!['usersLiked'][uid] == true);
     if (isHasLiked == false) {
       int addLike = currentPostDocData.data()['likesCount'] + 1;
       likeData.set({
@@ -349,57 +355,6 @@ class PostsViewModel extends GetxController {
         .doc(postDoc)
         .update({'usersHaveSaved.$uid': true});
   }
-
-  // savePost({String? postDoc, snapshot}) {
-  //   FirebaseFirestore.instance.collection("posts").doc(postDoc).set({
-  //     "usersHasSaved": {uid: true}
-  //   }, SetOptions(merge: true));
-  //   if (snapshot.data()['isThereImageUrl']) {
-  //     FirebaseFirestore.instance
-  //         .collection("saved")
-  //         .doc(uid)
-  //         .collection("saved")
-  //         .doc(postDoc)
-  //         .set({
-  //       "profileUrl": snapshot.data()['profileUrl'].toString(),
-  //       "userName": snapshot.data()['userName'].toString(),
-  //       "text": snapshot.data()['text'],
-  //       "imageUrl": snapshot.data()['imageUrl'].toString(),
-  //       "dateTime": snapshot.data()['dateTime'].toString(),
-  //       "ownerUid": snapshot.data()['ownerUid'].toString(),
-  //       "isThereImageUrl": true,
-  //       "likesCount": snapshot.data()['likesCount'],
-  //       "isHasLiked": false,
-  //       "usersHasSaved": snapshot.data()['usersHasSaved'],
-  //       "usersLiked":    snapshot.data()['usersLiked'],
-  //       "edited": snapshot.data()['edited']
-  //     });
-  //   } else {
-  //     FirebaseFirestore.instance
-  //         .collection("saved")
-  //         .doc(uid)
-  //         .collection("saved")
-  //         .doc(postDoc)
-  //         .set({
-  //       "profileUrl": snapshot.data()['profileUrl'].toString(),
-  //       "userName": snapshot.data()['userName'].toString(),
-  //       "text": snapshot.data()['text'],
-  //       "imageUrl": snapshot.data()['imageUrl'].toString(),
-  //       "dateTime": snapshot.data()['dateTime'].toString(),
-  //       "ownerUid": snapshot.data()['ownerUid'].toString(),
-  //       "isThereImageUrl": false,
-  //       "likesCount": snapshot.data()['likesCount'],
-  //       "isHasLiked": false,
-  //       "usersHasSaved": snapshot.data()['usersHasSaved'],
-  //       "usersLiked":    snapshot.data()['usersLiked'],
-  //       "edited": snapshot.data()['edited']
-  //     });
-  //   }
-  // }
-
-  // unSavePost(String? savedDoc){
-  //   FirebaseFirestore.instance.collection("saved").doc(uid).collection("saved").doc(savedDoc).delete();
-  // }
   unSavePost({required String postDoc}) {
     FirebaseFirestore.instance
         .collection("posts")
