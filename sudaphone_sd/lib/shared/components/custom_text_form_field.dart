@@ -9,12 +9,13 @@ class CustomTextFormField extends StatelessWidget {
       required this.validator,
       required this.icon,
       required this.textEditingController,
-      this.customHintText = ""});
+      this.customHintText = "", this.iconColor = Colors.white});
   final bool obscure;
   final Function validator;
   final IconData icon;
   final String customHintText;
   final bool istrue;
+  final Color iconColor;
   final Function? changeObscureValue;
   final TextEditingController textEditingController;
   @override
@@ -38,7 +39,7 @@ class CustomTextFormField extends StatelessWidget {
         contentPadding: const EdgeInsets.all(4),
         prefixIcon: Icon(
           icon,
-          color: Colors.white,
+          color: iconColor,
           size: 30,
         ),
         suffixIcon: obscure
