@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sudaphone_sd/view/login/signin.dart';
 
 class SettingsViewModel extends GetxController {
 // (((((((((((((((((((((((((( Declaring Variables ))))))))))))))))))))))))))
@@ -44,6 +46,13 @@ class SettingsViewModel extends GetxController {
   void onClose() {
     textEditing!.clear();
     super.onClose();
+  }
+
+  signOut() async {
+    await FirebaseAuth.instance.signOut();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('email');
+    Get.offAll(() => const SignIn());
   }
 
   getOldNameAndUpdate({required String userName}) async {
@@ -116,7 +125,8 @@ class SettingsViewModel extends GetxController {
           snackPosition: SnackPosition.BOTTOM);
     }
   }
-   getOldPicAndUpdate({required String imageUrl}) async {
+
+  getOldPicAndUpdate({required String imageUrl}) async {
     //========= Get All Post Has The Old Pic =================
     Future<QuerySnapshot<Map<String, dynamic>>> postsDocs = FirebaseFirestore
         .instance
@@ -145,7 +155,9 @@ class SettingsViewModel extends GetxController {
     }
     // For Loop To Change The Old Pic At All Posts If He Posted
     for (var i = 0; i < postsDocsYouPosted.length; i++) {
-      postsCollection.doc(postsDocsYouPosted[i]).update({"profileUrl": imageUrl});
+      postsCollection
+          .doc(postsDocsYouPosted[i])
+          .update({"profileUrl": imageUrl});
     }
     // For Loop To Change The Old Pic At All Posts You've commented
     for (var i = 0; i < commentsDocsYouCommented.length; i++) {
@@ -180,7 +192,7 @@ class SettingsViewModel extends GetxController {
           .putFile(imageFile!);
       String imageUrl = await uploadImage.ref.getDownloadURL();
 
-     await FirebaseFirestore.instance
+      await FirebaseFirestore.instance
           .collection("usersInfo")
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .set({
