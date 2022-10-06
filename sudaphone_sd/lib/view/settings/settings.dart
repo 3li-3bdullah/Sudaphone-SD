@@ -30,7 +30,7 @@ class Setting extends GetWidget<SettingsViewModel> {
           children: [
             const SettingsProfile(),
             GetBuilder<PublicData>(
-              builder:(control) => CustomRow(
+              builder: (control) => CustomRow(
                 name: "Edit Name",
                 imagePath: "assets/icons/write.png",
                 onTap: () => Get.defaultDialog(
@@ -59,9 +59,8 @@ class Setting extends GetWidget<SettingsViewModel> {
                     await controller.modifyUserName(
                         name: controller.textEditing!.text,
                         textKey: controller.editingKey);
-                        Navigator.of(context).pop();
-                        control.userInfo();
-                        
+                    Navigator.of(context).pop();
+                    control.userInfo();
                   },
                   onCancel: () {
                     Get.back();
@@ -228,57 +227,57 @@ class Setting extends GetWidget<SettingsViewModel> {
                       buttonColor: Colors.brown,
                     )),
             CustomRow(
-                name: "Log Out",
-                imagePath: "assets/icons/exit.png",
-                onTap: () => Get.defaultDialog(
-                      content: const CustomText2(
-                        text: "Are you sure ?",
-                        textAlign: TextAlign.center,
-                        color: Colors.brown,
-                        fontSize: 16,
-                        fontWeight: FontWeight.normal,
-                      ),
-                      title: "",
-                      textCancel: "No",
-                      textConfirm: "Yes",
-                      onCancel: () {
-                        Get.back();
-                      },
-                      onConfirm: () async {
-                        await FirebaseAuth.instance
-                            .signOut()
-                            .then((_) => Get.offAll(() => const SignIn()));
-                      },
-                      confirmTextColor: Colors.white,
-                      cancelTextColor: Colors.brown,
-                      buttonColor: Colors.brown,
-                    )),
+              name: "Log Out",
+              imagePath: "assets/icons/exit.png",
+              onTap: () => Get.defaultDialog(
+                title: "Are you sure ?",
+                middleText: "",
+                backgroundColor: Colors.white30,
+                titleStyle: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+                middleTextStyle:
+                    TextStyle(color: Colors.grey.shade800, fontSize: 18),
+                textConfirm: "Yes",
+                textCancel: "No",
+                buttonColor: Colors.white,
+                confirmTextColor: Colors.brown,
+                cancelTextColor: Colors.white,
+                onConfirm: () {
+                  controller.signOut();
+                },
+                onCancel: () {
+                  Get.back();
+                },
+              ),
+            ),
             CustomRow(
-                name: "Delete Acount",
-                imagePath: "assets/icons/trash.png",
-                onTap: () => Get.defaultDialog(
-                      content: const CustomText2(
-                        text: "Are you sure dude 😦?",
-                        textAlign: TextAlign.center,
-                        color: Colors.brown,
-                        fontSize: 16,
-                        fontWeight: FontWeight.normal,
-                      ),
-                      title: "",
-                      textCancel: "No😜",
-                      textConfirm: "Yes😞",
-                      onCancel: () {
-                        Get.back();
-                      },
-                      onConfirm: () async {
-                        await FirebaseAuth.instance.currentUser!.delete();
-                        Get.off(() => const SignIn(),
-                            transition: Transition.zoom);
-                      },
-                      confirmTextColor: Colors.white,
-                      cancelTextColor: Colors.brown,
-                      buttonColor: Colors.brown,
-                    )),
+              name: "Delete Acount",
+              imagePath: "assets/icons/trash.png",
+              onTap: () => Get.defaultDialog(
+                title: "Are you sure dude 😦?",
+                middleText: "",
+                backgroundColor: Colors.white30,
+                titleStyle: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+                middleTextStyle:
+                    TextStyle(color: Colors.grey.shade800, fontSize: 18),
+                textConfirm: "Yes 😞",
+                textCancel: "No 😜",
+                buttonColor: Colors.white,
+                confirmTextColor: Colors.brown,
+                cancelTextColor: Colors.white,
+                onConfirm: () {
+                  controller.deleteAcount();
+                },
+                onCancel: () {
+                  Get.back();
+                },
+              ),
+            ),
           ],
         ),
       ),
