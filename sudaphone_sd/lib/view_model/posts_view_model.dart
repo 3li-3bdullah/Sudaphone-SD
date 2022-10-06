@@ -64,18 +64,22 @@ class PostsViewModel extends GetxController {
     commentController.clear();
     textController!.clear();
   }
+
   /// Here To See Is there Posts And If Current User Has Saved Any Post Or Not
-  isCurrentUserSavedPosts() async{
-   await postsCollections.get().then((querySnapshot) => querySnapshot.docs.forEach((element) {
-    if (element.data()['usersHaveSaved'][uid] && element.data()['usersHaveSaved'][uid] != null ) {
-      isCurrentUserSavedPost.add(element.id);
-      update();
-    }
-   }));
+  isCurrentUserSavedPosts() async {
+    await postsCollections
+        .get()
+        .then((querySnapshot) => querySnapshot.docs.forEach((element) {
+              if (element.data()['usersHaveSaved'][uid] &&
+                  element.data()['usersHaveSaved'][uid] != null) {
+                isCurrentUserSavedPost.add(element.id);
+                update();
+              }
+            }));
   }
 
   //Handle DateTime
-  handleDate(date){
+  handleDate(date) {
     DateTime dateTime = (date as Timestamp).toDate();
     String handleDateTime = DateFormat('MM/dd/yyyy, hh:mm a').format(dateTime);
     return handleDateTime;
@@ -85,7 +89,8 @@ class PostsViewModel extends GetxController {
   Future<bool?> uploadImage(String? source) async {
     final picker = ImagePicker();
     pickedImage = await picker.pickImage(
-        source: source == "camera" ? ImageSource.camera : ImageSource.gallery,imageQuality: 1);
+        source: source == "camera" ? ImageSource.camera : ImageSource.gallery,
+        imageQuality: 1);
     int rand = Random().nextInt(1000000);
     _fileName = rand.toString() + pickedImage!.name;
     _imageFile = File(pickedImage!.path);
@@ -106,12 +111,12 @@ class PostsViewModel extends GetxController {
     if (formState!.validate()) {
       // showLoading.value = true;
       showDialog(
-          barrierDismissible: false,
-          context: Get.context!,
-          builder: (BuildContext context) => Center(
-            child: Image.asset("assets/images/loader.gif"),
-          ),
-        );
+        barrierDismissible: false,
+        context: Get.context!,
+        builder: (BuildContext context) => Center(
+          child: Image.asset("assets/images/loader.gif"),
+        ),
+      );
       formState.save();
       // final formattedDate = DateFormat('M/d/y - kk:mm').format(DateTime.now());
       final dateTime = DateTime.now();
@@ -124,22 +129,21 @@ class PostsViewModel extends GetxController {
           imageUrl = await uploadToStorage.ref.getDownloadURL();
           isHasAnImageUrl(imageUrl);
           isPicked!.value = false;
-          postsReference
-              .add({
-                "profileUrl": profileurl.toString(),
-                "userName": username.toString(),
-                "text": text!,
-                "imageUrl": imageUrl.toString(),
-                "dateTime": dateTime,
-                "ownerUid": uid.toString(),
-                "isThereImageUrl": true,
-                "likesCount": 0,
-                "isHasLiked": false,
-                "usersHaveSaved": {uid:false},
-                "usersLiked": {uid: false},
-                "edited": false
-              // ignore: void_checks
-          }).whenComplete( () {
+          postsReference.add({
+            "profileUrl": profileurl.toString(),
+            "userName": username.toString(),
+            "text": text!,
+            "imageUrl": imageUrl.toString(),
+            "dateTime": dateTime,
+            "ownerUid": uid.toString(),
+            "isThereImageUrl": true,
+            "likesCount": 0,
+            "isHasLiked": false,
+            "usersHaveSaved": {uid: false},
+            "usersLiked": {uid: false},
+            "edited": false
+            // ignore: void_checks
+          }).whenComplete(() {
             clearEditingControllers();
             Get.back(closeOverlays: true);
             Get.back();
@@ -156,7 +160,6 @@ class PostsViewModel extends GetxController {
               duration: Duration(seconds: 2),
               snackPosition: SnackPosition.BOTTOM,
             ));
-            
           });
         } else {
           postsReference.add({
@@ -170,9 +173,9 @@ class PostsViewModel extends GetxController {
             "likesCount": 0,
             "isHasLiked": false,
             "usersLiked": {uid: false},
-            "usersHaveSaved": {uid:false},
-          // ignore: void_checks
-          }).whenComplete( () {
+            "usersHaveSaved": {uid: false},
+            // ignore: void_checks
+          }).whenComplete(() {
             clearEditingControllers();
             Get.back(closeOverlays: true);
             Get.back();
@@ -341,22 +344,23 @@ class PostsViewModel extends GetxController {
     }
   }
 
-   getCurretUserPostsHasSaved() {
+  getCurretUserPostsHasSaved() {
     StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
       stream: postsCollections.snapshots(),
-      builder: (context,snapshot){
+      builder: (context, snapshot) {
         return ListView.builder(
-          itemCount: snapshot.data!.docs.length,
-          itemBuilder: (context,index){
-            if(snapshot.data!.docs[index].data()['usersHaveSaved'][uid] != null){
-              if(snapshot.data!.docs[index].data()['usersHaveSaved'][uid]){
+            itemCount: snapshot.data!.docs.length,
+            itemBuilder: (context, index) {
+              if (snapshot.data!.docs[index].data()['usersHaveSaved'][uid] !=
+                  null) {
+                if (snapshot.data!.docs[index].data()['usersHaveSaved'][uid]) {
                   listOfSavedPosts!.add(snapshot.data!.docs[index].id);
-                update();
+                  update();
+                }
               }
-            }
-            return const SizedBox();
-          });
-        },
+              return const SizedBox();
+            });
+      },
     );
   }
 
@@ -364,17 +368,24 @@ class PostsViewModel extends GetxController {
     FirebaseFirestore.instance
         .collection("posts")
         .doc(postDoc)
-        .update({'usersHaveSaved.$uid': true});
+        .update({'usersHaveSaved.$uid': true}).whenComplete(() => Get.snackbar(
+            "", "Saved post successfully.",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.brown.shade300,
+            colorText: Colors.white,
+            duration: const Duration(seconds: 2)));
   }
+
   unSavePost({required String postDoc}) {
     FirebaseFirestore.instance
         .collection("posts")
         .doc(postDoc)
-        .update({'usersHaveSaved.$uid': false}).whenComplete(() => Get.snackbar("", "Unsaved post successfully.",
-                  snackPosition: SnackPosition.BOTTOM,
-                  backgroundColor: Colors.brown.shade300,
-                  colorText: Colors.white,
-                  duration: const Duration(seconds: 2)));
+        .update({'usersHaveSaved.$uid': false}).whenComplete(() => Get.snackbar(
+            "", "Unsaved post successfully.",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.brown.shade300,
+            colorText: Colors.white,
+            duration: const Duration(seconds: 2)));
   }
 
   editingPost({String? text, String? postDoc, GlobalKey<FormState>? editKey}) {
