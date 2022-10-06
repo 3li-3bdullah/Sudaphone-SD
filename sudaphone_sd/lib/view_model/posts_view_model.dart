@@ -46,6 +46,7 @@ class PostsViewModel extends GetxController {
   RxBool selected = false.obs;
   List<String>? listOfSavedPosts;
   RxList isSavedPostHasData = [].obs;
+  List<String> isCurrentUserSavedPost = [];
 
   // ((((((((((((((((((((((((((( Declaring Methods )))))))))))))))))))))))))))
 
@@ -63,6 +64,15 @@ class PostsViewModel extends GetxController {
     commentController.clear();
     textController!.clear();
   }
+  //Here To See Is there Posts And If Current User Has Saved Any Post Or Not
+  isCurrentUserSavedPosts() async{
+   await postsCollections.get().then((querySnapshot) => querySnapshot.docs.forEach((element) {
+    if (element.data()['usersHaveSaved'][uid] && element.data()['usersHaveSaved'][uid] != null ) {
+      isCurrentUserSavedPost.add(element.id);
+    }
+   }));
+  }
+
   //Handle DateTime
   handleDate(date){
     DateTime dateTime = (date as Timestamp).toDate();
