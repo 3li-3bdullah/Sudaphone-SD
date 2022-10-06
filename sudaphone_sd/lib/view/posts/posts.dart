@@ -35,9 +35,7 @@ class Posts extends GetWidget<PostsViewModel> {
         ),
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        stream: controller.postsCollections
-            .orderBy("dateTime", descending: true)
-            .snapshots(),
+        stream: controller.postsCollections.orderBy("dateTime", descending: true).snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
