@@ -54,6 +54,12 @@ class SettingsViewModel extends GetxController {
     prefs.remove('email');
     Get.offAll(() => const SignIn());
   }
+   deleteAcount() async {
+    await FirebaseAuth.instance.currentUser!.delete();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('email');
+    Get.offAll(() => const SignIn());
+  }
 
   getOldNameAndUpdate({required String userName}) async {
     //========= Get All Post Has The Old Name =================
