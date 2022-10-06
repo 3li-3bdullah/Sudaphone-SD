@@ -36,7 +36,7 @@ class Setting extends GetWidget<SettingsViewModel> {
                 onTap: () => Get.defaultDialog(
                   title: "Edit your name",
                   titleStyle: const TextStyle(
-                      color: Colors.brown, fontWeight: FontWeight.bold),
+                      color: Colors.white, fontWeight: FontWeight.bold),
                   content: Form(
                     key: controller.editingKey,
                     child: CustomTextFormField(
@@ -46,15 +46,17 @@ class Setting extends GetWidget<SettingsViewModel> {
                             return "The field is empty";
                           }
                         },
+                        iconColor: Colors.brown.shade600,
                         icon: Icons.person,
                         textEditingController: controller.textEditing!),
                   ),
                   textConfirm: "Update",
                   textCancel: "Cancel",
-                  cancelTextColor: Colors.brown,
-                  confirmTextColor: Colors.white,
-                  buttonColor: Colors.brown,
+                  cancelTextColor: Colors.white,
+                  confirmTextColor: Colors.brown,
+                  buttonColor: Colors.white,
                   radius: 20.0,
+                  backgroundColor: Colors.white38,
                   onConfirm: () async {
                     await controller.modifyUserName(
                         name: controller.textEditing!.text,
