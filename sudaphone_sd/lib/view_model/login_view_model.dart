@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 import 'package:sudaphone_sd/view/my_drawer/mydrawer.dart';
 
 class LoginViewModel extends GetxController {
@@ -79,35 +80,39 @@ class LoginViewModel extends GetxController {
 
   void signInWithEmailAndPassword(
       String email, String password, GlobalKey<FormState> signInKey) async {
-    try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      if (signInKey.currentState!.validate()) {
+    if (signInKey.currentState!.validate()) {
+      try {
         showDialog(
           barrierDismissible: false,
           context: Get.context!,
           builder: (BuildContext context) => Center(
-            child: Lottie.asset("assets/lotties/loading.json"),
-          ),
+              child: Image.asset(
+            "assets/images/loader.gif",
+            fit: BoxFit.cover,
+          )),
         );
         signInKey.currentState!.save();
-        FirebaseAuth.instance
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: password)
-            .whenComplete(() {
+            .then((e) {
           Get.offAll(
             () => const MyDrawer(),
           );
           prefs.setString('email', email);
-          Get.back(closeOverlays: true);
           Get.snackbar("", "You've signed in successfully",
               snackPosition: SnackPosition.BOTTOM,
               duration: const Duration(seconds: 3));
+               Get.back(closeOverlays: true);
         });
-      }
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        Get.snackbar("Error", "No user found for that email.");
-      } else if (e.code == 'wrong-password') {
-        Get.snackbar("Oops!", "Wrong password provided for that user.");
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found') {
+           Get.back(closeOverlays: true);
+          Get.snackbar("Error", "No user found for that email.",duration: Duration(seconds: 5));
+        } else if (e.code == 'wrong-password') {
+           Get.back(closeOverlays: true);
+          Get.snackbar("Oops!", "Wrong password provided for that user.",duration: Duration(seconds: 5));
+        }
       }
     }
   }
