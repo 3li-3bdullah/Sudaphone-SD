@@ -38,10 +38,10 @@ class CategoriesCard extends GetWidget<ThemesViewModel> {
                     ? Colors.white
                     : kDarkColor,
                 child: SizedBox(
-                  height: 170,
+                  height: 150,
                   child: Image.asset(
                     imageCat,
-                    fit: BoxFit.fill,
+                    fit: control.theme == ThemeMode.dark ? BoxFit.cover : BoxFit.contain,
                   ),
                 ),
               ),
