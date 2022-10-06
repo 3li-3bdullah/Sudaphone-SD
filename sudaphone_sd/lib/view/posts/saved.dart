@@ -34,7 +34,6 @@ class Saved extends GetWidget<PostsViewModel> {
               .orderBy('dateTime', descending: true)
               .snapshots(),
           builder: (context, snapshot) {
-            if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
               return ListView.builder(
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (context, index) {
@@ -110,21 +109,6 @@ class Saved extends GetWidget<PostsViewModel> {
                       return const SizedBox();
                     }
                   });
-            } else if (snapshot.hasError) {
-              return Container(
-                alignment: Alignment.center,
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                child: CustomText(
-                  text: snapshot.error.toString(),
-                  textAlign: TextAlign.center,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
-              );
-            } else {
-              return Center(child: Lottie.asset("assets/lotties/no_data.json"));
-            }
           },
         ) : Center(child: Lottie.asset('assets/lotties/no_data.json'),),
       ),
