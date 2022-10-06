@@ -10,7 +10,7 @@ import 'package:sudaphone_sd/shared/constants.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 
 class OpenSavedTrailing extends GetWidget<PostsViewModel> {
-  const OpenSavedTrailing( {required this.snapshot, Key? key}) : super(key: key);
+  const OpenSavedTrailing({required this.snapshot, Key? key}) : super(key: key);
   final AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot;
 
   @override
@@ -22,7 +22,7 @@ class OpenSavedTrailing extends GetWidget<PostsViewModel> {
               if (value == SavedItems.unsave) {
                 controller.unSavePost(
                   postDoc: snapshot.data!.id,
-                );        
+                );
               } else if (value == SavedItems.edit) {
                 Get.defaultDialog(
                   title: "Edit the post",
@@ -52,7 +52,8 @@ class OpenSavedTrailing extends GetWidget<PostsViewModel> {
                         editKey: controller.editingPostKey,
                         postDoc: snapshot.data!.id,
                         text: controller.editingPostController.text);
-                    Get.back();
+                        Get.back();
+                        Get.back();
                   },
                   onCancel: () {
                     Get.back();
