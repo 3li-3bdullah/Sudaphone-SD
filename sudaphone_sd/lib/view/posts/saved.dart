@@ -16,13 +16,19 @@ class Saved extends GetWidget<PostsViewModel> {
   const Saved({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    /*
+    * Here I Have Called The Method To Provide Me If Current User
+    * Has Saved Any Post Or Not
+    */
+    controller.isCurrentUserSavedPosts();
     return Scaffold(
       appBar: AppBar(
         title: const CustomTitle(text: "Saved", underLineWidget: 40),
         leading: const Leading(),
         elevation: 0,
       ),
-      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+      body: GetBuilder<PostsViewModel>(
+        builder:(controller) => controller.isCurrentUserSavedPost.isNotEmpty ? StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
           stream: FirebaseFirestore.instance
               .collection("posts")
               .orderBy('dateTime', descending: true)
@@ -120,7 +126,8 @@ class Saved extends GetWidget<PostsViewModel> {
               return Center(child: Lottie.asset("assets/lotties/no_data.json"));
             }
           },
-        ),
+        ) : Center(child: Lottie.asset('assets/lotties/no_data.json'),),
+      ),
     );
   }
 }
