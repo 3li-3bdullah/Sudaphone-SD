@@ -1,82 +1,67 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:sudaphone_sd/shared/components/custom_divider.dart';
 import 'package:sudaphone_sd/shared/components/custom_text.dart';
+import 'package:sudaphone_sd/shared/components/custom_title.dart';
 import 'package:sudaphone_sd/shared/components/leading.dart';
+import 'package:sudaphone_sd/view/about_app/components/custom_container.dart';
+import 'package:sudaphone_sd/view/details/components/custom_text_details.dart';
 
 class AboutApp extends StatelessWidget {
   const AboutApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    /*
+  const uri = Uri.parse("https://flutter.io");
+if (await canLaunchUrl(uri)){
+    await launchUrl(uri);
+} else {
+    throw ' can't launch $url';
+}
+  */
+
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
-        title: CustomText(
-          text: "About",
-          fontSize: 20,
-          fontWeight: FontWeight.normal,
-          textAlign: TextAlign.center,
-        ),
-        centerTitle: true,
-        leading: const Leading()
-      ),
-      
-
-      ///drawer: MyDrawer(),
-      body: ListView(
-        children: [
-          // Container(
-          //   width: MediaQuery.of(context).size.width,
-          //   margin: const EdgeInsets.all(10),
-          //   child: RichText(
-          //     text: const TextSpan(
-          //       style: TextStyle(fontSize: 15),
-          //       children: <TextSpan>[
-          //         TextSpan(
-          //             text:
-          //                 "This app show you mostly kind of phones and his prices , and you can add post & like & comments and more features , desinged to make to your life easier when wanna buy yor phone or sell him .",
-          //             style: TextStyle(
-          //                 fontWeight: FontWeight.w700, color: Colors.black)),
-          //         TextSpan(
-          //           text:
-          //               "If there any problem or feedback please shoot message on this email : ",
-          //           style: TextStyle(
-          //               fontSize: 18,
-          //               fontWeight: FontWeight.w700,
-          //               color: Colors.black),
-          //         ),
-          //         TextSpan(
-          //           text: "SudaphoneSD@gmail.com",
-          //           style: TextStyle(
-          //               fontWeight: FontWeight.w700, color: Colors.green),
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // ),
-          const Padding(padding: EdgeInsets.all(50)),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: TextButton(
-              onPressed: () {
-                Get.snackbar("Ali Abdullah",
-                    "The programmer that he's the master of his sea...");
-              },
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                decoration: const BoxDecoration(
-                  gradient:
-                      LinearGradient(colors: [Colors.pink, Colors.purple]),
-                ),
-                child: CustomText(
-                    text: "About App Developer",
-                    textAlign: TextAlign.center,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600),
-              ),
+          elevation: 0,
+          title: const CustomTitle(text: "About", underLineWidget: 40),
+          leading: const Leading()),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            CustomContainer(
+                header: "ABOUT",
+                text1: "Programmed By Ali",
+                text2: "view website",
+                image1: 'assets/images/logo/app_logo.png',
+                image2: 'assets/icons/internet.png',
+                radius: 45,
+                ontap1: () {},
+                ontap2: () {}),
+            const SizedBox(
+              height: 10,
             ),
-          ),
-        ],
+            CustomContainer(
+                text1: "Twitter",
+                text2: "LinkedIn",
+                image1: 'assets/icons/twitter.png',
+                image2: 'assets/icons/linkedin.png',
+                header: "FOLLOW ME TO STAY UPDATED!",
+                radius: 13,
+                ontap1: () {},
+                ontap2: () {}),
+            const SizedBox(
+              height: 25,
+            ),
+            CustomText(
+              text: "Sudaphone SD V1",
+              fontSize: 18,
+              fontWeight: FontWeight.normal,
+              textAlign: TextAlign.center,
+            )
+          ],
+        ),
       ),
     );
   }
