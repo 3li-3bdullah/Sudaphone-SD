@@ -69,6 +69,7 @@ class PostsViewModel extends GetxController {
    await postsCollections.get().then((querySnapshot) => querySnapshot.docs.forEach((element) {
     if (element.data()['usersHaveSaved'][uid] && element.data()['usersHaveSaved'][uid] != null ) {
       isCurrentUserSavedPost.add(element.id);
+      update();
     }
    }));
   }
