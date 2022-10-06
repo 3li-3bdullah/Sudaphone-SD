@@ -10,6 +10,7 @@ class CustomContainer extends StatelessWidget {
       required this.image1,
       required this.image2,
       required this.header,
+      required this.radius,
       required this.ontap1,
       required this.ontap2})
       : super(key: key);
@@ -18,6 +19,7 @@ class CustomContainer extends StatelessWidget {
   final String image1;
   final String image2;
   final String header;
+  final double radius;
   final Function ontap1;
   final Function ontap2;
 
@@ -57,6 +59,8 @@ class CustomContainer extends StatelessWidget {
                     width: 20,
                   ),
                   CircleAvatar(
+                      backgroundColor: Colors.white,
+                      radius: radius,
                       backgroundImage: AssetImage(image1)),
                   SizedBox(
                     width: 20,
@@ -83,6 +87,8 @@ class CustomContainer extends StatelessWidget {
                   width: 20,
                 ),
                 CircleAvatar(
+                    radius: 15,
+                    backgroundColor: Colors.white,
                     backgroundImage: AssetImage(image2)),
                 SizedBox(
                   width: 20,
