@@ -35,7 +35,9 @@ class Posts extends GetWidget<PostsViewModel> {
         ),
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        stream: controller.postsCollections.orderBy("dateTime", descending: true).snapshots(),
+        stream: controller.postsCollections
+            .orderBy("dateTime", descending: true)
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
@@ -69,13 +71,7 @@ class Posts extends GetWidget<PostsViewModel> {
                                 children: [
                                   IconButton(
                                     onPressed: () {
-                                      snapshot.data!.docs[index]
-                                                  .data()['usersLiked']
-                                              [controller.uid]
-                                          ? controller.handlePostLikes(
-                                              currentPostDocData:
-                                                  snapshot.data!.docs[index])
-                                          : controller.handlePostLikes(
+                                           controller.handlePostLikes(
                                               currentPostDocData:
                                                   snapshot.data!.docs[index]);
                                     },
@@ -83,8 +79,12 @@ class Posts extends GetWidget<PostsViewModel> {
                                       "assets/images/like.png",
                                       color: snapshot.data!.docs[index]
                                                   .data()['usersLiked']
-                                              [controller.uid]
-                                          ? Colors.pink
+                                              [controller.uid] != null
+                                          ? snapshot.data!.docs[index]
+                                                      .data()['usersLiked']
+                                                  [controller.uid]
+                                              ? Colors.pink
+                                              : Colors.brown
                                           : Colors.brown,
                                     ),
                                   ),
@@ -113,12 +113,15 @@ class Posts extends GetWidget<PostsViewModel> {
                                             fontSize: 15,
                                             fontWeight: FontWeight.normal,
                                             color: snapshot.data!.docs[index]
-                                                                .data()[
-                                                            'usersLiked']
-                                                        [controller.uid] ==
-                                                    true
-                                                ? Colors.pink
-                                                : Colors.grey.shade600),
+                                                  .data()['usersLiked']
+                                              [controller.uid] != null
+                                          ? snapshot.data!.docs[index]
+                                                      .data()['usersLiked']
+                                                  [controller.uid]
+                                              ? Colors.pink
+                                              : Colors.grey.shade600
+                                          : Colors.grey.shade600,
+                                                ),
                                       ),
                                     ),
                                     onTap: () {
