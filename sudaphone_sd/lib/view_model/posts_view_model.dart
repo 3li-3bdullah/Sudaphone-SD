@@ -64,7 +64,7 @@ class PostsViewModel extends GetxController {
     commentController.clear();
     textController!.clear();
   }
-  //Here To See Is there Posts And If Current User Has Saved Any Post Or Not
+  /// Here To See Is there Posts And If Current User Has Saved Any Post Or Not
   isCurrentUserSavedPosts() async{
    await postsCollections.get().then((querySnapshot) => querySnapshot.docs.forEach((element) {
     if (element.data()['usersHaveSaved'][uid] && element.data()['usersHaveSaved'][uid] != null ) {
@@ -370,7 +370,11 @@ class PostsViewModel extends GetxController {
     FirebaseFirestore.instance
         .collection("posts")
         .doc(postDoc)
-        .update({'usersHaveSaved.$uid': false});
+        .update({'usersHaveSaved.$uid': false}).whenComplete(() => Get.snackbar("", "Unsaved post successfully.",
+                  snackPosition: SnackPosition.BOTTOM,
+                  backgroundColor: Colors.brown.shade300,
+                  colorText: Colors.white,
+                  duration: const Duration(seconds: 2)));
   }
 
   editingPost({String? text, String? postDoc, GlobalKey<FormState>? editKey}) {
@@ -382,6 +386,8 @@ class PostsViewModel extends GetxController {
           .update({"text": text.toString(), "edited": true}).whenComplete(() =>
               Get.snackbar("", "The post has edited successfully.",
                   snackPosition: SnackPosition.BOTTOM,
+                  backgroundColor: Colors.brown.shade300,
+                  colorText: Colors.white,
                   duration: const Duration(seconds: 2)));
     }
     editingPostController.clear();
@@ -395,6 +401,8 @@ class PostsViewModel extends GetxController {
         .whenComplete(() => Get.snackbar(
             "", "The post has deleted successfully.",
             snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.brown.shade300,
+            colorText: Colors.white,
             duration: const Duration(seconds: 3)));
   }
 
