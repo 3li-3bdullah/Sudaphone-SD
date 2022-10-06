@@ -103,15 +103,17 @@ class LoginViewModel extends GetxController {
           Get.snackbar("", "You've signed in successfully",
               snackPosition: SnackPosition.BOTTOM,
               duration: const Duration(seconds: 3));
-               Get.back(closeOverlays: true);
+          Get.back(closeOverlays: true);
         });
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
-           Get.back(closeOverlays: true);
-          Get.snackbar("Error", "No user found for that email.",duration: Duration(seconds: 5));
+          Get.back(closeOverlays: true);
+          Get.snackbar("Error", "No user found for that email.",
+              duration: Duration(seconds: 5));
         } else if (e.code == 'wrong-password') {
-           Get.back(closeOverlays: true);
-          Get.snackbar("Oops!", "Wrong password provided for that user.",duration: Duration(seconds: 5));
+          Get.back(closeOverlays: true);
+          Get.snackbar("Oops!", "Wrong password provided for that user.",
+              duration: Duration(seconds: 5));
         }
       }
     }
@@ -143,9 +145,9 @@ class LoginViewModel extends GetxController {
   /// SignUp With Username & Email & Password
   Future<void> signUpWithEmailAndPassword(String username, String email,
       String password, GlobalKey<FormState> signUpKey) async {
-    try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      if (signUpKey.currentState!.validate()) {
+    if (signUpKey.currentState!.validate()) {
+      try {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
         showDialog(
           barrierDismissible: false,
           context: Get.context!,
@@ -157,10 +159,10 @@ class LoginViewModel extends GetxController {
         final formattedDate =
             DateFormat('M/d/y - kk:mm').format(DateTime.now());
         imageUrl != null ? uploadImageToFirebaseStorage() : null;
-        prefs.setString('email', email);
-        FirebaseAuth.instance
+       await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email, password: password)
-            .whenComplete(() {
+            .then((e) {
+          prefs.setString('email', email);
           FirebaseFirestore.instance
               .collection("usersInfo")
               .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -177,21 +179,26 @@ class LoginViewModel extends GetxController {
           Get.offAll(
             () => const MyDrawer(),
           );
-          Get.back(closeOverlays: true);
+          Get.back();
           Get.snackbar("", "You've resgistered successfully",
               snackPosition: SnackPosition.BOTTOM,
+              backgroundColor: Colors.brown.shade300,
+              colorText: Colors.white,
               duration: const Duration(seconds: 3));
         });
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'weak-password') {
+          Get.back();
+          Get.snackbar("Password", "The password provided is too weak.");
+        } else if (e.code == 'email-already-in-use') {
+          Get.back();
+          Get.snackbar("E-mail", 'The account already exists for that email.');
+        }
+      } catch (e) {
+        Get.back();
+        Get.snackbar("Oops!", "That error was : $e",
+            duration: const Duration(seconds: 5));
       }
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        Get.snackbar("Password", "The password provided is too weak.");
-      } else if (e.code == 'email-already-in-use') {
-        Get.snackbar("E-mail", 'The account already exists for that email.');
-      }
-    } catch (e) {
-      Get.snackbar("Oops!", "That error was : $e",
-          duration: const Duration(seconds: 5));
     }
   }
 
