@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sudaphone_sd/my_binding/my_binding.dart';
-import 'package:sudaphone_sd/view/mydrawer.dart';
-import 'package:sudaphone_sd/view/signin.dart';
+import 'package:sudaphone_sd/shared/my_binding/my_binding.dart';
+import 'package:sudaphone_sd/view/my_drawer/mydrawer.dart';
+import 'package:sudaphone_sd/view/login/signin.dart';
 import 'package:sudaphone_sd/view_model/themes_view_model.dart';
 
-import 'constants.dart';
+import 'shared/constants.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +24,6 @@ class SudaphoneSD extends StatelessWidget {
   final String? email;
   @override
   Widget build(BuildContext context) {
-    // Get.testMode =  true;
     return GetBuilder<ThemesViewModel>(
       init: ThemesViewModel(),
       builder:(control)=> GetMaterialApp(
@@ -32,7 +31,6 @@ class SudaphoneSD extends StatelessWidget {
           themeMode: control.theme,
           theme: Themes.lightTheme,
           darkTheme: Themes.darkTheme,
-          // theme: ThemeData(fontFamily: 'Poppins'),
           title: "SudaPhone SD",
           initialBinding: MyBinding(),
           home: email != null
