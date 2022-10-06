@@ -12,6 +12,7 @@ import 'package:sudaphone_sd/view/details/components/custom_text_details.dart';
 import 'package:sudaphone_sd/view/download/download_images.dart';
 import 'package:sudaphone_sd/view/people_have_liked/people_have_liked.dart';
 import 'package:sudaphone_sd/view/posts/comments.dart';
+import 'package:sudaphone_sd/view/posts/components/open_saved_trailing.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 
 class OpenSavedPost extends GetWidget<PostsViewModel> {
@@ -64,108 +65,7 @@ class OpenSavedPost extends GetWidget<PostsViewModel> {
                         )
                       ],
                     ),
-                    trailing: snapshotForLikeCount.data!.data()!['ownerUid'] ==
-                            controller.uid
-                        // FirebaseAuth.instance.currentUser!.uid
-                        ? PopupMenuButton<SavedItems>(
-                            onSelected: (value) {
-                              if (value == SavedItems.unsave) {
-                                controller.unSavePost(
-                                  postDoc: snapshotForLikeCount.data!.id,
-                                );
-                              } else if (value == SavedItems.edit) {
-                                Get.defaultDialog(
-                                  title: "Edit the post",
-                                  titleStyle: const TextStyle(
-                                      color: Colors.brown,
-                                      fontWeight: FontWeight.bold),
-                                  content: Form(
-                                    key: controller.editingPostKey,
-                                    child: CustomTextFormField(
-                                        obscure: false,
-                                        validator: (String name) {
-                                          if (name.trim().isEmpty) {
-                                            return "The field is empty";
-                                          }
-                                        },
-                                        icon: Icons.edit,
-                                        textEditingController:
-                                            controller.editingPostController),
-                                  ),
-                                  textConfirm: "Edit",
-                                  textCancel: "Cancel",
-                                  cancelTextColor: Colors.brown,
-                                  confirmTextColor: Colors.white,
-                                  buttonColor: Colors.brown,
-                                  radius: 20.0,
-                                  onConfirm: () {
-                                    controller.editingPost(
-                                        editKey: controller.editingPostKey,
-                                        postDoc: snapshotForLikeCount.data!.id,
-                                        text: controller
-                                            .editingPostController.text);
-                                    Get.back();
-                                  },
-                                  onCancel: () {
-                                    Get.back();
-                                  },
-                                );
-                              } else {
-                                controller
-                                    .deletePost(snapshotForLikeCount.data!.id);
-                              }
-                            },
-                            itemBuilder: (context) => [
-                              PopupMenuItem(
-                                value: SavedItems.unsave,
-                                child: CustomText(
-                                  text: "Remove",
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              PopupMenuItem(
-                                value: SavedItems.edit,
-                                child: CustomText(
-                                  text: "Edit",
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              PopupMenuItem(
-                                value: SavedItems.delete,
-                                child: CustomText(
-                                  text: "Delete",
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ],
-                          )
-                        : PopupMenuButton<SavedItems>(
-                            onSelected: (value) {
-                              if (value == SavedItems.unsave) {
-                                controller.unSavePost(
-                                  postDoc: snapshotForLikeCount.data!.id,
-                                );
-                              }
-                            },
-                            itemBuilder: (context) => const [
-                              PopupMenuItem(
-                                value: SavedItems.unsave,
-                                child: CustomText2(
-                                  text: "Remove",
-                                  color: kBlackColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ],
-                          ),
+                    trailing: OpenSavedTrailing(snapshot: snapshotForLikeCount),
                     subtitle: Column(
                       children: [
                         const SizedBox(
