@@ -47,7 +47,7 @@ class FeedbackViewModel extends GetxController {
     }).whenComplete(() => Get.back());
     Get.snackbar("", "Your Feedback Has Sent Successfully, Thanks 😉..",
         duration: const Duration(seconds: 4),
-        backgroundColor: Colors.brown,
+        backgroundColor: Colors.brown.shade300,
         snackPosition: SnackPosition.BOTTOM,
         colorText: Colors.white);
     textEditingController.clear();
