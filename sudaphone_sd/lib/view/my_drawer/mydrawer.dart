@@ -118,6 +118,15 @@ class MyDrawer extends GetWidget<MyDrawerViewModel> {
                               ),
                               const CustomDivider(),
                               BuildListTile(
+                                text: "Settings",
+                                onTap: () {
+                                  Get.to(() => Setting(),
+                                      transition: Transition.downToUp);
+                                },
+                                icon: "assets/images/icons/settings.png",
+                              ),
+                              const CustomDivider(),
+                              BuildListTile(
                                 text: "Posts",
                                 onTap: () {
                                   Get.to(() => const Posts(),
@@ -134,24 +143,6 @@ class MyDrawer extends GetWidget<MyDrawerViewModel> {
                                       transition: Transition.zoom);
                                 },
                                 icon: "assets/images/icons/saved.png",
-                              ),
-                              const CustomDivider(),
-                              BuildListTile(
-                                text: "About",
-                                onTap: () {
-                                  Get.to(() => const AboutApp(),
-                                      transition: Transition.upToDown);
-                                },
-                                icon: "assets/images/icons/info.png",
-                              ),
-                              const CustomDivider(),
-                              BuildListTile(
-                                text: "Settings",
-                                onTap: () {
-                                  Get.to(() => Setting(),
-                                      transition: Transition.downToUp);
-                                },
-                                icon: "assets/images/icons/settings.png",
                               ),
                               const CustomDivider(),
                               BuildListTile(
@@ -191,6 +182,15 @@ class MyDrawer extends GetWidget<MyDrawerViewModel> {
                                   );
                                 },
                                 icon: "assets/images/icons/logout.png",
+                              ),
+                              const CustomDivider(),
+                              BuildListTile(
+                                text: "About",
+                                onTap: () {
+                                  Get.to(() => const AboutApp(),
+                                      transition: Transition.upToDown);
+                                },
+                                icon: "assets/images/icons/info.png",
                               ),
                             ],
                           ),
