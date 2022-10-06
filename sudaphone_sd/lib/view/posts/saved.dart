@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 import 'package:sudaphone_sd/shared/components/custom_title.dart';
 import 'package:sudaphone_sd/shared/constants.dart';
 import 'package:sudaphone_sd/view/posts/open_saved_post.dart';
@@ -28,8 +27,7 @@ class Saved extends GetWidget<PostsViewModel> {
       body: GetBuilder<PostsViewModel>(
         builder: (controller) => controller.isCurrentUserSavedPost.isNotEmpty
             ? StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                stream: FirebaseFirestore.instance
-                    .collection("posts")
+                stream: controller.postsCollections
                     .orderBy('dateTime', descending: true)
                     .snapshots(),
                 builder: (context, snapshot) {
