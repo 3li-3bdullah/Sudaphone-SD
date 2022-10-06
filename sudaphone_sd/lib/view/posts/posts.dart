@@ -71,15 +71,16 @@ class Posts extends GetWidget<PostsViewModel> {
                                 children: [
                                   IconButton(
                                     onPressed: () {
-                                           controller.handlePostLikes(
-                                              currentPostDocData:
-                                                  snapshot.data!.docs[index]);
+                                      controller.handlePostLikes(
+                                          currentPostDocData:
+                                              snapshot.data!.docs[index]);
                                     },
                                     icon: Image.asset(
                                       "assets/images/like.png",
                                       color: snapshot.data!.docs[index]
-                                                  .data()['usersLiked']
-                                              [controller.uid] != null
+                                                      .data()['usersLiked']
+                                                  [controller.uid] !=
+                                              null
                                           ? snapshot.data!.docs[index]
                                                       .data()['usersLiked']
                                                   [controller.uid]
@@ -110,18 +111,19 @@ class Posts extends GetWidget<PostsViewModel> {
                                               .toString(),
                                         ),
                                         style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.normal,
-                                            color: snapshot.data!.docs[index]
-                                                  .data()['usersLiked']
-                                              [controller.uid] != null
-                                          ? snapshot.data!.docs[index]
-                                                      .data()['usersLiked']
-                                                  [controller.uid]
-                                              ? Colors.pink
-                                              : Colors.grey.shade600
-                                          : Colors.grey.shade600,
-                                                ),
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.normal,
+                                          color: snapshot.data!.docs[index]
+                                                          .data()['usersLiked']
+                                                      [controller.uid] !=
+                                                  null
+                                              ? snapshot.data!.docs[index]
+                                                          .data()['usersLiked']
+                                                      [controller.uid]
+                                                  ? Colors.pink
+                                                  : Colors.grey.shade600
+                                              : Colors.grey.shade600,
+                                        ),
                                       ),
                                     ),
                                     onTap: () {
@@ -152,54 +154,27 @@ class Posts extends GetWidget<PostsViewModel> {
                       ],
                     ),
                   );
-                } else if (snapshot.connectionState ==
-                    ConnectionState.waiting) {
+                } else {
                   return Container(
                       height: MediaQuery.of(context).size.height,
                       width: MediaQuery.of(context).size.width,
                       alignment: Alignment.center,
                       child: Image.asset('assets/images/loader.gif'));
-                } else if (snapshot.data!.docs.isEmpty) {
-                  return Container(
-                    height: controller.size.height,
-                    width: controller.size.width,
-                    alignment: Alignment.center,
-                    child: Image.asset('assets/images/loader.gif'),
-                  );
-                } else {
-                  return const Center(
-                      child: CircularProgressIndicator(
-                    color: Colors.brown,
-                  ));
                 }
               },
             );
-          } else if (snapshot.hasError) {
-            return Center(
-                child: CustomText2(
-              text: "${snapshot.error}",
-              color: Colors.green,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              textAlign: TextAlign.center,
-            ));
-          } else if (snapshot.connectionState == ConnectionState.waiting) {
+          } else if (!snapshot.hasData) {
+            return Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                alignment: Alignment.center,
+                child: Lottie.asset('assets/lotties/no_data.json'));
+          } else {
             return Container(
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
                 alignment: Alignment.center,
                 child: Image.asset('assets/images/loader.gif'));
-          } else if (!snapshot.hasData) {
-            return Container(
-              color: Colors.white,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [Lottie.asset("assets/images/no_data.json")],
-              ),
-            );
-          } else {
-            return const Center(child: CircularProgressIndicator());
           }
         },
       ),
