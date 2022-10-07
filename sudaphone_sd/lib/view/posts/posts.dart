@@ -32,7 +32,14 @@ class Posts extends GetWidget<PostsViewModel> {
           color: Colors.white,
         ),
       ),
-      body: RefreshIndicator(
+      body: GetBuilder<PostsViewModel>(
+        builder: (controller) => controller.loading
+            ? Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                alignment: Alignment.center,
+                child: Image.asset('assets/images/loader.gif'))
+            : RefreshIndicator(
                 onRefresh: () => controller.retrievePostsData(),
                 color: Colors.white,
                 backgroundColor: Colors.brown,
@@ -186,6 +193,7 @@ class Posts extends GetWidget<PostsViewModel> {
                   },
                 ),
               ),
+      ),
     );
   }
 }
