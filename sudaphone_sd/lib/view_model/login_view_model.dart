@@ -123,7 +123,7 @@ class LoginViewModel extends GetxController {
   uploadProfilePic({String? source}) async {
     final picker = ImagePicker();
     pickImage = await picker.pickImage(
-        source: source == "camera" ? ImageSource.camera : ImageSource.gallery);
+        source: source == "camera" ? ImageSource.camera : ImageSource.gallery,imageQuality: 1);
     int rand = Random().nextInt(1000000);
     _fileName = rand.toString() + pickImage!.name;
     imageFile = File(pickImage!.path);
@@ -158,7 +158,7 @@ class LoginViewModel extends GetxController {
         signUpKey.currentState!.save();
         final formattedDate =
             DateFormat('M/d/y - kk:mm').format(DateTime.now());
-        imageUrl != null ? uploadImageToFirebaseStorage() : null;
+        imageFile != null ? uploadImageToFirebaseStorage() : null;
        await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email, password: password)
             .then((e) {
