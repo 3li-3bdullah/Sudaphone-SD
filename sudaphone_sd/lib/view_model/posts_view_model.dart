@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:sudaphone_sd/model/posts/posts_model.dart';
 import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 
 class PostsViewModel extends GetxController {
@@ -47,6 +48,7 @@ class PostsViewModel extends GetxController {
   List<String>? listOfSavedPosts;
   RxList isSavedPostHasData = [].obs;
   List<String> isCurrentUserSavedPost = [];
+  bool loading = true;
 
   // ((((((((((((((((((((((((((( Declaring Methods )))))))))))))))))))))))))))
 
@@ -55,6 +57,7 @@ class PostsViewModel extends GetxController {
     commentController = TextEditingController();
     textController = TextEditingController();
     uid = FirebaseAuth.instance.currentUser!.uid;
+    retrievePostsData();
     super.onInit();
   }
 
@@ -70,11 +73,12 @@ class PostsViewModel extends GetxController {
     await postsCollections
         .get()
         .then((querySnapshot) => querySnapshot.docs.forEach((element) {
-              if (element.data()['usersHaveSaved'][uid] &&
-                  element.data()['usersHaveSaved'][uid] != null) {
-                isCurrentUserSavedPost.add(element.id);
-                update();
-              }
+               if(element.data()['usersHaveSaved'][uid] != null){
+                if(element.data()['usersHaveSaved'][uid]){
+                  isCurrentUserSavedPost.add(element.id);
+                  update();
+                }
+               }
             }));
   }
 
@@ -90,7 +94,7 @@ class PostsViewModel extends GetxController {
     final picker = ImagePicker();
     pickedImage = await picker.pickImage(
         source: source == "camera" ? ImageSource.camera : ImageSource.gallery,
-        imageQuality: 1);
+        imageQuality: 50);
     int rand = Random().nextInt(1000000);
     _fileName = rand.toString() + pickedImage!.name;
     _imageFile = File(pickedImage!.path);
@@ -141,9 +145,8 @@ class PostsViewModel extends GetxController {
             "isHasLiked": false,
             "usersHaveSaved": {uid: false},
             "usersLiked": {uid: false},
-            "edited": false
             // ignore: void_checks
-          }).whenComplete(() {
+          }).then((e) {
             clearEditingControllers();
             Get.back(closeOverlays: true);
             Get.back();
@@ -175,7 +178,7 @@ class PostsViewModel extends GetxController {
             "usersLiked": {uid: false},
             "usersHaveSaved": {uid: false},
             // ignore: void_checks
-          }).whenComplete(() {
+          }).then((e) {
             clearEditingControllers();
             Get.back(closeOverlays: true);
             Get.back();
@@ -234,7 +237,7 @@ class PostsViewModel extends GetxController {
       CollectionReference<Map<String, dynamic>> commentReference =
           FirebaseFirestore.instance
               .collection("posts")
-              .doc(collectionOne.id)
+              .doc(collectionOne)
               .collection("comments");
       try {
         if (isPickedForComment!.value) {
@@ -276,38 +279,39 @@ class PostsViewModel extends GetxController {
     }
   }
 
-  handlePostLikes({currentPostDocData}) {
-    DocumentReference<Map<String, dynamic>> likeData = FirebaseFirestore
-        .instance
-        .collection("posts")
-        .doc(currentPostDocData.id);
+  handlePostLikes(
+      {required int likesCount, required String currentDocUid}) async {
+    DocumentReference<Map<String, dynamic>> likeData =
+        FirebaseFirestore.instance.collection("posts").doc(currentDocUid);
     /*
      * This option will show up if the owner user has liked the post before
      * or not, and even if the user delete the app and reinstall again , so
      * he'll see he has liked before or not.
      */
-    bool? isHasLiked = currentPostDocData.data()['usersLiked'][uid];
+    bool? isHasLiked = await likeData
+        .get()
+        .then((value) => value.data()!['usersLiked'][uid] == true);
     if (isHasLiked == false) {
-      int addLike = currentPostDocData.data()['likesCount'] + 1;
-      likeData.set({
+      int addLike = likesCount + 1;
+      likeData.update({
         'likesCount': addLike.toInt(),
         'isHasLiked': true,
-        'usersLiked': {uid: true},
-      }, SetOptions(merge: true));
+        'usersLiked.$uid': true,
+      });
     } else if (isHasLiked == null) {
-      int addLike = currentPostDocData.data()['likesCount'] + 1;
-      likeData.set({
+      int addLike = likesCount + 1;
+      likeData.update({
         'likesCount': addLike.toInt(),
         'isHasLiked': true,
-        'usersLiked': {uid: true},
-      }, SetOptions(merge: true));
+        'usersLiked.$uid': true,
+      });
     } else {
-      int removeLike = currentPostDocData.data()['likesCount'] - 1;
-      likeData.set({
+      int removeLike = likesCount - 1;
+      likeData.update({
         'likesCount': removeLike.toInt(),
         'isHasLiked': false,
-        'usersLiked': {uid: false}
-      }, SetOptions(merge: true));
+        'usersLiked.$uid': false
+      });
     }
   }
 
@@ -315,7 +319,7 @@ class PostsViewModel extends GetxController {
     DocumentReference<Map<String, dynamic>> commentLikeData = FirebaseFirestore
         .instance
         .collection("posts")
-        .doc(firstCollectionDocs.id)
+        .doc(firstCollectionDocs)
         .collection("comments")
         .doc(docSnapshot.id);
     /*
@@ -405,16 +409,20 @@ class PostsViewModel extends GetxController {
   }
 
   deletePost(String theDoc) {
+     retrievePostsData();
     FirebaseFirestore.instance
         .collection("posts")
         .doc(theDoc)
         .delete()
-        .whenComplete(() => Get.snackbar(
+        .then((e) {
+          //  retrievePostsData();
+           Get.snackbar(
             "", "The post has deleted successfully.",
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.brown.shade300,
             colorText: Colors.white,
-            duration: const Duration(seconds: 3)));
+            duration: const Duration(seconds: 3));
+            });
   }
 
   isHasAnImageUrl(String? url) {
