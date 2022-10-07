@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -81,29 +82,27 @@ class LoginViewModel extends GetxController {
   void signInWithEmailAndPassword(
       String email, String password, GlobalKey<FormState> signInKey) async {
     if (signInKey.currentState!.validate()) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      showDialog(
+        barrierDismissible: false,
+        context: Get.context!,
+        builder: (BuildContext context) => Center(
+            child: Image.asset(
+          "assets/images/loader.gif",
+          fit: BoxFit.cover,
+        )),
+      );
       try {
-        showDialog(
-          barrierDismissible: false,
-          context: Get.context!,
-          builder: (BuildContext context) => Center(
-              child: Image.asset(
-            "assets/images/loader.gif",
-            fit: BoxFit.cover,
-          )),
-        );
         signInKey.currentState!.save();
-        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('email', email);
         await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: password)
             .then((e) {
-          Get.offAll(
-            () => const MyDrawer(),
-          );
-          prefs.setString('email', email);
-          Get.snackbar("", "You've signed in successfully",
-              snackPosition: SnackPosition.BOTTOM,
-              duration: const Duration(seconds: 3));
-          Get.back(closeOverlays: true);
+          emailSigninController!.clear();
+          passwordSigninController!.clear();
+          Phoenix.rebirth(Get.context!);
+          Get.back();
+          return Get.to(() => MyDrawer());
         });
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
@@ -123,7 +122,8 @@ class LoginViewModel extends GetxController {
   uploadProfilePic({String? source}) async {
     final picker = ImagePicker();
     pickImage = await picker.pickImage(
-        source: source == "camera" ? ImageSource.camera : ImageSource.gallery,imageQuality: 1);
+        source: source == "camera" ? ImageSource.camera : ImageSource.gallery,
+        imageQuality: 1);
     int rand = Random().nextInt(1000000);
     _fileName = rand.toString() + pickImage!.name;
     imageFile = File(pickImage!.path);
@@ -159,7 +159,7 @@ class LoginViewModel extends GetxController {
         final formattedDate =
             DateFormat('M/d/y - kk:mm').format(DateTime.now());
         imageFile != null ? uploadImageToFirebaseStorage() : null;
-       await FirebaseAuth.instance
+        await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email, password: password)
             .then((e) {
           prefs.setString('email', email);
