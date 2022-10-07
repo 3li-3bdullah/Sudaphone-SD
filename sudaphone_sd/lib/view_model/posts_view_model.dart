@@ -49,6 +49,7 @@ class PostsViewModel extends GetxController {
   RxList isSavedPostHasData = [].obs;
   List<String> isCurrentUserSavedPost = [];
   bool loading = true;
+  List<PostsModel> listOfPostModel = [];
 
   // ((((((((((((((((((((((((((( Declaring Methods )))))))))))))))))))))))))))
 
@@ -442,5 +443,25 @@ class PostsViewModel extends GetxController {
 
   void clearEditingControllers() {
     textController!.clear();
+  }
+
+  /// Load Data In A List Of Post Model
+  Future<List<PostsModel>> getPostsData() async {
+    loading = true;
+    update();
+    QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+        .instance
+        .collection("posts")
+        .orderBy('dateTime', descending: true)
+        .get();
+    return snapshot.docs
+        .map((querySnapshot) => PostsModel.fromJson(querySnapshot))
+        .toList();
+  }
+
+  Future<void> retrievePostsData() async {
+    listOfPostModel = await getPostsData();
+    loading = false;
+    update();
   }
 }
