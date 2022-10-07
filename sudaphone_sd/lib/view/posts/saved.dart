@@ -36,7 +36,12 @@ class Saved extends GetWidget<PostsViewModel> {
                         itemCount: snapshot.data!.docs.length,
                         itemBuilder: (context, index) {
                           if (snapshot.data!.docs[index]
-                              .data()['usersHaveSaved']['${controller.uid}']) {
+                                          .data()['usersHaveSaved']
+                                      ['${controller.uid}'] !=
+                                  null &&
+                              snapshot.data!.docs[index]
+                                      .data()['usersHaveSaved']
+                                  ['${controller.uid}']) {
                             return InkWell(
                               onTap: () => Get.to(() => OpenSavedPost(
                                   snapshot: snapshot.data!.docs[index])),
