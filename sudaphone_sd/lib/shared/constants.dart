@@ -4,22 +4,12 @@ import 'package:flutter/services.dart';
 
 const kPrimaryColor = Color(0xffd6a659);
 const kSecondaryColor = Color(0xFF59706F);
-const kDarkGreyColor = Color(0xFFA8A8A8);
 const kWhiteColor = Color(0xFFFFFFFF);
-const kZambeziColor = Color(0xFF5B5B5B);
 const kBlackColor = Color.fromARGB(255, 0, 0, 0);
 const kDarkColor = Color(0xff202020);
 const kTextFieldColor = Color(0xFF979797);
-const Color customBlack = Color.fromARGB(255,53,53,53);
-const Color customWhite = Color.fromARGB(255,237,237,237);
 const Color kBackgroundColor = Color.fromRGBO(239, 235, 233, 1);
 
-const kDefaultPadding = EdgeInsets.symmetric(horizontal: 30);
-
-TextStyle titleText = const TextStyle(
-    color: kPrimaryColor, fontSize: 32, fontWeight: FontWeight.w700);
-TextStyle subTitle = const TextStyle(
-    color: kSecondaryColor, fontSize: 18, fontWeight: FontWeight.w500);
 TextStyle textButton = const TextStyle(
   color: kPrimaryColor,
   fontSize: 18,
@@ -28,20 +18,20 @@ TextStyle textButton = const TextStyle(
 
 class Themes {
   static final lightTheme = ThemeData(
-    appBarTheme: const AppBarTheme(backgroundColor: kBackgroundColor,
+    appBarTheme: const AppBarTheme(backgroundColor: Colors.white,
     systemOverlayStyle: SystemUiOverlayStyle(
-      statusBarColor: kBackgroundColor,
+      statusBarColor: Colors.white,
       statusBarIconBrightness :  Brightness.dark,
     )),
-    scaffoldBackgroundColor: kBackgroundColor,
+    scaffoldBackgroundColor: Colors.white,
     colorScheme: const ColorScheme.light(),
     fontFamily: 'Poppins',
     primaryColor: Colors.black,
-    cardColor: kBackgroundColor,
-    bottomNavigationBarTheme: const BottomNavigationBarThemeData(backgroundColor: kBackgroundColor),
+    cardColor: Colors.white,
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(backgroundColor: Colors.white),
     iconTheme: const IconThemeData(color: kDarkColor),
-    popupMenuTheme: const PopupMenuThemeData(color: kBackgroundColor),
-    bottomSheetTheme: const BottomSheetThemeData(backgroundColor: kBackgroundColor)
+    popupMenuTheme: const PopupMenuThemeData(color: Colors.white),
+    bottomSheetTheme: const BottomSheetThemeData(backgroundColor: Colors.white)
   );
   //Dark Theme
   static final darkTheme = ThemeData(
