@@ -138,10 +138,8 @@ class MyDrawer extends GetWidget<MyDrawerViewModel> {
                               const CustomDivider(),
                               BuildListTile(
                                 text: "Saved",
-                                onTap: () {
-                                  Get.to(() => const Saved(),
-                                      transition: Transition.zoom);
-                                },
+                                onTap: () => Get.to(() => const Saved(),
+                                      transition: Transition.zoom),
                                 icon: "assets/images/icons/saved.png",
                               ),
                               const CustomDivider(),
