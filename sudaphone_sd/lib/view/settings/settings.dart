@@ -205,7 +205,7 @@ class Setting extends GetWidget<SettingsViewModel> {
               ),
             ),
             CustomRow(
-                name: "Upload Image",
+                name: "Change Profile",
                 imagePath: "assets/icons/gallery1.png",
                 onTap: () => Get.defaultDialog(
                       content: const CustomText2(
@@ -246,8 +246,9 @@ class Setting extends GetWidget<SettingsViewModel> {
                 buttonColor: Colors.white,
                 confirmTextColor: Colors.brown,
                 cancelTextColor: Colors.white,
-                onConfirm: () {
-                  controller.signOut();
+                onConfirm: () async{
+                 await controller.signOut();
+                //  Get.offUntil( MaterialPageRoute(builder: (_) => const SignIn()), (route) => false);
                 },
                 onCancel: () {
                   Get.back();
