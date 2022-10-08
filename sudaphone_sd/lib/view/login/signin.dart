@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sudaphone_sd/view/login/forgot_password.dart';
-import 'package:sudaphone_sd/view/login/components/signin_form.dart';
-import 'package:sudaphone_sd/view/login/signup.dart';
 import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 import 'package:sudaphone_sd/shared/components/primary_button.dart';
+import 'package:sudaphone_sd/view/login/components/signin_form.dart';
+import 'package:sudaphone_sd/view/login/forgot_password.dart';
+import 'package:sudaphone_sd/view/login/signup.dart';
 import 'package:sudaphone_sd/view_model/login_view_model.dart';
 
 class SignIn extends GetWidget<LoginViewModel> {
@@ -80,13 +80,14 @@ class SignIn extends GetWidget<LoginViewModel> {
                   height: 20,
                 ),
                 PrimaryButton(
-                  color: Colors.brown,
-                  buttonText: "Sign In",
-                  ontap: () => controller.signInWithEmailAndPassword(
-                      controller.emailSigninController!.text,
-                      controller.passwordSigninController!.text,
-                      controller.signInKey!),
-                ),
+                    color: Colors.brown,
+                    buttonText: "Sign In",
+                    ontap: () {
+                      controller.signInWithEmailAndPassword(
+                          controller.emailSigninController!.text,
+                          controller.passwordSigninController!.text,
+                          controller.signInKey!);
+                    }),
                 const SizedBox(
                   height: 10,
                 ),
