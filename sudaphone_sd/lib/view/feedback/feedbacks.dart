@@ -99,20 +99,26 @@ class Feedbacks extends GetWidget<FeedbackViewModel> {
                 height: 40,
               ),
               GetBuilder<PublicData>(
-                builder: (control) => PrimaryButton(
-                  buttonText: "Send Feedback",
-                  ontap: () {
-                    controller.sendFeedback(
-                      uid: control.uid,
-                      name: control.getUserName,
-                      profileUrl: control.getProfileUrl,
-                      key: controller.textKey,
-                      text: controller.textEditingController.text.toString(),
-                    );
-                  },
-                  color: Colors.brown,
+                builder: (control) => OutlinedButton(
+                  onPressed: () => controller.sendFeedback(
+                    uid: control.uid,
+                    name: control.getUserName,
+                    profileUrl: control.getProfileUrl,
+                    key: controller.textKey,
+                    text: controller.textEditingController.text.toString(),
+                  ),
+                  child: CustomText(
+                    text: "Send Feedback",
+                    fontSize: 18,
+                    fontWeight: FontWeight.normal,
+                    textAlign: TextAlign.center,
+                  ),
+                  style: OutlinedButton.styleFrom(
+                      side: BorderSide(color: Colors.grey, width: 2),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 10)),
                 ),
-              )
+              ),
             ],
           ),
         ),
