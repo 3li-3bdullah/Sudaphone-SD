@@ -149,6 +149,7 @@ class PostsViewModel extends GetxController {
             // ignore: void_checks
           }).then((e) {
             clearEditingControllers();
+            retrievePostsData();
             Get.back(closeOverlays: true);
             Get.back();
             showLoading.value = false;
@@ -181,6 +182,7 @@ class PostsViewModel extends GetxController {
             // ignore: void_checks
           }).then((e) {
             clearEditingControllers();
+            retrievePostsData();
             Get.back(closeOverlays: true);
             Get.back();
             showLoading.value = false;
