@@ -2,6 +2,7 @@ import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudaphone_sd/shared/components/custom_text.dart';
+import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 import 'package:sudaphone_sd/view_model/login_view_model.dart';
 
 class BuildAvatar extends GetWidget<LoginViewModel> {
@@ -41,15 +42,17 @@ class BuildAvatar extends GetWidget<LoginViewModel> {
             ),
             onTap: () {
                 Get.defaultDialog(
-                  content:  CustomText(
+                  content:  CustomText2(
                     text: "Choose an image from : ",
                     textAlign: TextAlign.center,
                     fontSize: 16,
+                    color: Colors.black,
                     fontWeight: FontWeight.normal,
                   ),
                   title: "Upload",
+                  titleStyle: TextStyle(color: Colors.brown),
                   cancel: MaterialButton(
-                    color: Colors.brown,
+                    color: Colors.brown.shade300,
                     elevation: 0,
                     onPressed: () {
                       controller.uploadProfilePic(source: "gallery");
@@ -64,9 +67,10 @@ class BuildAvatar extends GetWidget<LoginViewModel> {
                        const SizedBox(
                           width: 5,
                         ),
-                        CustomText(
+                        CustomText2(
                           text: "Gallery",
                           fontSize: 17,
+                          color: Colors.white,
                           fontWeight: FontWeight.normal,
                           textAlign: TextAlign.center,
                         )
@@ -74,7 +78,7 @@ class BuildAvatar extends GetWidget<LoginViewModel> {
                     ),
                   ),
                   confirm: MaterialButton(
-                    color: Colors.brown,
+                    color: Colors.brown.shade300,
                     elevation: 0,
                     onPressed: () {
                       controller.uploadProfilePic(source: "camera");
@@ -89,9 +93,10 @@ class BuildAvatar extends GetWidget<LoginViewModel> {
                        const SizedBox(
                           width: 5,
                         ),
-                        CustomText(
+                        CustomText2(
                           text: "Camera",
                           fontSize: 17,
+                          color: Colors.white,
                           fontWeight: FontWeight.normal,
                           textAlign: TextAlign.center,
                         )
