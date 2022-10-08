@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -50,9 +51,17 @@ class MyDrawerViewModel extends GetxController {
   }
 
   logOut() async {
-    FirebaseAuth.instance.signOut();
+    showDialog(
+      barrierDismissible: false,
+      context: Get.context!,
+      builder: (BuildContext context) => Center(
+        child: Image.asset("assets/images/loader.gif"),
+      ),
+    );
+    await FirebaseAuth.instance.signOut();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('email');
-    Get.offAll(() => const SignIn());
+    Get.back();
+    Get.off(() => const SignIn());
   }
 }
