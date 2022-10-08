@@ -23,7 +23,7 @@ class SearchResult extends StatelessWidget {
             .doc(doc1)
             .collection(collection2)
             .orderBy('name')
-            .startAt([query]).endAt([query + '\uf8ff']).snapshots(),
+            .startAt([query.trim()]).endAt([query.trim() + '\uf8ff']).snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
@@ -41,10 +41,8 @@ class SearchResult extends StatelessWidget {
               child: Image.asset("assets/images/loader.gif"),
             );
           } else {
-            return const Center(
-              child: CircularProgressIndicator(
-                color: Colors.brown,
-              ),
+            return Center(
+              child: Image.asset("assets/images/loader.gif"),
             );
           }
         });
