@@ -64,10 +64,18 @@ class SettingsViewModel extends GetxController {
     
   }
    deleteAcount() async {
+    showDialog(
+        barrierDismissible: false,
+        context: Get.context!,
+        builder: (BuildContext context) => Center(
+          child: Image.asset("assets/images/loader.gif"),
+        ),
+      );
     await FirebaseAuth.instance.currentUser!.delete();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('email');
-    Get.offAll(() => const SignIn());
+    Get.back();
+    Get.off(() => const SignIn());
   }
 
   getOldNameAndUpdate({required String userName}) async {
