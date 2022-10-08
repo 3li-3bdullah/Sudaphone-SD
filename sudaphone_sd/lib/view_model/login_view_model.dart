@@ -5,13 +5,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 import 'package:sudaphone_sd/view/my_drawer/mydrawer.dart';
 
 class LoginViewModel extends GetxController {
@@ -100,9 +97,13 @@ class LoginViewModel extends GetxController {
             .then((e) {
           emailSigninController!.clear();
           passwordSigninController!.clear();
-          Phoenix.rebirth(Get.context!);
-          Get.back();
-          return Get.to(() => MyDrawer());
+           Get.back();
+          Get.off(() => const MyDrawer());
+          Get.snackbar("", "You've signed in successfully",
+              snackPosition: SnackPosition.BOTTOM,
+              backgroundColor: Colors.brown.shade300,
+              colorText: Colors.white,
+              duration: const Duration(seconds: 3));
         });
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
@@ -123,7 +124,7 @@ class LoginViewModel extends GetxController {
     final picker = ImagePicker();
     pickImage = await picker.pickImage(
         source: source == "camera" ? ImageSource.camera : ImageSource.gallery,
-        imageQuality: 1);
+        imageQuality: 50);
     int rand = Random().nextInt(1000000);
     _fileName = rand.toString() + pickImage!.name;
     imageFile = File(pickImage!.path);
@@ -135,30 +136,26 @@ class LoginViewModel extends GetxController {
     }
   }
 
-  Future<void> uploadImageToFirebaseStorage() async {
-    Reference reference =
-        FirebaseStorage.instance.ref("login_profile").child(_fileName!);
-    UploadTask uploadTask = reference.putFile(imageFile!);
-    imageUrl = await (await uploadTask).ref.getDownloadURL();
-  }
-
   /// SignUp With Username & Email & Password
   Future<void> signUpWithEmailAndPassword(String username, String email,
       String password, GlobalKey<FormState> signUpKey) async {
     if (signUpKey.currentState!.validate()) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      showDialog(
+        barrierDismissible: false,
+        context: Get.context!,
+        builder: (BuildContext context) => Center(
+          child: Image.asset("assets/images/loader.gif"),
+        ),
+      );
       try {
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        showDialog(
-          barrierDismissible: false,
-          context: Get.context!,
-          builder: (BuildContext context) => Center(
-            child: Image.asset("assets/images/loader.gif"),
-          ),
-        );
         signUpKey.currentState!.save();
         final formattedDate =
             DateFormat('M/d/y - kk:mm').format(DateTime.now());
-        imageFile != null ? uploadImageToFirebaseStorage() : null;
+        Reference reference =
+            FirebaseStorage.instance.ref("login_profile").child(_fileName!);
+        UploadTask uploadTask = reference.putFile(imageFile!);
+        imageUrl = await (await uploadTask).ref.getDownloadURL();
         await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email, password: password)
             .then((e) {
@@ -176,10 +173,11 @@ class LoginViewModel extends GetxController {
                 ? imageUrl.toString()
                 : "https://firebasestorage.googleapis.com/v0/b/sudaphone-sd3.appspot.com/o/profile%2Fperson.png?alt=media&token=5afd3c19-bc69-4ce7-8d10-22529bfcbf1a",
           });
-          Get.offAll(
-            () => const MyDrawer(),
-          );
+          usernameController!.clear();
+          emailController!.clear();
+          passwordController!.clear();
           Get.back();
+          Get.off(() => MyDrawer());
           Get.snackbar("", "You've resgistered successfully",
               snackPosition: SnackPosition.BOTTOM,
               backgroundColor: Colors.brown.shade300,
