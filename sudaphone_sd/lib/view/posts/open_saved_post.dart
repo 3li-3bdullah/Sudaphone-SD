@@ -124,8 +124,12 @@ class OpenSavedPost extends GetWidget<PostsViewModel> {
                                       ? IconButton(
                                           onPressed: () {
                                             controller.handlePostLikes(
-                                                currentPostDocData:
-                                                    snapshotForLikeCount.data!);
+                                              currentDocUid:
+                                                  snapshotForLikeCount.data!.id,
+                                              likesCount: snapshotForLikeCount
+                                                  .data
+                                                  ?.data()!['likesCount'],
+                                            );
                                           },
                                           icon: Image.asset(
                                             "assets/images/like.png",
@@ -135,8 +139,12 @@ class OpenSavedPost extends GetWidget<PostsViewModel> {
                                       : IconButton(
                                           onPressed: () {
                                             controller.handlePostLikes(
-                                                currentPostDocData:
-                                                    snapshotForLikeCount.data!);
+                                              currentDocUid:
+                                                  snapshotForLikeCount.data!.id,
+                                              likesCount: snapshotForLikeCount
+                                                  .data
+                                                  ?.data()!['likesCount'],
+                                            );
                                           },
                                           icon: Image.asset(
                                             "assets/images/like.png",
@@ -184,8 +192,10 @@ class OpenSavedPost extends GetWidget<PostsViewModel> {
                                   IconButton(
                                     onPressed: () {
                                       Get.to(() => Comments(
-                                            firstDocSnapshot:
-                                                snapshotForLikeCount.data!,
+                                            currentDoc:
+                                                snapshotForLikeCount.data!.id,
+                                            userName: snapshotForLikeCount.data
+                                                ?.data()!['userName'],
                                           ));
                                     },
                                     icon: const Icon(
