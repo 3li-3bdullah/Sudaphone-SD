@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemesViewModel extends GetxController {
   final GetStorage _box = GetStorage();
   final String _key = "isDarkMode";
+  String? email;
+
+  @override
+  void onInit() {
+    super.onInit();
+    getCurrentUser();
+  }
 
   ThemeMode get theme => _loadTheme() ? ThemeMode.dark : ThemeMode.light;
   bool _loadTheme() => _box.read(_key) ?? false;
@@ -12,6 +20,11 @@ class ThemesViewModel extends GetxController {
   void changeTheme(ThemeData theme) => Get.changeTheme(theme);
   void changeThemeMode(ThemeMode theme) {
      Get.changeThemeMode(theme);
+    update();
+  }
+  getCurrentUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+     email = prefs.getString('email');
     update();
   }
 }
