@@ -2,7 +2,9 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:sudaphone_sd/shared/components/custom_text.dart';
 import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 import 'package:sudaphone_sd/shared/components/phone_list.dart';
 import 'package:sudaphone_sd/view/home/components/search_result.dart';
@@ -149,6 +151,28 @@ class SearchFutureBuilder extends StatelessWidget {
           collection1: "phonesCategory",
           doc1: "allOppo",
           collection2: "oppo");
+    } else if (query.trim().isNotEmpty) {
+      return SingleChildScrollView(
+        child: Container(
+          height: Get.height,
+          width: Get.width,
+          alignment: Alignment.center,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                  child: CustomText(
+                text: "Sorry!, We don't have each categories of phones yet.",
+                fontSize: 17,
+                fontWeight: FontWeight.normal,
+                textAlign: TextAlign.center,
+              )),
+              // const SizedBox(height: 10,),
+              Lottie.asset("assets/lotties/no_data.json"),
+            ],
+          ),
+        ),
+      );
     } else {
       return const SizedBox();
     }
