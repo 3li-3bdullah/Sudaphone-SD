@@ -10,8 +10,8 @@ class PeopleHaveLiked extends GetWidget<PostsViewModel> {
   const PeopleHaveLiked(
       {required this.peopleWhoLiked, required this.currentDoc, Key? key})
       : super(key: key);
-  final List<String> peopleWhoLiked;
-  final Map<String, dynamic> currentDoc;
+  final List<dynamic> peopleWhoLiked;
+  final Map<dynamic, dynamic> currentDoc;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
