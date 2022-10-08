@@ -40,12 +40,13 @@ class PhoneList extends StatelessWidget {
                             margin:
                                 const EdgeInsets.only(bottom: 10, right: 10),
                             child: Text("${snapshot?.data()['name']}",
+                            maxLines: 1,
                                 style: const TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.w800),
-                                textAlign: TextAlign.center),
+                                textAlign: TextAlign.left),
                           ),
                           Row(children: [
-                            const Text("Front Camera : ",
+                            const Text("FC : ",
                                 style: TextStyle(color: Colors.grey)),
                             Text("${snapshot?.data()['frontCamera']}",
                                 style: const TextStyle(color: Colors.blue)),
@@ -97,12 +98,19 @@ class PhoneList extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    flex: 1,
+                    flex: 2,
                     child: isHasData.connectionState != ConnectionState.waiting
-                        ? FadeInImage.assetNetwork(
-                            placeholder: "assets/images/loader.gif",
-                            image: "${snapshot?.data()['imageUrl']}",
-                            height: MediaQuery.of(context).size.height / 4)
+                        ? Padding(
+                          padding: const EdgeInsets.symmetric(horizontal:3.0,vertical: 3.0),
+                          child: ClipRRect(borderRadius: BorderRadius.circular(10),
+                            child: FadeInImage.assetNetwork(
+                                placeholder: "assets/images/loader.gif",
+                                image: "${snapshot?.data()['imageUrl']}",
+                                height: Get.height / 4,
+                                fit: BoxFit.cover,
+                                ),
+                          ),
+                        )
                         : const SizedBox(),
                   ),
                 ],
