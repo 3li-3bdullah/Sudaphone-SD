@@ -34,42 +34,48 @@ class LastProductsCarousel extends GetWidget<ScreenViewModel> {
                           phoneDoc:
                               controller.listOfLastProducts![index].docId));
                     },
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        ClipRRect(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10)),
-                          child: FadeInImage.assetNetwork(
-                            placeholder: 'assets/images/loader.gif',
-                            image:
-                                controller.listOfLastProducts![index].imageUrl,
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 10.0, vertical: 10),
-                            decoration: BoxDecoration(
-                                color: Colors.brown.withOpacity(0.4),
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(10))),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: CustomText2(
-                                  text: controller
-                                      .listOfLastProducts![index].name,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  textAlign: TextAlign.center,
-                                  color: Colors.white),
+                    child: Card(
+                      elevation: 5,
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            ClipRRect(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
+                              child: FadeInImage.assetNetwork(
+                                placeholder: 'assets/images/loader.gif',
+                                image:
+                                    controller.listOfLastProducts![index].imageUrl,
+                              ),
                             ),
-                          ),
+                            Positioned(
+                              bottom: 0,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(vertical: 10),
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 10.0, vertical: 10),
+                                decoration: BoxDecoration(
+                                    color: Colors.brown.withOpacity(0.4),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10))),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 20),
+                                  child: CustomText2(
+                                      text: controller
+                                          .listOfLastProducts![index].name,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      textAlign: TextAlign.center,
+                                      color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   );
                 },
