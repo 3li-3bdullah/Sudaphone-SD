@@ -6,8 +6,9 @@ import 'package:sudaphone_sd/view/posts/comments.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 
 class CommentButton extends GetWidget<PostsViewModel> {
-  const CommentButton({Key? key, required this.currentDoc}) : super(key: key);
-  final QueryDocumentSnapshot<Map<String, dynamic>> currentDoc;
+  const CommentButton({Key? key,required this.userName ,required this.currentDoc}) : super(key: key);
+  final String currentDoc;
+  final String userName;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,8 @@ class CommentButton extends GetWidget<PostsViewModel> {
           IconButton(
             onPressed: () {
               Get.to(() => Comments(
-                    firstDocSnapshot: currentDoc,
+                    currentDoc: currentDoc,
+                    userName: userName,
                   ));
             },
             icon: Image.asset("assets/icons/comment1.png", color: Colors.green),
@@ -27,7 +29,7 @@ class CommentButton extends GetWidget<PostsViewModel> {
           StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
             stream: FirebaseFirestore.instance
                 .collection("posts")
-                .doc(currentDoc.id)
+                .doc(currentDoc)
                 .collection("comments")
                 .snapshots(),
             builder: (context, snapshot) {
