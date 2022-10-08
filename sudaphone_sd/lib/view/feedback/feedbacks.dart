@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sudaphone_sd/shared/components/custom_text.dart';
+import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 import 'package:sudaphone_sd/shared/components/custom_title.dart';
 import 'package:sudaphone_sd/shared/components/leading.dart';
 import 'package:sudaphone_sd/shared/components/primary_button.dart';
@@ -31,31 +33,34 @@ class Feedbacks extends GetWidget<FeedbackViewModel> {
                 child: Image.asset(
                   "assets/images/send_feedback.png",
                   fit: BoxFit.contain,
-                  height:size.height / 3,
+                  height: size.height / 3,
                   width: size.width,
                 ),
               ),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: const [
-                  CircleAvatar(
-                    radius: 35,
-                    backgroundColor: Colors.brown,
-                    child: Text(
-                      "S-SD",
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
+                  Padding(
+                    padding: EdgeInsets.only(left: 8.0),
+                    child: CircleAvatar(
+                      radius: 38,
+                      backgroundColor: Colors.grey,
+                      child: CircleAvatar(
+                        radius: 35,
+                        backgroundColor: Colors.white,
+                        backgroundImage:
+                            AssetImage("assets/images/logo/app_logo.png"),
+                      ),
                     ),
                   ),
-                  SizedBox(width: 20),
-                  Text(
-                    "Sudaphone SD",
-                    style: TextStyle(
-                        color: Colors.brown,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
-                  ),
+                  SizedBox(width: 10),
+                  CustomTitle(
+                      text: "Sudaphone SD",
+                      underLineWidget: 100,
+                      showUnderLine: false),
                 ],
               ),
               const SizedBox(
@@ -75,13 +80,14 @@ class Feedbacks extends GetWidget<FeedbackViewModel> {
                     minLines: 3,
                     maxLines: 5,
                     cursorColor: Colors.brown,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       filled: true,
-                      fillColor: kTextFieldColor,
+                      fillColor: Colors.brown.shade200,
                       hintStyle: TextStyle(color: kTextFieldColor),
                       focusedBorder: UnderlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          borderSide: BorderSide(color: kPrimaryColor)),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(color: kPrimaryColor),
+                      ),
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       contentPadding: EdgeInsets.all(4),
@@ -92,22 +98,21 @@ class Feedbacks extends GetWidget<FeedbackViewModel> {
               const SizedBox(
                 height: 40,
               ),
-                  GetBuilder<PublicData>(
-                      builder: (control) => PrimaryButton(
-                        buttonText: "Send Feedback",
-                        ontap: () {
-                          controller.sendFeedback(
-                            uid: control.uid,
-                            name: control.getUserName,
-                            profileUrl: control.getProfileUrl,
-                            key: controller.textKey,
-                            text: controller.textEditingController.text
-                                .toString(),
-                          );
-                        },
-                        color: Colors.brown,
-                      ),
-                    )
+              GetBuilder<PublicData>(
+                builder: (control) => PrimaryButton(
+                  buttonText: "Send Feedback",
+                  ontap: () {
+                    controller.sendFeedback(
+                      uid: control.uid,
+                      name: control.getUserName,
+                      profileUrl: control.getProfileUrl,
+                      key: controller.textKey,
+                      text: controller.textEditingController.text.toString(),
+                    );
+                  },
+                  color: Colors.brown,
+                ),
+              )
             ],
           ),
         ),
