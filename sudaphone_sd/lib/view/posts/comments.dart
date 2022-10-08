@@ -13,13 +13,14 @@ import 'package:sudaphone_sd/view_model/themes_view_model.dart';
 
 
 class Comments extends GetWidget<PostsViewModel> {
-  const Comments({Key? key, required this.firstDocSnapshot}) : super(key: key);
-  final firstDocSnapshot;
+  const Comments({Key? key,required this.currentDoc,required this.userName }) : super(key: key);
+  final String userName;
+  final String currentDoc;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: CustomTitle(text: "${firstDocSnapshot.data()['userName']}'s post", underLineWidget: 80),
+        title: CustomTitle(text: "$userName's post", underLineWidget: 80),
         elevation: 0,
         leading: const Leading(),
       ),
@@ -27,7 +28,7 @@ class Comments extends GetWidget<PostsViewModel> {
         child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
           stream: FirebaseFirestore.instance
               .collection("posts")
-              .doc(firstDocSnapshot.id)
+              .doc(currentDoc)
               .collection("comments")
               .orderBy('dateTime', descending: true)
               .snapshots(),
@@ -154,7 +155,7 @@ class Comments extends GetWidget<PostsViewModel> {
                                             textAlign: TextAlign.center),
                                     onTap: () {
                                       controller.handleCommentLikes(
-                                          firstCollectionDocs: firstDocSnapshot,
+                                          firstCollectionDocs: currentDoc,
                                           docSnapshot:
                                               snapshot.data?.docs[index]);
                                     },
@@ -291,7 +292,7 @@ class Comments extends GetWidget<PostsViewModel> {
                                                 color: Colors.brown),
                                             onPressed: () async {
                                               await controller.addComment(
-                                                collectionOne: firstDocSnapshot,
+                                                collectionOne: currentDoc,
                                                 commentKey:
                                                     controller.commentKey,
                                                 text: controller
