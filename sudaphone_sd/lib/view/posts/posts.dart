@@ -48,6 +48,7 @@ class Posts extends GetWidget<PostsViewModel> {
                   itemCount: controller.listOfPostModel.length,
                   itemBuilder: (context, index) {
                     return Card(
+                      elevation: 5,
                       child: Column(
                         children: [
                           ListTile(
