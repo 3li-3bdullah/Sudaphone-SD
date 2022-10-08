@@ -27,38 +27,40 @@ class BestGamingCarousel extends StatelessWidget {
                         collection: "forGames",
                         phoneDoc: snapshot.data!.docs[index].id));
                   },
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.all(5.0),
-                    decoration: BoxDecoration(
-                      //ToDo : Here i should added FadeImage......
-                      borderRadius: BorderRadius.circular(10),
-                      image: DecorationImage(
-                          image: NetworkImage(
-                              snapshot.data?.docs[index].data()['imageUrl']),
-                          fit: BoxFit.cover),
-                    ),
+                  child: Card(
+                    elevation: 8,
                     child: Container(
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.all(5.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(10)),
-                                color: Colors.brown.withOpacity(0.6)),
-                            child: CustomText2(
-                              text:
-                                  "${snapshot.data!.docs[index].data()['name']} \n ${snapshot.data!.docs[index].data()['ram']} \n ${snapshot.data!.docs[index].data()['battery']}",
-                              fontSize: 18,
-                              color: Colors.white,
-                              fontWeight: FontWeight.normal,
-                              textAlign: TextAlign.center,
+                      width: MediaQuery.of(context).size.width,
+                      margin: const EdgeInsets.all(5.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        image: DecorationImage(
+                            image: NetworkImage(
+                                snapshot.data?.docs[index].data()['imageUrl']),
+                            fit: BoxFit.cover),
+                      ),
+                      child: Container(
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.all(5.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                      const BorderRadius.all(Radius.circular(10)),
+                                  color: Colors.brown.withOpacity(0.6)),
+                              child: CustomText2(
+                                text:
+                                    "${snapshot.data!.docs[index].data()['name']} \n ${snapshot.data!.docs[index].data()['ram']} \n ${snapshot.data!.docs[index].data()['battery']}",
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.normal,
+                                textAlign: TextAlign.center,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
