@@ -46,14 +46,15 @@ class LastProductsCarousel extends GetWidget<ScreenViewModel> {
                                   const BorderRadius.all(Radius.circular(10)),
                               child: FadeInImage.assetNetwork(
                                 placeholder: 'assets/images/loader.gif',
-                                image:
-                                    controller.listOfLastProducts![index].imageUrl,
+                                image: controller
+                                    .listOfLastProducts![index].imageUrl,
                               ),
                             ),
                             Positioned(
                               bottom: 0,
                               child: Container(
-                                padding: const EdgeInsets.symmetric(vertical: 10),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10),
                                 margin: const EdgeInsets.symmetric(
                                     horizontal: 10.0, vertical: 10),
                                 decoration: BoxDecoration(
@@ -61,8 +62,8 @@ class LastProductsCarousel extends GetWidget<ScreenViewModel> {
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(10))),
                                 child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 20),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
                                   child: CustomText2(
                                       text: controller
                                           .listOfLastProducts![index].name,
