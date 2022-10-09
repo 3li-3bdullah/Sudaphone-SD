@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudaphone_sd/shared/components/custom_text.dart';
+import 'package:sudaphone_sd/view/home/components/dot_shape.dart';
 
 class PopularCarousel extends StatelessWidget {
   const PopularCarousel({Key? key}) : super(key: key);
@@ -28,7 +29,7 @@ class PopularCarousel extends StatelessWidget {
                   elevation: 8,
                   clipBehavior: Clip.antiAlias,
                   child: Padding(
-                    padding: const EdgeInsets.all(5.0),
+                    padding: const EdgeInsets.only(top:8.0, left:6,right:6),
                     child: SizedBox(
                       width: Get.width,
                       height: Get.height / 4,
@@ -47,12 +48,18 @@ class PopularCarousel extends StatelessWidget {
                         ),
                         Align(
                           alignment: Alignment.centerLeft,
-                          child: CustomText(
-                            text:
-                                "${snapshot.data!.docs[index].data()['name']}",
-                            fontWeight: FontWeight.normal,
-                            textAlign: TextAlign.end,
-                            fontSize: 16,
+                          child: Row(
+                            children: [
+                              DotShape(left: 0.0, right: 7.0),
+                              CustomText(
+                                text:
+                                    "${snapshot.data!.docs[index].data()['name']}",
+                                fontWeight: FontWeight.normal,
+                                textAlign: TextAlign.end,
+                                fontSize: 16,
+                              ),
+                              DotShape(left: 7.0, right: 0.0)
+                            ],
                           ),
                         ),
                       ]),
