@@ -9,6 +9,8 @@ const kBlackColor = Color.fromARGB(255, 0, 0, 0);
 const kDarkColor = Color(0xff202020);
 const kTextFieldColor = Color(0xFF979797);
 const Color kBackgroundColor = Color.fromRGBO(239, 235, 233, 1);
+const darkMode1 = Color(0xff1D1E22);
+const darkkMode2 = Color(0xff1D1E22);
 
 TextStyle textButton = const TextStyle(
   color: kPrimaryColor,
