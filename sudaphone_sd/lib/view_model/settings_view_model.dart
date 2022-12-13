@@ -29,10 +29,17 @@ class SettingsViewModel extends GetxController {
   String groupValue = "mode";
   RxBool isDarkMode = false.obs;
   String? uid;
+
+  ///For Update Name and Profile
   List<String> commentsDocsYouCommented = [];
   List<String> allPostsDocs = [];
   List<String> postsDocsYouPosted = [];
   List<String> postsDocsYouCommentedAt = [];
+
+  ///For Delete Account
+  List<String> allCurrentUserPostsDocs = [];
+  List<String> allOtherUsersPostsDocs = [];
+  List<String> allCurrentUserCommentsDocs = [];
 
 // ((((((((((((((((((((((( Declaring Methods )))))))))))))))))))))))
   @override
@@ -50,27 +57,26 @@ class SettingsViewModel extends GetxController {
 
   Future<void> signOut() async {
     showDialog(
-        barrierDismissible: false,
-        context: Get.context!,
-        builder: (BuildContext context) => Center(
-          child: Image.asset("assets/images/loader.gif"),
-        ),
-      );
+      barrierDismissible: false,
+      context: Get.context!,
+      builder: (BuildContext context) => Center(
+        child: Image.asset("assets/images/loader.gif"),
+      ),
+    );
     await FirebaseAuth.instance.signOut();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('email');
     Get.back();
     Get.off(() => const SignIn());
-    
   }
-   deleteAcount() async {
+  deleteAcount() async {
     showDialog(
-        barrierDismissible: false,
-        context: Get.context!,
-        builder: (BuildContext context) => Center(
-          child: Image.asset("assets/images/loader.gif"),
-        ),
-      );
+      barrierDismissible: false,
+      context: Get.context!,
+      builder: (BuildContext context) => Center(
+        child: Image.asset("assets/images/loader.gif"),
+      ),
+    );
     await FirebaseAuth.instance.currentUser!.delete();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('email');
