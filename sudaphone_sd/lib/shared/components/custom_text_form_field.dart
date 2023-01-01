@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sudaphone_sd/shared/components/custom_text.dart';
 import 'package:sudaphone_sd/shared/constants.dart';
 
 class CustomTextFormField extends StatelessWidget {
@@ -9,7 +10,8 @@ class CustomTextFormField extends StatelessWidget {
       required this.validator,
       required this.icon,
       required this.textEditingController,
-      this.customHintText = "", this.iconColor = Colors.white});
+      this.customHintText = "",
+      this.iconColor = Colors.white});
   final bool obscure;
   final Function validator;
   final IconData icon;
@@ -27,19 +29,21 @@ class CustomTextFormField extends StatelessWidget {
         return validator(value);
       },
       cursorColor: Colors.brown,
-      style: const TextStyle(color: Colors.white),
+      style: const TextStyle(color: kBlackColor,fontWeight: FontWeight.w400),
       decoration: InputDecoration(
-        hintStyle: const TextStyle(color: kTextFieldColor),
+        hintStyle: const TextStyle(color: Colors.black45),
         focusedBorder: const UnderlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            borderSide: BorderSide(color: kPrimaryColor)),
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          borderSide: BorderSide.none,
+        ),
         enabledBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10))),
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.all(Radius.circular(5))),
         hintText: customHintText,
         contentPadding: const EdgeInsets.all(4),
         prefixIcon: Icon(
           icon,
-          color: iconColor,
+          color: Colors.brown.shade300,
           size: 30,
         ),
         suffixIcon: obscure
@@ -48,9 +52,9 @@ class CustomTextFormField extends StatelessWidget {
                   changeObscureValue!();
                 },
                 icon: istrue
-                    ? const Icon(
+                    ?  Icon(
                         Icons.visibility_off,
-                        color: Colors.brown,
+                        color: Colors.brown.shade300,
                       )
                     : const Icon(
                         Icons.visibility,
@@ -59,7 +63,7 @@ class CustomTextFormField extends StatelessWidget {
               )
             : const SizedBox(),
         filled: true,
-        fillColor: kTextFieldColor,
+        fillColor: Colors.black12,
       ),
     );
   }
