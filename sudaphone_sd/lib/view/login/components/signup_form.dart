@@ -5,13 +5,15 @@ import 'package:sudaphone_sd/shared/components/custom_text_form_field.dart';
 import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 import 'package:sudaphone_sd/view_model/login_view_model.dart';
 
+import '../../../shared/constants.dart';
+
 class SignUpForm extends GetWidget<LoginViewModel> {
   const SignUpForm({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      padding: const EdgeInsets.only(top: 15, left: 10, bottom: 10, right: 10),
+      padding: const EdgeInsets.only(top: 15, bottom: 10,),
       width: MediaQuery.of(context).size.width / 1.2,
       child: Form(
         key: controller.signUpKey,
@@ -21,9 +23,9 @@ class SignUpForm extends GetWidget<LoginViewModel> {
             //Start User Name----------
             const CustomText2(
               text: "Username",
-              color: Colors.brown,
+              color: kBlackColor,
               fontSize: 15,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w500,
               textAlign: TextAlign.center,
             ),
 
@@ -44,9 +46,9 @@ class SignUpForm extends GetWidget<LoginViewModel> {
             const SizedBox(height: 15),
             const CustomText2(
               text: "E-mail",
-              color: Colors.brown,
+              color: kBlackColor,
               fontSize: 15,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w500,
               textAlign: TextAlign.center,
             ),
 
@@ -70,9 +72,9 @@ class SignUpForm extends GetWidget<LoginViewModel> {
             //Start User Password----------
             const CustomText2(
               text: "Password",
-              color: Colors.brown,
+              color: kBlackColor,
               fontSize: 15,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w500,
               textAlign: TextAlign.center,
             ),
 
@@ -98,9 +100,9 @@ class SignUpForm extends GetWidget<LoginViewModel> {
             //Start User Password Confirm----------
             const CustomText2(
               text: "Confirm password",
-              color: Colors.brown,
+              color: kBlackColor,
               fontSize: 15,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w500,
               textAlign: TextAlign.center,
             ),
 
