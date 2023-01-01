@@ -17,6 +17,7 @@ class ForgotPassword extends GetWidget<LoginViewModel> {
       appBar: AppBar(
         title: const CustomTitle(text: "Forgot Password", underLineWidget: 60),
         leading: const Leading(),
+        centerTitle: true,
         elevation: 0,
       ),
       body: Container(
@@ -26,8 +27,16 @@ class ForgotPassword extends GetWidget<LoginViewModel> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              SizedBox(
+                  width: Get.width,
+                  height: Get.height * 0.3,
+                  child: Image.asset(
+                    'assets/images/login/verify_email1.png',
+                    fit: BoxFit.contain,
+                    height: Get.height * 0.28,
+                  )),
               CustomText(
-                  text: "Receive an email to \n reset your password",
+                  text: "Receive an email to reset \n your password",
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   textAlign: TextAlign.center),
@@ -35,7 +44,7 @@ class ForgotPassword extends GetWidget<LoginViewModel> {
                 height: 20,
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(20.0),
                 child: Form(
                   key: controller.resetPassKey,
                   child: Column(
@@ -52,7 +61,7 @@ class ForgotPassword extends GetWidget<LoginViewModel> {
                             controller.emailForResetPassword!,
                       ),
                       const SizedBox(
-                        height: 20,
+                        height: 40,
                       ),
                       PrimaryButton(
                           buttonText: "Reset Password",
