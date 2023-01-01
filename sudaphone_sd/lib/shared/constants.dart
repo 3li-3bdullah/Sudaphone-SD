@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 const kPrimaryColor = Color(0xffd6a659);
 const kSecondaryColor = Color(0xFF59706F);
 const kWhiteColor = Color(0xFFFFFFFF);
-const kBlackColor = Color.fromARGB(255, 0, 0, 0);
+const kBlackColor = Color(0xff333333);
 const kDarkColor = Color(0xff202020);
 const kTextFieldColor = Color(0xFF979797);
 const Color kBackgroundColor = Color.fromRGBO(239, 235, 233, 1);
