@@ -52,24 +52,41 @@ class SignIn extends GetWidget<LoginViewModel> {
                 ),
                 Container(
                   alignment: Alignment.center,
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 10),
                   height: MediaQuery.of(context).size.height / 2.8,
                   width: MediaQuery.of(context).size.width,
-                  child: Stack(
+                  child: 
+                  Stack(
                     alignment: Alignment.center,
                     children: [
-                      Container(
-                        height: controller.size.height / 2.8,
-                        width: controller.size.width,
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 20),
-                        decoration: const BoxDecoration(
-                            color: Colors.brown,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
-                      ),
-                      Image.asset(
-                        "assets/images/login/login_logo.png",
-                        fit: BoxFit.cover,
+                      // Container(
+                      //   height: controller.size.height / 2.8,
+                      //   width: controller.size.width,
+                      //   margin: const EdgeInsets.symmetric(
+                      //       horizontal: 20, vertical: 20),
+                      //   decoration: const BoxDecoration(
+                      //       color: Colors.brown,
+                      //       borderRadius:
+                      //           BorderRadius.all(Radius.circular(20))),
+                      // ),
+                       Positioned(
+                        top: 0,
+                        right: 0,
+                        height: Get.height / 3.3,
+                         child: Image.asset(
+                          "assets/images/login/phones.png",
+                          fit: BoxFit.cover,
+                                             ),
+                       ),
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        height: Get.height / 5,
+                        child: Image.asset(
+                          "assets/images/login/signin.png",
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ],
                   ),
