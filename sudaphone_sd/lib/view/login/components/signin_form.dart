@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudaphone_sd/shared/components/custom_text_form_field.dart';
 import 'package:sudaphone_sd/shared/components/custom_text2.dart';
+import 'package:sudaphone_sd/shared/constants.dart';
 import 'package:sudaphone_sd/view_model/login_view_model.dart';
 
 class SignInForm extends GetWidget<LoginViewModel> {
@@ -25,9 +26,9 @@ class SignInForm extends GetWidget<LoginViewModel> {
                 //Start Email----------
                 const CustomText2(
                   text: "E-mail",
-                  color: Colors.brown,
+                  color: kBlackColor,
                   fontSize: 15,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w500,
                   textAlign: TextAlign.center,
                 ),
 
@@ -50,9 +51,9 @@ class SignInForm extends GetWidget<LoginViewModel> {
                 const SizedBox(height: 10),
                 const CustomText2(
                   text: "Password",
-                  color: Colors.brown,
+                  color: kBlackColor,
                   fontSize: 15,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w500,
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 10),
