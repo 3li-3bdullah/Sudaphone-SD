@@ -148,7 +148,7 @@ class LoginViewModel extends GetxController {
         ),
       );
       try {
-        signUpKey.currentState!.save();
+        signUpKey.currentState!.save(); 
         final formattedDate =
             DateFormat('M/d/y - kk:mm').format(DateTime.now());
         Reference reference =
