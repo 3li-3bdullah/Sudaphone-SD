@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sudaphone_sd/shared/components/custom_dialog.dart';
 import 'package:sudaphone_sd/view/my_drawer/mydrawer.dart';
 
 class LoginViewModel extends GetxController {
@@ -108,12 +109,10 @@ class LoginViewModel extends GetxController {
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           Get.back(closeOverlays: true);
-          Get.snackbar("Error", "No user found for that email.",
-              duration: Duration(seconds: 5));
+          CustomDialog.ShowCustomDialog(body: 'No user found for that email.');
         } else if (e.code == 'wrong-password') {
           Get.back(closeOverlays: true);
-          Get.snackbar("Oops!", "Wrong password provided for that user.",
-              duration: Duration(seconds: 5));
+          CustomDialog.ShowCustomDialog(body: 'Wrong password provided for that user.');
         }
       }
     }
@@ -187,15 +186,14 @@ class LoginViewModel extends GetxController {
       } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
           Get.back();
-          Get.snackbar("Password", "The password provided is too weak.");
+          return CustomDialog.ShowCustomDialog(body: 'The password provided is too weak.');
         } else if (e.code == 'email-already-in-use') {
           Get.back();
-          Get.snackbar("E-mail", 'The account already exists for that email.');
+          return CustomDialog.ShowCustomDialog(body: 'The account already exists for that email.');
         }
       } catch (e) {
         Get.back();
-        Get.snackbar("Oops!", "That error was : $e",
-            duration: const Duration(seconds: 5));
+        return CustomDialog.ShowCustomDialog(body: 'That error was : $e');
       }
     }
   }
@@ -214,9 +212,9 @@ class LoginViewModel extends GetxController {
             .sendPasswordResetEmail(email: email!)
             .whenComplete(() {
           Get.back();
-          Get.snackbar("", "Password Reset Email Sent ..",
-              duration: const Duration(seconds: 5),
-              backgroundColor: Colors.green,
+          Get.snackbar("Reset", "Password Reset Email Sent ..",
+              duration: const Duration(seconds: 3),
+              backgroundColor: Colors.green.shade200,
               snackPosition: SnackPosition.BOTTOM);
         });
       }
