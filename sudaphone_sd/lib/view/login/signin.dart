@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sudaphone_sd/shared/components/custom_dialog.dart';
+import 'package:sudaphone_sd/shared/components/custom_text.dart';
 import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 import 'package:sudaphone_sd/shared/components/primary_button.dart';
+import 'package:sudaphone_sd/shared/constants.dart';
 import 'package:sudaphone_sd/view/login/components/signin_form.dart';
 import 'package:sudaphone_sd/view/login/forgot_password.dart';
 import 'package:sudaphone_sd/view/login/signup.dart';
@@ -23,62 +26,36 @@ class SignIn extends GetWidget<LoginViewModel> {
             child: Column(
               children: [
                 Container(
-                  alignment: Alignment.centerLeft,
-                  padding: const EdgeInsets.only(left: 20),
-                  child: Column(
-                    children: [
-                      const CustomText2(
-                          text: "Sudaphone SD",
-                          textAlign: TextAlign.left,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.brown),
-                      Container(
-                        height: 4,
-                        width: 160,
-                        alignment: Alignment.centerLeft,
-                        decoration: const BoxDecoration(
-                          color: Colors.brown,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                  alignment: Alignment.center,
+                  margin: const EdgeInsets.only(top: 10, bottom: 20),
+                  child: const CustomText2(
+                      text: "Sudaphone SD",
+                      textAlign: TextAlign.left,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                      color: kBlackColor),
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
                 Container(
                   alignment: Alignment.center,
                   margin: EdgeInsets.symmetric(horizontal: 10),
                   padding: EdgeInsets.symmetric(horizontal: 10),
-                  height: MediaQuery.of(context).size.height / 2.8,
+                  height: MediaQuery.of(context).size.height / 3,
                   width: MediaQuery.of(context).size.width,
-                  child: 
-                  Stack(
+                  child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      // Container(
-                      //   height: controller.size.height / 2.8,
-                      //   width: controller.size.width,
-                      //   margin: const EdgeInsets.symmetric(
-                      //       horizontal: 20, vertical: 20),
-                      //   decoration: const BoxDecoration(
-                      //       color: Colors.brown,
-                      //       borderRadius:
-                      //           BorderRadius.all(Radius.circular(20))),
-                      // ),
-                       Positioned(
+                      Positioned(
                         top: 0,
                         right: 0,
                         height: Get.height / 3.3,
-                         child: Image.asset(
+                        child: Image.asset(
                           "assets/images/login/phones.png",
                           fit: BoxFit.cover,
-                                             ),
-                       ),
+                        ),
+                      ),
                       Positioned(
                         bottom: 0,
                         left: 0,
@@ -91,7 +68,7 @@ class SignIn extends GetWidget<LoginViewModel> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 30),
+                SizedBox(height: Get.height / 12),
                 const SignInForm(),
                 const SizedBox(
                   height: 20,
@@ -116,12 +93,12 @@ class SignIn extends GetWidget<LoginViewModel> {
                     );
                   },
                   child: const Text(
-                    "Forgot Password",
+                    "Forgot Password ?",
                     style: TextStyle(
                       decoration: TextDecoration.underline,
                       color: Colors.brown,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
                     ),
                     textAlign: TextAlign.center,
                   ),
