@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sudaphone_sd/shared/constants.dart';
 import 'package:sudaphone_sd/view/login/components/build_avatar.dart';
 import 'package:sudaphone_sd/view/login/components/signup_form.dart';
 import 'package:sudaphone_sd/view/login/signin.dart';
@@ -40,44 +41,45 @@ class SignUp extends GetWidget<LoginViewModel> {
                             children: [
                               Container(
                                 padding: const EdgeInsets.only(left: 10),
+                                height: Get.height / 5,
                                 child: Image.asset(
-                                    "assets/images/login/welcome.png",
+                                    "assets/images/login/signup.png",
                                     fit: BoxFit.cover),
                               ),
                               const CustomText2(
                                   text: "Welcome To",
                                   textAlign: TextAlign.left,
-                                  fontSize: 16,
+                                  fontSize: 15,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.brown),
-                              Container(
-                                height: 4,
-                                width: 80,
-                                alignment: Alignment.centerLeft,
-                                decoration: const BoxDecoration(
-                                  color: Colors.brown,
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(5),
-                                  ),
-                                ),
-                              ),
+                                  color: kBlackColor),
+                              // Container(
+                              //   height: 4,
+                              //   width: 80,
+                              //   alignment: Alignment.centerLeft,
+                              //   decoration: const BoxDecoration(
+                              //     color: Colors.brown,
+                              //     borderRadius: BorderRadius.all(
+                              //       Radius.circular(5),
+                              //     ),
+                              //   ),
+                              // ),
                               const CustomText2(
                                   text: "S u d a p h o n e S D",
                                   textAlign: TextAlign.left,
-                                  fontSize: 16,
+                                  fontSize: 15,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.brown),
-                              Container(
-                                height: 4,
-                                width: 140,
-                                alignment: Alignment.centerLeft,
-                                decoration: const BoxDecoration(
-                                  color: Colors.brown,
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(5),
-                                  ),
-                                ),
-                              ),
+                                  color: kBlackColor),
+                              // Container(
+                              //   height: 4,
+                              //   width: 140,
+                              //   alignment: Alignment.centerLeft,
+                              //   decoration: const BoxDecoration(
+                              //     color: Colors.brown,
+                              //     borderRadius: BorderRadius.all(
+                              //       Radius.circular(5),
+                              //     ),
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),
