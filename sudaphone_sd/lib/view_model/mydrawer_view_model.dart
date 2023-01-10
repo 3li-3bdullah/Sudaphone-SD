@@ -13,32 +13,8 @@ class MyDrawerViewModel extends GetxController {
   double value = 0.0;
   CollectionReference<Map<String, dynamic>> userInfo =
       FirebaseFirestore.instance.collection("usersInfo");
-  RxInt internetConnectionChecker = 0.obs;
-  late StreamSubscription<InternetConnectionStatus> listener;
   SharedPreferences? prefs;
   // ((((((((((((((((((((((((((((((( Declaring Methods )))))))))))))))))))))))))))))))
-  @override
-  void onInit() {
-    listener = InternetConnectionChecker()
-        .onStatusChange
-        .listen((InternetConnectionStatus status) {
-      switch (status) {
-        case InternetConnectionStatus.connected:
-          internetConnectionChecker.value = 1;
-          break;
-        case InternetConnectionStatus.disconnected:
-          internetConnectionChecker.value = 0;
-          break;
-      }
-    });
-    super.onInit();
-  }
-
-  @override
-  void onClose() {
-    listener.cancel();
-    super.onClose();
-  }
 
   void valueOne() {
     value = 1.0;
