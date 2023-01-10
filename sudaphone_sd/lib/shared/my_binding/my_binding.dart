@@ -10,6 +10,7 @@ import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 import 'package:sudaphone_sd/view_model/public_data.dart';
 import 'package:sudaphone_sd/view_model/screen_view_model.dart';
 import 'package:sudaphone_sd/view_model/settings_view_model.dart';
+import 'package:sudaphone_sd/view_model/splash_screen_view_model.dart';
 import 'package:sudaphone_sd/view_model/themes_view_model.dart';
 
 class MyBinding implements Bindings {
@@ -25,6 +26,7 @@ class MyBinding implements Bindings {
     Get.lazyPut(() => CategoriesViewModel(), fenix: true);
     Get.lazyPut(() => FeedbackViewModel(), fenix: true);
     Get.lazyPut(() => AboutAppViewModel(), fenix: true);
+    Get.put(SplashScreenViewModel());
     Get.put(ThemesViewModel());
     Get.lazyPut(() => PublicData() , fenix: true);
   }
