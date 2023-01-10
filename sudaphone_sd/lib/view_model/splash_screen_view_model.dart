@@ -27,4 +27,11 @@ class SplashScreenViewModel extends GetxController {
       }
     });
   }
+
+    @override
+  void onClose() {
+    listener.cancel();
+    super.onClose();
+  }
+  
 }
