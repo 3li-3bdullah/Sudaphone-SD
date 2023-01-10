@@ -2,17 +2,16 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 import 'package:sudaphone_sd/view/about_app/aboutapp.dart';
 import 'package:sudaphone_sd/view/bottom_nav_bar/bottom_navigation.dart';
 import 'package:sudaphone_sd/view/categories/categories.dart';
 import 'package:sudaphone_sd/view/feedback/feedbacks.dart';
 import 'package:sudaphone_sd/view/my_drawer/components/build_listtile.dart';
 import 'package:sudaphone_sd/view/my_drawer/components/custom_divider.dart';
-import 'package:sudaphone_sd/view/no_internet_connection/no_internet_connection.dart';
 import 'package:sudaphone_sd/view/posts/posts.dart';
 import 'package:sudaphone_sd/view/posts/saved.dart';
 import 'package:sudaphone_sd/view/settings/settings.dart';
-import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 import 'package:sudaphone_sd/view_model/mydrawer_view_model.dart';
 import 'package:sudaphone_sd/view_model/public_data.dart';
 import 'package:sudaphone_sd/view_model/themes_view_model.dart';
@@ -23,9 +22,7 @@ class MyDrawer extends GetWidget<MyDrawerViewModel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Obx(
-        () => controller.internetConnectionChecker.value == 1
-            ? Stack(
+      body: Stack(
                 children: [
                   GetBuilder<ThemesViewModel>(
                     builder: (controller) => Positioned(
@@ -221,8 +218,6 @@ class MyDrawer extends GetWidget<MyDrawerViewModel> {
                   ),
                 ],
               )
-            : const NoInternetConnection(),
-      ),
     );
   }
 }
