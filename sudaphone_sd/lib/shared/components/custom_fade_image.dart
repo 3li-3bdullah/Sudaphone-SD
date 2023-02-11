@@ -20,6 +20,7 @@ class CustomFadeImage extends StatelessWidget {
             placeHolderImage,
           )),
       image: imageUrl,
+      fit: BoxFit.cover,
     );
   }
 }
