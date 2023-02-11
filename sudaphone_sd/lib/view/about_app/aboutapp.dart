@@ -50,7 +50,7 @@ class AboutApp extends GetWidget<AboutAppViewModel> {
               height: 25,
             ),
             CustomText(
-              text: "Sudaphone SD V1",
+              text: "Sudaphone SD V1.0.0",
               fontSize: 18,
               fontWeight: FontWeight.normal,
               textAlign: TextAlign.center,
