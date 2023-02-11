@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -63,9 +62,9 @@ class PopularCarousel extends StatelessWidget {
                               CustomText(
                                 text:
                                     "${snapshot.data!.docs[index].data()['name']}",
-                                fontWeight: FontWeight.normal,
+                                fontWeight: FontWeight.w400,
                                 textAlign: TextAlign.end,
-                                fontSize: 16,
+                                fontSize: 14,
                               ),
                               DotShape(left: 7.0, right: 0.0)
                             ],
