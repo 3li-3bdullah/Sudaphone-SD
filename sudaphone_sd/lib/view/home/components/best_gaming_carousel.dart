@@ -53,9 +53,9 @@ class BestGamingCarousel extends StatelessWidget {
                               child: CustomText2(
                                 text:
                                     "${snapshot.data!.docs[index].data()['name']} \n ${snapshot.data!.docs[index].data()['ram']} \n ${snapshot.data!.docs[index].data()['battery']}",
-                                fontSize: 18,
+                                fontSize: 14,
                                 color: Colors.white,
-                                fontWeight: FontWeight.normal,
+                                fontWeight: FontWeight.w400,
                                 textAlign: TextAlign.center,
                               ),
                             ),
