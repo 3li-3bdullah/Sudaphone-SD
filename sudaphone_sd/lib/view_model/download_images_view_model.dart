@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:get/get.dart';
 
+import '../shared/components/custom_dialog.dart';
+
 class DownloadImagesViewModel extends GetxController {
 
   void saveNetworkImage(String path) {
@@ -26,11 +28,7 @@ class DownloadImagesViewModel extends GetxController {
         )
         .catchError(
           // ignore: invalid_return_type_for_catch_error
-          (e) => Get.snackbar(
-            "Error",
-            e.toString(),
-            duration: const Duration(seconds: 3),
-          ),
+          (e) => CustomDialog.ShowCustomDialog(body: e.toString())
         );
   }
 }
