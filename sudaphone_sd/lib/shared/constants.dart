@@ -19,7 +19,8 @@ TextStyle textButton = const TextStyle(
 
 class Themes {
   static final lightTheme = ThemeData(
-      useMaterial3: true,
+      // useMaterial3: true,
+      // colorSchemeSeed: Colors.white,
       appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white,
           systemOverlayStyle: SystemUiOverlayStyle(
@@ -39,7 +40,8 @@ class Themes {
           const BottomSheetThemeData(backgroundColor: Colors.white));
   //Dark Theme
   static final darkTheme = ThemeData(
-      useMaterial3: true,
+      // useMaterial3: true,
+      // colorSchemeSeed: kDark2,
       appBarTheme: const AppBarTheme(
           backgroundColor: kDark1,
           systemOverlayStyle: SystemUiOverlayStyle(
