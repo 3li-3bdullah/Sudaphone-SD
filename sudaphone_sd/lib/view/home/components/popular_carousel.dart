@@ -29,7 +29,7 @@ class PopularCarousel extends StatelessWidget {
                   elevation: 8,
                   clipBehavior: Clip.antiAlias,
                   child: Padding(
-                    padding: const EdgeInsets.only(top:8.0, left:6,right:6),
+                    padding: const EdgeInsets.only(top: 8.0, left: 6, right: 6),
                     child: SizedBox(
                       width: Get.width,
                       height: Get.height / 4,
@@ -40,9 +40,18 @@ class PopularCarousel extends StatelessWidget {
                                 const BorderRadius.all(Radius.circular(10)),
                             child: FadeInImage.assetNetwork(
                               placeholder: 'assets/images/loader.gif',
+                              placeholderErrorBuilder:
+                                  ((context, error, stackTrace) => Image.asset(
+                                        "assets/images/shimmer.jpg",
+                                      )),
+                              imageErrorBuilder:
+                                  ((context, error, stackTrace) => Image.asset(
+                                        "assets/images/shimmer.jpg",
+                                      )),
                               image:
                                   snapshot.data?.docs[index].data()['imageUrl'],
-                              fit: BoxFit.cover,width: Get.width * 0.9,
+                              fit: BoxFit.cover,
+                              width: Get.width * 0.9,
                             ),
                           ),
                         ),
