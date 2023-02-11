@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudaphone_sd/shared/components/custom_fade_image.dart';
 import 'package:sudaphone_sd/shared/components/custom_text.dart';
+import 'package:sudaphone_sd/shared/constants.dart';
 import 'package:sudaphone_sd/view/home/play_video_page.dart';
 import 'package:sudaphone_sd/view_model/screen_view_model.dart';
 import 'package:sudaphone_sd/view_model/themes_view_model.dart';
@@ -42,9 +43,8 @@ class CustomListTile extends GetWidget<ScreenViewModel> {
         child: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(30)),
           child: Card(
-            shadowColor: control.theme == ThemeMode.dark
-                ? Colors.white12
-                : Colors.black12,
+            shadowColor:
+                control.theme == ThemeMode.dark ? kDark2 : Colors.black12,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
