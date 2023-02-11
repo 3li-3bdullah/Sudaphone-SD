@@ -11,53 +11,53 @@ class NoInternetConnection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Align(
-          alignment: Alignment.centerLeft,
-          child: CustomText(
-            text: "Sudaphone SD",
-            fontSize: 20,
-            textAlign: TextAlign.center,
-            fontWeight: FontWeight.normal,
-          ),
-        ),
-        elevation: 0,
-        actions: [
-          GetBuilder<ThemesViewModel>(
-            builder: (control) => Padding(
-              padding: const EdgeInsets.only(right: 18.0),
-              child: IconButton(
-                icon: Image(
-                  image: const AssetImage("assets/images/icons/search.png"),
-                  height: 22,
-                  width: 22,
-                  color: control.theme == ThemeMode.dark
-                      ? Colors.white
-                      : Colors.black,
-                ),
-                onPressed: () {},
-              ),
-            ),
-          ),
-        ],
-        leading: GetBuilder<MyDrawerViewModel>(
-          builder: (controller) => IconButton(
-            onPressed: () {
-              return controller.value == 0.0
-                  ? controller.valueOne()
-                  : controller.valueZero();
-            },
-            icon: GetBuilder<ThemesViewModel>(
-              builder: (control) => Icon(
-                controller.value == 0.0 ? Icons.menu : Icons.menu_open_outlined,
-                color: control.theme == ThemeMode.dark
-                    ? Colors.white
-                    : Colors.black,
-              ),
-            ),
-          ),
-        ),
-      ),
+      // appBar: AppBar(
+      //   title: Align(
+      //     alignment: Alignment.centerLeft,
+      //     child: CustomText(
+      //       text: "Sudaphone SD",
+      //       fontSize: 20,
+      //       textAlign: TextAlign.center,
+      //       fontWeight: FontWeight.normal,
+      //     ),
+      //   ),
+      //   elevation: 0,
+      //   actions: [
+      //     GetBuilder<ThemesViewModel>(
+      //       builder: (control) => Padding(
+      //         padding: const EdgeInsets.only(right: 18.0),
+      //         child: IconButton(
+      //           icon: Image(
+      //             image: const AssetImage("assets/images/icons/search.png"),
+      //             height: 22,
+      //             width: 22,
+      //             color: control.theme == ThemeMode.dark
+      //                 ? Colors.white
+      //                 : Colors.black,
+      //           ),
+      //           onPressed: () {},
+      //         ),
+      //       ),
+      //     ),
+      //   ],
+      //   leading: GetBuilder<MyDrawerViewModel>(
+      //     builder: (controller) => IconButton(
+      //       onPressed: () {
+      //         return controller.value == 0.0
+      //             ? controller.valueOne()
+      //             : controller.valueZero();
+      //       },
+      //       icon: GetBuilder<ThemesViewModel>(
+      //         builder: (control) => Icon(
+      //           controller.value == 0.0 ? Icons.menu : Icons.menu_open_outlined,
+      //           color: control.theme == ThemeMode.dark
+      //               ? Colors.white
+      //               : Colors.black,
+      //         ),
+      //       ),
+      //     ),
+      //   ),
+      // ),
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
