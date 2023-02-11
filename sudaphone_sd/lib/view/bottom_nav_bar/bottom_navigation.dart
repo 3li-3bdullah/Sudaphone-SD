@@ -29,7 +29,7 @@ class BottomNavigation extends GetWidget<ScreenViewModel> {
           builder:(control) => BottomNavyBar(
             selectedIndex: controller.activeIndex,
             showElevation: true,
-            backgroundColor: control.theme == ThemeMode.dark ? kDarkColor : Colors.white,
+            backgroundColor: control.theme == ThemeMode.dark ? kDark1 : Colors.white,
             onItemSelected: (index) {
               controller.onSelectedItem(index);
             },
