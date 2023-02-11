@@ -100,7 +100,7 @@ class LoginViewModel extends GetxController {
           passwordSigninController!.clear();
            Get.back();
           Get.off(() => const MyDrawer());
-          Get.snackbar("", "You've signed in successfully",
+          Get.snackbar("Welcome!", "You've signed in successfully",
               snackPosition: SnackPosition.BOTTOM,
               backgroundColor: Colors.brown.shade300,
               colorText: Colors.white,
@@ -177,7 +177,7 @@ class LoginViewModel extends GetxController {
           passwordController!.clear();
           Get.back();
           Get.off(() => MyDrawer());
-          Get.snackbar("", "You've resgistered successfully",
+          Get.snackbar("Welcome!", "You've resgistered successfully",
               snackPosition: SnackPosition.BOTTOM,
               backgroundColor: Colors.brown.shade300,
               colorText: Colors.white,
@@ -219,9 +219,10 @@ class LoginViewModel extends GetxController {
         });
       }
     } catch (e) {
-      Get.snackbar("Oops", e.toString(),
-          duration: const Duration(seconds: 5),
-          snackPosition: SnackPosition.TOP);
+      CustomDialog.ShowCustomDialog(body: e.toString());
+      // Get.snackbar("Oops", e.toString(),
+      //     duration: const Duration(seconds: 5),
+      //     snackPosition: SnackPosition.TOP);
     }
   }
 }
