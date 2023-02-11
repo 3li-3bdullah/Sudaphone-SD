@@ -16,7 +16,7 @@ class BuildListTile extends StatelessWidget {
       child: ListTile(
         title: Text(
           text,
-          style: const TextStyle(color: Colors.white, fontSize: 18),
+          style: const TextStyle(color: Colors.white, fontSize: 16),
         ),
         leading: Image(
           image: AssetImage(icon),
