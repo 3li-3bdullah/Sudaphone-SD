@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
@@ -43,9 +41,20 @@ class LastProductsCarousel extends GetWidget<ScreenViewModel> {
                           children: [
                             ClipRRect(
                               borderRadius:
-                                  const BorderRadius.all(Radius.circular(10)),
+                                  const BorderRadius.all(Radius.circular(10),),
+                                  //Here i should use the custom fade image 
                               child: FadeInImage.assetNetwork(
                                 placeholder: 'assets/images/loader.gif',
+                                placeholderErrorBuilder:
+                                    ((context, error, stackTrace) =>
+                                        Image.asset(
+                                          "assets/images/shimmer.jpg",
+                                        )),
+                                imageErrorBuilder:
+                                    ((context, error, stackTrace) =>
+                                        Image.asset(
+                                          "assets/images/shimmer.jpg",
+                                        )),
                                 image: controller
                                     .listOfLastProducts![index].imageUrl,
                               ),
