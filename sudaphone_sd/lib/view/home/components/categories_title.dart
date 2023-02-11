@@ -29,9 +29,9 @@ class CategoriesTitle extends StatelessWidget {
               },
               child: CustomText2(
                 color: Colors.brown.shade300,
-                text: "View All",
+                text: "View all",
                 fontSize: 13,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w400,
                 textAlign: TextAlign.center,
               )) : const SizedBox(),
         ],
