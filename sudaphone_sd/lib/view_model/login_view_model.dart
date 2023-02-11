@@ -92,13 +92,13 @@ class LoginViewModel extends GetxController {
       );
       try {
         signInKey.currentState!.save();
-        prefs.setString('email', email);
         await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: password)
             .then((e) {
+          prefs.setString('email', email);
           emailSigninController!.clear();
           passwordSigninController!.clear();
-           Get.back();
+          Get.back();
           Get.off(() => const MyDrawer());
           Get.snackbar("Welcome!", "You've signed in successfully",
               snackPosition: SnackPosition.BOTTOM,
@@ -112,7 +112,8 @@ class LoginViewModel extends GetxController {
           CustomDialog.ShowCustomDialog(body: 'No user found for that email.');
         } else if (e.code == 'wrong-password') {
           Get.back(closeOverlays: true);
-          CustomDialog.ShowCustomDialog(body: 'Wrong password provided for that user.');
+          CustomDialog.ShowCustomDialog(
+              body: 'Wrong password provided for that user.');
         }
       }
     }
@@ -148,7 +149,7 @@ class LoginViewModel extends GetxController {
         ),
       );
       try {
-        signUpKey.currentState!.save(); 
+        signUpKey.currentState!.save();
         final formattedDate =
             DateFormat('M/d/y - kk:mm').format(DateTime.now());
         Reference reference =
@@ -186,10 +187,12 @@ class LoginViewModel extends GetxController {
       } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
           Get.back();
-          return CustomDialog.ShowCustomDialog(body: 'The password provided is too weak.');
+          return CustomDialog.ShowCustomDialog(
+              body: 'The password provided is too weak.');
         } else if (e.code == 'email-already-in-use') {
           Get.back();
-          return CustomDialog.ShowCustomDialog(body: 'The account already exists for that email.');
+          return CustomDialog.ShowCustomDialog(
+              body: 'The account already exists for that email.');
         }
       } catch (e) {
         Get.back();
