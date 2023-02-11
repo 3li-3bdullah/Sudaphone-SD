@@ -41,60 +41,7 @@ class CategoriesAdvertising extends GetWidget<ScreenViewModel> {
                       thumbinalUrl:
                           controller.listCategories![index].thumbinalUrl,
                       onTap: () {
-                        switch (controller.listCategories![index].name) {
-                          case "Samsung":
-                            Get.to(() => const Samsung(),
-                                duration: const Duration(milliseconds: 50),
-                                transition: Transition.zoom);
-                            break;
-                          case "Huawei":
-                            Get.to(() => const Huawei(),
-                                duration: const Duration(milliseconds: 50),
-                                transition: Transition.zoom);
-                            break;
-                          case "Iphone":
-                            Get.to(() => const Iphone(),
-                                duration: const Duration(milliseconds: 50),
-                                transition: Transition.zoom);
-                            break;
-                          case "Realme":
-                            Get.to(() => const Realme(),
-                                duration: const Duration(milliseconds: 50),
-                                transition: Transition.zoom);
-                            break;
-                          case "Oppo":
-                            Get.to(() => const Oppo(),
-                                duration: const Duration(milliseconds: 50),
-                                transition: Transition.zoom);
-                            break;
-                          case "Xiaomi":
-                            Get.to(() => const Xiaomi(),
-                                duration: const Duration(milliseconds: 50),
-                                transition: Transition.zoom);
-                            break;
-                          case "Lenovo":
-                            Get.to(() => const Lenovo(),
-                                duration: const Duration(milliseconds: 50),
-                                transition: Transition.zoom);
-                            break;
-                          case "Tecno":
-                            Get.to(() => const Tecno(),
-                                duration: const Duration(milliseconds: 50),
-                                transition: Transition.zoom);
-                            break;
-                          case "Nokia":
-                            Get.to(() => const Nokia(),
-                                duration: const Duration(milliseconds: 50),
-                                transition: Transition.zoom);
-                            break;
-                          case "Vivo":
-                            Get.to(() => const Vivo(),
-                                duration: const Duration(milliseconds: 50),
-                                transition: Transition.zoom);
-                            break;
-                          default:
-                            Get.to(() => const Categories());
-                        }
+                        controller.onSelectedCategory(categoryName: controller.listCategories![index].name);
                       },
                       text: controller.listCategories![index].name,
                     ),
