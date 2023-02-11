@@ -5,6 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudaphone_sd/model/home/screen_model.dart';
 
+import '../view/categories/categories.dart';
+import '../view/categories/phones/huawei.dart';
+import '../view/categories/phones/iphone.dart';
+import '../view/categories/phones/lenovo.dart';
+import '../view/categories/phones/nokia.dart';
+import '../view/categories/phones/oppo.dart';
+import '../view/categories/phones/realme.dart';
+import '../view/categories/phones/samsung.dart';
+import '../view/categories/phones/tecno.dart';
+import '../view/categories/phones/vivo.dart';
+import '../view/categories/phones/xiaomi.dart';
+
 class ScreenViewModel extends GetxController {
   /*
   * (((((((((((((((((((( Declaring Variables )))))))))))))))))))))))
@@ -70,7 +82,7 @@ class ScreenViewModel extends GetxController {
     value(0.0);
   }
 
-  void onSelectedItem(int index){
+  void onSelectedItem(int index) {
     activeIndex = index;
     update();
   }
@@ -92,6 +104,66 @@ class ScreenViewModel extends GetxController {
         .collection("favorite")
         .doc(id)
         .delete();
+  }
+
+  /** ------------- When user tap on any category, so this switch will handle
+   *     where user has tapped and show up the selected category page --------------- */
+
+  onSelectedCategory({required String categoryName}) {
+    switch (categoryName) {
+      case "Samsung":
+        Get.to(() => const Samsung(),
+            duration: const Duration(milliseconds: 50),
+            transition: Transition.zoom);
+        break;
+      case "Huawei":
+        Get.to(() => const Huawei(),
+            duration: const Duration(milliseconds: 50),
+            transition: Transition.zoom);
+        break;
+      case "Iphone":
+        Get.to(() => const Iphone(),
+            duration: const Duration(milliseconds: 50),
+            transition: Transition.zoom);
+        break;
+      case "Realme":
+        Get.to(() => const Realme(),
+            duration: const Duration(milliseconds: 50),
+            transition: Transition.zoom);
+        break;
+      case "Oppo":
+        Get.to(() => const Oppo(),
+            duration: const Duration(milliseconds: 50),
+            transition: Transition.zoom);
+        break;
+      case "Xiaomi":
+        Get.to(() => const Xiaomi(),
+            duration: const Duration(milliseconds: 50),
+            transition: Transition.zoom);
+        break;
+      case "Lenovo":
+        Get.to(() => const Lenovo(),
+            duration: const Duration(milliseconds: 50),
+            transition: Transition.zoom);
+        break;
+      case "Tecno":
+        Get.to(() => const Tecno(),
+            duration: const Duration(milliseconds: 50),
+            transition: Transition.zoom);
+        break;
+      case "Nokia":
+        Get.to(() => const Nokia(),
+            duration: const Duration(milliseconds: 50),
+            transition: Transition.zoom);
+        break;
+      case "Vivo":
+        Get.to(() => const Vivo(),
+            duration: const Duration(milliseconds: 50),
+            transition: Transition.zoom);
+        break;
+      default:
+        Get.to(() => const Categories());
+    }
   }
 
   // ------------- Get Last Product Data ------------
