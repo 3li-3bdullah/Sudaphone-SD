@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sudaphone_sd/shared/components/custom_fade_image.dart';
 import 'package:sudaphone_sd/shared/components/custom_text.dart';
 import 'package:sudaphone_sd/view/home/play_video_page.dart';
 import 'package:sudaphone_sd/view_model/screen_view_model.dart';
@@ -25,26 +26,25 @@ class CustomListTile extends GetWidget<ScreenViewModel> {
       builder: (control) => Container(
         decoration: BoxDecoration(boxShadow: [
           BoxShadow(
-            color: control.theme == ThemeMode.dark
-                ? Colors.black26
-                : Colors.black12,
-            blurRadius: 8.0,
-            offset: const Offset(8, 8)
-          ),
+              color: control.theme == ThemeMode.dark
+                  ? Colors.black26
+                  : Colors.black12,
+              blurRadius: 8.0,
+              offset: const Offset(8, 8)),
           BoxShadow(
-            color: control.theme == ThemeMode.dark
-                ? Colors.transparent
-                : Colors.transparent,
-            blurRadius: 8.0,
-            offset: const Offset(-8, -8)
-          ),
+              color: control.theme == ThemeMode.dark
+                  ? Colors.transparent
+                  : Colors.transparent,
+              blurRadius: 8.0,
+              offset: const Offset(-8, -8)),
         ], borderRadius: const BorderRadius.all(Radius.circular(20))),
         // margin: const EdgeInsets.all(3.0),
         child: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(30)),
           child: Card(
-            shadowColor:
-                control.theme == ThemeMode.dark ? Colors.white12 : Colors.black12,
+            shadowColor: control.theme == ThemeMode.dark
+                ? Colors.white12
+                : Colors.black12,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -63,11 +63,7 @@ class CustomListTile extends GetWidget<ScreenViewModel> {
                             borderRadius: const BorderRadius.all(
                               Radius.circular(20),
                             ),
-                            child: FadeInImage.assetNetwork(
-                              placeholder: 'assets/images/loader.gif',
-                              image: thumbinalUrl,
-                              fit: BoxFit.cover,
-                            ),
+                            child: CustomFadeImage(imageUrl: thumbinalUrl),
                           ),
                         ),
                         const Positioned(
@@ -109,11 +105,7 @@ class CustomListTile extends GetWidget<ScreenViewModel> {
                               borderRadius: const BorderRadius.all(
                                 Radius.circular(10),
                               ),
-                              child: FadeInImage.assetNetwork(
-                                placeholder: 'assets/images/loader.gif',
-                                image: logo,
-                                fit: BoxFit.cover,
-                              ),
+                              child: CustomFadeImage(imageUrl: logo),
                             ),
                           ),
                         ],
