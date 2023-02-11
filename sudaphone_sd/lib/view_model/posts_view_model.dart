@@ -71,16 +71,18 @@ class PostsViewModel extends GetxController {
 
   /// Here To See Is there Posts And If Current User Has Saved Any Post Or Not
   isCurrentUserSavedPosts() async {
-    await postsCollections
-        .get()
-        .then((querySnapshot) => querySnapshot.docs.forEach((element) {
-               if(element.data()['usersHaveSaved'][uid] != null){
-                if(element.data()['usersHaveSaved'][uid]){
+    await postsCollections.get().then(
+          (querySnapshot) => querySnapshot.docs.forEach(
+            (element) {
+              if (element.data()['usersHaveSaved'][uid] != null) {
+                if (element.data()['usersHaveSaved'][uid]) {
                   isCurrentUserSavedPost.add(element.id);
                   update();
                 }
-               }
-            }));
+              }
+            },
+          ),
+        );
   }
 
   //Handle DateTime
@@ -147,59 +149,69 @@ class PostsViewModel extends GetxController {
             "usersHaveSaved": {uid: false},
             "usersLiked": {uid: false},
             // ignore: void_checks
-          }).then((e) {
-            clearEditingControllers();
-            retrievePostsData();
-            Get.back(closeOverlays: true);
-            Get.back();
-            showLoading.value = false;
-            return Get.showSnackbar(const GetSnackBar(
-              messageText: CustomText2(
-                text: "Uploaded Post Successfully ...",
-                fontSize: 18,
-                color: Colors.white,
-                fontWeight: FontWeight.normal,
-                textAlign: TextAlign.center,
-              ),
-              backgroundColor: Colors.black38,
-              duration: Duration(seconds: 2),
-              snackPosition: SnackPosition.BOTTOM,
-            ));
-          });
+          }).then(
+            (e) {
+              clearEditingControllers();
+              retrievePostsData();
+              Get.back(closeOverlays: true);
+              Get.back();
+              showLoading.value = false;
+              return Get.showSnackbar(
+                const GetSnackBar(
+                  messageText: CustomText2(
+                    text: "Uploaded Post Successfully ...",
+                    fontSize: 18,
+                    color: Colors.white,
+                    fontWeight: FontWeight.normal,
+                    textAlign: TextAlign.center,
+                  ),
+                  backgroundColor: Colors.black38,
+                  duration: Duration(seconds: 2),
+                  snackPosition: SnackPosition.BOTTOM,
+                ),
+              );
+            },
+          );
         } else {
-          postsReference.add({
-            "profileUrl": profileurl.toString(),
-            "userName": username.toString(),
-            "text": text!,
-            "imageUrl": "null",
-            "dateTime": dateTime,
-            "ownerUid": uid.toString(),
-            "isThereImageUrl": false,
-            "likesCount": 0,
-            "isHasLiked": false,
-            "usersLiked": {uid: false},
-            "usersHaveSaved": {uid: false},
-            // ignore: void_checks
-          }).then((e) {
-            clearEditingControllers();
-            retrievePostsData();
-            Get.back(closeOverlays: true);
-            Get.back();
-            showLoading.value = false;
-            return Get.showSnackbar(const GetSnackBar(
-              messageText: CustomText2(
-                text: "Uploaded Post Successfully ...",
-                fontSize: 18,
-                color: Colors.white,
-                fontWeight: FontWeight.normal,
-                textAlign: TextAlign.center,
-              ),
-              backgroundColor: Colors.black38,
-              duration: Duration(seconds: 2),
-              snackPosition: SnackPosition.BOTTOM,
-            ));
-            // showLoading.value = false;
-          });
+          postsReference.add(
+            {
+              "profileUrl": profileurl.toString(),
+              "userName": username.toString(),
+              "text": text!,
+              "imageUrl": "null",
+              "dateTime": dateTime,
+              "ownerUid": uid.toString(),
+              "isThereImageUrl": false,
+              "likesCount": 0,
+              "isHasLiked": false,
+              "usersLiked": {uid: false},
+              "usersHaveSaved": {uid: false},
+              // ignore: void_checks
+            },
+          ).then(
+            (e) {
+              clearEditingControllers();
+              retrievePostsData();
+              Get.back(closeOverlays: true);
+              Get.back();
+              showLoading.value = false;
+              return Get.showSnackbar(
+                const GetSnackBar(
+                  messageText: CustomText2(
+                    text: "Uploaded Post Successfully ...",
+                    fontSize: 18,
+                    color: Colors.white,
+                    fontWeight: FontWeight.normal,
+                    textAlign: TextAlign.center,
+                  ),
+                  backgroundColor: Colors.black38,
+                  duration: Duration(seconds: 2),
+                  snackPosition: SnackPosition.BOTTOM,
+                ),
+              );
+              // showLoading.value = false;
+            },
+          );
         }
       } catch (e) {
         return Get.snackbar("Oops", "The error : ${e.toString()}");
@@ -249,30 +261,34 @@ class PostsViewModel extends GetxController {
               .child(_fileNameForComment!)
               .putFile(_imageFileForComment!);
           String imageUrl = await uploadToStorage.ref.getDownloadURL();
-          commentReference.add({
-            "profileUrl": profileurl,
-            "userName": username,
-            'text': text,
-            'ownerUid': uid.toString(),
-            'imageUrl': imageUrl.toString(),
-            'dateTime': formattedDate.toString(),
-            'isThereImageUrl': true,
-            "usersLiked": {uid: false},
-            'likesCount': 0,
-          });
+          commentReference.add(
+            {
+              "profileUrl": profileurl,
+              "userName": username,
+              'text': text,
+              'ownerUid': uid.toString(),
+              'imageUrl': imageUrl.toString(),
+              'dateTime': formattedDate.toString(),
+              'isThereImageUrl': true,
+              "usersLiked": {uid: false},
+              'likesCount': 0,
+            },
+          );
           isPickedForComment!.value = false;
         } else {
-          commentReference.add({
-            'text': text,
-            "profileUrl": profileurl,
-            "userName": username,
-            'imageUrl': "null",
-            'ownerUid': uid.toString(),
-            'dateTime': formattedDate.toString(),
-            'isThereImageUrl': false,
-            "usersLiked": {uid: false},
-            'likesCount': 0,
-          });
+          commentReference.add(
+            {
+              'text': text,
+              "profileUrl": profileurl,
+              "userName": username,
+              'imageUrl': "null",
+              'ownerUid': uid.toString(),
+              'dateTime': formattedDate.toString(),
+              'isThereImageUrl': false,
+              "usersLiked": {uid: false},
+              'likesCount': 0,
+            },
+          );
         }
       } catch (e) {
         return Get.snackbar("Oops!", e.toString());
@@ -303,18 +319,22 @@ class PostsViewModel extends GetxController {
       });
     } else if (isHasLiked == null) {
       int addLike = likesCount + 1;
-      likeData.update({
-        'likesCount': addLike.toInt(),
-        'isHasLiked': true,
-        'usersLiked.$uid': true,
-      });
+      likeData.update(
+        {
+          'likesCount': addLike.toInt(),
+          'isHasLiked': true,
+          'usersLiked.$uid': true,
+        },
+      );
     } else {
       int removeLike = likesCount - 1;
-      likeData.update({
-        'likesCount': removeLike.toInt(),
-        'isHasLiked': false,
-        'usersLiked.$uid': false
-      });
+      likeData.update(
+        {
+          'likesCount': removeLike.toInt(),
+          'isHasLiked': false,
+          'usersLiked.$uid': false
+        },
+      );
     }
   }
 
@@ -336,18 +356,22 @@ class PostsViewModel extends GetxController {
 
     if (!isHasLiked) {
       int addLike = docSnapshot['likesCount'] + 1;
-      await commentLikeData.update({
-        'likesCount': addLike.toInt(),
-        'isHasLiked': true,
-        'usersLiked.$uid': true,
-      });
+      await commentLikeData.update(
+        {
+          'likesCount': addLike.toInt(),
+          'isHasLiked': true,
+          'usersLiked.$uid': true,
+        },
+      );
     } else {
       int removeLike = docSnapshot['likesCount'] - 1;
-      await commentLikeData.update({
-        'likesCount': removeLike.toInt(),
-        'isHasLiked': false,
-        'usersLiked.$uid': false
-      });
+      await commentLikeData.update(
+        {
+          'likesCount': removeLike.toInt(),
+          'isHasLiked': false,
+          'usersLiked.$uid': false
+        },
+      );
     }
   }
 
@@ -356,17 +380,18 @@ class PostsViewModel extends GetxController {
       stream: postsCollections.snapshots(),
       builder: (context, snapshot) {
         return ListView.builder(
-            itemCount: snapshot.data!.docs.length,
-            itemBuilder: (context, index) {
-              if (snapshot.data!.docs[index].data()['usersHaveSaved'][uid] !=
-                  null) {
-                if (snapshot.data!.docs[index].data()['usersHaveSaved'][uid]) {
-                  listOfSavedPosts!.add(snapshot.data!.docs[index].id);
-                  update();
-                }
+          itemCount: snapshot.data!.docs.length,
+          itemBuilder: (context, index) {
+            if (snapshot.data!.docs[index].data()['usersHaveSaved'][uid] !=
+                null) {
+              if (snapshot.data!.docs[index].data()['usersHaveSaved'][uid]) {
+                listOfSavedPosts!.add(snapshot.data!.docs[index].id);
+                update();
               }
-              return const SizedBox();
-            });
+            }
+            return const SizedBox();
+          },
+        );
       },
     );
   }
@@ -375,24 +400,32 @@ class PostsViewModel extends GetxController {
     FirebaseFirestore.instance
         .collection("posts")
         .doc(postDoc)
-        .update({'usersHaveSaved.$uid': true}).whenComplete(() => Get.snackbar(
-            "", "Saved post successfully.",
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.brown.shade300,
-            colorText: Colors.white,
-            duration: const Duration(seconds: 2)));
+        .update({'usersHaveSaved.$uid': true}).whenComplete(
+      () => Get.snackbar(
+        "",
+        "Saved post successfully.",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.brown.shade300,
+        colorText: Colors.white,
+        duration: const Duration(seconds: 2),
+      ),
+    );
   }
 
   unSavePost({required String postDoc}) {
     FirebaseFirestore.instance
         .collection("posts")
         .doc(postDoc)
-        .update({'usersHaveSaved.$uid': false}).whenComplete(() => Get.snackbar(
-            "", "Unsaved post successfully.",
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.brown.shade300,
-            colorText: Colors.white,
-            duration: const Duration(seconds: 2)));
+        .update({'usersHaveSaved.$uid': false}).whenComplete(
+      () => Get.snackbar(
+        "",
+        "Unsaved post successfully.",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.brown.shade300,
+        colorText: Colors.white,
+        duration: const Duration(seconds: 2),
+      ),
+    );
   }
 
   editingPost({String? text, String? postDoc, GlobalKey<FormState>? editKey}) {
@@ -401,31 +434,35 @@ class PostsViewModel extends GetxController {
       FirebaseFirestore.instance
           .collection("posts")
           .doc(postDoc)
-          .update({"text": text.toString(), "edited": true}).whenComplete(() =>
-              Get.snackbar("", "The post has edited successfully.",
-                  snackPosition: SnackPosition.BOTTOM,
-                  backgroundColor: Colors.brown.shade300,
-                  colorText: Colors.white,
-                  duration: const Duration(seconds: 2)));
+          .update({"text": text.toString(), "edited": true}).whenComplete(
+        () => Get.snackbar(
+          "",
+          "The post has edited successfully.",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.brown.shade300,
+          colorText: Colors.white,
+          duration: const Duration(seconds: 2),
+        ),
+      );
     }
     editingPostController.clear();
   }
 
   deletePost(String theDoc) {
-     retrievePostsData();
-    FirebaseFirestore.instance
-        .collection("posts")
-        .doc(theDoc)
-        .delete()
-        .then((e) {
-          //  retrievePostsData();
-           Get.snackbar(
-            "", "The post has deleted successfully.",
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.brown.shade300,
-            colorText: Colors.white,
-            duration: const Duration(seconds: 3));
-            });
+    retrievePostsData();
+    FirebaseFirestore.instance.collection("posts").doc(theDoc).delete().then(
+      (e) {
+        //  retrievePostsData();
+        Get.snackbar(
+          "",
+          "The post has deleted successfully.",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.brown.shade300,
+          colorText: Colors.white,
+          duration: const Duration(seconds: 3),
+        );
+      },
+    );
   }
 
   isHasAnImageUrl(String? url) {
