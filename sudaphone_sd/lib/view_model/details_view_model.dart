@@ -85,42 +85,5 @@ class DetailsViewModel extends GetxController {
         }else   {
           favorite.doc(docId).delete();
         }
-      //   else if(isAddToFavorte[uid] == false){
-      //    editData.update({'usersLiked.$uid': true});
-      //     favorite.set({
-      //   'name': favoriteSnapshot['name'].toString(),
-      //   'imageUrl': favoriteSnapshot['imageUrl'].toString(),
-      //   'likesCount': favoriteSnapshot['likesCount'].toString(),
-      //   'ram': favoriteSnapshot['ram'].toString(),
-      //   'storage': favoriteSnapshot['storage'].toString(),
-      //   'battery': favoriteSnapshot['battery'].toString(),
-      //   'frontCamera': favoriteSnapshot['frontCamera'].toString(),
-      //   'rearCamera': favoriteSnapshot['rearCamera'].toString(),
-      //   'screen': favoriteSnapshot['screen'].toString(),
-      //   'os': favoriteSnapshot['os'].toString(),
-      //   'usersLiked': favoriteSnapshot['usersLiked'],
-      //   'price': favoriteSnapshot['price'].toString(),
-      //   'cpu': favoriteSnapshot['cpu'].toString(),
-        
-      // });
-      //   }
-      
-
-
-      //   isThereSavedData == null ? archivists.set({
-      //   'name': archivistsSnapshot['name'].toString(),
-      //   'imageUrl': archivistsSnapshot['imageUrl'].toString(),
-      //   'likesCount': archivistsSnapshot['likesCount'].toString(),
-      //   'ram': archivistsSnapshot['ram'].toString(),
-      //   'storage': archivistsSnapshot['storage'].toString(),
-      //   'battery': archivistsSnapshot['battery'].toString(),
-      //   'frontCamera': archivistsSnapshot['frontCamera'].toString(),
-      //   'rearCamera': archivistsSnapshot['rearCamera'].toString(),
-      //   'screen': archivistsSnapshot['screen'].toString(),
-      //   'os': archivistsSnapshot['os'].toString(),
-      //   'usersLiked': archivistsSnapshot['usersLiked'],
-      //   'price': archivistsSnapshot['price'].toString(),
-      //   'cpu': archivistsSnapshot['cpu'].toString(),
-      // }) : await archivists.delete();
     }
 }
