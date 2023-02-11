@@ -5,6 +5,7 @@ import 'package:sudaphone_sd/view/details/components/custom_text_details.dart';
 class CustomContainer extends StatelessWidget {
   const CustomContainer(
       {Key? key,
+      this.text1Size = 15,
       required this.text1,
       required this.text2,
       required this.image1,
@@ -22,6 +23,7 @@ class CustomContainer extends StatelessWidget {
   final double radius;
   final Function ontap1;
   final Function ontap2;
+  final double text1Size;
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +44,8 @@ class CustomContainer extends StatelessWidget {
             child: CustomText2(
               text: header,
               color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
               textAlign: TextAlign.left,
             ),
           ),
@@ -69,7 +71,7 @@ class CustomContainer extends StatelessWidget {
                     text: text1,
                     color: Colors.white,
                     fontSize: 15,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w400,
                     textAlign: TextAlign.center,
                   )
                 ]),
@@ -87,7 +89,7 @@ class CustomContainer extends StatelessWidget {
                   width: 20,
                 ),
                 CircleAvatar(
-                    radius: 15,
+                    radius: 14,
                     backgroundColor: Colors.white,
                     backgroundImage: AssetImage(image2)),
                 SizedBox(
@@ -96,8 +98,8 @@ class CustomContainer extends StatelessWidget {
                 CustomText2(
                   text: text2,
                   color: Colors.white,
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
                   textAlign: TextAlign.center,
                 )
               ],
