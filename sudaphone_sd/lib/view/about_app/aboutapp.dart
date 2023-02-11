@@ -21,10 +21,11 @@ class AboutApp extends GetWidget<AboutAppViewModel> {
           children: [
             CustomContainer(
               header: "ABOUT",
-              text1: "Programmed By Ali",
+              text1: "Programmed By Ali Abdullah",
               text2: "view website",
               image1: 'assets/images/logo/app_logo.png',
               image2: 'assets/icons/internet.png',
+              text1Size: 14,
               radius: 45,
               ontap1: () {},
               ontap2: () =>
