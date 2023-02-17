@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudaphone_sd/view/home/components/custom_listtile.dart';
-import 'package:sudaphone_sd/view_model/screen_view_model.dart';
+import 'package:sudaphone_sd/view_model/home_view_model.dart';
 
-class CategoriesAdvertising extends GetWidget<ScreenViewModel> {
+class CategoriesAdvertising extends GetWidget<HomeViewModel> {
   const CategoriesAdvertising({Key? key}) : super(key: key);
 
   @override
