@@ -18,11 +18,14 @@ class ScreenAppBar extends StatelessWidget {
         const SizedBox(
           width: 5,
         ),
-        SizedBox(
-          height: 30,
-          width: 30,
-          child: Image.asset(
-            "assets/images//logo/app_logo.png",
+        ClipRRect(
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          child: SizedBox(
+            height: 35,
+            width: 35,
+            child: Image.asset(
+              "assets/images/logo/app_logo.png",
+            ),
           ),
         )
       ],
