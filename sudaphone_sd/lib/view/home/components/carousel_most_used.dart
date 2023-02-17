@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sudaphone_sd/view_model/screen_view_model.dart';
+import 'package:sudaphone_sd/view_model/home_view_model.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-class CarouselMostUsed extends GetWidget<ScreenViewModel> {
+class CarouselMostUsed extends GetWidget<HomeViewModel> {
    const CarouselMostUsed({required this.data, Key? key}) : super(key: key);
  final data;
   @override
