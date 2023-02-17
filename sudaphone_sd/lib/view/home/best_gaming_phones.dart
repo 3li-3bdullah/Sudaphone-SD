@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 import 'package:sudaphone_sd/view/details/last_product_details.dart';
-import 'package:sudaphone_sd/view_model/screen_view_model.dart';
+import 'package:sudaphone_sd/view_model/home_view_model.dart';
 import 'package:sudaphone_sd/view_model/themes_view_model.dart';
 
-class BestGamingPhones extends GetWidget<ScreenViewModel> {
+class BestGamingPhones extends GetWidget<HomeViewModel> {
   const BestGamingPhones({Key? key}) : super(key: key);
 
   @override
