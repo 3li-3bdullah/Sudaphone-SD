@@ -2,16 +2,16 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudaphone_sd/shared/constants.dart';
-import 'package:sudaphone_sd/view_model/screen_view_model.dart';
+import 'package:sudaphone_sd/view_model/home_view_model.dart';
 import 'package:sudaphone_sd/view_model/themes_view_model.dart';
 
 // ignore: must_be_immutable
-class BottomNavigation extends GetWidget<ScreenViewModel> {
+class BottomNavigation extends GetWidget<HomeViewModel> {
   BottomNavigation({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<ScreenViewModel>(
-      init: ScreenViewModel(),
+    return GetBuilder<HomeViewModel>(
+      init: HomeViewModel(),
       builder: (controller) => Scaffold(
         bottomNavigationBar: GetBuilder<ThemesViewModel>(
           builder: (control) => BottomNavyBar(
