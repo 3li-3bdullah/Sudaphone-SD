@@ -4,10 +4,10 @@ import 'package:sudaphone_sd/shared/components/custom_fade_image.dart';
 import 'package:sudaphone_sd/shared/components/custom_text.dart';
 import 'package:sudaphone_sd/shared/constants.dart';
 import 'package:sudaphone_sd/view/home/play_video_page.dart';
-import 'package:sudaphone_sd/view_model/screen_view_model.dart';
+import 'package:sudaphone_sd/view_model/home_view_model.dart';
 import 'package:sudaphone_sd/view_model/themes_view_model.dart';
 
-class CustomListTile extends GetWidget<ScreenViewModel> {
+class CustomListTile extends GetWidget<HomeViewModel> {
   const CustomListTile(
       {required this.text,
       required this.videoUrl,
