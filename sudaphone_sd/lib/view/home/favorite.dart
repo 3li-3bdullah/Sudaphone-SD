@@ -7,9 +7,9 @@ import 'package:sudaphone_sd/shared/components/custom_text.dart';
 import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 import 'package:sudaphone_sd/shared/components/custom_title.dart';
 import 'package:sudaphone_sd/view/details/details.dart';
-import 'package:sudaphone_sd/view_model/screen_view_model.dart';
+import 'package:sudaphone_sd/view_model/home_view_model.dart';
 
-class Favorite extends GetWidget<ScreenViewModel> {
+class Favorite extends GetWidget<HomeViewModel> {
   const Favorite({Key? key}) : super(key: key);
 
   @override
