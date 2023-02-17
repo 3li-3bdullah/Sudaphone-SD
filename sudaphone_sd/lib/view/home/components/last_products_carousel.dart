@@ -4,9 +4,9 @@ import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 import 'package:sudaphone_sd/view/details/last_product_details.dart';
-import 'package:sudaphone_sd/view_model/screen_view_model.dart';
+import 'package:sudaphone_sd/view_model/home_view_model.dart';
 
-class LastProductsCarousel extends GetWidget<ScreenViewModel> {
+class LastProductsCarousel extends GetWidget<HomeViewModel> {
   const LastProductsCarousel({Key? key}) : super(key: key);
 
   @override
