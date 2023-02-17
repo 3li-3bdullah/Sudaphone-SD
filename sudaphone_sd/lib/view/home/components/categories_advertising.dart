@@ -1,16 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sudaphone_sd/view/categories/categories.dart';
-import 'package:sudaphone_sd/view/categories/phones/huawei.dart';
-import 'package:sudaphone_sd/view/categories/phones/iphone.dart';
-import 'package:sudaphone_sd/view/categories/phones/lenovo.dart';
-import 'package:sudaphone_sd/view/categories/phones/nokia.dart';
-import 'package:sudaphone_sd/view/categories/phones/oppo.dart';
-import 'package:sudaphone_sd/view/categories/phones/realme.dart';
-import 'package:sudaphone_sd/view/categories/phones/samsung.dart';
-import 'package:sudaphone_sd/view/categories/phones/tecno.dart';
-import 'package:sudaphone_sd/view/categories/phones/vivo.dart';
-import 'package:sudaphone_sd/view/categories/phones/xiaomi.dart';
 import 'package:sudaphone_sd/view/home/components/custom_listtile.dart';
 import 'package:sudaphone_sd/view_model/screen_view_model.dart';
 
