@@ -14,9 +14,9 @@ import 'package:sudaphone_sd/view/home/components/screen_app_bar.dart';
 import 'package:sudaphone_sd/view/home/components/search_icon.dart';
 import 'package:sudaphone_sd/view/home/favorite.dart';
 import 'package:sudaphone_sd/view_model/public_data.dart';
-import 'package:sudaphone_sd/view_model/screen_view_model.dart';
+import 'package:sudaphone_sd/view_model/home_view_model.dart';
 
-class Home extends GetWidget<ScreenViewModel> {
+class Home extends GetWidget<HomeViewModel> {
   Home({Key? key}) : super(key: key);
   final PublicData public_data = Get.find<PublicData>();
   @override
