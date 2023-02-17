@@ -16,6 +16,9 @@ import '../view/categories/phones/samsung.dart';
 import '../view/categories/phones/tecno.dart';
 import '../view/categories/phones/vivo.dart';
 import '../view/categories/phones/xiaomi.dart';
+import '../view/home/home.dart';
+import '../view/posts/posts.dart';
+import '../view/settings/settings.dart';
 
 class ScreenViewModel extends GetxController {
   /*
@@ -58,6 +61,13 @@ class ScreenViewModel extends GetxController {
     Colors.brown,
     Colors.brown,
     Colors.brown,
+  ];
+
+  final List<Widget> screens = [
+    Home(),
+    const Categories(),
+    const Posts(),
+    Setting(),
   ];
   /* 
   *  (((((((((((((((((((( Declaring Methods )))))))))))))))))))))))
