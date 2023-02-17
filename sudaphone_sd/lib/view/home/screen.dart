@@ -38,7 +38,7 @@ class Screen extends GetWidget<ScreenViewModel> {
               floating: true,
             ),
           ],
-          body: SingleChildScrollView(
+          body: SingleChildScrollView( 
             child: Column(
               children: [
                 const SizedBox(height: 20),
