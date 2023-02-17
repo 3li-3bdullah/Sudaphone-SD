@@ -8,7 +8,7 @@ import 'package:sudaphone_sd/view_model/login_view_model.dart';
 import 'package:sudaphone_sd/view_model/mydrawer_view_model.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 import 'package:sudaphone_sd/view_model/public_data.dart';
-import 'package:sudaphone_sd/view_model/screen_view_model.dart';
+import 'package:sudaphone_sd/view_model/home_view_model.dart';
 import 'package:sudaphone_sd/view_model/settings_view_model.dart';
 import 'package:sudaphone_sd/view_model/splash_screen_view_model.dart';
 import 'package:sudaphone_sd/view_model/themes_view_model.dart';
@@ -16,7 +16,7 @@ import 'package:sudaphone_sd/view_model/themes_view_model.dart';
 class MyBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => ScreenViewModel(), fenix: true);
+    Get.lazyPut(() => HomeViewModel(), fenix: true);
     Get.lazyPut(() => MyDrawerViewModel(), fenix: true);
     Get.lazyPut( () => LoginViewModel(),fenix: true);
     Get.lazyPut(() => PostsViewModel(), fenix: true);
