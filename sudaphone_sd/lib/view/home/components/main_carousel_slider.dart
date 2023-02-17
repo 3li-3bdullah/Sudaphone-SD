@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudaphone_sd/view/home/components/build_images_carousel.dart';
 import 'package:sudaphone_sd/view/home/components/build_indicator_carousel.dart';
-import 'package:sudaphone_sd/view_model/screen_view_model.dart';
+import 'package:sudaphone_sd/view_model/home_view_model.dart';
 
-class MainCarouselSlider extends GetWidget<ScreenViewModel> {
+class MainCarouselSlider extends GetWidget<HomeViewModel> {
   const MainCarouselSlider({Key? key}) : super(key: key);
 
   @override
