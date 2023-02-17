@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sudaphone_sd/view_model/screen_view_model.dart';
+import 'package:sudaphone_sd/view_model/home_view_model.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sudaphone_sd/view_model/themes_view_model.dart';
 
-class BuildIndicatorCarousel extends GetWidget<ScreenViewModel> {
+class BuildIndicatorCarousel extends GetWidget<HomeViewModel> {
   const BuildIndicatorCarousel({required this.imageLength, Key? key})
       : super(key: key);
   final int imageLength;
