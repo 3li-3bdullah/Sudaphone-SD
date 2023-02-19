@@ -1,10 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 import 'package:sudaphone_sd/shared/components/custom_text_form_field.dart';
 import 'package:sudaphone_sd/shared/components/custom_title.dart';
-import 'package:sudaphone_sd/view/login/signin.dart';
 import 'package:sudaphone_sd/view/settings/components/custom_row.dart';
 import 'package:sudaphone_sd/view/settings/components/settings_profile.dart';
 import 'package:sudaphone_sd/view_model/public_data.dart';
