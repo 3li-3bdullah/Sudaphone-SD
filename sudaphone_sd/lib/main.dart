@@ -37,8 +37,11 @@ class SudaphoneSD extends StatelessWidget {
             builder: (controller) {
               return AnimatedSplashScreen(
                 splash: SplashScreen(),
-                nextScreen:
-                  controller.internetConnectionChecker.value == 1 ?  control.email != null ? const MyDrawer() : const SignIn() : NoInternetConnection(),
+                nextScreen: controller.internetConnectionChecker.value == 1
+                    ? control.email != null
+                        ? const MyDrawer()
+                        : const SignIn()
+                    : NoInternetConnection(),
                 splashIconSize: Get.height,
               );
             },
