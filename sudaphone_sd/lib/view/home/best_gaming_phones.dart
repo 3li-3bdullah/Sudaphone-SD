@@ -47,6 +47,14 @@ class BestGamingPhones extends GetWidget<HomeViewModel> {
                               image: controller.listBGPhones![index].image,
                               fit: BoxFit.cover,
                               placeholder: 'assets/images/shimmer3.jpg',
+                              placeholderErrorBuilder:
+                                  ((context, error, stackTrace) => Image.asset(
+                                        "assets/images/shimmer3.jpg",
+                                      )),
+                              imageErrorBuilder:
+                                  ((context, error, stackTrace) => Image.asset(
+                                        "assets/images/shimmer3.jpg",
+                                      )),
                             ),
                             Positioned(
                               child: Padding(
