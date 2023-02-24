@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudaphone_sd/shared/components/custom_text2.dart';
@@ -17,7 +18,6 @@ class Setting extends GetWidget<SettingsViewModel> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: const CustomTitle(text: "Settings", underLineWidget: 50),
@@ -69,116 +69,14 @@ class Setting extends GetWidget<SettingsViewModel> {
               ),
             ),
             InkWell(
-              onTap: () {
-                Get.bottomSheet(
-                  GetBuilder<ThemesViewModel>(
-                    builder: (controll) => Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 30, vertical: 10),
-                      height: MediaQuery.of(context).size.height / 2,
-                      decoration: BoxDecoration(
-                        gradient: controll.theme == ThemeMode.dark
-                            ? const LinearGradient(
-                                colors: [Colors.black, Colors.grey],
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                              )
-                            : const LinearGradient(
-                                colors: [Colors.black54, Colors.black54],
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                              ),
-                        borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(30),
-                            topRight: Radius.circular(30)),
-                      ),
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Container(
-                            height: 5,
-                            width: 30,
-                            alignment: Alignment.center,
-                            decoration: const BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              controll.changeThemeMode(ThemeMode.dark);
-                              controll.saveTheme(true);
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const CustomText2(
-                                  text: "Dark mode ",
-                                  textAlign: TextAlign.justify,
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                                controll.theme == ThemeMode.dark
-                                    ? const CustomText2(
-                                        text: "🌚",
-                                        fontSize: 30,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.normal,
-                                        textAlign: TextAlign.center)
-                                    : const SizedBox()
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              controll.changeThemeMode(ThemeMode.light);
-                              controll.saveTheme(false);
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const CustomText2(
-                                  text: "Light mode ",
-                                  textAlign: TextAlign.justify,
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                                controll.theme == ThemeMode.light
-                                    ? const CustomText2(
-                                        text: "🌞",
-                                        fontSize: 30,
-                                        color: Colors.yellow,
-                                        fontWeight: FontWeight.normal,
-                                        textAlign: TextAlign.center)
-                                    : const SizedBox(),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              },
+              onTap: () {},
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: GetBuilder<ThemesViewModel>(
                   builder: (controll) => Row(
                     children: [
                       SizedBox(
-                          height: size.height / 20,
+                          height: Get.height / 20,
                           child: Image.asset(controll.theme == ThemeMode.dark
                               ? "assets/icons/moon.png"
                               : "assets/icons/sun.png")),
@@ -196,7 +94,26 @@ class Setting extends GetWidget<SettingsViewModel> {
                         ),
                       ),
                       const Spacer(),
-                      const Icon(Icons.arrow_forward_ios)
+                      GetBuilder<ThemesViewModel>(
+                        builder: (controller) {
+                          return Transform.scale(
+                            scale: 0.9,
+                            child: CupertinoSwitch(
+                              value: controller.loadTheme(),
+                              onChanged: (value) {
+                                if (controller.loadTheme()) {
+                                  controll.changeThemeMode(ThemeMode.light);
+                                  controll.saveTheme(false);
+                                } else {
+                                  controll.changeThemeMode(ThemeMode.dark);
+                                  controll.saveTheme(true);
+                                }
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                      // const Icon(Icons.arrow_forward_ios)
                     ],
                   ),
                 ),
@@ -244,9 +161,9 @@ class Setting extends GetWidget<SettingsViewModel> {
                 buttonColor: Colors.white,
                 confirmTextColor: Colors.brown,
                 cancelTextColor: Colors.white,
-                onConfirm: () async{
-                 await controller.signOut();
-                //  Get.offUntil( MaterialPageRoute(builder: (_) => const SignIn()), (route) => false);
+                onConfirm: () async {
+                  await controller.signOut();
+                  //  Get.offUntil( MaterialPageRoute(builder: (_) => const SignIn()), (route) => false);
                 },
                 onCancel: () {
                   Get.back();
