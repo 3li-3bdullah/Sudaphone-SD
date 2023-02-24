@@ -22,8 +22,8 @@ class CustomTitle extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: CustomText(
             text: text,
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
             textAlign: TextAlign.center,
           ),
         ),
