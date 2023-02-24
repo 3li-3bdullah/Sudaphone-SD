@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sudaphone_sd/shared/components/custom_divider.dart';
+import 'package:sudaphone_sd/shared/components/screens_leading.dart';
 import 'package:sudaphone_sd/shared/constants.dart';
 import 'package:sudaphone_sd/view/details/components/custom_text_details.dart';
 
