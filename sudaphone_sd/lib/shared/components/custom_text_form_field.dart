@@ -11,6 +11,7 @@ class CustomTextFormField extends StatelessWidget {
       this.maxLength = 0,
       required this.textEditingController,
       this.customHintText = "",
+      this.textColor = Colors.black45,
       this.iconColor = Colors.white});
   final bool obscure;
   final Function validator;
@@ -21,6 +22,7 @@ class CustomTextFormField extends StatelessWidget {
   final Function? changeObscureValue;
   final TextEditingController textEditingController;
   final int maxLength;
+  final Color textColor;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -31,9 +33,9 @@ class CustomTextFormField extends StatelessWidget {
       },
       maxLength: maxLength != 0 ? maxLength : null,
       cursorColor: Colors.brown,
-      style: const TextStyle(color: kBlackColor, fontWeight: FontWeight.w400),
+      style:   TextStyle(color: textColor, fontWeight: FontWeight.w400),
       decoration: InputDecoration(
-        hintStyle: const TextStyle(color: Colors.black45),
+        hintStyle: TextStyle(color: textColor),
         focusedBorder: const UnderlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(5)),
           borderSide: BorderSide.none,
