@@ -45,10 +45,10 @@ class MyDrawer extends GetWidget<MyDrawerViewModel> {
                       )
                     : LinearGradient(
                         colors: [
-                          Colors.brown.shade200,
-                          Colors.brown.shade500,
-                          // Colors.pink.shade400,
-                          // Colors.purple.shade900
+                          // Colors.brown.shade200,
+                          // Colors.brown.shade500,
+                          Colors.pink.shade400,
+                          Colors.purple.shade900
                         ],
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
