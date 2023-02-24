@@ -46,7 +46,7 @@ class BestGamingPhones extends GetWidget<HomeViewModel> {
                             FadeInImage.assetNetwork(
                               image: controller.listBGPhones![index].image,
                               fit: BoxFit.cover,
-                              placeholder: 'assets/images/loader.gif',
+                              placeholder: 'assets/images/shimmer3.jpg',
                             ),
                             Positioned(
                               child: Padding(
