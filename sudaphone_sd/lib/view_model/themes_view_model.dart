@@ -14,8 +14,8 @@ class ThemesViewModel extends GetxController {
     getCurrentUser();
   }
 
-  ThemeMode get theme => _loadTheme() ? ThemeMode.dark : ThemeMode.light;
-  bool _loadTheme() => _box.read(_key) ?? false;
+  ThemeMode get theme => loadTheme() ? ThemeMode.dark : ThemeMode.light;
+  bool loadTheme() => _box.read(_key) ?? false;
   void saveTheme(bool isDarkMode) => _box.write(_key, isDarkMode);
   void changeTheme(ThemeData theme) => Get.changeTheme(theme);
   void changeThemeMode(ThemeMode theme) {
