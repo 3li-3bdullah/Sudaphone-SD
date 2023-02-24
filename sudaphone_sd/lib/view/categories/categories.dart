@@ -12,8 +12,9 @@ import 'package:sudaphone_sd/view/categories/phones/samsung.dart';
 import 'package:sudaphone_sd/view/categories/phones/tecno.dart';
 import 'package:sudaphone_sd/view/categories/phones/vivo.dart';
 import 'package:sudaphone_sd/view/categories/phones/xiaomi.dart';
-import 'package:sudaphone_sd/view/home/components/custom_leading.dart';
 import 'package:sudaphone_sd/view_model/themes_view_model.dart';
+
+import '../../shared/components/custom_leading.dart';
 
 class Categories extends GetWidget<ThemesViewModel> {
   const Categories({Key? key}) : super(key: key);
@@ -25,7 +26,7 @@ class Categories extends GetWidget<ThemesViewModel> {
           title: const CustomTitle(
               text: "Categories", underLineWidget: 70, showUnderLine: false),
           centerTitle: true,
-          leading: const CustomLeading()),
+          leading: const ScreensLeading()),
       body: Container(
         height: double.infinity,
         width: double.infinity,
