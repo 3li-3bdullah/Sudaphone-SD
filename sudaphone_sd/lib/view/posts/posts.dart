@@ -17,8 +17,16 @@ class Posts extends GetWidget<PostsViewModel> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const CustomTitle(text: "Posts", underLineWidget: 40),
-        elevation: 0,
+        title: const CustomTitle(
+            text: "Posts", underLineWidget: 40, showUnderLine: false),
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: () => Get.back(),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.grey,
+          ),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.brown,
