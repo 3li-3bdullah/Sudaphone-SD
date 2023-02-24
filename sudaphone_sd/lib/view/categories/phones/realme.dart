@@ -2,9 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudaphone_sd/shared/components/custom_title.dart';
-import 'package:sudaphone_sd/shared/components/leading.dart';
 import 'package:sudaphone_sd/shared/components/phone_list.dart';
 import 'package:sudaphone_sd/view_model/categories_view_model.dart';
+
+import '../../home/components/custom_leading.dart';
 
 class Realme extends GetWidget<CategoriesViewModel> {
   const Realme({Key? key}) : super(key: key);
@@ -13,9 +14,9 @@ class Realme extends GetWidget<CategoriesViewModel> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        title: const CustomTitle(text: "Realme", underLineWidget: 50),
-              leading:  const Leading(),
+         title: const  CustomTitle(text: "Realme", underLineWidget: 50,showUnderLine: false),
+          leading:  const CustomLeading(),
+          centerTitle: true,
       ),
       body: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
         future: controller.phonesCategory
