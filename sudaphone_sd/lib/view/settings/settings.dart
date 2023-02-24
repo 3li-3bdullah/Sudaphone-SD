@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 import 'package:sudaphone_sd/shared/components/custom_text_form_field.dart';
 import 'package:sudaphone_sd/shared/components/custom_title.dart';
+import 'package:sudaphone_sd/shared/constants.dart';
 import 'package:sudaphone_sd/view/settings/components/custom_row.dart';
 import 'package:sudaphone_sd/view/settings/components/settings_profile.dart';
 import 'package:sudaphone_sd/view_model/public_data.dart';
@@ -23,7 +24,7 @@ class Setting extends GetWidget<SettingsViewModel> {
         // elevation: 0,
         centerTitle: true,
         leading: IconButton(
-            onPressed: () {},
+            onPressed: () => Get.back(),
             icon: Icon(
               Icons.arrow_back,
               color: Colors.grey,
@@ -46,11 +47,14 @@ class Setting extends GetWidget<SettingsViewModel> {
                 onTap: () => Get.defaultDialog(
                   title: "Edit your name",
                   titleStyle: const TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
+                      color: kBlackColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400),
                   content: Form(
                     key: controller.editingKey,
                     child: CustomTextFormField(
                         obscure: false,
+                        maxLength: 25,
                         validator: (String name) {
                           if (name.trim().isEmpty) {
                             return "The field is empty";
@@ -62,11 +66,11 @@ class Setting extends GetWidget<SettingsViewModel> {
                   ),
                   textConfirm: "Update",
                   textCancel: "Cancel",
-                  cancelTextColor: Colors.white,
-                  confirmTextColor: Colors.brown,
-                  buttonColor: Colors.white,
+                  cancelTextColor: kBlackColor,
+                  confirmTextColor: Colors.white,
+                  buttonColor: Colors.brown,
                   radius: 20.0,
-                  backgroundColor: Colors.white38,
+                  backgroundColor: Colors.white,
                   onConfirm: () async {
                     await controller.modifyUserName(
                         name: controller.textEditing!.text,
