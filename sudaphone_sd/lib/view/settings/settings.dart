@@ -5,12 +5,13 @@ import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 import 'package:sudaphone_sd/shared/components/custom_text_form_field.dart';
 import 'package:sudaphone_sd/shared/components/custom_title.dart';
 import 'package:sudaphone_sd/shared/constants.dart';
-import 'package:sudaphone_sd/view/home/components/custom_leading.dart';
 import 'package:sudaphone_sd/view/settings/components/custom_row.dart';
 import 'package:sudaphone_sd/view/settings/components/settings_profile.dart';
 import 'package:sudaphone_sd/view_model/public_data.dart';
 import 'package:sudaphone_sd/view_model/settings_view_model.dart';
 import 'package:sudaphone_sd/view_model/themes_view_model.dart';
+
+import '../../shared/components/custom_leading.dart';
 
 // ignore: must_be_immutable
 class Setting extends GetWidget<SettingsViewModel> {
@@ -24,7 +25,7 @@ class Setting extends GetWidget<SettingsViewModel> {
             text: "Settings", underLineWidget: 50, showUnderLine: false),
         // elevation: 0,
         centerTitle: true,
-        leading: CustomLeading(),
+        leading: ScreensLeading(),
       ),
       body: SingleChildScrollView(
         child: Column(
