@@ -13,20 +13,32 @@ import 'package:sudaphone_sd/view_model/themes_view_model.dart';
 // ignore: must_be_immutable
 class Setting extends GetWidget<SettingsViewModel> {
   Setting({Key? key}) : super(key: key);
-  final controll = Get.find<ThemesViewModel>();
-  bool isDark = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const CustomTitle(text: "Settings", underLineWidget: 50),
-        elevation: 0,
+        title: const CustomTitle(
+            text: "Settings", underLineWidget: 50, showUnderLine: false),
+        // elevation: 0,
+        centerTitle: true,
+        leading: IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.grey,
+            )),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
+            const SizedBox(
+              height: 10,
+            ),
             const SettingsProfile(),
+            const SizedBox(
+              height: 20,
+            ),
             GetBuilder<PublicData>(
               builder: (control) => CustomRow(
                 name: "Edit Name",
@@ -68,81 +80,97 @@ class Setting extends GetWidget<SettingsViewModel> {
                 ),
               ),
             ),
-            InkWell(
-              onTap: () {},
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GetBuilder<ThemesViewModel>(
-                  builder: (controll) => Row(
-                    children: [
-                      SizedBox(
-                          height: Get.height / 20,
-                          child: Image.asset(controll.theme == ThemeMode.dark
-                              ? "assets/icons/moon.png"
-                              : "assets/icons/sun.png")),
-                      const SizedBox(
-                        width: 20,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Divider(
+                color: Colors.grey,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: GetBuilder<ThemesViewModel>(
+                builder: (controll) => Row(
+                  children: [
+                    SizedBox(
+                        height: Get.height / 25,
+                        child: Image.asset(controll.theme == ThemeMode.dark
+                            ? "assets/icons/moon.png"
+                            : "assets/icons/sun.png")),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    Text(
+                      controll.theme == ThemeMode.dark
+                          ? "Dark Mode"
+                          : "Light Mode",
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
                       ),
-                      Text(
-                        controll.theme == ThemeMode.dark
-                            ? "Dark Mode"
-                            : "Light Mode",
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                      const Spacer(),
-                      GetBuilder<ThemesViewModel>(
-                        builder: (controller) {
-                          return Transform.scale(
-                            scale: 0.9,
-                            child: CupertinoSwitch(
-                              value: controller.loadTheme(),
-                              onChanged: (value) {
-                                if (controller.loadTheme()) {
-                                  controll.changeThemeMode(ThemeMode.light);
-                                  controll.saveTheme(false);
-                                } else {
-                                  controll.changeThemeMode(ThemeMode.dark);
-                                  controll.saveTheme(true);
-                                }
-                              },
-                            ),
-                          );
-                        },
-                      ),
-                      // const Icon(Icons.arrow_forward_ios)
-                    ],
-                  ),
+                    ),
+                    const Spacer(),
+                    GetBuilder<ThemesViewModel>(
+                      builder: (controller) {
+                        return Transform.scale(
+                          scale: 0.9,
+                          child: CupertinoSwitch(
+                            value: controller.loadTheme(),
+                            onChanged: (value) {
+                              if (controller.loadTheme()) {
+                                controll.changeThemeMode(ThemeMode.light);
+                                controll.saveTheme(false);
+                              } else {
+                                controll.changeThemeMode(ThemeMode.dark);
+                                controll.saveTheme(true);
+                              }
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                    // const Icon(Icons.arrow_forward_ios)
+                  ],
                 ),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Divider(
+                color: Colors.grey,
+              ),
+            ),
             CustomRow(
-                name: "Change Profile",
-                imagePath: "assets/icons/gallery1.png",
-                onTap: () => Get.defaultDialog(
-                      content: const CustomText2(
-                        text: "Upload an image from : ",
-                        textAlign: TextAlign.center,
-                        color: Colors.brown,
-                        fontSize: 16,
-                        fontWeight: FontWeight.normal,
-                      ),
-                      title: "",
-                      textCancel: "Gallery",
-                      textConfirm: "Camera",
-                      onCancel: () {
-                        controller.uploadProfilePic(source: "gallery");
-                      },
-                      onConfirm: () {
-                        controller.uploadProfilePic(source: "camera");
-                      },
-                      confirmTextColor: Colors.white,
-                      cancelTextColor: Colors.brown,
-                      buttonColor: Colors.brown,
-                    )),
+              name: "Change Profile",
+              imagePath: "assets/icons/gallery1.png",
+              onTap: () => Get.defaultDialog(
+                content: const CustomText2(
+                  text: "Upload an image from : ",
+                  textAlign: TextAlign.center,
+                  color: Colors.brown,
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                ),
+                title: "",
+                textCancel: "Gallery",
+                textConfirm: "Camera",
+                onCancel: () {
+                  controller.uploadProfilePic(source: "gallery");
+                },
+                onConfirm: () {
+                  controller.uploadProfilePic(source: "camera");
+                },
+                confirmTextColor: Colors.white,
+                cancelTextColor: Colors.brown,
+                buttonColor: Colors.brown,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Divider(
+                color: Colors.grey,
+              ),
+            ),
             CustomRow(
               name: "Log Out",
               imagePath: "assets/icons/exit.png",
@@ -151,9 +179,10 @@ class Setting extends GetWidget<SettingsViewModel> {
                 middleText: "",
                 backgroundColor: Colors.white30,
                 titleStyle: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
                 middleTextStyle:
                     TextStyle(color: Colors.grey.shade800, fontSize: 18),
                 textConfirm: "Yes",
@@ -170,6 +199,12 @@ class Setting extends GetWidget<SettingsViewModel> {
                 },
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Divider(
+                color: Colors.grey,
+              ),
+            ),
             CustomRow(
               name: "Delete Acount",
               imagePath: "assets/icons/trash.png",
@@ -179,8 +214,8 @@ class Setting extends GetWidget<SettingsViewModel> {
                 backgroundColor: Colors.white30,
                 titleStyle: const TextStyle(
                     color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500),
                 middleTextStyle:
                     TextStyle(color: Colors.grey.shade800, fontSize: 18),
                 textConfirm: "Yes 😞",
