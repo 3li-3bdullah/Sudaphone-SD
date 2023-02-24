@@ -12,6 +12,7 @@ import 'package:sudaphone_sd/view/categories/phones/samsung.dart';
 import 'package:sudaphone_sd/view/categories/phones/tecno.dart';
 import 'package:sudaphone_sd/view/categories/phones/vivo.dart';
 import 'package:sudaphone_sd/view/categories/phones/xiaomi.dart';
+import 'package:sudaphone_sd/view/home/components/custom_leading.dart';
 import 'package:sudaphone_sd/view_model/themes_view_model.dart';
 
 class Categories extends GetWidget<ThemesViewModel> {
@@ -21,17 +22,10 @@ class Categories extends GetWidget<ThemesViewModel> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const CustomTitle(
-            text: "Categories", underLineWidget: 70, showUnderLine: false),
-        centerTitle: true,
-        leading: IconButton(
-          onPressed: () => Get.back(),
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.grey,
-          ),
-        ),
-      ),
+          title: const CustomTitle(
+              text: "Categories", underLineWidget: 70, showUnderLine: false),
+          centerTitle: true,
+          leading: const CustomLeading()),
       body: Container(
         height: double.infinity,
         width: double.infinity,
