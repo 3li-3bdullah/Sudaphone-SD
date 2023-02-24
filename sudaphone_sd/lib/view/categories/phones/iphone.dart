@@ -5,7 +5,7 @@ import 'package:sudaphone_sd/shared/components/custom_title.dart';
 import 'package:sudaphone_sd/shared/components/phone_list.dart';
 import 'package:sudaphone_sd/view_model/categories_view_model.dart';
 
-import '../../home/components/custom_leading.dart';
+import '../../../shared/components/custom_leading.dart';
 
 class Iphone extends GetWidget<CategoriesViewModel> {
   const Iphone({Key? key}) : super(key: key);
@@ -14,9 +14,10 @@ class Iphone extends GetWidget<CategoriesViewModel> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const  CustomTitle(text: "Iphone", underLineWidget: 50,showUnderLine: false),
-          leading:  const CustomLeading(),
-          centerTitle: true,
+        title: const CustomTitle(
+            text: "Iphone", underLineWidget: 50, showUnderLine: false),
+        leading: const ScreensLeading(),
+        centerTitle: true,
       ),
       body: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
           future: controller.phonesCategory

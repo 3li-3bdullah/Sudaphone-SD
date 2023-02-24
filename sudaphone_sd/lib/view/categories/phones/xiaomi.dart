@@ -5,7 +5,7 @@ import 'package:sudaphone_sd/shared/components/custom_title.dart';
 import 'package:sudaphone_sd/shared/components/phone_list.dart';
 import 'package:sudaphone_sd/view_model/categories_view_model.dart';
 
-import '../../home/components/custom_leading.dart';
+import '../../../shared/components/custom_leading.dart';
 
 class Xiaomi extends GetWidget<CategoriesViewModel> {
   const Xiaomi({Key? key}) : super(key: key);
@@ -16,7 +16,7 @@ class Xiaomi extends GetWidget<CategoriesViewModel> {
       appBar: AppBar(
         title: const CustomTitle(
             text: "Xiaomi", underLineWidget: 50, showUnderLine: false),
-        leading: const CustomLeading(),
+        leading: const ScreensLeading(),
         centerTitle: true,
       ),
       body: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
