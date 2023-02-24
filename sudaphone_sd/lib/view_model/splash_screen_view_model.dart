@@ -7,7 +7,7 @@ class SplashScreenViewModel extends GetxController {
   //* ---------------------- Declaring Variables --------------
 
   late StreamSubscription<InternetConnectionStatus> listener;
-  RxInt internetConnectionChecker = 0.obs;
+  RxBool internetConnectionChecker = false.obs;
 
   //* ---------------------- Declaring Methods --------------
 
@@ -19,19 +19,22 @@ class SplashScreenViewModel extends GetxController {
         .listen((InternetConnectionStatus status) {
       switch (status) {
         case InternetConnectionStatus.connected:
-          internetConnectionChecker.value = 1;
+          internetConnectionChecker.value = true;
           break;
         case InternetConnectionStatus.disconnected:
-          internetConnectionChecker.value = 0;
+          internetConnectionChecker.value = false;
           break;
+        default:
+        internetConnectionChecker.value = false;
+        break;
       }
     });
   }
 
-    @override
-  void onClose() {
-    listener.cancel();
-    super.onClose();
-  }
+  //   @override
+  // void onClose() {
+  //   listener.cancel();
+  //   super.onClose();
+  // }
   
 }
