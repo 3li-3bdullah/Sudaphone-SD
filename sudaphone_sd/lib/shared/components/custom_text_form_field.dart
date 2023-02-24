@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sudaphone_sd/shared/components/custom_text.dart';
 import 'package:sudaphone_sd/shared/constants.dart';
 
 class CustomTextFormField extends StatelessWidget {
@@ -9,6 +8,7 @@ class CustomTextFormField extends StatelessWidget {
       this.changeObscureValue,
       required this.validator,
       required this.icon,
+      this.maxLength = 0,
       required this.textEditingController,
       this.customHintText = "",
       this.iconColor = Colors.white});
@@ -20,6 +20,7 @@ class CustomTextFormField extends StatelessWidget {
   final Color iconColor;
   final Function? changeObscureValue;
   final TextEditingController textEditingController;
+  final int maxLength;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -28,8 +29,9 @@ class CustomTextFormField extends StatelessWidget {
       validator: (value) {
         return validator(value);
       },
+      maxLength: maxLength != 0 ? maxLength : null,
       cursorColor: Colors.brown,
-      style: const TextStyle(color: kBlackColor,fontWeight: FontWeight.w400),
+      style: const TextStyle(color: kBlackColor, fontWeight: FontWeight.w400),
       decoration: InputDecoration(
         hintStyle: const TextStyle(color: Colors.black45),
         focusedBorder: const UnderlineInputBorder(
@@ -52,7 +54,7 @@ class CustomTextFormField extends StatelessWidget {
                   changeObscureValue!();
                 },
                 icon: istrue
-                    ?  Icon(
+                    ? Icon(
                         Icons.visibility_off,
                         color: Colors.brown.shade300,
                       )
