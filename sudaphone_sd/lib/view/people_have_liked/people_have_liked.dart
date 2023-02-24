@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sudaphone_sd/shared/components/custom_leading.dart';
 import 'package:sudaphone_sd/shared/components/custom_text.dart';
 import 'package:sudaphone_sd/shared/components/custom_title.dart';
-import 'package:sudaphone_sd/shared/components/leading.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 
 class PeopleHaveLiked extends GetWidget<PostsViewModel> {
@@ -16,9 +16,12 @@ class PeopleHaveLiked extends GetWidget<PostsViewModel> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const CustomTitle(text: "People who liked", underLineWidget: 100),
-        elevation: 0,
-        leading: const Leading(),
+        title: const CustomTitle(
+            text: "People who liked",
+            underLineWidget: 100,
+            showUnderLine: false),
+        centerTitle: true,
+        leading: const ScreensLeading(),
       ),
       body: ListView.builder(
         itemCount: peopleWhoLiked.length,
@@ -62,7 +65,7 @@ class PeopleHaveLiked extends GetWidget<PostsViewModel> {
                       fontWeight: FontWeight.bold,
                       textAlign: TextAlign.center),
                 );
-              }else{
+              } else {
                 return Container(
                   alignment: Alignment.center,
                   height: MediaQuery.of(context).size.height,
