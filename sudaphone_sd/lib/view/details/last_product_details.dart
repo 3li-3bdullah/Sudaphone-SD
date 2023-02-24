@@ -39,6 +39,14 @@ class LastProducDetails extends GetWidget<DetailsViewModel> {
                   child: FadeInImage.assetNetwork(
                     placeholder: 'assets/images/loader.gif',
                     image: _snapshot.data!.data()!['imageUrl'],
+                    placeholderErrorBuilder: ((context, error, stackTrace) =>
+                        Image.asset(
+                          "assets/images/shimmer3.jpg",
+                        )),
+                    imageErrorBuilder: ((context, error, stackTrace) =>
+                        Image.asset(
+                          "assets/images/shimmer3.jpg",
+                        )),
                   ),
                   onTap: () {
                     Get.to(() => DownloadImages(
