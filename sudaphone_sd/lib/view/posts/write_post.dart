@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sudaphone_sd/shared/components/custom_leading.dart';
 import 'package:sudaphone_sd/shared/components/custom_title.dart';
-import 'package:sudaphone_sd/shared/components/leading.dart';
 import 'package:sudaphone_sd/shared/constants.dart';
 import 'package:sudaphone_sd/view/posts/components/choose_image_icon.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 import 'package:sudaphone_sd/view_model/public_data.dart';
+
+import '../../view_model/themes_view_model.dart';
 
 class WritePost extends GetWidget<PostsViewModel> {
   const WritePost({Key? key}) : super(key: key);
@@ -14,9 +16,10 @@ class WritePost extends GetWidget<PostsViewModel> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const CustomTitle(text: "Create Post", underLineWidget: 70),
-        leading: const Leading(),
-        elevation: 0,
+        title: const CustomTitle(
+            text: "Create Post", underLineWidget: 70, showUnderLine: false),
+        leading: const ScreensLeading(),
+        centerTitle: true,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -55,28 +58,43 @@ class WritePost extends GetWidget<PostsViewModel> {
                   key: controller.postKey,
                   child: Column(
                     children: [
-                      TextFormField(
-                        validator: (valid) {
-                          return controller.isValid(valid);
-                        },
-                        minLines: 5,
-                        maxLines: 10,
-                        controller: controller.textController,
-                        cursorColor: Colors.brown,
-                        decoration: InputDecoration(
-                          hintText: "Write here ...",
-                          filled: true,
-                          isDense: true,
-                          fillColor: kTextFieldColor,
-                          contentPadding: const EdgeInsets.all(5),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5),
-                              borderSide:
-                                  const BorderSide(style: BorderStyle.none)),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5),
-                              borderSide:
-                                  const BorderSide(style: BorderStyle.none)),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: GetBuilder<ThemesViewModel>(
+                          builder: (themeController) {
+                            return TextFormField(
+                              validator: (valid) {
+                                return controller.isValid(valid);
+                              },
+                              minLines: 5,
+                              maxLines: 10,
+                              controller: controller.textController,
+                              cursorColor: Colors.brown,
+                              decoration: InputDecoration(
+                                hintText: "Write here ...",
+                                hintStyle: TextStyle(
+                                    color:
+                                        themeController.theme == ThemeMode.dark
+                                            ? Colors.grey
+                                            : kBlackColor),
+                                filled: true,
+                                isDense: true,
+                                fillColor:
+                                    themeController.theme == ThemeMode.dark
+                                        ? kDark2
+                                        : Colors.grey.shade100,
+                                contentPadding: const EdgeInsets.all(5),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                    borderSide: const BorderSide(
+                                        style: BorderStyle.none)),
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                    borderSide: const BorderSide(
+                                        style: BorderStyle.none)),
+                              ),
+                            );
+                          },
                         ),
                       ),
                       const SizedBox(height: 10),
@@ -97,14 +115,21 @@ class WritePost extends GetWidget<PostsViewModel> {
                         builder: (control) => InkWell(
                           child: Container(
                             alignment: Alignment.center,
-                            height: MediaQuery.of(context).size.height * 0.08,
+                            height: MediaQuery.of(context).size.height / 15,
                             width: MediaQuery.of(context).size.width / 1.5,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
+                                borderRadius: BorderRadius.only(
+                                    bottomRight: Radius.circular(30),
+                                    bottomLeft: Radius.circular(5),
+                                    topRight: Radius.circular(5),
+                                    topLeft: Radius.circular(30)),
                                 color: Colors.brown),
                             child: Text(
                               "POST",
-                              style: textButton.copyWith(color: kWhiteColor),
+                              style: textButton.copyWith(
+                                color: kWhiteColor,
+                                fontSize: 16,
+                              ),
                             ),
                           ),
                           onTap: () => controller.addPost(
