@@ -41,46 +41,59 @@ class Setting extends GetWidget<SettingsViewModel> {
               height: 20,
             ),
             GetBuilder<PublicData>(
-              builder: (control) => CustomRow(
-                name: "Edit Name",
-                imagePath: "assets/icons/write.png",
-                onTap: () => Get.defaultDialog(
-                  title: "Edit your name",
-                  titleStyle: const TextStyle(
-                      color: kBlackColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400),
-                  content: Form(
-                    key: controller.editingKey,
-                    child: CustomTextFormField(
-                        obscure: false,
-                        maxLength: 25,
-                        validator: (String name) {
-                          if (name.trim().isEmpty) {
-                            return "The field is empty";
-                          }
-                        },
-                        iconColor: Colors.brown.shade600,
-                        icon: Icons.person,
-                        textEditingController: controller.textEditing!),
+              builder: (control) => GetBuilder<ThemesViewModel>(
+                builder: (themeController) => CustomRow(
+                  name: "Edit Name",
+                  imagePath: "assets/icons/write.png",
+                  onTap: () => Get.defaultDialog(
+                    title: "Edit your name",
+                    titleStyle: TextStyle(
+                        color: themeController.theme == ThemeMode.dark
+                            ? Colors.white
+                            : kBlackColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400),
+                    content: Form(
+                      key: controller.editingKey,
+                      child: CustomTextFormField(
+                          obscure: false,
+                          maxLength: 25,
+                          textColor: themeController.theme == ThemeMode.dark
+                              ? Colors.white
+                              : Colors.black45,
+                          validator: (String name) {
+                            if (name.trim().isEmpty) {
+                              return "The field is empty";
+                            }
+                          },
+                          iconColor: themeController.theme == ThemeMode.dark
+                              ? Colors.grey
+                              : Colors.brown.shade600,
+                          icon: Icons.person,
+                          textEditingController: controller.textEditing!),
+                    ),
+                    textConfirm: "Update",
+                    textCancel: "Cancel",
+                    cancelTextColor: themeController.theme == ThemeMode.dark
+                        ? Colors.white
+                        : kBlackColor,
+                    confirmTextColor: Colors.white,
+                    buttonColor: Colors.brown.shade300,
+                    radius: 20.0,
+                    backgroundColor: themeController.theme == ThemeMode.dark
+                        ? kDark1
+                        : Colors.white,
+                    onConfirm: () async {
+                      await controller.modifyUserName(
+                          name: controller.textEditing!.text,
+                          textKey: controller.editingKey);
+                      Navigator.of(context).pop();
+                      control.userInfo();
+                    },
+                    onCancel: () {
+                      Get.back();
+                    },
                   ),
-                  textConfirm: "Update",
-                  textCancel: "Cancel",
-                  cancelTextColor: kBlackColor,
-                  confirmTextColor: Colors.white,
-                  buttonColor: Colors.brown,
-                  radius: 20.0,
-                  backgroundColor: Colors.white,
-                  onConfirm: () async {
-                    await controller.modifyUserName(
-                        name: controller.textEditing!.text,
-                        textKey: controller.editingKey);
-                    Navigator.of(context).pop();
-                    control.userInfo();
-                  },
-                  onCancel: () {
-                    Get.back();
-                  },
                 ),
               ),
             ),
