@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CutomLeading extends StatelessWidget {
-  const CutomLeading({super.key});
+class ScreensLeading extends StatelessWidget {
+  const ScreensLeading({super.key});
 
   @override
   Widget build(BuildContext context) {
