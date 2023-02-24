@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "275678151338",
+    "project_id": "sudaphone-sd3",
+    "storage_bucket": "sudaphone-sd3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:275678151338:android:abb080c6c76520fe12c6d3",
+        "android_client_info": {
+          "package_name": "com.example.sudaphone.sd"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "275678151338-a8mu0tktjkfb76kphm3m9kpot01h5ke9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sudaphone.sd",
+            "certificate_hash": "f8045a93cc5b2fceeb365c9e45721a68a9e3905d"
+          }
+        },
+        {
+          "client_id": "275678151338-g63odgm11l8cdr5trugm2186uh6rit9f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcHJbc-w3dspFztl4z0e5rOVvtRfaJyLM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "275678151338-g63odgm11l8cdr5trugm2186uh6rit9f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
