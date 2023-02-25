@@ -1,13 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
+import 'package:sudaphone_sd/shared/components/custom_leading.dart';
 import 'package:sudaphone_sd/shared/components/custom_text.dart';
-import 'package:sudaphone_sd/shared/components/custom_text_form_field.dart';
 import 'package:sudaphone_sd/shared/components/custom_title.dart';
-import 'package:sudaphone_sd/shared/components/leading.dart';
-import 'package:sudaphone_sd/shared/constants.dart';
 import 'package:sudaphone_sd/view/details/components/custom_text_details.dart';
 import 'package:sudaphone_sd/view/download/download_images.dart';
 import 'package:sudaphone_sd/view/people_have_liked/people_have_liked.dart';
@@ -27,7 +24,7 @@ class OpenSavedPost extends GetWidget<PostsViewModel> {
               text: "${snapshot.data()!['userName']}'s post",
               underLineWidget: 110),
           elevation: 0,
-          leading: const Leading(),
+          leading: const ScreensLeading(),
         ),
         body: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
           stream: controller.postsCollections.doc(snapshot.id).snapshots(),
