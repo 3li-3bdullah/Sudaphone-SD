@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sudaphone_sd/shared/components/custom_leading.dart';
 import 'package:sudaphone_sd/shared/components/custom_text.dart';
-import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 import 'package:sudaphone_sd/shared/components/custom_title.dart';
-import 'package:sudaphone_sd/shared/components/leading.dart';
-import 'package:sudaphone_sd/shared/components/primary_button.dart';
 import 'package:sudaphone_sd/shared/constants.dart';
 import 'package:sudaphone_sd/view_model/feedback_view_model.dart';
 import 'package:sudaphone_sd/view_model/public_data.dart';
@@ -17,9 +15,9 @@ class Feedbacks extends GetWidget<FeedbackViewModel> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: const CustomTitle(text: "Feedback", underLineWidget: 50),
-        leading: const Leading(),
-        elevation: 0,
+        title: const CustomTitle(
+            text: "Feedback", underLineWidget: 50, showUnderLine: false),
+        leading: const ScreensLeading(),
       ),
       body: Container(
         alignment: Alignment.center,
@@ -76,6 +74,7 @@ class Feedbacks extends GetWidget<FeedbackViewModel> {
                       if (note!.trim().isEmpty) {
                         return "The field is empty";
                       }
+                      return null;
                     },
                     minLines: 3,
                     maxLines: 5,
