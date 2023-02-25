@@ -55,7 +55,7 @@ class SettingsViewModel extends GetxController {
     super.onClose();
   }
 
-  Future<void> signOut() async {
+  Future signOut() async {
     showDialog(
       barrierDismissible: false,
       context: Get.context!,
@@ -63,11 +63,12 @@ class SettingsViewModel extends GetxController {
         child: Image.asset("assets/images/loader.gif"),
       ),
     );
-    await FirebaseAuth.instance.signOut();
+    // await FirebaseAuth.instance.signOut();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('email');
+    prefs.clear();
     Get.back();
-    Get.off(() => const SignIn());
+    return Get.offAll(() => const SignIn());
   }
   deleteAcount() async {
     showDialog(
