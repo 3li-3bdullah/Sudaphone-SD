@@ -1,5 +1,5 @@
 # Welcome to Sudaphone SD world =)!
-Here to get the best services with Sudaphone SD. It's actually e-eommerece App :), So that will provide you telephone news and his price by dollar.
+Here to get the best services with Sudaphone SD. It's actually e-eommerece App with posts part and a lot of features :), So that will provide you telephone news and his price by dollar with a beautiful UI & UX and a lot ...
 
 ## About the app :
 
@@ -20,10 +20,15 @@ I collected most types of phones are used in these categories { Huawei,Samsung,I
 
 _ Login. <br>
 _ Sign Up. <br>
+_ Reset password. <br>
 _ Home Page. <br>
+_ Best gaming phones. <br>
 _ Bottom Navigation Bar. <br>
 _ Categories. <br>
 _ Post. <br>
+_ Create post. <br>
+_ Comment. <br>
+_ People who have liked. <br>
 _ Setting. <br>
 _ Search. <br>
 _ Result . <br>
@@ -53,6 +58,13 @@ _ Feedback. <br>
 - staggered_grid_view_flutter.
 - avatar_glow.
 - get_storage.
+- email_validator.
+- better_player.
+- internet_connection_checker.
+- shared_preferences.
+- url_launcher.
+- animated_splash_screen.
+- rename.
 
 ## Photos:
 - Soon when i compelete :) .
