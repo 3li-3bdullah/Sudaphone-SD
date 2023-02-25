@@ -11,6 +11,7 @@ class CustomTextFormField extends StatelessWidget {
       this.maxLength = 0,
       required this.textEditingController,
       this.customHintText = "",
+      this.maxLine = 1,
       this.textColor = Colors.black45,
       this.iconColor = Colors.white});
   final bool obscure;
@@ -23,6 +24,7 @@ class CustomTextFormField extends StatelessWidget {
   final TextEditingController textEditingController;
   final int maxLength;
   final Color textColor;
+  final int maxLine;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -31,6 +33,7 @@ class CustomTextFormField extends StatelessWidget {
       validator: (value) {
         return validator(value);
       },
+      maxLines: maxLine,
       maxLength: maxLength != 0 ? maxLength : null,
       cursorColor: Colors.brown,
       style:   TextStyle(color: textColor, fontWeight: FontWeight.w400),
