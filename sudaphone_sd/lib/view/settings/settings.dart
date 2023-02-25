@@ -23,8 +23,6 @@ class Setting extends GetWidget<SettingsViewModel> {
       appBar: AppBar(
         title: const CustomTitle(
             text: "Settings", underLineWidget: 50, showUnderLine: false),
-        // elevation: 0,
-        centerTitle: true,
         leading: ScreensLeading(),
       ),
       body: SingleChildScrollView(
