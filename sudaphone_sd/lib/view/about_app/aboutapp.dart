@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sudaphone_sd/shared/components/custom_leading.dart';
 import 'package:sudaphone_sd/shared/components/custom_text.dart';
 import 'package:sudaphone_sd/shared/components/custom_title.dart';
-import 'package:sudaphone_sd/shared/components/leading.dart';
 import 'package:sudaphone_sd/view/about_app/components/custom_container.dart';
 import 'package:sudaphone_sd/view_model/about_app_view_model.dart';
 
@@ -15,7 +15,7 @@ class AboutApp extends GetWidget<AboutAppViewModel> {
       appBar: AppBar(
           elevation: 0,
           title: const CustomTitle(text: "About", underLineWidget: 40),
-          leading: const Leading()),
+          leading: const ScreensLeading()),
       body: SingleChildScrollView(
         child: Column(
           children: [
