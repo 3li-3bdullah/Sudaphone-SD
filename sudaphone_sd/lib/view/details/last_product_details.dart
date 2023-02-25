@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sudaphone_sd/shared/components/custom_leading.dart';
 import 'package:sudaphone_sd/shared/components/custom_text.dart';
 import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 import 'package:sudaphone_sd/shared/components/custom_title.dart';
-import 'package:sudaphone_sd/shared/components/leading.dart';
 import 'package:sudaphone_sd/view/details/components/details_text.dart';
 import 'package:sudaphone_sd/view/download/download_images.dart';
 import 'package:sudaphone_sd/view_model/details_view_model.dart';
@@ -22,9 +22,9 @@ class LastProducDetails extends GetWidget<DetailsViewModel> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const CustomTitle(text: "Details", underLineWidget: 50),
-        elevation: 0,
-        leading: const Leading(),
+        title: const CustomTitle(
+            text: "Details", underLineWidget: 50, showUnderLine: false),
+        leading: const ScreensLeading(),
       ),
       body: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
         stream: FirebaseFirestore.instance
