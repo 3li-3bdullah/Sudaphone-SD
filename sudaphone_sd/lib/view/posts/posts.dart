@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudaphone_sd/shared/components/custom_title.dart';
+import 'package:sudaphone_sd/shared/constants.dart';
 import 'package:sudaphone_sd/view/people_have_liked/people_have_liked.dart';
 import 'package:sudaphone_sd/view/posts/components/comment_button.dart';
 import 'package:sudaphone_sd/view/posts/components/custom_popup_menu.dart';
@@ -9,6 +10,7 @@ import 'package:sudaphone_sd/view/posts/components/post_subtitle.dart';
 import 'package:sudaphone_sd/view/posts/components/post_title.dart';
 import 'package:sudaphone_sd/view/posts/write_post.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
+import 'package:sudaphone_sd/view_model/themes_view_model.dart';
 
 class Posts extends GetWidget<PostsViewModel> {
   const Posts({Key? key}) : super(key: key);
@@ -19,14 +21,12 @@ class Posts extends GetWidget<PostsViewModel> {
       appBar: AppBar(
         title: const CustomTitle(
             text: "Posts", underLineWidget: 40, showUnderLine: false),
-        centerTitle: true,
         leading: IconButton(
-          onPressed: () => Get.back(),
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.grey,
-          ),
-        ),
+            onPressed: () => Get.back(),
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.grey,
+            )),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.brown,
@@ -71,6 +71,8 @@ class Posts extends GetWidget<PostsViewModel> {
                                   controller.listOfPostModel[index].userName,
                             ),
                             trailing: CustomPopupMenu(
+                                oldPostText:
+                                    controller.listOfPostModel[index].text,
                                 ownerUid:
                                     controller.listOfPostModel[index].ownerUid,
                                 currentDocUid: controller
@@ -136,31 +138,45 @@ class Posts extends GetWidget<PostsViewModel> {
                                                     child: child,
                                                   );
                                                 },
-                                                child: Text(
-                                                  snapshot.data!['likesCount']
-                                                      .toString(),
-                                                  key: ValueKey(
+                                                child:
+                                                    GetBuilder<ThemesViewModel>(
+                                                  builder: (themeController) =>
+                                                      Text(
                                                     snapshot.data!['likesCount']
                                                         .toString(),
-                                                  ),
-                                                  style: TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    color: snapshot.data![
-                                                                    'usersLiked']
-                                                                [controller
-                                                                    .uid] !=
-                                                            null
-                                                        ? snapshot.data![
-                                                                        'usersLiked']
-                                                                    [controller
-                                                                        .uid] ==
-                                                                true
-                                                            ? Colors.pink
-                                                            : Colors
-                                                                .grey.shade600
-                                                        : Colors.grey.shade600,
+                                                    key: ValueKey(
+                                                      snapshot
+                                                          .data!['likesCount']
+                                                          .toString(),
+                                                    ),
+                                                    style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      color: snapshot.data![
+                                                                      'usersLiked']
+                                                                  [controller
+                                                                      .uid] !=
+                                                              null
+                                                          ? snapshot.data![
+                                                                          'usersLiked']
+                                                                      [
+                                                                      controller
+                                                                          .uid] ==
+                                                                  true
+                                                              ? Colors.pink
+                                                              : themeController
+                                                                          .theme ==
+                                                                      ThemeMode
+                                                                          .dark
+                                                                  ? Colors.white
+                                                                  : kBlackColor
+                                                          : themeController
+                                                                      .theme ==
+                                                                  ThemeMode.dark
+                                                              ? Colors.white
+                                                              : kBlackColor,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
