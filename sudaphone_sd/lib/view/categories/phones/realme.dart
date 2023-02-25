@@ -17,7 +17,6 @@ class Realme extends GetWidget<CategoriesViewModel> {
         title: const CustomTitle(
             text: "Realme", underLineWidget: 50, showUnderLine: false),
         leading: const ScreensLeading(),
-        centerTitle: true,
       ),
       body: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
         future: controller.phonesCategory
