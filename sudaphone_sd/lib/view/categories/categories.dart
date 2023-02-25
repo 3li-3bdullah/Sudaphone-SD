@@ -25,7 +25,6 @@ class Categories extends GetWidget<ThemesViewModel> {
       appBar: AppBar(
           title: const CustomTitle(
               text: "Categories", underLineWidget: 70, showUnderLine: false),
-          centerTitle: true,
           leading: const ScreensLeading()),
       body: Container(
         height: double.infinity,
