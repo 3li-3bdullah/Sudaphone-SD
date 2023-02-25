@@ -7,6 +7,7 @@ import 'package:sudaphone_sd/view/posts/components/choose_image_icon.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 import 'package:sudaphone_sd/view_model/public_data.dart';
 
+import '../../shared/components/custom_text2.dart';
 import '../../view_model/themes_view_model.dart';
 
 class WritePost extends GetWidget<PostsViewModel> {
@@ -19,7 +20,25 @@ class WritePost extends GetWidget<PostsViewModel> {
         title: const CustomTitle(
             text: "Create Post", underLineWidget: 70, showUnderLine: false),
         leading: const ScreensLeading(),
-        centerTitle: true,
+        actions: [
+          GetBuilder<PublicData>(
+            builder: (control) => TextButton(
+                onPressed: () => controller.addPost(
+                      username: control.getUserName,
+                      profileurl: control.getProfileUrl,
+                      text: controller.textController!.text,
+                      textFieldkey: controller.postKey,
+                    ),
+                child: CustomText2(
+                  text: "POST",
+                  fontSize: 14,
+                  color: Colors.brown,
+                  fontWeight: FontWeight.bold,
+                  textAlign: TextAlign.center,
+                )),
+          )
+        ],
+        // centerTitle: true,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -44,8 +63,8 @@ class WritePost extends GetWidget<PostsViewModel> {
                       child: Text(
                         control.getUserName.toString(),
                         style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
