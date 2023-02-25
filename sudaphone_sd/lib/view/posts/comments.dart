@@ -1,28 +1,30 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sudaphone_sd/shared/components/custom_leading.dart';
 import 'package:sudaphone_sd/shared/components/custom_text.dart';
 import 'package:sudaphone_sd/shared/components/custom_text2.dart';
 import 'package:sudaphone_sd/shared/components/custom_title.dart';
-import 'package:sudaphone_sd/shared/components/leading.dart';
 import 'package:sudaphone_sd/shared/constants.dart';
 import 'package:sudaphone_sd/view/download/download_images.dart';
 import 'package:sudaphone_sd/view/posts/show_comment_likes.dart';
 import 'package:sudaphone_sd/view_model/posts_view_model.dart';
 import 'package:sudaphone_sd/view_model/themes_view_model.dart';
 
-
 class Comments extends GetWidget<PostsViewModel> {
-  const Comments({Key? key,required this.currentDoc,required this.userName }) : super(key: key);
+  const Comments({Key? key, required this.currentDoc, required this.userName})
+      : super(key: key);
   final String userName;
   final String currentDoc;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: CustomTitle(text: "$userName's post", underLineWidget: 80),
-        elevation: 0,
-        leading: const Leading(),
+        title: CustomTitle(
+            text: "$userName's post",
+            underLineWidget: 80,
+            showUnderLine: false),
+        leading: const ScreensLeading(),
       ),
       body: SafeArea(
         child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
@@ -36,6 +38,9 @@ class Comments extends GetWidget<PostsViewModel> {
             if (snapshot.hasData) {
               return Column(
                 children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Expanded(
                     child: ListView.builder(
                       shrinkWrap: true,
@@ -56,32 +61,56 @@ class Comments extends GetWidget<PostsViewModel> {
                                   const SizedBox(
                                     width: 5,
                                   ),
-                                  Container(
-                                    margin: const EdgeInsets.all(10),
-                                    width:
-                                        MediaQuery.of(context).size.width / 2,
-                                    decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.all(
-                                        Radius.circular(10),
+                                  GetBuilder<ThemesViewModel>(
+                                    builder: (themeController) => Container(
+                                      margin: const EdgeInsets.all(10),
+                                      width:
+                                          MediaQuery.of(context).size.width / 2,
+                                      decoration: BoxDecoration(
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(10),
+                                        ),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            offset: Offset(5, 5),
+                                            color: Colors.black12,
+                                            blurRadius: 5,
+                                          ),
+                                          BoxShadow(
+                                            offset: Offset(-1, -1),
+                                            color: Colors.black12,
+                                            blurRadius: 2,
+                                          ),
+                                        ],
+                                        color: themeController.theme ==
+                                                ThemeMode.dark
+                                            ? kDark2
+                                            : Colors.white,
                                       ),
-                                      color: Colors.grey.shade300,
-                                    ),
-                                    child: ListTile(
-                                      title: CustomText2(
-                                        text:
-                                            "${snapshot.data!.docs[index].data()['userName']}",
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold,
-                                        textAlign: TextAlign.left,
-                                        color: Colors.black,
-                                      ),
-                                      subtitle: Padding(
-                                        padding: const EdgeInsets.only(top: 5),
-                                        child: Text(
-                                          "${snapshot.data?.docs[index]['text']}",
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              color: Colors.grey.shade800),
+                                      child: ListTile(
+                                        title: CustomText2(
+                                          text:
+                                              "${snapshot.data!.docs[index].data()['userName']}",
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w500,
+                                          textAlign: TextAlign.left,
+                                          color: themeController.theme ==
+                                                  ThemeMode.dark
+                                              ? Colors.white
+                                              : kBlackColor,
+                                        ),
+                                        subtitle: Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 5),
+                                          child: Text(
+                                            "${snapshot.data?.docs[index]['text']}",
+                                            style: TextStyle(
+                                                fontSize: 13,
+                                                color: themeController.theme ==
+                                                        ThemeMode.dark
+                                                    ? Colors.grey.shade200
+                                                    : kBlackColor),
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -100,7 +129,9 @@ class Comments extends GetWidget<PostsViewModel> {
                                             curve: Curves.easeInExpo);
                                       },
                                       child: SizedBox(
-                                        width:MediaQuery.of(context).size.width /2.5,
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2.5,
                                         child: ClipRRect(
                                           borderRadius: const BorderRadius.all(
                                               Radius.circular(10)),
@@ -144,14 +175,14 @@ class Comments extends GetWidget<PostsViewModel> {
                                         ? const CustomText2(
                                             text: "Like",
                                             color: Colors.grey,
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
                                             textAlign: TextAlign.center)
                                         : const CustomText2(
                                             text: "Like",
                                             color: Colors.pink,
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
                                             textAlign: TextAlign.center),
                                     onTap: () {
                                       controller.handleCommentLikes(
@@ -183,8 +214,8 @@ class Comments extends GetWidget<PostsViewModel> {
                                                     true
                                                 ? Colors.grey
                                                 : Colors.pink,
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
                                           ),
                                           key: ValueKey(
                                               "${snapshot.data?.docs[index]['likesCount']}"),
@@ -270,14 +301,18 @@ class Comments extends GetWidget<PostsViewModel> {
                                     builder: (contorller) => TextFormField(
                                       controller: controller.commentController,
                                       decoration: InputDecoration(
-                                        hintText: "Write a comment here ...",
+                                        hintText: "Write a comment ...",
+                                        
                                         hintStyle: TextStyle(
                                             color: contorller.theme ==
                                                     ThemeMode.dark
-                                                ? Colors.black
-                                                : Colors.white),
+                                                ? Colors.white
+                                                : kBlackColor),
                                         filled: true,
-                                        fillColor: Colors.brown[200],
+                                        fillColor:
+                                            contorller.theme == ThemeMode.dark
+                                                ? kDark2
+                                                : Colors.grey.shade200,
                                         suffixIcon: FutureBuilder<
                                             DocumentSnapshot<
                                                 Map<String, dynamic>>>(
