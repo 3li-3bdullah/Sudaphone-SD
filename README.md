@@ -67,4 +67,5 @@ _ Feedback. <br>
 - rename.
 
 ## Photos:
-- Soon when i compelete :) .
+![SudaphoneSD](https://user-images.githubusercontent.com/89943558/221442517-0dcae41b-64a2-4059-baa2-e21722c30081.png)
+
